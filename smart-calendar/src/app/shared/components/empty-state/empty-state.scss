@@ -1,0 +1,128 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  color: var(--text-secondary);
+
+  .empty-icon {
+    font-size: 64px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+  }
+
+  .empty-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+  }
+
+  .empty-description {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 24px 0;
+    max-width: 400px;
+  }
+
+  .empty-actions {
+    .action-btn {
+      padding: 10px 20px;
+      background: var(--accent-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+
+      &:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .empty-suggestions {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 300px;
+
+    .suggestions-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .suggestion-list {
+      .suggestion-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background var(--transition-fast);
+        text-align: left;
+
+        &:hover {
+          background: var(--bg-hover);
+        }
+
+        .suggestion-icon {
+          font-size: 16px;
+          width: 20px;
+          text-align: center;
+        }
+
+        .suggestion-text {
+          flex: 1;
+          font-size: 13px;
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+}
+
+// Variations
+.empty-state.compact {
+  padding: 40px 20px;
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .empty-title {
+    font-size: 16px;
+  }
+
+  .empty-description {
+    font-size: 13px;
+  }
+}
+
+.empty-state.inline {
+  padding: 20px;
+  
+  .empty-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .empty-title {
+    font-size: 14px;
+  }
+
+  .empty-description {
+    font-size: 12px;
+  }
+}

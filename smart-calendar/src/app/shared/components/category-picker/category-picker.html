@@ -1,0 +1,83 @@
+<div class="category-picker">
+  <div class="selected-category" (click)="toggleDropdown()">
+    <div class="category-color" [style.backgroundColor]="selectedCategory?.color"></div>
+    <span class="category-name">{{ selectedCategory?.name || 'Selecionar Categoria' }}</span>
+    <div class="dropdown-arrow">{{ isOpen ? '▴' : '▾' }}</div>
+  </div>
+
+  <div class="categories-dropdown" *ngIf="isOpen">
+    <div class="dropdown-content">
+      <!-- Categorias Padrão -->
+      <div 
+        *ngFor="let category of defaultCategories"
+        class="category-option"
+        (click)="selectCategory(category)"
+      >
+        <div class="category-color" [style.backgroundColor]="category.color"></div>
+        <span class="category-name">{{ category.name }}</span>
+        <div class="category-count" *ngIf="getCategoryCount(category) > 0">
+          {{ getCategoryCount(category) }}
+        </div>
+      </div>
+
+      <!-- Divisor -->
+      <div class="dropdown-divider"></div>
+
+      <!-- Categorias Personalizadas -->
+      <div 
+        *ngFor="let category of customCategories"
+        class="category-option"
+        (click)="selectCategory(category)"
+      >
+        <div class="category-color" [style.backgroundColor]="category.color"></div>
+        <span class="category-name">{{ category.name }}</span>
+        <div class="category-actions">
+          <button class="action-btn" (click)="editCategory(category, $event)">✏️</button>
+          <button class="action-btn" (click)="deleteCategory(category, $event)">🗑️</button>
+        </div>
+      </div>
+
+      <!-- Adicionar Nova Categoria -->
+      <div class="add-category" (click)="addNewCategory()">
+        <div class="add-icon">+</div>
+        <span>Nova Categoria</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Edição de Categoria -->
+  <div class="category-modal" *ngIf="showCategoryModal">
+    <div class="modal-overlay" (click)="closeModal()"></div>
+    <div class="modal-content">
+      <h3>{{ editingCategory ? 'Editar Categoria' : 'Nova Categoria' }}</h3>
+      
+      <div class="form-group">
+        <label>Nome da Categoria</label>
+        <input 
+          type="text" 
+          [(ngModel)]="categoryName"
+          placeholder="Ex: Trabalho, Pessoal, Saúde..."
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Cor</label>
+        <div class="color-palette">
+          <div 
+            *ngFor="let color of colorPalette"
+            class="color-option"
+            [class.selected]="selectedColor === color"
+            [style.backgroundColor]="color"
+            (click)="selectColor(color)"
+          ></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
+        <button class="btn-primary" (click)="saveCategory()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>

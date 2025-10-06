@@ -1,0 +1,61 @@
+<div class="search-bar">
+  <div class="search-container">
+    <div class="search-icon">🔍</div>
+    <input 
+      #searchInput
+      type="text" 
+      placeholder="Buscar eventos, tarefas, contatos..."
+      class="search-input"
+      (input)="onSearch($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+    <div class="search-actions">
+      <button class="search-action" *ngIf="searchText" (click)="clearSearch()">×</button>
+      <div class="search-shortcut">⌘K</div>
+    </div>
+  </div>
+
+  <!-- Search Results Dropdown -->
+  <div class="search-results" *ngIf="showResults && searchText">
+    <div class="search-section">
+      <div class="section-title">Eventos</div>
+      <div class="result-item" *ngFor="let event of eventResults">
+        <div class="result-icon">📅</div>
+        <div class="result-content">
+          <div class="result-title">{{ event.title }}</div>
+          <div class="result-meta">{{ event.startDate | date:'dd/MM/yyyy HH:mm' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-section">
+      <div class="section-title">Tarefas</div>
+      <div class="result-item" *ngFor="let task of taskResults">
+        <div class="result-icon">✅</div>
+        <div class="result-content">
+          <div class="result-title">{{ task.title }}</div>
+          <div class="result-meta">{{ task.category }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-section">
+      <div class="section-title">Comandos</div>
+      <div class="result-item" (click)="createEvent()">
+        <div class="result-icon">➕</div>
+        <div class="result-content">
+          <div class="result-title">Criar Novo Evento</div>
+          <div class="result-meta">Adicionar evento ao calendário</div>
+        </div>
+      </div>
+      <div class="result-item" (click)="createTask()">
+        <div class="result-icon">📝</div>
+        <div class="result-content">
+          <div class="result-title">Adicionar Tarefa</div>
+          <div class="result-meta">Criar nova tarefa</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+// src/assets/styles/global.scss
+@import './variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+// Scrollbar Styling (Obsidian inspired)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+// Selection Styling
+::selection {
+  background: var(--selection-bg);
+  color: white;
+}
+
+// Focus Styling
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+// Utility Classes
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+
+.bg-primary { background: var(--bg-primary); }
+.bg-secondary { background: var(--bg-secondary); }
+.bg-sidebar { background: var(--bg-sidebar); }
+
+.border { border: 1px solid var(--border-color); }
+.border-light { border: 1px solid var(--border-light); }
+
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+// Animation Classes
+.fade-in {
+  animation: fadeIn 0.2s ease;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.2s ease;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+// Responsive Text
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+// Drag and Drop Styles
+.dragging {
+  opacity: 0.5;
+  cursor: grabbing !important;
+}
+
+.drag-over {
+  background: var(--accent-primary) !important;
+  opacity: 0.7;
+  border: 2px dashed var(--accent-secondary) !important;
+}
+
+.drop-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  text-align: center;
+  transition: all var(--transition-fast);
+  background: var(--bg-secondary);
+
+  &:hover, &.drag-over {
+    border-color: var(--accent-primary);
+    background: var(--accent-primary);
+    color: white;
+  }
+
+  .drop-content {
+    pointer-events: none;
+  }
+}

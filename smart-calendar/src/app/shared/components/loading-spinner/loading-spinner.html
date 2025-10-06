@@ -1,0 +1,12 @@
+<div class="loading-spinner" [class.overlay]="overlay" [class.small]="size === 'small'" [class.large]="size === 'large'">
+  <div class="spinner-container">
+    <div class="spinner"></div>
+    <div class="spinner-text" *ngIf="message">{{ message }}</div>
+    <div class="spinner-progress" *ngIf="showProgress">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress"></div>
+      </div>
+      <div class="progress-text">{{ progress }}%</div>
+    </div>
+  </div>
+</div>

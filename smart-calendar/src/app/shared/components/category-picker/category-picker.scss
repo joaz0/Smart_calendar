@@ -1,0 +1,277 @@
+.category-picker {
+  position: relative;
+  width: 100%;
+
+  .selected-category {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+
+    &:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .category-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .category-name {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+
+    .dropdown-arrow {
+      color: var(--text-tertiary);
+      font-size: 12px;
+    }
+  }
+
+  .categories-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-top: 4px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .dropdown-content {
+      padding: 8px 0;
+
+      .category-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background var(--transition-fast);
+
+        &:hover {
+          background: var(--bg-hover);
+        }
+
+        .category-color {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+
+        .category-name {
+          flex: 1;
+          font-size: 13px;
+          color: var(--text-primary);
+        }
+
+        .category-count {
+          font-size: 11px;
+          color: var(--text-tertiary);
+          background: var(--bg-primary);
+          padding: 2px 6px;
+          border-radius: 10px;
+        }
+
+        .category-actions {
+          display: flex;
+          gap: 4px;
+          opacity: 0;
+          transition: opacity var(--transition-fast);
+
+          .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 2px;
+            border-radius: var(--radius-sm);
+            font-size: 10px;
+
+            &:hover {
+              background: var(--bg-hover);
+              color: var(--text-primary);
+            }
+          }
+        }
+
+        &:hover .category-actions {
+          opacity: 1;
+        }
+      }
+
+      .dropdown-divider {
+        height: 1px;
+        background: var(--border-color);
+        margin: 8px 0;
+      }
+
+      .add-category {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        color: var(--text-tertiary);
+        transition: all var(--transition-fast);
+
+        &:hover {
+          color: var(--accent-primary);
+          background: var(--bg-hover);
+        }
+
+        .add-icon {
+          width: 12px;
+          height: 12px;
+          border: 1px dashed currentColor;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+  .category-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    .modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      position: relative;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow-lg);
+
+      h3 {
+        margin: 0 0 20px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+
+        label {
+          display: block;
+          margin-bottom: 6px;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-primary);
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 8px 12px;
+          background: var(--bg-primary);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-sm);
+          color: var(--text-primary);
+          font-size: 13px;
+          outline: none;
+
+          &:focus {
+            border-color: var(--accent-primary);
+          }
+        }
+
+        .color-palette {
+          display: grid;
+          grid-template-columns: repeat(8, 1fr);
+          gap: 8px;
+          margin-top: 8px;
+
+          .color-option {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition-fast);
+
+            &.selected {
+              border-color: var(--text-primary);
+              transform: scale(1.1);
+            }
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 24px;
+
+        .btn-secondary, .btn-primary {
+          padding: 8px 16px;
+          border: none;
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 500;
+          transition: all var(--transition-fast);
+        }
+
+        .btn-secondary {
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          border: 1px solid var(--border-color);
+
+          &:hover {
+            background: var(--bg-hover);
+          }
+        }
+
+        .btn-primary {
+          background: var(--accent-primary);
+          color: white;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+}

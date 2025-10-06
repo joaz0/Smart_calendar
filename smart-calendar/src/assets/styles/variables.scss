@@ -1,0 +1,93 @@
+// src/assets/styles/variables.scss
+
+// Cores base (Dark Theme - Obsidian inspired)
+:root {
+  // Primary Colors
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #252526;
+  --bg-sidebar: #2d2d30;
+  --bg-header: #333337;
+  --bg-hover: #2a2d2e;
+  --bg-tooltip: #3c3c3c;
+  
+  // Text Colors
+  --text-primary: #cccccc;
+  --text-secondary: #969696;
+  --text-tertiary: #6a6a6a;
+  --text-tooltip: #ffffff;
+  
+  // Accent Colors (L Digital Labs palette)
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #a855f7;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-error: #ef4444;
+  
+  // Border Colors
+  --border-color: #404040;
+  --border-light: #4a4a4a;
+  
+  // Semantic Colors
+  --focus-ring: #0ea5e9;
+  --selection-bg: #264f78;
+  
+  // Shadows
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+  
+  // Transitions
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+  
+  // Border Radius
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  
+  // Spacing
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+}
+
+// Light Theme (optional)
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f3f3;
+  --bg-sidebar: #f8f8f8;
+  --bg-header: #e8e8e8;
+  --bg-hover: #e0e0e0;
+  --bg-tooltip: #2d2d2d;
+  
+  --text-primary: #2d2d2d;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-tooltip: #ffffff;
+  
+  --border-color: #dddddd;
+  --border-light: #e8e8e8;
+}
+
+// Component Specific Variables
+:root {
+  // Activity Bar
+  --activity-bar-width: 48px;
+  --activity-bar-collapsed: 0px;
+  
+  // Sidebar
+  --sidebar-width: 280px;
+  --sidebar-collapsed: 0px;
+  
+  // Header
+  --header-height: 48px;
+  
+  // Status Bar
+  --status-bar-height: 22px;
+  
+  // Command Palette
+  --command-palette-width: 600px;
+}
