@@ -1,38 +1,138 @@
 <!-- src/app/layouts/auth-layout/auth-layout.component.html -->
-<div class="auth-layout">
-  <div class="auth-background">
-    <div class="auth-pattern"></div>
+<div class="auth-layout" data-component="AuthLayout">
+  <div class="auth-container" data-component="AuthContainer">
+    <div class="auth-card">
+      <!-- Cabeçalho -->
+  <div class="auth-header" data-component="AuthHeader">
+        <h1>
+          <span class="logo">📅</span>
+          Smart Calendar
+        </h1>
+        <p class="auth-subtitle">
+          {{ isLoginMode ? 'Entre na sua conta' : 'Crie sua conta' }}
+        </p>
+      </div>
+
+      <!-- Formulário -->
+  <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form" aria-label="Formulário de autenticação">
+
+        <!-- Nome (apenas para registro) -->
+        <div class="form-group" *ngIf="!isLoginMode">
+          <label for="name">Nome completo</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Seu nome completo"
+            [class.error]="getFieldError('name')"
+            autocomplete="name">
+          <div class="error-message" *ngIf="getFieldError('name')">
+            {{ getFieldError('name') }}
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+            [class.error]="getFieldError('email')"
+            autocomplete="email">
+          <div class="error-message" *ngIf="getFieldError('email')">
+            {{ getFieldError('email') }}
+          </div>
+        </div>
+
+        <!-- Senha -->
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Sua senha"
+            [class.error]="getFieldError('password')"
+            autocomplete="current-password">
+          <div class="error-message" *ngIf="getFieldError('password')">
+            {{ getFieldError('password') }}
+          </div>
+        </div>
+
+        <!-- Esqueci a senha (apenas login) -->
+        <div class="form-options" *ngIf="isLoginMode">
+          <button type="button" class="forgot-password" (click)="forgotPassword()">
+            Esqueceu sua senha?
+          </button>
+        </div>
+
+        <!-- Mensagem de erro -->
+        <div class="error-message global-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Botão de submit -->
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="isLoading || authForm.invalid">
+          <span *ngIf="!isLoading">
+            {{ isLoginMode ? 'Entrar' : 'Criar conta' }}
+          </span>
+          <span *ngIf="isLoading">Carregando...</span>
+        </button>
+      </form>
+
+      <!-- Divisor -->
+      <div class="divider" *ngIf="isLoginMode">
+        <span>ou</span>
+      </div>
+
+      <!-- Login social -->
+      <div class="social-login" *ngIf="isLoginMode">
+        <button
+          type="button"
+          class="social-btn google"
+          (click)="loginWithGoogle()"
+          [disabled]="isLoading">
+          <span class="social-icon">🔍</span>
+          Entrar com Google
+        </button>
+
+        <button
+          type="button"
+          class="social-btn microsoft"
+          (click)="loginWithMicrosoft()"
+          [disabled]="isLoading">
+          <span class="social-icon">🔷</span>
+          Entrar com Microsoft
+        </button>
+      </div>
+
+      <!-- Alternar entre login/registro -->
+  <div class="auth-switch" data-component="AuthSwitch">
+        <p>
+          {{ isLoginMode ? 'Não tem uma conta?' : 'Já tem uma conta?' }}
+          <button type="button" class="switch-btn" (click)="toggleMode()">
+            {{ isLoginMode ? 'Criar conta' : 'Fazer login' }}
+          </button>
+        </p>
+      </div>
+    </div>
+
+  <!-- Rodapé -->
+  <div class="auth-footer" data-component="AuthFooter">
+      <p>&copy; 2024 Smart Calendar. Todos os direitos reservados.</p>
+    </div>
   </div>
-  
-  <div class="auth-container">
-    <!-- Header -->
-    <header class="auth-header">
-      <div class="auth-logo">
-        <span class="logo-icon">📅</span>
-        <span class="logo-text">Smart Calendar</span>
-      </div>
-      <div class="auth-theme-toggle">
-        <button class="theme-btn">🌙</button>
-      </div>
-    </header>
 
-    <!-- Content -->
-    <main class="auth-content">
-      <div class="auth-card">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="auth-footer">
-      <div class="footer-links">
-        <a href="#" class="footer-link">Privacidade</a>
-        <a href="#" class="footer-link">Termos</a>
-        <a href="#" class="footer-link">Suporte</a>
-      </div>
-      <div class="footer-copyright">
-        © 2024 L Digital Labs. Todos os direitos reservados.
-      </div>
-    </footer>
+  <!-- Background decorativo -->
+  <div class="auth-background">
+    <div class="floating-icon">📅</div>
+    <div class="floating-icon">✅</div>
+    <div class="floating-icon">📊</div>
+    <div class="floating-icon">🤖</div>
   </div>
 </div>

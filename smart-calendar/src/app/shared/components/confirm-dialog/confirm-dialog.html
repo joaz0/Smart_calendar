@@ -1,17 +1,41 @@
-<div class="confirm-dialog" *ngIf="visible">
+<div 
+  class="confirm-dialog" 
+  *ngIf="visible"
+  role="dialog"
+  aria-labelledby="dialog-title"
+  aria-describedby="dialog-message"
+  aria-modal="true"
+>
   <div class="dialog-overlay" (click)="onCancel()"></div>
   
-  <div class="dialog-content">
+  <div class="dialog-content" (click)="onContentClick($event)">
     <div class="dialog-header">
-      <h3 class="dialog-title">{{ title }}</h3>
-      <button class="dialog-close" (click)="onCancel()">×</button>
+      <h3 id="dialog-title" class="dialog-title">{{ title }}</h3>
+      <button 
+        class="dialog-close" 
+        (click)="onCancel()"
+        aria-label="Fechar dialog"
+        type="button"
+      >×</button>
     </div>
 
     <div class="dialog-body">
-      <div class="dialog-icon" *ngIf="icon">{{ icon }}</div>
-      <div class="dialog-message">{{ message }}</div>
+      <div 
+        class="dialog-icon" 
+        *ngIf="icon"
+        [class]="iconType === 'class' ? icon : ''"
+        [attr.aria-hidden]="true"
+      >
+        {{ iconType === 'emoji' ? icon : '' }}
+      </div>
       
-      <div class="dialog-details" *ngIf="details">
+      <div id="dialog-message" class="dialog-message">{{ message }}</div>
+      
+      <div 
+        class="dialog-details" 
+        *ngIf="details"
+        id="dialog-details"
+      >
         {{ details }}
       </div>
     </div>
@@ -21,14 +45,18 @@
         *ngIf="showCancelButton"
         class="btn-secondary"
         (click)="onCancel()"
+        type="button"
       >
         {{ cancelText }}
       </button>
       
       <button 
+        #confirmButton
         class="btn-primary"
         [class.destructive]="type === 'destructive'"
         (click)="onConfirm()"
+        type="button"
+        [attr.aria-describedby]="details ? 'dialog-details' : null"
       >
         {{ confirmText }}
       </button>

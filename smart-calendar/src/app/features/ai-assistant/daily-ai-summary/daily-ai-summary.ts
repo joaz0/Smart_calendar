@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-daily-ai-summary',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './daily-ai-summary.html',
-  styleUrl: './daily-ai-summary.scss'
+  styleUrls: ['./daily-ai-summary.scss'],
 })
 export class DailyAiSummary {
-
+  @Input() summary: any | null = null;
 }

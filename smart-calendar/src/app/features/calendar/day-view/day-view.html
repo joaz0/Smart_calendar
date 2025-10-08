@@ -1,1 +1,14 @@
-<p>day-view works!</p>
+<section class="day-view" data-component="DayView">
+	<header>
+		<h3>{{ day | date:'EEEE, dd/MM/yyyy' }}</h3>
+	</header>
+
+	<div class="day-slots">
+		<div *ngFor="let slot of slots" class="time-slot" (click)="createEventAt(slot.time)">
+			<div class="slot-time">{{ slot.time }}</div>
+			<div class="slot-events">
+				<div *ngFor="let ev of slot.events" class="slot-event">{{ ev.title }}</div>
+			</div>
+		</div>
+	</div>
+</section>

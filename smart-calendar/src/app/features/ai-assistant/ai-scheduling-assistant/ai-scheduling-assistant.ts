@@ -1,11 +1,30 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { AiSuggestionsPanel } from '../ai-suggestions-panel/ai-suggestions-panel';
+import { AiAssistantModule } from '../ai-assistant-module';
 
 @Component({
   selector: 'app-ai-scheduling-assistant',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule, DatePipe, AiSuggestionsPanel, AiAssistantModule],
   templateUrl: './ai-scheduling-assistant.html',
-  styleUrl: './ai-scheduling-assistant.scss'
+  styleUrls: ['./ai-scheduling-assistant.scss'],
 })
 export class AiSchedulingAssistant {
+  suggestions: Array<{ time: string; reason: string }> = [];
 
+  constructor() {
+    // exemplo estático para evitar erros de template durante build
+    this.suggestions = [
+      { time: '09:00', reason: 'Disponível pela manhã' },
+      { time: '14:00', reason: 'Janela livre à tarde' },
+    ];
+  }
+
+  applySuggestion(s: { time: string; reason: string }) {
+    console.log('Aplicando sugestão', s);
+    // lógica de aplicação ficaria aqui
+  }
 }

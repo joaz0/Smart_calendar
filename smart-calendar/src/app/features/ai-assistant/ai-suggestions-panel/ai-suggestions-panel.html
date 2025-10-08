@@ -1,1 +1,14 @@
-<p>ai-suggestions-panel works!</p>
+<section class="ai-suggestions-panel" data-component="AiSuggestionsPanel">
+	<header>
+		<h4>Sugestões da IA</h4>
+	</header>
+
+	<ul>
+		<li *ngFor="let s of suggestions">
+			<div class="suggestion-text">{{ s.text }}</div>
+			<div class="suggestion-actions">
+				<button type="button" (click)="apply(s)">Aplicar</button>
+			</div>
+		</li>
+	</ul>
+</section>

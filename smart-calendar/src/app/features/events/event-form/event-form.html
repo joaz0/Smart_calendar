@@ -13,7 +13,7 @@
 
     <!-- Tabs -->
     <div class="form-tabs">
-      <button 
+      <button
         type="button"
         class="tab-btn"
         [class.active]="activeTab === 'details'"
@@ -21,7 +21,7 @@
       >
         📝 Detalhes
       </button>
-      <button 
+      <button
         type="button"
         class="tab-btn"
         [class.active]="activeTab === 'time'"
@@ -29,7 +29,7 @@
       >
         ⏰ Horário
       </button>
-      <button 
+      <button
         type="button"
         class="tab-btn"
         [class.active]="activeTab === 'advanced'"
@@ -45,8 +45,8 @@
       <div class="tab-pane" *ngIf="activeTab === 'details'">
         <div class="form-group">
           <label>Título *</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             formControlName="title"
             placeholder="Título do evento..."
             class="form-input"
@@ -59,7 +59,7 @@
 
         <div class="form-group">
           <label>Descrição</label>
-          <textarea 
+          <textarea
             formControlName="description"
             placeholder="Descrição do evento..."
             class="form-textarea"
@@ -85,8 +85,8 @@
 
         <div class="form-group">
           <label>Localização</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             formControlName="location"
             placeholder="Local do evento..."
             class="form-input"
@@ -99,17 +99,23 @@
         <div class="form-row">
           <div class="form-group">
             <label>Data Início *</label>
-            <input 
-              type="date" 
+            <input
+              placeholder="Data do início"
+              type="date"
               formControlName="startDate"
               class="form-input"
+              [class.error]="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched"
             />
+            <div class="error-message" *ngIf="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched">
+              Data de início é obrigatória
+            </div>
           </div>
 
           <div class="form-group">
             <label>Hora Início</label>
-            <input 
-              type="time" 
+            <input
+              placeholder="Hora do início"
+              type="time"
               formControlName="startTime"
               class="form-input"
               *ngIf="!eventForm.get('allDay')?.value"
@@ -123,17 +129,23 @@
         <div class="form-row">
           <div class="form-group">
             <label>Data Fim *</label>
-            <input 
-              type="date" 
+            <input
+              placeholder="Data do término"
+              type="date"
               formControlName="endDate"
               class="form-input"
+              [class.error]="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched"
             />
+            <div class="error-message" *ngIf="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched">
+              Data de fim é obrigatória
+            </div>
           </div>
 
           <div class="form-group">
             <label>Hora Fim</label>
-            <input 
-              type="time" 
+            <input
+              placeholder="Hora do término"
+              type="time"
               formControlName="endTime"
               class="form-input"
               *ngIf="!eventForm.get('allDay')?.value"
@@ -146,8 +158,8 @@
 
         <div class="form-group">
           <label class="checkbox-label">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               formControlName="allDay"
               class="checkbox"
             />
@@ -159,15 +171,15 @@
         <div class="form-group" *ngIf="!eventForm.get('allDay')?.value">
           <label>Duração</label>
           <div class="duration-display">
-            {{ getDuration() | durationFormat:'long' }}
+            
           </div>
         </div>
 
         <!-- Recorrência -->
         <div class="form-group">
           <label class="checkbox-label">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               formControlName="isRecurring"
               class="checkbox"
             />
@@ -177,9 +189,16 @@
         </div>
 
         <div class="recurrence-settings" *ngIf="eventForm.get('isRecurring')?.value">
-          <app-recurrence-settings
-            formControlName="recurrence"
-          ></app-recurrence-settings>
+          <!-- Placeholder para recorrência -->
+          <div class="form-group">
+            <label>Frequência</label>
+            <select class="form-select">
+              <option value="daily">Diariamente</option>
+              <option value="weekly">Semanalmente</option>
+              <option value="monthly">Mensalmente</option>
+              <option value="yearly">Anualmente</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -189,12 +208,13 @@
         <div class="form-group">
           <label>Lembretes</label>
           <div class="reminders-list">
-            <div 
+            <div
               *ngFor="let reminder of reminders.controls; let i = index"
               class="reminder-item"
+              [formGroupName]="i"
             >
-              <select 
-                [formControl]="reminder.get('minutesBefore')"
+              <select
+                formControlName="minutesBefore"
                 class="form-select"
               >
                 <option value="5">5 minutos antes</option>
@@ -203,9 +223,9 @@
                 <option value="60">1 hora antes</option>
                 <option value="1440">1 dia antes</option>
               </select>
-              
-              <select 
-                [formControl]="reminder.get('type')"
+
+              <select
+                formControlName="type"
                 class="form-select"
               >
                 <option value="notification">Notificação</option>
@@ -213,7 +233,7 @@
                 <option value="sound">Alerta sonoro</option>
               </select>
 
-              <button 
+              <button
                 type="button"
                 class="btn-remove"
                 (click)="removeReminder(i)"
@@ -222,7 +242,7 @@
               </button>
             </div>
           </div>
-          <button 
+          <button
             type="button"
             class="btn-add"
             (click)="addReminder()"
@@ -246,14 +266,14 @@
         <div class="form-group">
           <label>Links da Reunião</label>
           <div class="quick-links">
-            <input 
-              type="url" 
+            <input
+              type="url"
               formControlName="meetingLink"
               placeholder="Link da videochamada..."
               class="form-input"
             />
-            <input 
-              type="url" 
+            <input
+              type="url"
               formControlName="documentLink"
               placeholder="Link do documento..."
               class="form-input"
@@ -264,8 +284,8 @@
         <!-- Privacidade -->
         <div class="form-group">
           <label class="checkbox-label">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               formControlName="isPrivate"
               class="checkbox"
             />

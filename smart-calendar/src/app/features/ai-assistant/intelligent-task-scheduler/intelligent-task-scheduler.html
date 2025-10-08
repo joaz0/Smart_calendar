@@ -1,1 +1,13 @@
-<p>intelligent-task-scheduler works!</p>
+<section class="intelligent-task-scheduler" data-component="IntelligentTaskScheduler">
+	<header>
+		<h4>Agendador Inteligente de Tarefas</h4>
+	</header>
+
+	<div *ngIf="suggestions?.length">
+		<div *ngFor="let s of suggestions" class="suggestion">
+			<div class="suggestion-time">{{ s.time }}</div>
+			<div class="suggestion-task">{{ s.taskTitle }}</div>
+			<button type="button" (click)="apply(s)">Aplicar</button>
+		</div>
+	</div>
+</section>

@@ -1,15 +1,15 @@
-<div class="empty-state">
+<div class="empty-state" [class]="variant">
   <div class="empty-icon">{{ icon }}</div>
   <h3 class="empty-title">{{ title }}</h3>
   <p class="empty-description">{{ description }}</p>
   
   <div class="empty-actions" *ngIf="showAction">
-    <button class="action-btn" (click)="onAction.emit()">
+    <button class="action-btn" (click)="onActionClick()">
       {{ actionText }}
     </button>
   </div>
 
-  <!-- Sugestões Contextuais -->
+  <!-- Sugestões como strings simples -->
   <div class="empty-suggestions" *ngIf="suggestions.length > 0">
     <div class="suggestions-title">Sugestões:</div>
     <div class="suggestion-list">
@@ -18,8 +18,7 @@
         class="suggestion-item"
         (click)="onSuggestionClick(suggestion)"
       >
-        <div class="suggestion-icon">{{ suggestion.icon }}</div>
-        <div class="suggestion-text">{{ suggestion.text }}</div>
+        <div class="suggestion-text">{{ suggestion }}</div>
       </div>
     </div>
   </div>

@@ -1,11 +1,11 @@
 <div class="color-picker">
-  <div class="color-display" (click)="togglePicker()">
+  <div class="color-display" (click)="togglePicker($event)">
     <div class="selected-color" [style.backgroundColor]="selectedColor"></div>
     <div class="color-value">{{ selectedColor }}</div>
-    <div class="dropdown-arrow">{{ showPicker ? '▴' : '▾' }}</div>
+    <div class="dropdown-arrow">{{ isPickerOpen ? '▴' : '▾' }}</div>
   </div>
 
-  <div class="color-palette" *ngIf="showPicker">
+  <div class="color-palette" *ngIf="isPickerOpen" (click)="$event.stopPropagation()">
     <div class="palette-section">
       <div class="section-title">Cores Principais</div>
       <div class="color-grid">
@@ -14,7 +14,7 @@
           class="color-option"
           [class.selected]="selectedColor === color"
           [style.backgroundColor]="color"
-          (click)="selectColor(color)"
+          (click)="selectColor(color, $event)"
         >
           <div class="checkmark" *ngIf="selectedColor === color">✓</div>
         </div>
@@ -29,7 +29,7 @@
           class="color-option"
           [class.selected]="selectedColor === color"
           [style.backgroundColor]="color"
-          (click)="selectColor(color)"
+          (click)="selectColor(color, $event)"
         >
           <div class="checkmark" *ngIf="selectedColor === color">✓</div>
         </div>
@@ -40,6 +40,7 @@
       <div class="section-title">Cor Personalizada</div>
       <div class="custom-controls">
         <input 
+          placeholder="Escolha uma cor"
           type="color" 
           [value]="selectedColor"
           (input)="onCustomColorChange($event)"
@@ -47,7 +48,7 @@
         />
         <input 
           type="text" 
-          [(ngModel)]="selectedColor"
+          [value]="selectedColor"
           placeholder="#000000"
           class="color-text"
           (input)="onColorTextChange($event)"

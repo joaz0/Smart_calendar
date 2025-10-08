@@ -1,9 +1,10 @@
-<div class="loading-spinner" [class.overlay]="overlay" [class.small]="size === 'small'" [class.large]="size === 'large'">
+<div class="loading-spinner" data-component="LoadingSpinner" role="status" aria-live="polite"
+     [class.overlay]="overlay" [class.small]="size === 'small'" [class.large]="size === 'large'">
   <div class="spinner-container">
-    <div class="spinner"></div>
+    <div class="spinner" aria-hidden="true"></div>
     <div class="spinner-text" *ngIf="message">{{ message }}</div>
-    <div class="spinner-progress" *ngIf="showProgress">
-      <div class="progress-bar">
+    <div class="spinner-progress" *ngIf="progress !== undefined">
+      <div class="progress-bar" aria-hidden="true">
         <div class="progress-fill" [style.width.%]="progress"></div>
       </div>
       <div class="progress-text">{{ progress }}%</div>

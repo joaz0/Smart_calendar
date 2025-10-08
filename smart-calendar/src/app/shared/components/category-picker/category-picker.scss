@@ -13,8 +13,13 @@
     cursor: pointer;
     transition: all var(--transition-fast);
 
-    &:hover {
+    &:hover:not(.disabled) {
       border-color: var(--accent-primary);
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
     }
 
     .category-color {
@@ -33,22 +38,34 @@
     .dropdown-arrow {
       color: var(--text-tertiary);
       font-size: 12px;
+      transition: transform var(--transition-fast);
     }
   }
 
   .categories-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 4px);
     left: 0;
     right: 0;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    margin-top: 4px;
     box-shadow: var(--shadow-lg);
     z-index: 1000;
     max-height: 300px;
     overflow-y: auto;
+    animation: slideDown 0.2s ease-out;
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
     .dropdown-content {
       padding: 8px 0;
@@ -60,9 +77,22 @@
         padding: 8px 12px;
         cursor: pointer;
         transition: background var(--transition-fast);
+        position: relative;
 
         &:hover {
           background: var(--bg-hover);
+        }
+
+        &.selected {
+          background: var(--bg-hover);
+          
+          &::after {
+            content: '✓';
+            position: absolute;
+            right: 12px;
+            color: var(--accent-primary);
+            font-weight: bold;
+          }
         }
 
         .category-color {
@@ -84,6 +114,8 @@
           background: var(--bg-primary);
           padding: 2px 6px;
           border-radius: 10px;
+          min-width: 20px;
+          text-align: center;
         }
 
         .category-actions {
@@ -97,12 +129,15 @@
             border: none;
             color: var(--text-tertiary);
             cursor: pointer;
-            padding: 2px;
+            padding: 4px;
             border-radius: var(--radius-sm);
-            font-size: 10px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             &:hover {
-              background: var(--bg-hover);
+              background: var(--bg-primary);
               color: var(--text-primary);
             }
           }
@@ -127,6 +162,7 @@
         cursor: pointer;
         color: var(--text-tertiary);
         transition: all var(--transition-fast);
+        font-size: 13px;
 
         &:hover {
           color: var(--accent-primary);
@@ -142,6 +178,7 @@
           align-items: center;
           justify-content: center;
           font-size: 10px;
+          font-weight: bold;
         }
       }
     }
@@ -158,6 +195,12 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
+    animation: fadeIn 0.2s ease-out;
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     .modal-overlay {
       position: absolute;
@@ -166,6 +209,8 @@
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.5);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
     }
 
     .modal-content {
@@ -177,6 +222,18 @@
       width: 100%;
       max-width: 400px;
       box-shadow: var(--shadow-lg);
+      animation: slideUp 0.2s ease-out;
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
       h3 {
         margin: 0 0 20px 0;
@@ -205,9 +262,14 @@
           color: var(--text-primary);
           font-size: 13px;
           outline: none;
+          transition: border-color var(--transition-fast);
 
           &:focus {
             border-color: var(--accent-primary);
+          }
+
+          &::placeholder {
+            color: var(--text-tertiary);
           }
         }
 
@@ -218,16 +280,18 @@
           margin-top: 8px;
 
           .color-option {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all var(--transition-fast);
+            position: relative;
 
             &.selected {
               border-color: var(--text-primary);
               transform: scale(1.1);
+              box-shadow: 0 0 0 2px var(--bg-secondary);
             }
 
             &:hover {
@@ -243,7 +307,8 @@
         justify-content: flex-end;
         margin-top: 24px;
 
-        .btn-secondary, .btn-primary {
+        .btn-secondary,
+        .btn-primary {
           padding: 8px 16px;
           border: none;
           border-radius: var(--radius-sm);
@@ -251,6 +316,11 @@
           font-size: 13px;
           font-weight: 500;
           transition: all var(--transition-fast);
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
         }
 
         .btn-secondary {
@@ -258,7 +328,7 @@
           color: var(--text-primary);
           border: 1px solid var(--border-color);
 
-          &:hover {
+          &:hover:not(:disabled) {
             background: var(--bg-hover);
           }
         }
@@ -267,8 +337,9 @@
           background: var(--accent-primary);
           color: white;
 
-          &:hover {
+          &:hover:not(:disabled) {
             opacity: 0.9;
+            transform: translateY(-1px);
           }
         }
       }

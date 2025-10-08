@@ -1,26 +1,29 @@
-<div class="search-bar">
+<div class="search-bar" data-component="SearchBar">
   <div class="search-container">
-    <div class="search-icon">🔍</div>
-    <input 
+    <div class="search-icon" aria-hidden="true">🔍</div>
+    <input
       #searchInput
-      type="text" 
+      type="text"
+      [(ngModel)]="searchText"
       placeholder="Buscar eventos, tarefas, contatos..."
       class="search-input"
       (input)="onSearch($event)"
       (focus)="onFocus()"
       (blur)="onBlur()"
+      aria-label="Buscar"
     />
     <div class="search-actions">
-      <button class="search-action" *ngIf="searchText" (click)="clearSearch()">×</button>
-      <div class="search-shortcut">⌘K</div>
+      <button class="search-action" *ngIf="searchText" (click)="clearSearch()" aria-label="Limpar busca">×</button>
+      <div class="search-shortcut" aria-hidden="true">⌘K</div>
     </div>
   </div>
 
   <!-- Search Results Dropdown -->
   <div class="search-results" *ngIf="showResults && searchText">
-    <div class="search-section">
+    <!-- Eventos -->
+    <div class="search-section" *ngIf="eventResults.length > 0">
       <div class="section-title">Eventos</div>
-      <div class="result-item" *ngFor="let event of eventResults">
+      <div class="result-item" *ngFor="let event of eventResults" (click)="selectEvent(event)">
         <div class="result-icon">📅</div>
         <div class="result-content">
           <div class="result-title">{{ event.title }}</div>
@@ -29,9 +32,10 @@
       </div>
     </div>
 
-    <div class="search-section">
+    <!-- Tarefas -->
+    <div class="search-section" *ngIf="taskResults.length > 0">
       <div class="section-title">Tarefas</div>
-      <div class="result-item" *ngFor="let task of taskResults">
+      <div class="result-item" *ngFor="let task of taskResults" (click)="selectTask(task)">
         <div class="result-icon">✅</div>
         <div class="result-content">
           <div class="result-title">{{ task.title }}</div>
@@ -40,6 +44,12 @@
       </div>
     </div>
 
+    <!-- Nenhum resultado -->
+    <div class="search-section" *ngIf="eventResults.length === 0 && taskResults.length === 0">
+      <div class="no-results">Nenhum resultado encontrado</div>
+    </div>
+
+    <!-- Comandos -->
     <div class="search-section">
       <div class="section-title">Comandos</div>
       <div class="result-item" (click)="createEvent()">

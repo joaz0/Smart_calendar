@@ -1,149 +1,17 @@
-<div class="main-layout">
-  <!-- Activity Bar (VS Code inspired) -->
-  <nav class="activity-bar" [class.collapsed]="isActivityBarCollapsed">
-    <div class="activity-icons">
-      <button 
-        *ngFor="let activity of activities"
-        [class.active]="currentActivity === activity.id"
-        (click)="setActivity(activity.id)"
-        class="activity-icon"
-        [title]="activity.title"
-      >
-        <span class="icon">{{ activity.icon }}</span>
-        <span class="tooltip">{{ activity.title }}</span>
-      </button>
-    </div>
-    
-    <div class="activity-actions">
-      <button class="activity-action" title="Configurações">
-        ⚙️
-      </button>
-      <button 
-        class="activity-action collapse-toggle"
-        (click)="toggleActivityBar()"
-        [title]="isActivityBarCollapsed ? 'Expandir barra' : 'Recolher barra'"
-      >
-        {{ isActivityBarCollapsed ? '▶' : '◀' }}
-      </button>
-    </div>
-  </nav>
+<div class="app-container">
+  <app-header />
+  <div class="app-body">
+    <aside class="layout-sidebar" aria-label="Principal sidebar">
+      <app-sidebar data-component="Sidebar"></app-sidebar>
+    </aside>
 
-  <!-- Sidebar (Obsidian inspired) -->
-  <aside class="sidebar" [class.hidden]="!currentActivity || isActivityBarCollapsed">
-    <div class="sidebar-header">
-      <h3>{{ getActivityTitle() }}</h3>
-      <button class="sidebar-close" (click)="closeSidebar()">×</button>
-    </div>
-    
-    <div class="sidebar-content">
-      <ng-container [ngSwitch]="currentActivity">
-        <!-- Calendar Sidebar -->
-        <app-calendar-sidebar *ngSwitchCase="'calendar'"></app-calendar-sidebar>
-        
-        <!-- Tasks Sidebar -->
-        <app-tasks-sidebar *ngSwitchCase="'tasks'"></app-tasks-sidebar>
-        
-        <!-- AI Assistant Sidebar -->
-        <app-ai-sidebar *ngSwitchCase="'ai'"></app-ai-sidebar>
-        
-        <!-- Productivity Sidebar -->
-        <app-productivity-sidebar *ngSwitchCase="'productivity'"></app-productivity-sidebar>
-      </ng-container>
-    </div>
-  </aside>
-
-  <!-- Main Content Area -->
-  <main class="main-content" [class.sidebar-hidden]="!currentActivity || isActivityBarCollapsed">
-    <!-- Header (VS Code tabs inspired) -->
-    <header class="main-header">
-      <div class="header-left">
-        <button class="menu-toggle" (click)="toggleActivityBar()">
-          ☰
-        </button>
-        
-        <!-- Breadcrumb Navigation -->
-        <nav class="breadcrumb">
-          <span class="breadcrumb-item">Smart Calendar</span>
-          <span class="breadcrumb-separator">/</span>
-          <span class="breadcrumb-item active">{{ getActivityTitle() }}</span>
-        </nav>
-      </div>
-
-      <div class="header-center">
-        <!-- View Tabs (VS Code style) -->
-        <div class="view-tabs" *ngIf="currentActivity === 'calendar'">
-          <button 
-            *ngFor="let view of calendarViews"
-            [class.active]="currentView === view.id"
-            (click)="setView(view.id)"
-            class="view-tab"
-          >
-            {{ view.name }}
-          </button>
-        </div>
-      </div>
-
-      <div class="header-right">
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-          <button class="quick-action" title="Buscar">
-            🔍
-          </button>
-          <button class="quick-action" title="Criar Novo">
-            +
-          </button>
-          <button class="quick-action" title="Notificações">
-            🔔
-          </button>
-        </div>
-
-        <!-- User Menu -->
-        <div class="user-menu">
-          <button class="user-avatar">
-            {{ getUserInitials() }}
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Content Area -->
-    <div class="content-area">
+    <main class="layout-main" role="main">
+      <!-- Conteúdo principal (rotas carregadas aqui) -->
       <router-outlet></router-outlet>
-    </div>
-
-    <!-- Status Bar (VS Code inspired) -->
-    <footer class="status-bar">
-      <div class="status-left">
-        <span class="status-item">🌐 Online</span>
-        <span class="status-item">🔄 Sincronizado</span>
-        <span class="status-item">📅 {{ currentDate | date:'dd/MM/yyyy' }}</span>
-      </div>
-      
-      <div class="status-right">
-        <span class="status-item">⚡ Modo Foco: Inativo</span>
-        <span class="status-item">💾 Auto-save</span>
-      </div>
-    </footer>
-  </main>
-
-  <!-- Quick Command Palette (VS Code inspired) -->
-  <div class="command-palette" [class.hidden]="!showCommandPalette">
-    <div class="command-palette-overlay" (click)="hideCommandPalette()"></div>
-    <div class="command-palette-content">
-      <input 
-        #commandInput
-        type="text" 
-        placeholder="Digite um comando..."
-        class="command-input"
-        (keyup.escape)="hideCommandPalette()"
-      />
-      <div class="command-list">
-        <div class="command-item">📅 Criar Novo Evento</div>
-        <div class="command-item">✅ Adicionar Tarefa</div>
-        <div class="command-item">🔍 Buscar Eventos</div>
-        <div class="command-item">⚡ Ativar Modo Foco</div>
-        <div class="command-item">🎯 Gerar Relatório Diário</div>
-      </div>
-    </div>
+    </main>
   </div>
+  </div>
+  <footer class="app-footer" aria-hidden="true">
+    <!-- footer controlado por componente caso necessário -->
+  </footer>
 </div>

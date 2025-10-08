@@ -1,10 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'durationFormat'
+  name: 'durationFormat',
+  standalone: true
 })
 export class DurationFormatPipe implements PipeTransform {
   transform(minutes: number, format: string = 'short'): string {
+    // Sua implementação aqui
     if (!minutes && minutes !== 0) return '';
 
     const hours = Math.floor(minutes / 60);

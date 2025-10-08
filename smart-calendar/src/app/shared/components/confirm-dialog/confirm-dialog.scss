@@ -30,6 +30,7 @@
     max-width: 400px;
     box-shadow: var(--shadow-lg);
     animation: dialogSlideIn 0.2s ease;
+    outline: none;
 
     .dialog-header {
       display: flex;
@@ -53,10 +54,16 @@
         padding: 4px;
         border-radius: 4px;
         transition: all var(--transition-fast);
+        line-height: 1;
 
         &:hover {
           background: var(--bg-hover);
           color: var(--text-primary);
+        }
+
+        &:focus {
+          outline: 2px solid var(--accent-primary);
+          outline-offset: 2px;
         }
       }
     }
@@ -66,9 +73,22 @@
 
       .dialog-icon {
         text-align: center;
-        font-size: 48px;
         margin-bottom: 16px;
         opacity: 0.8;
+        
+        // Estilo para emojis
+        &:not([class]) {
+          font-size: 48px;
+        }
+        
+        // Estilo para classes de ícone (FontAwesome, etc)
+        &[class] {
+          font-size: 24px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
 
       .dialog-message {
@@ -106,6 +126,11 @@
         font-weight: 500;
         transition: all var(--transition-fast);
         min-width: 80px;
+        
+        &:focus {
+          outline: 2px solid var(--accent-primary);
+          outline-offset: 2px;
+        }
       }
 
       .btn-secondary {
@@ -164,4 +189,9 @@
       }
     }
   }
+}
+
+// Prevenir scroll do body quando dialog estiver aberto
+body.dialog-open {
+  overflow: hidden;
 }

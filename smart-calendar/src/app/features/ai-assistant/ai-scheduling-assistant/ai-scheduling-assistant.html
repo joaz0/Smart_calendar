@@ -1,1 +1,13 @@
-<p>ai-scheduling-assistant works!</p>
+<section class="ai-scheduling-assistant" data-component="AiSchedulingAssistant">
+	<header>
+		<h3>Assistente de Agendamento (IA)</h3>
+	</header>
+
+	<div class="suggestions">
+		<div *ngFor="let suggestion of suggestions" class="suggestion">
+			<div class="time">{{ suggestion.time }}</div>
+			<div class="meta">{{ suggestion.reason }}</div>
+			<button type="button" (click)="applySuggestion(suggestion)">Aplicar</button>
+		</div>
+	</div>
+</section>

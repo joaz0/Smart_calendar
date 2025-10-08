@@ -1,1 +1,15 @@
-<p>calendar-view works!</p>
+<section class="calendar-view" data-component="CalendarView">
+	<header class="calendar-header">
+		<h2>Calendário</h2>
+		<div class="calendar-controls">
+			<button (click)="prev()">‹</button>
+			<button (click)="today()">Hoje</button>
+			<button (click)="next()">›</button>
+		</div>
+	</header>
+
+	<div class="calendar-body">
+		<!-- Sub-views: month/day/week/agenda carregadas por rota ou por componente interno -->
+		<ng-content></ng-content>
+	</div>
+</section>

@@ -1,1 +1,14 @@
-<p>week-view works!</p>
+<section class="week-view" data-component="WeekView">
+	<header>
+		<h3>Semana de {{ startOfWeek | date:'dd/MM/yyyy' }}</h3>
+	</header>
+
+	<div class="week-grid">
+		<div *ngFor="let day of weekDays" class="week-day-column">
+			<div class="day-header">{{ day.date | date:'EEE dd' }}</div>
+			<div class="day-events">
+				<div *ngFor="let ev of day.events" class="event-pill">{{ ev.title }}</div>
+			</div>
+		</div>
+	</div>
+</section>

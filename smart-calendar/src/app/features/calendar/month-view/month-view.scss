@@ -1,0 +1,192 @@
+@import '../../../../assets/styles/variables.scss';
+@import '../../../../assets/styles/mixins.scss';
+
+.month-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--surface-ground);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--surface-card);
+    border-bottom: 1px solid var(--surface-border);
+
+    .month-navigation {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      h2 {
+        margin: 0;
+        font-weight: 500;
+        color: var(--text-color);
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .calendar-grid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 0.5rem;
+
+      .weekday {
+        text-align: center;
+        font-weight: 500;
+        color: var(--text-color-secondary);
+        padding: 0.5rem;
+      }
+    }
+
+    .weeks {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .week {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .day {
+          position: relative;
+          min-height: 100px;
+          padding: 0.5rem;
+          background-color: var(--surface-card);
+          border-radius: var(--radius-sm);
+          border: 1px solid var(--surface-border);
+
+          &.today {
+            background-color: var(--primary-50);
+            border-color: var(--primary-200);
+
+            .day-number {
+              color: var(--primary-700);
+              font-weight: 600;
+            }
+          }
+
+          &.other-month {
+            background-color: var(--surface-ground);
+
+            .day-number {
+              color: var(--text-color-secondary);
+            }
+          }
+
+          .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+
+            .day-number {
+              font-size: 1rem;
+              color: var(--text-color);
+            }
+          }
+
+          .day-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            overflow-y: auto;
+            max-height: calc(100% - 2rem);
+
+            .events-list {
+              display: flex;
+              flex-direction: column;
+              gap: 0.25rem;
+
+              .event {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--radius-sm);
+                font-size: 0.875rem;
+                color: var(--surface-0);
+                cursor: pointer;
+                transition: transform 0.2s ease;
+
+                &:hover {
+                  transform: scale(1.02);
+                }
+
+                .event-time {
+                  font-size: 0.75rem;
+                  opacity: 0.9;
+                }
+
+                .event-title {
+                  flex: 1;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+              }
+            }
+
+            .tasks-list {
+              display: flex;
+              flex-direction: column;
+              gap: 0.25rem;
+
+              .task {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.25rem;
+                border-radius: var(--radius-sm);
+                font-size: 0.875rem;
+                color: var(--text-color);
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                  background-color: var(--surface-hover);
+                }
+
+                &.completed {
+                  color: var(--text-color-secondary);
+                  text-decoration: line-through;
+                }
+
+                mat-icon {
+                  font-size: 1rem;
+                  width: 1rem;
+                  height: 1rem;
+                }
+
+                .task-title {
+                  flex: 1;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

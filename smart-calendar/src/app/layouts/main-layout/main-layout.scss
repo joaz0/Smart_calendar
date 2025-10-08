@@ -1,454 +1,219 @@
-// src/app/layouts/main-layout/main-layout.component.scss
-@import '../../../assets/styles/variables';
-
+/* src/app/layouts/main-layout/main-layout.component.css */
 .main-layout {
   display: flex;
   height: 100vh;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #f5f5f5;
 }
 
-// Activity Bar (VS Code style)
-.activity-bar {
-  width: 48px;
-  background: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: width 0.2s ease;
-  z-index: 100;
-
-  &.collapsed {
-    width: 0;
-    overflow: hidden;
-  }
-
-  .activity-icons {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px 0;
-
-    .activity-icon {
-      position: relative;
-      width: 48px;
-      height: 48px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background: var(--bg-hover);
-        color: var(--text-primary);
-      }
-
-      &.active {
-        background: var(--accent-primary);
-        color: white;
-        border-left: 2px solid var(--accent-secondary);
-      }
-
-      .icon {
-        font-size: 18px;
-      }
-
-      .tooltip {
-        position: absolute;
-        left: 100%;
-        top: 50%;
-        transform: translateY(-50%);
-        background: var(--bg-tooltip);
-        color: var(--text-tooltip);
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-        z-index: 1000;
-      }
-
-      &:hover .tooltip {
-        opacity: 1;
-      }
-    }
-  }
-
-  .activity-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px 0;
-
-    .activity-action {
-      width: 48px;
-      height: 32px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background: var(--bg-hover);
-        color: var(--text-primary);
-      }
-
-      &.collapse-toggle {
-        font-size: 12px;
-      }
-    }
-  }
-}
-
-// Sidebar (Obsidian style)
 .sidebar {
   width: 280px;
-  background: var(--bg-sidebar);
-  border-right: 1px solid var(--border-color);
+  background: #2c3e50;
+  color: white;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease;
-
-  &.hidden {
-    transform: translateX(-100%);
-    width: 0;
-  }
-
-  .sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-
-    h3 {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .sidebar-close {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 18px;
-      padding: 4px;
-      border-radius: 4px;
-
-      &:hover {
-        background: var(--bg-hover);
-        color: var(--text-primary);
-      }
-    }
-  }
-
-  .sidebar-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-  }
+  transition: width 0.3s ease;
 }
 
-// Main Content
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid #34495e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo h2 {
+  margin: 0;
+  color: #3498db;
+}
+
+.toggle-sidebar {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.nav-item {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #bdc3c7;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: #34495e;
+  color: white;
+}
+
+.nav-item.active {
+  background: #3498db;
+  color: white;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+.nav-text {
+  white-space: nowrap;
+}
+
+.sidebar-stats {
+  padding: 1rem;
+  border-top: 1px solid #34495e;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background: #34495e;
+}
+
+.stat-icon {
+  font-size: 1.1rem;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-info strong {
+  font-size: 1.1rem;
+}
+
+.stat-info small {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.user-profile {
+  padding: 1rem;
+  border-top: 1px solid #34495e;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3498db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info strong {
+  font-size: 0.9rem;
+}
+
+.user-info small {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  transition: margin-left 0.2s ease;
-
-  &.sidebar-hidden {
-    margin-left: 0;
-  }
+  overflow: hidden;
 }
 
-// Main Header (VS Code tabs)
 .main-header {
-  height: 48px;
-  background: var(--bg-header);
-  border-bottom: 1px solid var(--border-color);
+  background: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    .menu-toggle {
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 4px;
-      font-size: 16px;
-
-      &:hover {
-        background: var(--bg-hover);
-        color: var(--text-primary);
-      }
-    }
-
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-
-      .breadcrumb-item {
-        color: var(--text-secondary);
-        cursor: pointer;
-
-        &.active {
-          color: var(--text-primary);
-          font-weight: 500;
-        }
-
-        &:hover {
-          color: var(--text-primary);
-        }
-      }
-
-      .breadcrumb-separator {
-        color: var(--text-tertiary);
-      }
-    }
-  }
-
-  .header-center {
-    .view-tabs {
-      display: flex;
-      background: var(--bg-secondary);
-      border-radius: 6px;
-      padding: 2px;
-      border: 1px solid var(--border-color);
-
-      .view-tab {
-        padding: 6px 16px;
-        background: transparent;
-        border: none;
-        color: var(--text-secondary);
-        cursor: pointer;
-        font-size: 13px;
-        border-radius: 4px;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background: var(--bg-hover);
-          color: var(--text-primary);
-        }
-
-        &.active {
-          background: var(--accent-primary);
-          color: white;
-        }
-      }
-    }
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .quick-actions {
-      display: flex;
-      gap: 4px;
-
-      .quick-action {
-        width: 32px;
-        height: 32px;
-        background: transparent;
-        border: none;
-        color: var(--text-secondary);
-        cursor: pointer;
-        border-radius: 4px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &:hover {
-          background: var(--bg-hover);
-          color: var(--text-primary);
-        }
-      }
-    }
-
-    .user-menu {
-      .user-avatar {
-        width: 32px;
-        height: 32px;
-        background: var(--accent-primary);
-        border: none;
-        border-radius: 50%;
-        color: white;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &:hover {
-          opacity: 0.9;
-        }
-      }
-    }
-  }
+  align-items: center;
 }
 
-// Content Area
+.header-left h1 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.header-info {
+  display: flex;
+  gap: 1rem;
+}
+
+.status-item {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.3s ease;
+}
+
+.header-btn:hover {
+  background: #ecf0f1;
+}
+
 .content-area {
   flex: 1;
-  overflow: auto;
-  background: var(--bg-primary);
-}
-
-// Status Bar (VS Code style)
-.status-bar {
-  height: 22px;
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--border-color);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  font-size: 12px;
-  color: var(--text-secondary);
-
-  .status-left,
-  .status-right {
-    display: flex;
-    gap: 16px;
-  }
-
-  .status-item {
-    cursor: pointer;
-
-    &:hover {
-      color: var(--text-primary);
-    }
-  }
+  overflow: hidden;
 }
 
-// Command Palette (VS Code style)
-.command-palette {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10000;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 100px;
-
-  &.hidden {
-    display: none;
-  }
-
-  .command-palette-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-  }
-
-  .command-palette-content {
-    position: relative;
-    width: 600px;
-    max-width: 90vw;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    z-index: 10001;
-
-    .command-input {
-      width: 100%;
-      padding: 16px;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 16px;
-      outline: none;
-
-      &::placeholder {
-        color: var(--text-tertiary);
-      }
-    }
-
-    .command-list {
-      border-top: 1px solid var(--border-color);
-
-      .command-item {
-        padding: 12px 16px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-        font-size: 14px;
-
-        &:hover {
-          background: var(--bg-hover);
-        }
-      }
-    }
-  }
+.dynamic-sidebar {
+  width: 300px;
+  background: white;
+  border-right: 1px solid #bdc3c7;
 }
 
-// Responsive Design
-@media (max-width: 768px) {
-  .activity-bar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 1000;
-
-    &.collapsed {
-      transform: translateX(-100%);
-    }
-  }
-
-  .sidebar {
-    position: fixed;
-    left: 48px;
-    top: 0;
-    bottom: 0;
-    z-index: 900;
-
-    &.hidden {
-      transform: translateX(-100%);
-    }
-  }
-
-  .main-content {
-    margin-left: 0 !important;
-  }
-
-  .header-center {
-    display: none;
-  }
-
-  .breadcrumb {
-    display: none !important;
-  }
+.main-view {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
 }

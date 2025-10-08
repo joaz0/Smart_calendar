@@ -1,7 +1,16 @@
 <div class="category-picker">
-  <div class="selected-category" (click)="toggleDropdown()">
-    <div class="category-color" [style.backgroundColor]="selectedCategory?.color"></div>
-    <span class="category-name">{{ selectedCategory?.name || 'Selecionar Categoria' }}</span>
+  <div 
+    class="selected-category" 
+    (click)="toggleDropdown()"
+    [class.disabled]="disabled"
+  >
+    <div 
+      class="category-color" 
+      [style.backgroundColor]="selectedCategory?.color || '#9ca3af'"
+    ></div>
+    <span class="category-name">
+      {{ selectedCategory?.name || 'Selecionar Categoria' }}
+    </span>
     <div class="dropdown-arrow">{{ isOpen ? '▴' : '▾' }}</div>
   </div>
 
@@ -11,6 +20,7 @@
       <div 
         *ngFor="let category of defaultCategories"
         class="category-option"
+        [class.selected]="selectedCategory?.id === category.id"
         (click)="selectCategory(category)"
       >
         <div class="category-color" [style.backgroundColor]="category.color"></div>
@@ -20,24 +30,38 @@
         </div>
       </div>
 
-      <!-- Divisor -->
-      <div class="dropdown-divider"></div>
+      <!-- Divisor (só mostra se houver categorias personalizadas) -->
+      <div class="dropdown-divider" *ngIf="customCategories.length > 0"></div>
 
       <!-- Categorias Personalizadas -->
       <div 
         *ngFor="let category of customCategories"
         class="category-option"
+        [class.selected]="selectedCategory?.id === category.id"
         (click)="selectCategory(category)"
       >
         <div class="category-color" [style.backgroundColor]="category.color"></div>
         <span class="category-name">{{ category.name }}</span>
-        <div class="category-actions">
-          <button class="action-btn" (click)="editCategory(category, $event)">✏️</button>
-          <button class="action-btn" (click)="deleteCategory(category, $event)">🗑️</button>
+        <div class="category-actions" (click)="$event.stopPropagation()">
+          <button 
+            class="action-btn" 
+            (click)="editCategory(category, $event)"
+            title="Editar categoria"
+          >
+            ✏️
+          </button>
+          <button 
+            class="action-btn" 
+            (click)="deleteCategory(category, $event)"
+            title="Excluir categoria"
+          >
+            🗑️
+          </button>
         </div>
       </div>
 
       <!-- Adicionar Nova Categoria -->
+      <div class="dropdown-divider"></div>
       <div class="add-category" (click)="addNewCategory()">
         <div class="add-icon">+</div>
         <span>Nova Categoria</span>
@@ -48,7 +72,7 @@
   <!-- Modal de Edição de Categoria -->
   <div class="category-modal" *ngIf="showCategoryModal">
     <div class="modal-overlay" (click)="closeModal()"></div>
-    <div class="modal-content">
+    <div class="modal-content" (click)="$event.stopPropagation()">
       <h3>{{ editingCategory ? 'Editar Categoria' : 'Nova Categoria' }}</h3>
       
       <div class="form-group">
@@ -58,6 +82,8 @@
           [(ngModel)]="categoryName"
           placeholder="Ex: Trabalho, Pessoal, Saúde..."
           class="form-input"
+          (keyup.enter)="saveCategory()"
+          autofocus
         />
       </div>
 
@@ -70,13 +96,20 @@
             [class.selected]="selectedColor === color"
             [style.backgroundColor]="color"
             (click)="selectColor(color)"
+            [title]="color"
           ></div>
         </div>
       </div>
 
       <div class="modal-actions">
         <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
-        <button class="btn-primary" (click)="saveCategory()">Salvar</button>
+        <button 
+          class="btn-primary" 
+          (click)="saveCategory()"
+          [disabled]="!categoryName.trim()"
+        >
+          Salvar
+        </button>
       </div>
     </div>
   </div>

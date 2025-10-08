@@ -1,5 +1,5 @@
 <!-- src/app/shared/components/calendar-sidebar/calendar-sidebar.component.html -->
-<div class="calendar-sidebar">
+<nav class="calendar-sidebar" aria-label="Barra lateral do calendário" data-component="CalendarSidebar">
   <!-- Mini Calendar -->
   <div class="mini-calendar">
     <div class="mini-calendar-header">
@@ -12,7 +12,7 @@
         <span *ngFor="let day of weekDays" class="week-day">{{ day }}</span>
       </div>
       <div class="calendar-days">
-        <div 
+        <div
           *ngFor="let day of calendarDays"
           [class.current-month]="day.isCurrentMonth"
           [class.today]="day.isToday"
@@ -27,30 +27,30 @@
   </div>
 
   <!-- Quick Actions -->
-  <div class="quick-actions-section">
+  <div class="quick-actions-section" data-component="QuickActions">
     <h4>Quick Actions</h4>
-    <button class="quick-btn" (click)="createEvent()">
+    <button class="quick-btn" (click)="createEvent()" aria-label="Criar novo evento">
       + Novo Evento
     </button>
-    <button class="quick-btn" (click)="goToToday()">
+    <button class="quick-btn" (click)="goToToday()" aria-label="Ir para hoje">
       📅 Hoje
     </button>
   </div>
 
   <!-- Event List -->
-  <div class="events-section">
+  <section class="events-section" aria-label="Eventos de hoje" data-component="TodayEvents">
     <h4>Eventos de Hoje</h4>
     <div class="events-list">
-      <div *ngFor="let event of todayEvents" class="event-item">
-        <div class="event-time">{{ event.startDate | date:'HH:mm' }}</div>
+      <article *ngFor="let event of todayEvents" class="event-item" data-event-id="{{event.id}}">
+        <time class="event-time">{{ event.startDate | date:'HH:mm' }}</time>
         <div class="event-details">
           <div class="event-title">{{ event.title }}</div>
           <div class="event-location" *ngIf="event.location">{{ event.location }}</div>
         </div>
-      </div>
-      <div *ngIf="todayEvents.length === 0" class="no-events">
-        Nenhum evento para hoje
-      </div>
+      </article>
+
+      <div *ngIf="todayEvents.length === 0" class="no-events">Nenhum evento para hoje</div>
     </div>
-  </div>
+  </section>
+</nav>
 </div>

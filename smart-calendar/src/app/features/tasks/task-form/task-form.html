@@ -1,1 +1,28 @@
-<p>task-form works!</p>
+<form class="task-form" data-component="TaskForm" [formGroup]="form" (ngSubmit)="submit()" aria-label="Formulário de tarefa">
+	<div class="form-row">
+		<label for="title">Título</label>
+		<input id="title" type="text" formControlName="title" placeholder="Título da tarefa" />
+	</div>
+
+	<div class="form-row">
+		<label for="description">Descrição</label>
+		<textarea id="description" formControlName="description" placeholder="Detalhes da tarefa"></textarea>
+	</div>
+
+	<div class="form-row form-inline">
+		<label for="due_date">Prazo</label>
+		<input id="due_date" type="date" formControlName="due_date" />
+
+		<label for="priority">Prioridade</label>
+		<select id="priority" formControlName="priority">
+			<option value="low">Baixa</option>
+			<option value="medium">Média</option>
+			<option value="high">Alta</option>
+		</select>
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" [disabled]="form.invalid">Salvar</button>
+		<button type="button" (click)="cancel()">Cancelar</button>
+	</div>
+</form>

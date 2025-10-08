@@ -2,6 +2,7 @@
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  height: 100%;
 
   form {
     display: flex;
@@ -16,6 +17,7 @@
     padding: 20px 24px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
 
     h2 {
       margin: 0;
@@ -54,12 +56,15 @@
         color: white;
 
         &:hover:not(:disabled) {
-          opacity: 0.9;
+          background: var(--accent-primary-hover);
+          transform: translateY(-1px);
         }
 
         &:disabled {
-          opacity: 0.5;
+          background: var(--bg-disabled);
+          color: var(--text-disabled);
           cursor: not-allowed;
+          transform: none;
         }
       }
     }
@@ -70,6 +75,7 @@
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     padding: 0 24px;
+    flex-shrink: 0;
 
     .tab-btn {
       background: none;
@@ -80,14 +86,17 @@
       font-size: 13px;
       border-bottom: 2px solid transparent;
       transition: all var(--transition-fast);
+      white-space: nowrap;
 
       &:hover {
         color: var(--text-primary);
+        background: var(--bg-hover);
       }
 
       &.active {
         color: var(--accent-primary);
         border-bottom-color: var(--accent-primary);
+        background: var(--bg-active);
       }
     }
   }
@@ -96,9 +105,11 @@
     flex: 1;
     padding: 24px;
     overflow-y: auto;
+    min-height: 0;
 
     .tab-pane {
       animation: fadeIn 0.2s ease;
+      max-width: 600px;
     }
   }
 
@@ -116,32 +127,44 @@
     .form-input, .form-textarea, .form-select {
       width: 100%;
       padding: 8px 12px;
-      background: var(--bg-secondary);
+      background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
       color: var(--text-primary);
       font-size: 13px;
       outline: none;
-      transition: border-color var(--transition-fast);
+      transition: all var(--transition-fast);
 
       &:focus {
         border-color: var(--accent-primary);
+        box-shadow: 0 0 0 2px var(--accent-primary-alpha);
       }
 
       &.error {
         border-color: var(--accent-error);
+        box-shadow: 0 0 0 2px var(--accent-error-alpha);
+      }
+
+      &:disabled {
+        background: var(--bg-disabled);
+        color: var(--text-disabled);
+        cursor: not-allowed;
       }
     }
 
     .form-textarea {
       resize: vertical;
       min-height: 80px;
+      font-family: inherit;
     }
 
     .error-message {
       font-size: 12px;
       color: var(--accent-error);
       margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .checkbox-label {
@@ -150,6 +173,8 @@
       gap: 8px;
       cursor: pointer;
       font-weight: normal;
+      margin-bottom: 0;
+      padding: 4px 0;
 
       .checkbox {
         display: none;
@@ -162,18 +187,21 @@
         border-radius: 3px;
         position: relative;
         transition: all var(--transition-fast);
+        background: var(--bg-input);
+        flex-shrink: 0;
 
         &::after {
           content: '';
           position: absolute;
-          top: 2px;
-          left: 5px;
-          width: 4px;
-          height: 8px;
+          top: 1px;
+          left: 4px;
+          width: 5px;
+          height: 9px;
           border: solid white;
           border-width: 0 2px 2px 0;
           transform: rotate(45deg);
           opacity: 0;
+          transition: opacity var(--transition-fast);
         }
       }
 
@@ -185,6 +213,10 @@
           opacity: 1;
         }
       }
+
+      &:hover .checkmark {
+        border-color: var(--accent-primary);
+      }
     }
   }
 
@@ -195,6 +227,7 @@
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
+      gap: 12px;
     }
   }
 
@@ -205,6 +238,9 @@
     border-radius: var(--radius-sm);
     color: var(--text-secondary);
     font-size: 13px;
+    height: 34px;
+    display: flex;
+    align-items: center;
   }
 
   .duration-display {
@@ -214,9 +250,14 @@
     border-radius: var(--radius-sm);
     color: var(--text-primary);
     font-size: 13px;
+    height: 34px;
+    display: flex;
+    align-items: center;
   }
 
   .reminders-list {
+    margin-bottom: 12px;
+
     .reminder-item {
       display: flex;
       gap: 8px;
@@ -225,6 +266,7 @@
 
       .form-select {
         flex: 1;
+        min-width: 0;
       }
 
       .btn-remove {
@@ -235,10 +277,14 @@
         padding: 6px 8px;
         border-radius: var(--radius-sm);
         font-size: 12px;
+        transition: all var(--transition-fast);
+        flex-shrink: 0;
 
         &:hover {
           background: var(--accent-error);
           color: white;
+          border-color: var(--accent-error);
+          transform: scale(1.05);
         }
       }
     }
@@ -258,6 +304,7 @@
     &:hover {
       border-color: var(--accent-primary);
       color: var(--accent-primary);
+      background: var(--bg-hover);
     }
   }
 
@@ -265,6 +312,14 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .recurrence-settings {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
   }
 
   .ai-suggestions {
@@ -292,9 +347,11 @@
         border: none;
         color: var(--text-tertiary);
         cursor: pointer;
-        font-size: 16px;
+        font-size: 20px;
         padding: 4px;
         border-radius: 4px;
+        transition: all var(--transition-fast);
+        line-height: 1;
 
         &:hover {
           background: var(--bg-hover);
@@ -318,6 +375,7 @@
         .suggestion-text {
           font-size: 13px;
           color: var(--text-primary);
+          flex: 1;
         }
 
         .btn-suggestion {
@@ -325,13 +383,15 @@
           border: none;
           color: white;
           cursor: pointer;
-          padding: 4px 8px;
+          padding: 6px 12px;
           border-radius: var(--radius-sm);
-          font-size: 11px;
-          transition: opacity var(--transition-fast);
+          font-size: 12px;
+          transition: all var(--transition-fast);
+          margin-left: 12px;
 
           &:hover {
-            opacity: 0.9;
+            background: var(--accent-primary-hover);
+            transform: translateY(-1px);
           }
         }
       }
@@ -340,8 +400,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { 
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // Responsive
@@ -350,7 +416,8 @@
     .form-header {
       flex-direction: column;
       gap: 12px;
-      align-items: flex-start;
+      align-items: stretch;
+      padding: 16px;
 
       .form-actions {
         width: 100%;
@@ -359,8 +426,37 @@
     }
 
     .form-tabs {
+      padding: 0 16px;
       overflow-x: auto;
-      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .tab-content {
+      padding: 16px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .reminders-list {
+      .reminder-item {
+        flex-direction: column;
+        gap: 8px;
+
+        .form-select {
+          width: 100%;
+        }
+
+        .btn-remove {
+          align-self: flex-end;
+        }
+      }
     }
   }
 }
+

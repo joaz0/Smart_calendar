@@ -1,102 +1,128 @@
-// src/app/layouts/main-layout/main-layout.component.ts
-import { Component, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Header } from '../../shared/components/header/header';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
 
-interface Activity {
-  id: string;
-  title: string;
-  icon: string;
-}
+// Crie componentes básicos para os outros (placeholder)
+@Component({
+  selector: 'app-tasks-sidebar',
+  standalone: true,
+  template: `<div class="tasks-sidebar">Tasks Sidebar - Em desenvolvimento</div>`,
+})
+export class TasksSidebar {}
 
-interface CalendarView {
-  id: string;
-  name: string;
-}
+@Component({
+  selector: 'app-ai-sidebar',
+  standalone: true,
+  template: `<div class="ai-sidebar">AI Sidebar - Em desenvolvimento</div>`,
+})
+export class AiSidebar {}
+
+@Component({
+  selector: 'app-productivity-sidebar',
+  standalone: true,
+  template: `<div class="productivity-sidebar">Productivity Sidebar - Em desenvolvimento</div>`,
+})
+export class ProductivitySidebar {}
 
 @Component({
   selector: 'app-main-layout',
-  templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    SidebarComponent,
+    TasksSidebar,
+    AiSidebar,
+    ProductivitySidebar,
+  ],
+  templateUrl: './main-layout.html',
+  styleUrls: ['./main-layout.scss'],
 })
-export class MainLayoutComponent {
-  // State Management
-  isActivityBarCollapsed = false;
-  currentActivity: string = 'calendar';
-  currentView: string = 'month';
-  showCommandPalette = false;
+export class MainLayout implements OnInit {
+  // ... resto do código permanece igual
+  currentActive = 'calendar';
   currentDate = new Date();
+  currentTime = new Date();
+  sidebarOpen = true;
+  user = {
+    name: 'Usuário',
+    email: 'usuario@exemplo.com',
+    avatar: '👤',
+  };
 
-  // Activities (VS Code style)
-  activities: Activity[] = [
-    { id: 'calendar', title: 'Calendário', icon: '📅' },
-    { id: 'tasks', title: 'Tarefas', icon: '✅' },
-    { id: 'ai', title: 'AI Assistant', icon: '🤖' },
-    { id: 'productivity', title: 'Produtividade', icon: '⚡' },
-    { id: 'collaboration', title: 'Colaboração', icon: '👥' },
-    { id: 'wellness', title: 'Bem-estar', icon: '💚' },
-    { id: 'analytics', title: 'Analytics', icon: '📊' }
-  ];
+  stats = {
+    eventsToday: 3,
+    pendingTasks: 5,
+    completedTasks: 12,
+    productivity: 75,
+  };
 
-  // Calendar Views (VS Code tabs style)
-  calendarViews: CalendarView[] = [
-    { id: 'day', name: 'Dia' },
-    { id: 'week', name: 'Semana' },
-    { id: 'month', name: 'Mês' },
-    { id: 'agenda', name: 'Agenda' }
-  ];
+  constructor(private router: Router) {}
 
-  // Keyboard Shortcuts (VS Code inspired)
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    // Ctrl/Cmd + K for command palette
-    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-      event.preventDefault();
-      this.toggleCommandPalette();
+  ngOnInit() {
+    setInterval(() => {
+      this.currentTime = new Date();
+    }, 1000);
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.updateActiveTabFromRoute(event.url);
+      });
+  }
+
+  setActive(view: string) {
+    this.currentActive = view;
+    const routes: { [key: string]: string } = {
+      calendar: '/calendar',
+      tasks: '/tasks',
+      ai: '/ai-assistant',
+      productivity: '/productivity',
+    };
+
+    if (routes[view]) {
+      this.router.navigate([routes[view]]);
     }
+  }
 
-    // Escape to close modals
-    if (event.key === 'Escape') {
-      this.hideCommandPalette();
+  private updateActiveTabFromRoute(url: string) {
+    const routeMap: { [key: string]: string } = {
+      '/calendar': 'calendar',
+      '/tasks': 'tasks',
+      '/ai-assistant': 'ai',
+      '/productivity': 'productivity',
+    };
+
+    for (const [route, tab] of Object.entries(routeMap)) {
+      if (url.includes(route)) {
+        this.currentActive = tab;
+        break;
+      }
     }
   }
 
-  // Activity Management
-  setActivity(activityId: string) {
-    this.currentActivity = activityId;
-    if (this.isActivityBarCollapsed) {
-      this.isActivityBarCollapsed = false;
-    }
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 
-  toggleActivityBar() {
-    this.isActivityBarCollapsed = !this.isActivityBarCollapsed;
+  logout() {
+    console.log('Logout realizado');
+    this.router.navigate(['/login']);
   }
 
-  closeSidebar() {
-    this.currentActivity = '';
+  getProductivityColor(): string {
+    if (this.stats.productivity >= 80) return '#4CAF50';
+    if (this.stats.productivity >= 60) return '#FF9800';
+    return '#F44336';
   }
 
-  getActivityTitle(): string {
-    const activity = this.activities.find(a => a.id === this.currentActivity);
-    return activity ? activity.title : '';
-  }
-
-  // View Management
-  setView(viewId: string) {
-    this.currentView = viewId;
-  }
-
-  // Command Palette (VS Code style)
-  toggleCommandPalette() {
-    this.showCommandPalette = !this.showCommandPalette;
-  }
-
-  hideCommandPalette() {
-    this.showCommandPalette = false;
-  }
-
-  // User Management
-  getUserInitials(): string {
-    // Mock user data - replace with actual user service
-    return 'UL';
+  getGreeting(): string {
+    const hour = this.currentTime.getHours();
+    if (hour < 12) return 'Bom dia';
+    if (hour < 18) return 'Boa tarde';
+    return 'Boa noite';
   }
 }

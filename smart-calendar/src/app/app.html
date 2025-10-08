@@ -1,3 +1,18 @@
-<router-outlet>
-<app-root></app-root>  
-<router-outlet/>
+<div class="app-container">
+  <!-- Layout principal que muda baseado na rota (auth ou main) -->
+  <!-- App shell: router outlet and global overlays -->
+  <div class="app-shell" data-component="AppShell">
+    <router-outlet></router-outlet>
+
+    <!-- Global overlays: snackbars, dialogs, loading -->
+    <div id="global-overlays" aria-hidden="true"></div>
+  </div>
+
+  <!-- Overlay para carregamento global -->
+  <div class="global-loader" *ngIf="isLoading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Container para notificações toast -->
+  <div class="toast-container"></div>
+</div>

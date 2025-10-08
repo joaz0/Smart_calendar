@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>{{ data.date | date:'fullDate' }}</h2>
+
+<mat-dialog-content>
+  <div class="day-details">
+    <section class="events-section" *ngIf="data.events.length > 0">
+      <h3>Eventos</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let event of data.events" class="event-item">
+          <div class="event-content">
+            <span class="event-time">{{ getEventTime(event) }}</span>
+            <span class="event-title" [style.color]="event.category?.color">
+              {{ event.title }}
+            </span>
+            <mat-icon *ngIf="event.location">location_on</mat-icon>
+            <mat-icon *ngIf="event.description">info</mat-icon>
+            <mat-icon *ngIf="event.recurrence">repeat</mat-icon>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </section>
+
+    <section class="tasks-section" *ngIf="data.tasks.length > 0">
+      <h3>Tarefas</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let task of data.tasks" class="task-item">
+          <div class="task-content">
+            <mat-checkbox [checked]="task.completed" disabled>
+              {{ task.title }}
+            </mat-checkbox>
+            <span class="task-time">{{ getTaskTime(task) }}</span>
+            <mat-icon [class.high-priority]="task.priority === 'high'"
+                     [class.medium-priority]="task.priority === 'medium'"
+                     [class.low-priority]="task.priority === 'low'">
+              flag
+            </mat-icon>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </section>
+
+    <div class="empty-state" *ngIf="data.events.length === 0 && data.tasks.length === 0">
+      <mat-icon>event_busy</mat-icon>
+      <p>Nenhum evento ou tarefa para este dia</p>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Fechar</button>
+</mat-dialog-actions>

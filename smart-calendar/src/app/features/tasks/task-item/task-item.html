@@ -1,1 +1,15 @@
-<p>task-item works!</p>
+<div class="task-item" data-component="TaskItem">
+	<label class="task-checkbox">
+		<input type="checkbox" [checked]="task?.completed" (change)="toggleComplete(task)" aria-label="Marcar como concluída" />
+	</label>
+
+	<div class="task-body">
+		<div class="task-title">{{ task?.title }}</div>
+		<div class="task-meta">{{ task?.due_date | date:'dd/MM/yyyy' }} • {{ task?.priority }}</div>
+	</div>
+
+	<div class="task-actions">
+		<button class="btn-edit" (click)="edit.emit(task)" aria-label="Editar">✎</button>
+		<button class="btn-delete" (click)="delete.emit(task)" aria-label="Excluir">🗑️</button>
+	</div>
+</div>

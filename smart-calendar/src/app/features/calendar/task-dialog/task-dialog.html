@@ -1,0 +1,71 @@
+<h2 mat-dialog-title data-component="TaskDialogTitle">{{ isEditing ? 'Editar Tarefa' : 'Nova Tarefa' }}</h2>
+
+<form data-component="TaskDialogForm" [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <div class="form-grid">
+      <mat-form-field appearance="fill">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" placeholder="Digite o título da tarefa">
+        <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+          Título é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="description"
+                  placeholder="Adicione uma descrição"></textarea>
+      </mat-form-field>
+
+      <div class="date-time-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Data de Vencimento</mat-label>
+          <input matInput [matDatepicker]="duePicker" formControlName="dueDate"
+                 placeholder="Escolha a data de vencimento">
+          <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
+          <mat-datepicker #duePicker></mat-datepicker>
+          <mat-error *ngIf="taskForm.get('dueDate')?.hasError('required')">
+            Data de vencimento é obrigatória
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Hora de Vencimento</mat-label>
+          <input matInput type="time" [ngModel]="getTimeFromDate(taskForm.get('dueDate')?.value)"
+                 (ngModelChange)="updateDueTime($event)" [ngModelOptions]="{standalone: true}"
+                 placeholder="Escolha a hora de vencimento">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Prioridade</mat-label>
+        <mat-select formControlName="priority">
+          <mat-option value="low">Baixa</mat-option>
+          <mat-option value="medium">Média</mat-option>
+          <mat-option value="high">Alta</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="completed">Tarefa Concluída</mat-checkbox>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button (click)="onCancel()">Cancelar</button>
+    <button type="button" mat-button color="warn" *ngIf="isEditing" (click)="onDelete()">
+      Excluir
+    </button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="taskForm.invalid">
+      {{ isEditing ? 'Salvar' : 'Criar' }}
+    </button>
+  </mat-dialog-actions>
+</form>]]>

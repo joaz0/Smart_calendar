@@ -1,1 +1,60 @@
-<p>month-view works!</p>
+<div class="month-view">
+  <div class="calendar-header">
+    <div class="month-navigation">
+      <button mat-icon-button (click)="previousMonth()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <h2>{{ currentDate | date:'MMMM yyyy' }}</h2>
+      <button mat-icon-button (click)="nextMonth()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+    <button mat-button (click)="goToToday()">Hoje</button>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="weekdays">
+      <div class="weekday">Dom</div>
+      <div class="weekday">Seg</div>
+      <div class="weekday">Ter</div>
+      <div class="weekday">Qua</div>
+      <div class="weekday">Qui</div>
+      <div class="weekday">Sex</div>
+      <div class="weekday">Sáb</div>
+    </div>
+
+    <div class="weeks">
+      <div class="week" *ngFor="let week of weeks">
+        <div class="day" 
+            *ngFor="let day of week" 
+            [class.today]="isToday(day)"
+            [class.other-month]="!isCurrentMonth(day)">
+          <div class="day-header">
+            <span class="day-number">{{ day | date:'d' }}</span>
+          </div>
+          
+          <div class="day-content">
+            <div class="events-list" *ngIf="getEventsForDay(day).length > 0">
+              <div class="event" 
+                   *ngFor="let event of getEventsForDay(day)"
+                   [style.background-color]="event.color">
+                <span class="event-time">{{ event.startDate | date:'HH:mm' }}</span>
+                <span class="event-title">{{ event.title }}</span>
+              </div>
+            </div>
+
+            <div class="tasks-list" *ngIf="getTasksForDay(day).length > 0">
+              <div class="task" 
+                   *ngFor="let task of getTasksForDay(day)"
+                   [class.completed]="task.completed">
+                <mat-icon *ngIf="task.completed">check_circle</mat-icon>
+                <mat-icon *ngIf="!task.completed">radio_button_unchecked</mat-icon>
+                <span class="task-title">{{ task.title }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
