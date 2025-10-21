@@ -1,6 +1,6 @@
 [build]
   publish = "dist/smart-calendar"
-  command = "npm install && npx ng build --configuration=production"
+  command = "npm install && npm install -g @angular/cli && ng build --configuration=production"
 
 [build.environment]
   NODE_VERSION = "20"
