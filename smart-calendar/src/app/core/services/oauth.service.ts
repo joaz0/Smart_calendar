@@ -31,10 +31,11 @@ export class OAuthService {
           const googleData = {
             email: credential.email,
             name: credential.name,
-            googleId: credential.sub
+            googleId: credential.sub,
+            provider: 'google'
           };
           
-          resolve(this.http.post(`${environment.apiUrl}/oauth/google`, googleData));
+          resolve(this.http.post(`${environment.apiUrl}/auth/oauth/google`, googleData));
         }
       });
 
@@ -49,10 +50,11 @@ export class OAuthService {
       const microsoftData = {
         email: 'user@example.com',
         name: 'Microsoft User',
-        microsoftId: 'microsoft_id_123'
+        microsoftId: 'microsoft_id_123',
+        provider: 'microsoft'
       };
       
-      resolve(this.http.post(`${environment.apiUrl}/oauth/microsoft`, microsoftData));
+      resolve(this.http.post(`${environment.apiUrl}/auth/oauth/microsoft`, microsoftData));
     });
   }
 

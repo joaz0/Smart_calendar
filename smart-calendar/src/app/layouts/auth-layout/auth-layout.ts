@@ -66,20 +66,30 @@ export class AuthLayout {
     if (this.isLoginMode) {
       this.authService.login(formData.email, formData.password).subscribe({
         next: (user) => {
-          this.router.navigate(['/']);
+          console.log('Login successful:', user);
+          this.router.navigate(['/calendar']);
         },
         error: (error) => {
-          this.errorMessage = 'Credenciais inválidas';
+          console.error('Login error:', error);
+          this.errorMessage = error.error?.message || 'Credenciais inválidas';
+          this.isLoading = false;
+        },
+        complete: () => {
           this.isLoading = false;
         }
       });
     } else {
       this.authService.register(formData).subscribe({
         next: (user) => {
-          this.router.navigate(['/']);
+          console.log('Registration successful:', user);
+          this.router.navigate(['/calendar']);
         },
         error: (error) => {
-          this.errorMessage = 'Erro no cadastro';
+          console.error('Registration error:', error);
+          this.errorMessage = error.error?.message || 'Erro no cadastro';
+          this.isLoading = false;
+        },
+        complete: () => {
           this.isLoading = false;
         }
       });
@@ -99,14 +109,21 @@ export class AuthLayout {
       const loginObservable = await this.oauthService.loginWithGoogle();
       loginObservable.subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/']);
+          console.log('Google login successful:', response);
+          this.authService.loginWithOAuth('google', response).subscribe({
+            next: (user) => {
+              this.router.navigate(['/calendar']);
+            },
+            error: (error) => {
+              console.error('Google OAuth error:', error);
+              this.errorMessage = 'Erro no login com Google';
+              this.isLoading = false;
+            }
+          });
         },
         error: (error) => {
           console.error('Google login error:', error);
           this.errorMessage = 'Erro no login com Google';
-        },
-        complete: () => {
           this.isLoading = false;
         }
       });
@@ -122,14 +139,21 @@ export class AuthLayout {
       const loginObservable = await this.oauthService.loginWithMicrosoft();
       loginObservable.subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/']);
+          console.log('Microsoft login successful:', response);
+          this.authService.loginWithOAuth('microsoft', response).subscribe({
+            next: (user) => {
+              this.router.navigate(['/calendar']);
+            },
+            error: (error) => {
+              console.error('Microsoft OAuth error:', error);
+              this.errorMessage = 'Erro no login com Microsoft';
+              this.isLoading = false;
+            }
+          });
         },
         error: (error) => {
           console.error('Microsoft login error:', error);
           this.errorMessage = 'Erro no login com Microsoft';
-        },
-        complete: () => {
           this.isLoading = false;
         }
       });

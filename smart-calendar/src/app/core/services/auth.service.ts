@@ -50,7 +50,11 @@ export class AuthService {
           this.tokenSubject.next(response.token);
           this.currentUserSubject.next(response.user);
         }),
-        map((response) => response.user)
+        map((response) => response.user),
+        catchError((error) => {
+          console.error('Login error:', error);
+          throw error;
+        })
       );
   }
 
@@ -61,7 +65,11 @@ export class AuthService {
         this.tokenSubject.next(response.token);
         this.currentUserSubject.next(response.user);
       }),
-      map((response) => response.user)
+      map((response) => response.user),
+      catchError((error) => {
+        console.error('Register error:', error);
+        throw error;
+      })
     );
   }
 
@@ -80,6 +88,22 @@ export class AuthService {
         console.error('Erro ao carregar usuário:', error);
         this.logout();
         return of(null as any);
+      })
+    );
+  }
+
+  // OAuth login methods
+  loginWithOAuth(provider: string, userData: any): Observable<User> {
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/oauth/${provider}`, userData).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.token);
+        this.tokenSubject.next(response.token);
+        this.currentUserSubject.next(response.user);
+      }),
+      map((response) => response.user),
+      catchError((error) => {
+        console.error(`${provider} OAuth error:`, error);
+        throw error;
       })
     );
   }
