@@ -1,0 +1,9 @@
+[build]
+  base = "smart-calendar"
+  command = "npm install && npm install -g @angular/cli && ng build --configuration=production"
+  publish = "dist/smart-calendar"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

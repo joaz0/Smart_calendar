@@ -60,7 +60,7 @@ ng build --configuration=production
 3. Conecte seu repositório
 4. Configure:
    - **Base directory**: `smart-calendar`
-   - **Build command**: `npm install && npx ng build --configuration=production`
+   - **Build command**: `npm install && npm install -g @angular/cli && ng build --configuration=production`
    - **Publish directory**: `dist/smart-calendar`
 
 ### Passo 3: Configurar Domínio
@@ -92,7 +92,7 @@ openssl rsa -in private_key.pem -pubout -out public_key.pem
 NODE_ENV=production
 DATABASE_URL=postgresql://user:pass@host:port/db
 JWT_SECRET=your-super-secret-jwt-key-min-32-chars
-CORS_ORIGIN=https://your-frontend.netlify.app
+CORS_ORIGIN=https://smartcallendar.netlify.app
 ```
 
 ## 🚨 5. Troubleshooting
@@ -117,9 +117,9 @@ npm run build
 ## 📱 6. URLs Finais
 
 ### Produção
-- **Backend**: `https://smart-calendar-backend-latest.onrender.com`
-- **Frontend**: `https://smart-calendar-app.netlify.app`
-- **API Docs**: `https://smart-calendar-backend-latest.onrender.com/health`
+- **Backend**: `https://smart-calendar-backend-nzkf.onrender.com`
+- **Frontend**: `https://smartcallendar.netlify.app`
+- **API Docs**: `https://smart-calendar-backend-nzkf.onrender.com/health`
 
 ### Desenvolvimento
 - **Backend**: `http://localhost:3000`
