@@ -27,7 +27,7 @@ git push origin main
 ### Passo 3: Configurar Variáveis de Ambiente
 ```env
 NODE_ENV=production
-JWT_SECRET=your-generated-secret-key
+JWT_SECRET=your-super-secret-jwt-key-min-32-chars
 CORS_ORIGIN=https://your-frontend-domain.netlify.app
 ```
 
@@ -91,9 +91,7 @@ openssl rsa -in private_key.pem -pubout -out public_key.pem
 ```env
 NODE_ENV=production
 DATABASE_URL=postgresql://user:pass@host:port/db
-JWT_PRIVATE_KEY_PATH=./private_key.pem
-JWT_PUBLIC_KEY_PATH=./public_key.pem
-JWT_ALGORITHM=RS256
+JWT_SECRET=your-super-secret-jwt-key-min-32-chars
 CORS_ORIGIN=https://your-frontend.netlify.app
 ```
 
