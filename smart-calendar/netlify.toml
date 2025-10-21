@@ -1,10 +1,10 @@
 [build]
   publish = "dist/smart-calendar"
-  command = "npm install && npx ng build --configuration=production"
+  command = "npm ci && npx ng build --configuration=production"
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--production=false"
+  NODE_ENV = "development"
 
 [[redirects]]
   from = "/*"
