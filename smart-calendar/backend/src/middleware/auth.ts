@@ -5,6 +5,7 @@ import { jwtConfig } from '../config/jwt';
 
 interface AuthRequest extends Request {
   user?: any;
+  headers: any;
 }
 
 export const authenticateToken = async (req: AuthRequest, res: Response, next: NextFunction) => {
