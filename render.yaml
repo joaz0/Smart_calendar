@@ -3,9 +3,8 @@ services:
     name: smart-calendar-backend
     env: node
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-    rootDir: smart-calendar/backend
+    buildCommand: cd smart-calendar/backend && npm install && npm run build
+    startCommand: cd smart-calendar/backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
