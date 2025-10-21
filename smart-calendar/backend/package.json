@@ -30,6 +30,7 @@
     "@types/express-validator": "^2.20.33",
     "@types/helmet": "^0.0.48",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.0.0",
     "@types/pg": "^8.10.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
