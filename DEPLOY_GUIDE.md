@@ -21,7 +21,7 @@ git push origin main
 4. Configure:
    - **Name**: `smart-calendar-backend`
    - **Environment**: `Node`
-   - **Build Command**: `cd smart-calendar/backend && npm install && npm run build`
+   - **Build Command**: `cd smart-calendar/backend && npm install --include=dev && npm run build`
    - **Start Command**: `cd smart-calendar/backend && npm start`
 
 ### Passo 3: Configurar Variáveis de Ambiente
