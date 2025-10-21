@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:3000.com/api' 
+  apiUrl: 'https://smart-calendar-backend.onrender.com/api'
 };

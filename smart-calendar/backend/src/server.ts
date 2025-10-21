@@ -1,8 +1,15 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth.routes';
+import oauthRoutes from './routes/oauth.routes';
 import eventRoutes from './routes/event.routes';
 import taskRoutes from './routes/task.routes';
+import categoryRoutes from './routes/category.routes';
+import userRoutes from './routes/user.routes';
 import aiTrainingRoutes from './routes/ai-training.routes';
 import aiSuggestionsRoutes from './routes/ai-suggestions.routes';
 import productivityRoutes from './routes/productivity.routes';
@@ -14,14 +21,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
+// Security middleware
+app.use(helmet());
+app.use(compression());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use(limiter);
+
+// CORS
 app.use(
   cors({
-    origin: 'http://localhost:4200', // URL do Angular
+    origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
     credentials: true,
   })
 );
-app.use(express.json());
+
+// Body parsing
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Logging middleware
@@ -31,8 +51,12 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/oauth', oauthRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/ai-training', aiTrainingRoutes);
 app.use('/api/ai-suggestions', aiSuggestionsRoutes);
 app.use('/api/productivity', productivityRoutes);

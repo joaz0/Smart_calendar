@@ -1,0 +1,37 @@
+@import '../../../../assets/styles/_variables';
+@import '../../../../assets/styles/_mixins';
+
+.not-found {
+  @include full-screen-gradient;
+  @include flex-column;
+  text-align: center;
+  gap: $spacing-lg;
+
+  .error-code {
+    font-size: 8rem;
+    font-weight: bold;
+    color: $primary-purple;
+    text-shadow: 2px 2px $text-shadow;
+    margin: 0;
+  }
+
+  .error-message {
+    font-size: 1.5rem;
+    color: $text-light;
+    margin: 0;
+  }
+
+  .error-description {
+    font-size: 1rem;
+    color: $text-secondary;
+    margin: 0;
+  }
+
+  .back-button {
+    @include primary-button;
+    padding: $spacing-md $spacing-xl;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-block;
+  }
+}

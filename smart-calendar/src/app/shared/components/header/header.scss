@@ -1,0 +1,43 @@
+@import '../../../../assets/styles/_variables';
+@import '../../../../assets/styles/_mixins';
+
+.header {
+  @include glass-card;
+  margin: $spacing-md;
+  @include flex-center;
+  justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+
+  h1 {
+    color: $primary-purple;
+    text-shadow: 1px 1px $text-shadow;
+    margin: 0;
+  }
+
+  .header-actions {
+    @include flex-center;
+    gap: $spacing-sm;
+
+    .header-btn {
+      @include primary-button;
+      padding: $spacing-sm $spacing-md;
+      font-size: 0.9rem;
+    }
+  }
+
+  .user-info {
+    @include flex-center;
+    gap: $spacing-sm;
+    color: $text-light;
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $primary-light;
+      @include flex-center;
+      font-weight: bold;
+    }
+  }
+}

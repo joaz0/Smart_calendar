@@ -33,7 +33,74 @@ body {
   // Reset the user agent margin.
   margin: 0;
 }
-/* You can add global styles to this file, and also import other style files */
+@import './assets/styles/_variables';
+@import './assets/styles/_mixins';
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: $primary-gradient;
+  color: $text-light;
+  overflow-x: hidden;
+}
+
+// Material Design overrides
+.mat-mdc-card {
+  @include glass-card;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.mat-mdc-button.mat-primary {
+  @include primary-button;
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    background: rgba(255,255,255,0.1);
+    border-radius: $border-radius-md;
+  }
+  
+  .mat-mdc-form-field-input-control {
+    color: $text-light;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  @include glass-card;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+// Custom scrollbar for all elements
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $primary-light rgba(255,255,255,0.1);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: $primary-light;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: $primary-dark;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

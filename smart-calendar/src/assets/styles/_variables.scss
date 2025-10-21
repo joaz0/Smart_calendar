@@ -1,0 +1,41 @@
+// Colors
+$primary-gradient: linear-gradient(135deg, #6d3bf7 0%, #000000 100%);
+$primary-purple: #6000faa8;
+$primary-dark: #28005c;
+$primary-light: #8234dbc5;
+$primary-hover: #7e20fa96;
+$primary-disabled: #19013a;
+
+$accent-blue: #6634db;
+$accent-border: #7700ff;
+$accent-border-hover: #713eff;
+
+$text-primary: #ffffff;
+$text-secondary: #847f8d;
+$text-light: rgba(255,255,255,0.8);
+$text-shadow: #dcc7fdda;
+
+$error-color: #e74c3c;
+$error-bg: #ffeaea;
+
+$border-color: #bdc3c7;
+$border-light: #ecf0f1;
+
+$card-bg: rgba(0, 0, 0, 0.466);
+$shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Border radius
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.5rem;
+$border-radius-lg: 1rem;
+
+// Transitions
+$transition-fast: 0.3s ease;
+$transition-medium: 0.5s ease;

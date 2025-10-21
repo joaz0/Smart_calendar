@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { OAuthService } from '../../core/services/oauth.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -19,7 +21,9 @@ export class AuthLayout {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private oauthService: OAuthService
   ) {
     this.authForm = this.createForm();
   }
@@ -57,20 +61,29 @@ export class AuthLayout {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // Simular chamada de API
-    setTimeout(() => {
-      this.isLoading = false;
+    const formData = this.authForm.value;
 
-      // Simular autenticação bem-sucedida
-      if (this.authForm.value.email && this.authForm.value.password) {
-        console.log(`${this.isLoginMode ? 'Login' : 'Registro'} bem-sucedido:`, this.authForm.value);
-        this.router.navigate(['/']);
-      } else {
-        this.errorMessage = this.isLoginMode
-          ? 'Credenciais inválidas. Tente novamente.'
-          : 'Erro no cadastro. Tente novamente.';
-      }
-    }, 1500);
+    if (this.isLoginMode) {
+      this.authService.login(formData.email, formData.password).subscribe({
+        next: (user) => {
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.errorMessage = 'Credenciais inválidas';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.authService.register(formData).subscribe({
+        next: (user) => {
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.errorMessage = 'Erro no cadastro';
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   private markFormGroupTouched() {
@@ -80,24 +93,50 @@ export class AuthLayout {
     });
   }
 
-  loginWithGoogle() {
+  async loginWithGoogle() {
     this.isLoading = true;
-    console.log('Login com Google...');
-
-    setTimeout(() => {
+    try {
+      const loginObservable = await this.oauthService.loginWithGoogle();
+      loginObservable.subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Google login error:', error);
+          this.errorMessage = 'Erro no login com Google';
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
+    } catch (error) {
       this.isLoading = false;
-      this.router.navigate(['/']);
-    }, 1500);
+      this.errorMessage = 'Erro ao inicializar Google login';
+    }
   }
 
-  loginWithMicrosoft() {
+  async loginWithMicrosoft() {
     this.isLoading = true;
-    console.log('Login com Microsoft...');
-
-    setTimeout(() => {
+    try {
+      const loginObservable = await this.oauthService.loginWithMicrosoft();
+      loginObservable.subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Microsoft login error:', error);
+          this.errorMessage = 'Erro no login com Microsoft';
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
+    } catch (error) {
       this.isLoading = false;
-      this.router.navigate(['/']);
-    }, 1500);
+      this.errorMessage = 'Erro ao inicializar Microsoft login';
+    }
   }
 
   forgotPassword() {

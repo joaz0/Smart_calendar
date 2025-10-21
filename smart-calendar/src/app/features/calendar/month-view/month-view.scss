@@ -1,190 +1,89 @@
-@use '../../../../assets/styles/variables';
-@use '../../../../assets/styles/mixins';
+@import '../../../../assets/styles/_variables';
+@import '../../../../assets/styles/_mixins';
 
 .month-view {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: var(--surface-ground);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+  @include glass-card;
+  margin: $spacing-md;
+  border: 1px solid rgba(255,255,255,0.1);
 
-  .calendar-header {
-    display: flex;
+  .month-header {
+    @include flex-center;
     justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--surface-card);
-    border-bottom: 1px solid var(--surface-border);
+    padding: $spacing-md;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 
-    .month-navigation {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    h2 {
+      color: $primary-purple;
+      text-shadow: 1px 1px $text-shadow;
+      margin: 0;
+    }
 
-      h2 {
-        margin: 0;
-        font-weight: 500;
-        color: var(--text-color);
-        text-transform: capitalize;
+    .nav-buttons {
+      @include flex-center;
+      gap: $spacing-sm;
+
+      button {
+        @include primary-button;
+        padding: $spacing-sm $spacing-md;
+        font-size: 0.9rem;
       }
     }
   }
 
   .calendar-grid {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.1);
 
-    .weekdays {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      margin-bottom: 0.5rem;
-
-      .weekday {
-        text-align: center;
-        font-weight: 500;
-        color: var(--text-color-secondary);
-        padding: 0.5rem;
-      }
+    .day-header {
+      padding: $spacing-md;
+      text-align: center;
+      font-weight: bold;
+      background: $primary-dark;
+      color: $text-light;
     }
 
-    .weeks {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+    .day-cell {
+      min-height: 120px;
+      padding: $spacing-sm;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: background $transition-fast;
 
-      .week {
-        flex: 1;
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 0.5rem;
-        margin-bottom: 0.5rem;
+      &:hover {
+        background: rgba(255,255,255,0.1);
+      }
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+      &.other-month {
+        opacity: 0.5;
+      }
 
-        .day {
-          position: relative;
-          min-height: 100px;
-          padding: 0.5rem;
-          background-color: var(--surface-card);
-          border-radius: var(--radius-sm);
-          border: 1px solid var(--surface-border);
+      &.today {
+        background: $primary-hover;
+        border-color: $primary-light;
+      }
 
-          &.today {
-            background-color: var(--primary-50);
-            border-color: var(--primary-200);
+      .day-number {
+        font-weight: bold;
+        color: $text-light;
+        margin-bottom: $spacing-xs;
+      }
 
-            .day-number {
-              color: var(--primary-700);
-              font-weight: 600;
-            }
-          }
+      .events {
+        @include flex-column;
+        gap: 2px;
 
-          &.other-month {
-            background-color: var(--surface-ground);
-
-            .day-number {
-              color: var(--text-color-secondary);
-            }
-          }
-
-          .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-
-            .day-number {
-              font-size: 1rem;
-              color: var(--text-color);
-            }
-          }
-
-          .day-content {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            overflow-y: auto;
-            max-height: calc(100% - 2rem);
-
-            .events-list {
-              display: flex;
-              flex-direction: column;
-              gap: 0.25rem;
-
-              .event {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                padding: 0.25rem 0.5rem;
-                border-radius: var(--radius-sm);
-                font-size: 0.875rem;
-                color: var(--surface-0);
-                cursor: pointer;
-                transition: transform 0.2s ease;
-
-                &:hover {
-                  transform: scale(1.02);
-                }
-
-                .event-time {
-                  font-size: 0.75rem;
-                  opacity: 0.9;
-                }
-
-                .event-title {
-                  flex: 1;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                }
-              }
-            }
-
-            .tasks-list {
-              display: flex;
-              flex-direction: column;
-              gap: 0.25rem;
-
-              .task {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                padding: 0.25rem;
-                border-radius: var(--radius-sm);
-                font-size: 0.875rem;
-                color: var(--text-color);
-                cursor: pointer;
-                transition: background-color 0.2s ease;
-
-                &:hover {
-                  background-color: var(--surface-hover);
-                }
-
-                &.completed {
-                  color: var(--text-color-secondary);
-                  text-decoration: line-through;
-                }
-
-                mat-icon {
-                  font-size: 1rem;
-                  width: 1rem;
-                  height: 1rem;
-                }
-
-                .task-title {
-                  flex: 1;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                }
-              }
-            }
-          }
+        .event {
+          padding: 2px $spacing-xs;
+          border-radius: $border-radius-sm;
+          font-size: 0.75rem;
+          background: $primary-light;
+          color: white;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }

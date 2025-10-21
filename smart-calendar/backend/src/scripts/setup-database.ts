@@ -12,9 +12,21 @@ async function setupDatabase() {
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        name VARCHAR(100) NOT NULL,
+        name VARCHAR(255) NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
+        avatar VARCHAR(500),
+        theme VARCHAR(10) DEFAULT 'light',
+        language VARCHAR(10) DEFAULT 'pt-BR',
         timezone VARCHAR(50) DEFAULT 'America/Sao_Paulo',
+        calendar_view VARCHAR(10) DEFAULT 'month',
+        notifications_enabled BOOLEAN DEFAULT true,
+        email_notifications BOOLEAN DEFAULT true,
+        push_notifications BOOLEAN DEFAULT true,
+        share_calendar BOOLEAN DEFAULT false,
+        share_availability BOOLEAN DEFAULT false,
+        show_real_names BOOLEAN DEFAULT true,
+        allow_data_collection BOOLEAN DEFAULT false,
+        allow_ai_features BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -26,11 +38,12 @@ async function setupDatabase() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS categories (
         id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         name VARCHAR(100) NOT NULL,
-        color VARCHAR(7) DEFAULT '#3498db',
-        type VARCHAR(20) DEFAULT 'event', -- 'event' ou 'task'
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        color VARCHAR(7) NOT NULL,
+        description TEXT,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
     console.log('✅ Tabela categories criada');
@@ -40,17 +53,23 @@ async function setupDatabase() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS events (
         id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
         title VARCHAR(255) NOT NULL,
         description TEXT,
-        start_time TIMESTAMP NOT NULL,
+        start_time TIMESTAMP,
         end_time TIMESTAMP,
+        is_all_day BOOLEAN DEFAULT false,
         location VARCHAR(500),
-        is_all_day BOOLEAN DEFAULT FALSE,
-        recurrence_pattern VARCHAR(50),
-        recurrence_until TIMESTAMP,
-        availability_status VARCHAR(20) DEFAULT 'busy',
+        url VARCHAR(500),
+        color VARCHAR(7),
+        category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        recurrence_frequency VARCHAR(20),
+        recurrence_interval INTEGER,
+        recurrence_days_of_week INTEGER[],
+        recurrence_day_of_month INTEGER,
+        recurrence_month_of_year INTEGER,
+        recurrence_end_date TIMESTAMP,
+        recurrence_occurrences INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -62,15 +81,14 @@ async function setupDatabase() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS tasks (
         id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
         title VARCHAR(255) NOT NULL,
         description TEXT,
+        category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
+        priority VARCHAR(10) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
+        status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'in-progress', 'completed')),
         due_date TIMESTAMP,
-        priority VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
-        status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'in-progress', 'completed', 'cancelled')),
-        is_completed BOOLEAN DEFAULT FALSE,
-        completed_at TIMESTAMP,
+        is_completed BOOLEAN DEFAULT false,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: smart-calendar-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://your-frontend-domain.onrender.com
+
+databases:
+  - name: smart-calendar-db
+    databaseName: smart_calendar
+    user: smart_calendar_user
+    plan: free
