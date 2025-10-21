@@ -1,7 +1,6 @@
 [build]
-  base = "smart-calendar"
-  command = "npm install && npm install -g @angular/cli && ng build --configuration=production"
-  publish = "dist/smart-calendar"
+  command = "cd smart-calendar && npm install && npm install -g @angular/cli && ng build --configuration=production"
+  publish = "smart-calendar/dist/smart-calendar"
 
 [[redirects]]
   from = "/*"
