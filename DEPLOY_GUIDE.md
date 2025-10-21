@@ -60,7 +60,7 @@ ng build --configuration=production
 3. Conecte seu repositório
 4. Configure:
    - **Base directory**: `smart-calendar`
-   - **Build command**: `npm install && ng build --configuration=production`
+   - **Build command**: `npm install && npx ng build --configuration=production`
    - **Publish directory**: `dist/smart-calendar`
 
 ### Passo 3: Configurar Domínio
