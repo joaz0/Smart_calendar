@@ -5,7 +5,7 @@ export class EventController {
   async getAll(req: Request, res: Response) {
     try {
       const result = await pool.query(
-        'SELECT * FROM events ORDER BY start_date DESC'
+        'SELECT * FROM events ORDER BY start_time DESC'
       );
       res.json(result.rows);
     } catch (error) {
@@ -32,38 +32,64 @@ export class EventController {
 
   async create(req: Request, res: Response) {
     try {
-      const { title, description, start_date, end_date, location, category, color } = req.body;
+      const { title, description, start_time, end_time, location, category_id, is_all_day } = req.body;
 
-      if (!title || !start_date) {
-        return res.status(400).json({ error: 'Título e data de início são obrigatórios' });
+      if (!title || typeof title !== 'string' || title.trim().length === 0) {
+        return res.status(400).json({ error: 'Título é obrigatório e deve ser uma string válida' });
+      }
+      
+      if (!start_time) {
+        return res.status(400).json({ error: 'Data de início é obrigatória' });
+      }
+      
+      if (title.length > 255) {
+        return res.status(400).json({ error: 'Título deve ter no máximo 255 caracteres' });
       }
 
       const result = await pool.query(
-        `INSERT INTO events (title, description, start_date, end_date, location, category, color)
+        `INSERT INTO events (title, description, start_time, end_time, location, category_id, is_all_day)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
          RETURNING *`,
-        [title, description, start_date, end_date, location, category, color]
+        [title.trim(), description?.trim(), start_time, end_time, location?.trim(), category_id, is_all_day || false]
       );
 
       res.status(201).json(result.rows[0]);
     } catch (error) {
       console.error('Error creating event:', error);
-      res.status(500).json({ error: 'Erro ao criar evento' });
+      if (error instanceof Error && error.message.includes('foreign key')) {
+        return res.status(400).json({ error: 'Categoria inválida' });
+      }
+      if (error instanceof Error && error.message.includes('invalid input syntax')) {
+        return res.status(400).json({ error: 'Formato de data inválido' });
+      }
+      res.status(500).json({ error: 'Erro interno do servidor' });
     }
   }
 
   async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { title, description, start_date, end_date, location, category, color } = req.body;
+      const { title, description, start_time, end_time, location, category_id, is_all_day } = req.body;
+
+      if (!id || isNaN(Number(id))) {
+        return res.status(400).json({ error: 'ID do evento inválido' });
+      }
+      
+      if (title && (typeof title !== 'string' || title.trim().length === 0)) {
+        return res.status(400).json({ error: 'Título deve ser uma string válida' });
+      }
+      
+      if (title && title.length > 255) {
+        return res.status(400).json({ error: 'Título deve ter no máximo 255 caracteres' });
+      }
 
       const result = await pool.query(
         `UPDATE events
-         SET title = $1, description = $2, start_date = $3, end_date = $4,
-             location = $5, category = $6, color = $7, updated_at = CURRENT_TIMESTAMP
+         SET title = $1, description = $2, start_time = $3, end_time = $4,
+             location = $5, category_id = $6, is_all_day = $7, updated_at = CURRENT_TIMESTAMP
          WHERE id = $8
          RETURNING *`,
-        [title, description, start_date, end_date, location, category, color, id]
+        [title?.trim(), description?.trim(), start_time, end_time, location?.trim(), category_id, is_all_day, id]
       );
 
       if (result.rows.length === 0) {
@@ -73,7 +99,13 @@ export class EventController {
       res.json(result.rows[0]);
     } catch (error) {
       console.error('Error updating event:', error);
-      res.status(500).json({ error: 'Erro ao atualizar evento' });
+      if (error instanceof Error && error.message.includes('foreign key')) {
+        return res.status(400).json({ error: 'Categoria inválida' });
+      }
+      if (error instanceof Error && error.message.includes('invalid input syntax')) {
+        return res.status(400).json({ error: 'Formato de data inválido' });
+      }
+      res.status(500).json({ error: 'Erro interno do servidor' });
     }
   }
 
@@ -104,7 +136,7 @@ export class EventController {
       const result = await pool.query(
         `SELECT * FROM events
          WHERE title ILIKE $1 OR description ILIKE $1
-         ORDER BY start_date DESC
+         ORDER BY start_time DESC
          LIMIT 10`,
         [`%${q}%`]
       );

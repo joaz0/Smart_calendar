@@ -17,7 +17,7 @@ interface DialogData {
 @Component({
   selector: 'app-day-details-dialog',
   standalone: true,
-  imports: [CommonModule, DatePipe, MatListModule, MatIconModule, MatCheckboxModule],
+  imports: [CommonModule, DatePipe, MatListModule, MatIconModule, MatCheckboxModule, MatDialogModule],
   templateUrl: './day-details-dialog.html',
   styleUrls: ['./day-details-dialog.scss'],
 })

@@ -5,7 +5,6 @@
       <!-- Cabeçalho -->
   <div class="auth-header" data-component="AuthHeader">
         <h1>
-          <span class="logo">📅</span>
           Smart Calendar
         </h1>
         <p class="auth-subtitle">
@@ -97,7 +96,7 @@
           class="social-btn google"
           (click)="loginWithGoogle()"
           [disabled]="isLoading">
-          <span class="social-icon">🔍</span>
+          <i class="fab fa-google social-icon"></i>
           Entrar com Google
         </button>
 
@@ -106,7 +105,7 @@
           class="social-btn microsoft"
           (click)="loginWithMicrosoft()"
           [disabled]="isLoading">
-          <span class="social-icon">🔷</span>
+          <i class="fab fa-microsoft social-icon"></i>
           Entrar com Microsoft
         </button>
       </div>
@@ -128,11 +127,5 @@
     </div>
   </div>
 
-  <!-- Background decorativo -->
-  <div class="auth-background">
-    <div class="floating-icon">📅</div>
-    <div class="floating-icon">✅</div>
-    <div class="floating-icon">📊</div>
-    <div class="floating-icon">🤖</div>
-  </div>
+
 </div>

@@ -32,42 +32,61 @@ export class TaskController {
 
   async create(req: Request, res: Response) {
     try {
-      const { title, description, category, priority, status, due_date, completed } = req.body;
-      if (!title || !category) {
-        return res.status(400).json({ error: 'Título e categoria são obrigatórios' });
+      const { title, description, category_id, priority, status, due_date, is_completed } = req.body;
+      
+      if (!title || typeof title !== 'string' || title.trim().length === 0) {
+        return res.status(400).json({ error: 'Título é obrigatório e deve ser uma string válida' });
       }
+      
+      if (title.length > 255) {
+        return res.status(400).json({ error: 'Título deve ter no máximo 255 caracteres' });
+      }
+      
+      const validPriorities = ['low', 'medium', 'high'];
+      const validStatuses = ['pending', 'in-progress', 'completed', 'cancelled'];
+      
+      if (priority && !validPriorities.includes(priority)) {
+        return res.status(400).json({ error: 'Prioridade inválida' });
+      }
+      
+      if (status && !validStatuses.includes(status)) {
+        return res.status(400).json({ error: 'Status inválido' });
+      }
+      
       const result = await pool.query(
-        `INSERT INTO tasks (title, description, category, priority, status, due_date, completed)
+        `INSERT INTO tasks (title, description, category_id, priority, status, due_date, is_completed)
           VALUES ($1, $2, $3, $4, $5, $6, $7)
           RETURNING *`,
-            [title, description, category, priority || 'medium', status || 'pending', due_date, completed || false]
+            [title.trim(), description?.trim(), category_id, priority || 'medium', status || 'pending', due_date, is_completed || false]
       );
-      res.status(201).json(result.rows[0]
-      );
+      res.status(201).json(result.rows[0]);
     } catch (error) {
       console.error('Error creating task:', error);
-      res.status(500).json({ error: 'Erro ao criar tarefa' });
+      if (error instanceof Error && error.message.includes('foreign key')) {
+        return res.status(400).json({ error: 'Categoria inválida' });
+      }
+      res.status(500).json({ error: 'Erro interno do servidor' });
     }
   }
 
   async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { title, description, category, priority, status, due_date, completed } = req.body;
+      const { title, description, category_id, priority, status, due_date, is_completed } = req.body;
 
       const result = await pool.query(
         `UPDATE tasks
          SET title = $1,
              description = $2,
-             category = $3,
+             category_id = $3,
              priority = $4,
              status = $5,
              due_date = $6,
-             completed = $7,
+             is_completed = $7,
              updated_at = CURRENT_TIMESTAMP
          WHERE id = $8
          RETURNING *`,
-        [title, description, category, priority, status, due_date, completed, id]
+        [title, description, category_id, priority, status, due_date, is_completed, id]
       );
 
       if (result.rows.length === 0) {

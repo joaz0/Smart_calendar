@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, FormArray } from '@angular/forms';
 
 interface DialogData {
   event?: Event;
@@ -30,6 +32,8 @@ interface DialogData {
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
+    FormsModule,
   ],
   templateUrl: './event-dialog.html',
   styleUrls: ['./event-dialog.scss'],
@@ -92,5 +96,43 @@ export class EventDialogComponent {
         error: (error) => console.error('Erro ao excluir evento:', error),
       });
     }
+  }
+
+  getTimeFromDate(control: any): string {
+    const date = control?.value;
+    if (!date) return '';
+    return new Date(date).toTimeString().slice(0, 5);
+  }
+
+  updateStartTime(time: string) {
+    const currentDate = this.eventForm.get('startDate')?.value || new Date();
+    const [hours, minutes] = time.split(':');
+    const newDate = new Date(currentDate);
+    newDate.setHours(parseInt(hours), parseInt(minutes));
+    this.eventForm.get('startDate')?.setValue(newDate);
+  }
+
+  updateEndTime(time: string) {
+    const currentDate = this.eventForm.get('endDate')?.value || new Date();
+    const [hours, minutes] = time.split(':');
+    const newDate = new Date(currentDate);
+    newDate.setHours(parseInt(hours), parseInt(minutes));
+    this.eventForm.get('endDate')?.setValue(newDate);
+  }
+
+  get remindersFormArray(): FormArray {
+    return this.eventForm.get('reminders') as FormArray;
+  }
+
+  addReminder() {
+    const reminders = this.eventForm.get('reminders')?.value || [];
+    reminders.push({ minutes: 15, type: 'notification' });
+    this.eventForm.get('reminders')?.setValue(reminders);
+  }
+
+  removeReminder(index: number) {
+    const reminders = this.eventForm.get('reminders')?.value || [];
+    reminders.splice(index, 1);
+    this.eventForm.get('reminders')?.setValue(reminders);
   }
 }
