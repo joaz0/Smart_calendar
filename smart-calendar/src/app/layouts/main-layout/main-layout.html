@@ -1,14 +1,18 @@
 <div class="app-container">
+  <header class="layout-header">
+    <app-header></app-header>
+  </header>
+  
   <div class="app-body">
     <aside class="layout-sidebar" aria-label="Principal sidebar">
-      <app-sidebar data-component="Sidebar"></app-sidebar>
+      <app-sidebar></app-sidebar>
     </aside>
 
     <main class="layout-main" role="main">
-      <!-- Conteúdo principal (rotas carregadas aqui) -->
       <router-outlet></router-outlet>
     </main>
   </div>
+  
   <footer class="app-footer" aria-hidden="true">
     <!-- footer controlado por componente caso necessário -->
   </footer>

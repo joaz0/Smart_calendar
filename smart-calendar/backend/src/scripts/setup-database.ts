@@ -33,6 +33,58 @@ async function setupDatabase() {
     `);
     console.log('✅ Tabela users criada');
 
+    // Adicionar colunas de preferências se não existirem
+    console.log('⚙️ Adicionando colunas de preferências...');
+    await pool.query(`
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS preferences JSONB DEFAULT '{}';
+    `);
+    console.log('✅ Colunas de preferências adicionadas');
+
+    // Tabela de estatísticas do usuário
+    console.log('📊 Criando tabela de estatísticas do usuário...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS user_stats (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        events_today INTEGER DEFAULT 0,
+        pending_tasks INTEGER DEFAULT 0,
+        completed_tasks INTEGER DEFAULT 0,
+        productivity_score INTEGER DEFAULT 0,
+        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id)
+      );
+    `);
+    console.log('✅ Tabela user_stats criada');
+
+    // Função para atualizar estatísticas automaticamente
+    console.log('🔄 Criando função de atualização de stats...');
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION update_user_stats(user_id_param INTEGER)
+      RETURNS VOID AS $$
+      BEGIN
+        INSERT INTO user_stats (user_id, events_today, pending_tasks, completed_tasks, productivity_score)
+        VALUES (
+          user_id_param,
+          (SELECT COUNT(*) FROM events WHERE user_id = user_id_param AND DATE(start_time) = CURRENT_DATE),
+          (SELECT COUNT(*) FROM tasks WHERE user_id = user_id_param AND is_completed = false),
+          (SELECT COUNT(*) FROM tasks WHERE user_id = user_id_param AND is_completed = true),
+          (SELECT CASE 
+            WHEN COUNT(*) = 0 THEN 0 
+            ELSE ROUND((COUNT(*) FILTER (WHERE is_completed = true) * 100.0) / COUNT(*))
+           END FROM tasks WHERE user_id = user_id_param)
+        )
+        ON CONFLICT (user_id) 
+        DO UPDATE SET
+          events_today = EXCLUDED.events_today,
+          pending_tasks = EXCLUDED.pending_tasks,
+          completed_tasks = EXCLUDED.completed_tasks,
+          productivity_score = EXCLUDED.productivity_score,
+          last_updated = CURRENT_TIMESTAMP;
+      END;
+      $$ LANGUAGE plpgsql;
+    `);
+    console.log('✅ Função update_user_stats criada');
+
     // 2. Tabela de Categorias
     console.log('📂 Criando tabela de categorias...');
     await pool.query(`
@@ -197,6 +249,31 @@ async function setupDatabase() {
 
       DROP TRIGGER IF EXISTS update_tasks_updated_at ON tasks;
       CREATE TRIGGER update_tasks_updated_at BEFORE UPDATE ON tasks FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+      -- Trigger para atualizar stats quando tarefas ou eventos mudarem
+      CREATE OR REPLACE FUNCTION trigger_update_user_stats()
+      RETURNS TRIGGER AS $$
+      BEGIN
+        IF TG_OP = 'DELETE' THEN
+          PERFORM update_user_stats(OLD.user_id);
+          RETURN OLD;
+        ELSE
+          PERFORM update_user_stats(NEW.user_id);
+          RETURN NEW;
+        END IF;
+      END;
+      $$ LANGUAGE plpgsql;
+
+      -- Aplicar triggers para stats
+      DROP TRIGGER IF EXISTS update_stats_on_task_change ON tasks;
+      CREATE TRIGGER update_stats_on_task_change
+        AFTER INSERT OR UPDATE OR DELETE ON tasks
+        FOR EACH ROW EXECUTE FUNCTION trigger_update_user_stats();
+
+      DROP TRIGGER IF EXISTS update_stats_on_event_change ON events;  
+      CREATE TRIGGER update_stats_on_event_change
+        AFTER INSERT OR UPDATE OR DELETE ON events
+        FOR EACH ROW EXECUTE FUNCTION trigger_update_user_stats();
     `);
     console.log('✅ Triggers criados');
 

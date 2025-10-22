@@ -1,31 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Header } from '../../shared/components/header/header';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
-
-// Crie componentes básicos para os outros (placeholder)
-@Component({
-  selector: 'app-tasks-sidebar',
-  standalone: true,
-  template: `<div class="tasks-sidebar">Tasks Sidebar - Em desenvolvimento</div>`,
-})
-export class TasksSidebar {}
-
-@Component({
-  selector: 'app-ai-sidebar',
-  standalone: true,
-  template: `<div class="ai-sidebar">AI Sidebar - Em desenvolvimento</div>`,
-})
-export class AiSidebar {}
-
-@Component({
-  selector: 'app-productivity-sidebar',
-  standalone: true,
-  template: `<div class="productivity-sidebar">Productivity Sidebar - Em desenvolvimento</div>`,
-})
-export class ProductivitySidebar {}
+import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
+import { TaskService } from '../../core/services/task.service';
+import { EventService } from '../../core/services/event.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -33,34 +15,38 @@ export class ProductivitySidebar {}
   imports: [
     CommonModule,
     RouterModule,
-    SidebarComponent,
-    TasksSidebar,
-    AiSidebar,
-    ProductivitySidebar,
+    Header,
+    SidebarComponent
   ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],
 })
 export class MainLayout implements OnInit {
-  // ... resto do código permanece igual
   currentActive = 'calendar';
   currentDate = new Date();
   currentTime = new Date();
   sidebarOpen = true;
-  user = {
-    name: 'Usuário',
-    email: 'usuario@exemplo.com',
+  user: any = {
+    name: 'Carregando...',
+    email: '',
     avatar: '👤',
+    preferences: {}
   };
 
   stats = {
-    eventsToday: 3,
-    pendingTasks: 5,
-    completedTasks: 12,
-    productivity: 75,
+    eventsToday: 0,
+    pendingTasks: 0,
+    completedTasks: 0,
+    productivity: 0,
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService,
+    private taskService: TaskService,
+    private eventService: EventService
+  ) {}
 
   ngOnInit() {
     setInterval(() => {
@@ -72,15 +58,59 @@ export class MainLayout implements OnInit {
       .subscribe((event: any) => {
         this.updateActiveTabFromRoute(event.url);
       });
+
+    this.loadUserData();
+    this.loadStats();
+  }
+
+  private loadUserData() {
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.user = {
+          name: user.name || 'Usuário',
+          email: user.email || '',
+          avatar: user.avatar || '👤',
+          preferences: user.preferences || {}
+        };
+      }
+    });
+  }
+
+  private loadStats() {
+    // Carregar eventos de hoje
+    const today = new Date();
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    
+    this.eventService.getEventsByDateRange(startOfDay, endOfDay).subscribe({
+      next: (events) => {
+        this.stats.eventsToday = events.length;
+      },
+      error: () => {
+        this.stats.eventsToday = 0;
+      }
+    });
+
+    // Carregar tarefas
+    this.taskService.tasks$.subscribe(tasks => {
+      this.stats.pendingTasks = tasks.filter(t => !t.completed).length;
+      this.stats.completedTasks = tasks.filter(t => t.completed).length;
+      
+      // Calcular produtividade baseada em tarefas completadas
+      const totalTasks = tasks.length;
+      if (totalTasks > 0) {
+        this.stats.productivity = Math.round((this.stats.completedTasks / totalTasks) * 100);
+      }
+    });
   }
 
   setActive(view: string) {
     this.currentActive = view;
     const routes: { [key: string]: string } = {
-      calendar: '/calendar',
-      tasks: '/tasks',
-      ai: '/ai-assistant',
-      productivity: '/productivity',
+      calendar: '/app/calendar',
+      tasks: '/app/tasks',
+      ai: '/app/ai-assistant',
+      productivity: '/app/productivity',
     };
 
     if (routes[view]) {
@@ -90,10 +120,10 @@ export class MainLayout implements OnInit {
 
   private updateActiveTabFromRoute(url: string) {
     const routeMap: { [key: string]: string } = {
-      '/calendar': 'calendar',
-      '/tasks': 'tasks',
-      '/ai-assistant': 'ai',
-      '/productivity': 'productivity',
+      '/app/calendar': 'calendar',
+      '/app/tasks': 'tasks',
+      '/app/ai-assistant': 'ai',
+      '/app/productivity': 'productivity',
     };
 
     for (const [route, tab] of Object.entries(routeMap)) {
@@ -109,8 +139,8 @@ export class MainLayout implements OnInit {
   }
 
   logout() {
-    console.log('Logout realizado');
-    this.router.navigate(['/login']);
+    this.authService.logout();
+    this.router.navigate(['/auth']);
   }
 
   getProductivityColor(): string {
