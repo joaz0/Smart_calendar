@@ -14,11 +14,11 @@ import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
   // ========== REDIRECT PADRÃO ==========
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: './layouts/auth-layout', redirectTo: '/auth-layout', pathMatch: 'full' },
 
   // ========== ROTAS PÚBLICAS ==========
   {
-    path: 'auth',
+    path: './layouts/auth-layout',
     component: AuthLayout
   },
 
