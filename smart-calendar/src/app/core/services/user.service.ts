@@ -21,6 +21,13 @@ export interface UserProfile {
   updatedAt: Date;
 }
 
+export interface UserStats {
+  events_today: number;
+  pending_tasks: number;
+  completed_tasks: number;
+  productivity_score: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -55,5 +62,13 @@ export class UserService {
 
   deleteAccount(): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/profile`);
+  }
+
+  getProfile(): Observable<UserProfile> {
+    return this.getUserProfile();
+  }
+
+  getStats(): Observable<UserStats> {
+    return this.http.get<UserStats>(`${this.apiUrl}/stats`);
   }
 }

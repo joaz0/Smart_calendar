@@ -14,6 +14,7 @@
   color: white;
   @include flex-column;
   transition: width $transition-fast;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-right: 1px solid rgba(255,255,255,0.1);
 }
@@ -161,6 +162,7 @@
   @include flex-column;
   overflow: hidden;
   background: rgba(255,255,255,0.05);
+  -webkit-backdrop-filter: blur();
   backdrop-filter: blur(5px);
 }
 

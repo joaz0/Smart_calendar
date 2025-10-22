@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Header } from '../../shared/components/header/header';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
 import { AuthService } from '../../core/services/auth.service';
-import { UserService } from '../../core/services/user.service';
+import { UserService, UserProfile, UserStats } from '../../core/services/user.service';
 import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
 
@@ -64,42 +64,45 @@ export class MainLayout implements OnInit {
   }
 
   private loadUserData() {
-    this.authService.currentUser$.subscribe(user => {
-      if (user) {
+    this.userService.getProfile().subscribe({
+      next: (profile: UserProfile) => {
         this.user = {
-          name: user.name || 'Usuário',
-          email: user.email || '',
-          avatar: user.avatar || '👤',
-          preferences: user.preferences || {}
+          name: profile.name || 'Usuário',
+          email: profile.email,
+          avatar: profile.avatar || '👤',
+          preferences: profile.preferences || {}
+        };
+      },
+      error: (error: any) => {
+        console.error('Erro ao carregar perfil:', error);
+        this.user = {
+          name: 'Usuário',
+          email: '',
+          avatar: '👤',
+          preferences: {}
         };
       }
     });
   }
 
   private loadStats() {
-    // Carregar eventos de hoje
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
-    
-    this.eventService.getEventsByDateRange(startOfDay, endOfDay).subscribe({
-      next: (events) => {
-        this.stats.eventsToday = events.length;
+    this.userService.getStats().subscribe({
+      next: (stats: UserStats) => {
+        this.stats = {
+          eventsToday: stats.events_today || 0,
+          pendingTasks: stats.pending_tasks || 0,
+          completedTasks: stats.completed_tasks || 0,
+          productivity: stats.productivity_score || 0
+        };
       },
-      error: () => {
-        this.stats.eventsToday = 0;
-      }
-    });
-
-    // Carregar tarefas
-    this.taskService.tasks$.subscribe(tasks => {
-      this.stats.pendingTasks = tasks.filter(t => !t.completed).length;
-      this.stats.completedTasks = tasks.filter(t => t.completed).length;
-      
-      // Calcular produtividade baseada em tarefas completadas
-      const totalTasks = tasks.length;
-      if (totalTasks > 0) {
-        this.stats.productivity = Math.round((this.stats.completedTasks / totalTasks) * 100);
+      error: (error: any) => {
+        console.error('Erro ao carregar estatísticas:', error);
+        this.stats = {
+          eventsToday: 0,
+          pendingTasks: 0,
+          completedTasks: 0,
+          productivity: 0
+        };
       }
     });
   }
