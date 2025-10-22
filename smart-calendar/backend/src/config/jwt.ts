@@ -38,7 +38,7 @@ export const jwtConfig = {
   publicKey: getPublicKey(),
   signOptions: {
     algorithm: isRSA ? 'RS256' as const : 'HS256' as const,
-    expiresIn: '7d'
+    expiresIn: '10d'
   } as any,
   verifyOptions: {
     algorithms: isRSA ? ['RS256' as const] : ['HS256' as const]

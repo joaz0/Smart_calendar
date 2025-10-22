@@ -35,6 +35,10 @@
         </div>
 
         <div class="form-options" *ngIf="isLoginMode && !isForgotMode">
+          <label class="remember-me">
+            <input type="checkbox" formControlName="rememberMe">
+            <span>Lembrar por 10 dias</span>
+          </label>
           <button type="button" class="forgot-password" (click)="toggleForgotMode()">
             Esqueceu sua senha?
           </button>

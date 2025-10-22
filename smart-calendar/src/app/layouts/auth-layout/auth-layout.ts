@@ -31,7 +31,8 @@ export class AuthLayout {
     return this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      name: ['']
+      name: [''],
+      rememberMe: [true]
     });
   }
 

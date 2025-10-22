@@ -27,11 +27,24 @@ export class AuthService {
   token$ = this.tokenSubject.asObservable();
 
   constructor(private http: HttpClient, private oauthService: OAuthService) {
-    // Verifica se há token salvo
+    this.initializeAuth();
+  }
+
+  private initializeAuth(): void {
     const token = localStorage.getItem('token');
-    if (token) {
-      this.tokenSubject.next(token);
-      this.loadCurrentUser().subscribe();
+    const loginTime = localStorage.getItem('loginTime');
+    
+    if (token && loginTime) {
+      const loginDate = new Date(parseInt(loginTime));
+      const now = new Date();
+      const daysDiff = (now.getTime() - loginDate.getTime()) / (1000 * 60 * 60 * 24);
+      
+      if (daysDiff < 10) {
+        this.tokenSubject.next(token);
+        this.loadCurrentUser().subscribe();
+      } else {
+        this.logout();
+      }
     }
   }
 
@@ -47,7 +60,7 @@ export class AuthService {
       .post<AuthResponse>(`${environment.apiUrl}/auth/login`, { email, password })
       .pipe(
         tap((response) => {
-          localStorage.setItem('token', response.token);
+          this.saveAuthData(response.token);
           this.tokenSubject.next(response.token);
           this.currentUserSubject.next(response.user);
         }),
@@ -62,7 +75,7 @@ export class AuthService {
   register(user: Partial<User>): Observable<User> {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, user).pipe(
       tap((response) => {
-        localStorage.setItem('token', response.token);
+        this.saveAuthData(response.token);
         this.tokenSubject.next(response.token);
         this.currentUserSubject.next(response.user);
       }),
@@ -76,8 +89,14 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('loginTime');
     this.tokenSubject.next(null);
     this.currentUserSubject.next(null);
+  }
+
+  private saveAuthData(token: string): void {
+    localStorage.setItem('token', token);
+    localStorage.setItem('loginTime', Date.now().toString());
   }
 
   // (removed older void-returning implementations; see richer PasswordResetResponse methods below)
@@ -97,7 +116,7 @@ export class AuthService {
   loginWithOAuth(provider: string, userData: any): Observable<User> {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/oauth/${provider}`, userData).pipe(
       tap((response) => {
-        localStorage.setItem('token', response.token);
+        this.saveAuthData(response.token);
         this.tokenSubject.next(response.token);
         this.currentUserSubject.next(response.user);
       }),
@@ -110,7 +129,29 @@ export class AuthService {
   }
 
   isAuthenticated$(): Observable<boolean> {
-    return this.token$.pipe(map((token) => !!token));
+    return this.token$.pipe(map((token) => !!token && this.isTokenValid()));
+  }
+
+  private isTokenValid(): boolean {
+    const loginTime = localStorage.getItem('loginTime');
+    if (!loginTime) return false;
+    
+    const loginDate = new Date(parseInt(loginTime));
+    const now = new Date();
+    const daysDiff = (now.getTime() - loginDate.getTime()) / (1000 * 60 * 60 * 24);
+    
+    return daysDiff < 10;
+  }
+
+  getRemainingDays(): number {
+    const loginTime = localStorage.getItem('loginTime');
+    if (!loginTime) return 0;
+    
+    const loginDate = new Date(parseInt(loginTime));
+    const now = new Date();
+    const daysDiff = (now.getTime() - loginDate.getTime()) / (1000 * 60 * 60 * 24);
+    
+    return Math.max(0, Math.ceil(10 - daysDiff));
   }
 
   getToken(): string | null {

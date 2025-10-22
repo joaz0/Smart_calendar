@@ -75,7 +75,21 @@
 
 .form-options {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: vars.$text-secondary;
+  cursor: pointer;
+  
+  input[type="checkbox"] {
+    margin: 0;
+  }
 }
 
 .forgot-password {
