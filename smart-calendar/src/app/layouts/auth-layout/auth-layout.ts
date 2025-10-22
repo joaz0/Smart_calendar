@@ -20,10 +20,10 @@ export class AuthLayout {
   errorMessage = '';
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private oauthService: OAuthService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly oauthService: OAuthService
   ) {
     this.authForm = this.createForm();
   }
@@ -66,11 +66,11 @@ export class AuthLayout {
     if (this.isLoginMode) {
       this.authService.login(formData.email, formData.password).subscribe({
         next: (user) => {
-          console.log('Login successful:', user);
+          console.log('Login successful');
           this.router.navigate(['/calendar']);
         },
         error: (error) => {
-          console.error('Login error:', error);
+          console.error('Login error');
           this.errorMessage = error.error?.message || 'Credenciais inválidas';
           this.isLoading = false;
         },
@@ -81,11 +81,11 @@ export class AuthLayout {
     } else {
       this.authService.register(formData).subscribe({
         next: (user) => {
-          console.log('Registration successful:', user);
+          console.log('Registration successful');
           this.router.navigate(['/calendar']);
         },
         error: (error) => {
-          console.error('Registration error:', error);
+          console.error('Registration error');
           this.errorMessage = error.error?.message || 'Erro no cadastro';
           this.isLoading = false;
         },
@@ -103,71 +103,66 @@ export class AuthLayout {
     });
   }
 
-  async loginWithGoogle() {
+  loginWithGoogle() {
     this.isLoading = true;
-    try {
-      const loginObservable = await this.oauthService.loginWithGoogle();
+    this.oauthService.loginWithGoogle().then(loginObservable => {
       loginObservable.subscribe({
         next: (response) => {
-          console.log('Google login successful:', response);
+          console.log('Google login successful');
           this.authService.loginWithOAuth('google', response).subscribe({
             next: (user) => {
               this.router.navigate(['/calendar']);
             },
             error: (error) => {
-              console.error('Google OAuth error:', error);
+              console.error('Google OAuth error');
               this.errorMessage = 'Erro no login com Google';
               this.isLoading = false;
             }
           });
         },
         error: (error) => {
-          console.error('Google login error:', error);
+          console.error('Google login error');
           this.errorMessage = 'Erro no login com Google';
           this.isLoading = false;
         }
       });
-    } catch (error) {
+    }).catch(error => {
       this.isLoading = false;
       this.errorMessage = 'Erro ao inicializar Google login';
-    }
+    });
   }
 
-  async loginWithMicrosoft() {
+  loginWithMicrosoft() {
     this.isLoading = true;
-    try {
-      const loginObservable = await this.oauthService.loginWithMicrosoft();
+    this.oauthService.loginWithMicrosoft().then(loginObservable => {
       loginObservable.subscribe({
         next: (response) => {
-          console.log('Microsoft login successful:', response);
+          console.log('Microsoft login successful');
           this.authService.loginWithOAuth('microsoft', response).subscribe({
             next: (user) => {
               this.router.navigate(['/calendar']);
             },
             error: (error) => {
-              console.error('Microsoft OAuth error:', error);
+              console.error('Microsoft OAuth error');
               this.errorMessage = 'Erro no login com Microsoft';
               this.isLoading = false;
             }
           });
         },
         error: (error) => {
-          console.error('Microsoft login error:', error);
+          console.error('Microsoft login error');
           this.errorMessage = 'Erro no login com Microsoft';
           this.isLoading = false;
         }
       });
-    } catch (error) {
+    }).catch(error => {
       this.isLoading = false;
       this.errorMessage = 'Erro ao inicializar Microsoft login';
-    }
+    });
   }
 
   forgotPassword() {
-    const email = prompt('Digite seu e-mail para redefinir a senha:');
-    if (email) {
-      alert(`Link de redefinição enviado para: ${email}`);
-    }
+    this.router.navigate(['/auth/forgot-password']);
   }
 
   getFieldError(fieldName: string): string {
