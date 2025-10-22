@@ -8,7 +8,7 @@
     "dev": "ts-node src/server.ts",
     "build": "tsc",
     "migrate": "node migrate.js",
-    "migrate-full": "ts-node src/scripts/setup-database.ts",
+    "migrate-full": "npx ts-node src/scripts/setup-database.ts",
     "postbuild": "node -e \"console.log('Build completed successfully')\""
   },
   "dependencies": {

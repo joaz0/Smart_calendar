@@ -5,6 +5,9 @@ const pool = new Pool({
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
+console.log('🔧 Iniciando migração do banco de dados...');
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Configurada' : 'NÃO CONFIGURADA');
+
 async function migrate() {
   try {
     console.log('🔧 Executando migração do banco...');
