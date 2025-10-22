@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 const { body, validationResult } = require('express-validator');
 import { pool } from '../config/database';
 import { jwtConfig } from '../config/jwt';
@@ -102,6 +103,76 @@ router.get('/me', async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Get user error:', error);
     res.status(401).json({ error: 'Token inválido' });
+  }
+});
+
+// Forgot Password
+router.post('/forgot-password', [
+  body('email').isEmail().normalizeEmail()
+], async (req: Request, res: Response) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email } = req.body;
+    
+    const userResult = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (userResult.rows.length === 0) {
+      return res.json({ message: 'Se o e-mail existir, um link será enviado' });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetExpires = new Date(Date.now() + 3600000); // 1 hora
+
+    await pool.query(
+      'UPDATE users SET reset_token = $1, reset_expires = $2 WHERE email = $3',
+      [resetToken, resetExpires, email]
+    );
+
+    console.log(`Reset token para ${email}: ${resetToken}`);
+    
+    res.json({ message: 'Link de redefinição enviado para seu e-mail' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// Reset Password
+router.post('/reset-password', [
+  body('token').exists(),
+  body('newPassword').isLength({ min: 6 })
+], async (req: Request, res: Response) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { token, newPassword } = req.body;
+    
+    const userResult = await pool.query(
+      'SELECT id FROM users WHERE reset_token = $1 AND reset_expires > NOW()',
+      [token]
+    );
+    
+    if (userResult.rows.length === 0) {
+      return res.status(400).json({ error: 'Token inválido ou expirado' });
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+    
+    await pool.query(
+      'UPDATE users SET password_hash = $1, reset_token = NULL, reset_expires = NULL WHERE reset_token = $2',
+      [passwordHash, token]
+    );
+
+    res.json({ message: 'Senha redefinida com sucesso' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
