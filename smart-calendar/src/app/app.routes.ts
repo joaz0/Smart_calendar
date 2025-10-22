@@ -20,6 +20,7 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthLayout,
+    canActivate: [],
     children: [
       {
         path: 'login',
