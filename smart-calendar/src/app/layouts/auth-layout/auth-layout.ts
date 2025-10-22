@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
-import { OAuthService } from '../../core/services/oauth.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -15,15 +14,15 @@ import { OAuthService } from '../../core/services/oauth.service';
 })
 export class AuthLayout {
   isLoginMode = true;
+  isForgotMode = false;
   authForm: FormGroup;
   isLoading = false;
   errorMessage = '';
 
   constructor(
-    private readonly fb: FormBuilder,
-    private readonly router: Router,
-    private readonly authService: AuthService,
-    private readonly oauthService: OAuthService
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
   ) {
     this.authForm = this.createForm();
   }
@@ -39,8 +38,6 @@ export class AuthLayout {
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
     this.errorMessage = '';
-
-    // Resetar e ajustar validações do formulário
     this.authForm.reset();
 
     if (this.isLoginMode) {
@@ -48,7 +45,6 @@ export class AuthLayout {
     } else {
       this.authForm.get('name')?.setValidators([Validators.required]);
     }
-
     this.authForm.get('name')?.updateValueAndValidity();
   }
 
@@ -60,126 +56,70 @@ export class AuthLayout {
 
     this.isLoading = true;
     this.errorMessage = '';
-
     const formData = this.authForm.value;
 
     if (this.isLoginMode) {
       this.authService.login(formData.email, formData.password).subscribe({
-        next: (user) => {
-          console.log('Login successful');
-          this.router.navigate(['/app/calendar']);
-        },
+        next: () => this.router.navigate(['/app/calendar']),
         error: (error) => {
-          console.error('Login error');
           this.errorMessage = error.error?.message || 'Credenciais inválidas';
           this.isLoading = false;
         },
-        complete: () => {
-          this.isLoading = false;
-        }
+        complete: () => this.isLoading = false
       });
     } else {
       this.authService.register(formData).subscribe({
-        next: (user) => {
-          console.log('Registration successful');
-          this.router.navigate(['/app/calendar']);
-        },
+        next: () => this.router.navigate(['/app/calendar']),
         error: (error) => {
-          console.error('Registration error');
           this.errorMessage = error.error?.message || 'Erro no cadastro';
           this.isLoading = false;
         },
-        complete: () => {
-          this.isLoading = false;
-        }
+        complete: () => this.isLoading = false
       });
     }
   }
 
   private markFormGroupTouched() {
     Object.keys(this.authForm.controls).forEach(key => {
-      const control = this.authForm.get(key);
-      control?.markAsTouched();
+      this.authForm.get(key)?.markAsTouched();
     });
   }
 
-  loginWithGoogle() {
+  toggleForgotMode() {
+    this.isForgotMode = !this.isForgotMode;
+    this.errorMessage = '';
+    this.authForm.reset();
+  }
+
+  sendResetEmail() {
+    const email = this.authForm.get('email')?.value;
+    if (!email) {
+      this.errorMessage = 'Digite seu e-mail';
+      return;
+    }
+    
     this.isLoading = true;
-    this.oauthService.loginWithGoogle().then(loginObservable => {
-      loginObservable.subscribe({
-        next: (response) => {
-          console.log('Google login successful');
-          this.authService.loginWithOAuth('google', response).subscribe({
-            next: (user) => {
-              this.router.navigate(['/app/calendar']);
-            },
-            error: (error) => {
-              console.error('Google OAuth error');
-              this.errorMessage = 'Erro no login com Google';
-              this.isLoading = false;
-            }
-          });
-        },
-        error: (error) => {
-          console.error('Google login error');
-          this.errorMessage = 'Erro no login com Google';
-          this.isLoading = false;
-        }
-      });
-    }).catch(error => {
-      this.isLoading = false;
-      this.errorMessage = 'Erro ao inicializar Google login';
+    this.authService.forgotPassword(email).subscribe({
+      next: () => {
+        this.errorMessage = '';
+        alert('Link de redefinição enviado para seu e-mail!');
+        this.toggleForgotMode();
+      },
+      error: (error) => {
+        this.errorMessage = error.error?.message || 'Erro ao enviar e-mail';
+        this.isLoading = false;
+      },
+      complete: () => this.isLoading = false
     });
-  }
-
-  loginWithMicrosoft() {
-    this.isLoading = true;
-    this.oauthService.loginWithMicrosoft().then(loginObservable => {
-      loginObservable.subscribe({
-        next: (response) => {
-          console.log('Microsoft login successful');
-          this.authService.loginWithOAuth('microsoft', response).subscribe({
-            next: (user) => {
-              this.router.navigate(['/app/calendar']);
-            },
-            error: (error) => {
-              console.error('Microsoft OAuth error');
-              this.errorMessage = 'Erro no login com Microsoft';
-              this.isLoading = false;
-            }
-          });
-        },
-        error: (error) => {
-          console.error('Microsoft login error');
-          this.errorMessage = 'Erro no login com Microsoft';
-          this.isLoading = false;
-        }
-      });
-    }).catch(error => {
-      this.isLoading = false;
-      this.errorMessage = 'Erro ao inicializar Microsoft login';
-    });
-  }
-
-  forgotPassword() {
-    this.router.navigate(['/auth/forgot-password']);
   }
 
   getFieldError(fieldName: string): string {
     const field = this.authForm.get(fieldName);
-
     if (field?.errors && field.touched) {
-      if (field.errors['required']) {
-        return 'Este campo é obrigatório';
-      }
-      if (field.errors['email']) {
-        return 'E-mail inválido';
-      }
-      if (field.errors['minlength']) {
-        return `Mínimo ${field.errors['minlength'].requiredLength} caracteres`;
-      }
+      if (field.errors['required']) return 'Este campo é obrigatório';
+      if (field.errors['email']) return 'E-mail inválido';
+      if (field.errors['minlength']) return `Mínimo ${field.errors['minlength'].requiredLength} caracteres`;
     }
-
     return '';
   }
 }

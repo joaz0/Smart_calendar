@@ -14,34 +14,12 @@ import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
   // ========== REDIRECT PADRÃO ==========
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
 
   // ========== ROTAS PÚBLICAS ==========
   {
     path: 'auth',
-    component: AuthLayout,
-    canActivate: [],
-    children: [
-      {
-        path: 'login',
-        loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
-      },
-      {
-        path: 'register',
-        loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
-      },
-      {
-        path: 'forgot-password',
-        loadComponent: () =>
-          import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPassword),
-      },
-      {
-        path: 'reset-password',
-        loadComponent: () =>
-          import('./features/auth/reset-password/reset-password').then((m) => m.ResetPassword),
-      },
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-    ],
+    component: AuthLayout
   },
 
   // ========== ROTAS PROTEGIDAS ==========

@@ -30,7 +30,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       });
 
       // Redireciona para login mantendo a URL desejada
-      return router.createUrlTree(['/auth/login'], {
+      return router.createUrlTree(['/auth'], {
         queryParams: { returnUrl: state.url },
       });
     }),
@@ -40,7 +40,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       snackBar.open('Erro ao verificar autenticação. Tente novamente.', 'OK', {
         duration: 3000,
       });
-      return of(router.createUrlTree(['/auth/login']));
+      return of(router.createUrlTree(['/auth']));
     })
   );
 };
