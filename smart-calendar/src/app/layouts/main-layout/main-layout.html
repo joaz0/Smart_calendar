@@ -1,17 +1,17 @@
 <div class="app-container">
   <header class="layout-header">
-    <app-header 
-      [user]="user" 
-      [currentTime]="currentTime" 
+    <app-header
+      [user]="user"
+      [currentTime]="currentTime"
       [greeting]="getGreeting()"
       (toggleSidebar)="toggleSidebar()"
       (logout)="logout()">
     </app-header>
   </header>
-  
+
   <div class="app-body">
     <aside class="layout-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Principal sidebar">
-      <app-sidebar 
+      <app-sidebar
         [isOpen]="sidebarOpen"
         [currentActive]="currentActive"
         [stats]="stats"

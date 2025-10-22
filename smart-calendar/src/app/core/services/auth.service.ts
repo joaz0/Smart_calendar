@@ -56,32 +56,38 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<User> {
+    console.log('🔄 Enviando requisição de login para:', `${environment.apiUrl}/auth/login`);
     return this.http
       .post<AuthResponse>(`${environment.apiUrl}/auth/login`, { email, password })
       .pipe(
         tap((response) => {
+          console.log('✅ Login bem-sucedido, salvando dados...');
           this.saveAuthData(response.token);
           this.tokenSubject.next(response.token);
           this.currentUserSubject.next(response.user);
         }),
         map((response) => response.user),
         catchError((error) => {
-          console.error('Login error:', error);
+          console.error('❌ Erro no login:', error);
+          console.error('URL da API:', `${environment.apiUrl}/auth/login`);
           throw error;
         })
       );
   }
 
   register(user: Partial<User>): Observable<User> {
+    console.log('🔄 Enviando requisição de registro para:', `${environment.apiUrl}/auth/register`);
     return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, user).pipe(
       tap((response) => {
+        console.log('✅ Registro bem-sucedido, salvando dados...');
         this.saveAuthData(response.token);
         this.tokenSubject.next(response.token);
         this.currentUserSubject.next(response.user);
       }),
       map((response) => response.user),
       catchError((error) => {
-        console.error('Register error:', error);
+        console.error('❌ Erro no registro:', error);
+        console.error('URL da API:', `${environment.apiUrl}/auth/register`);
         throw error;
       })
     );
