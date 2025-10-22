@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { Header } from '../../shared/components/header/header';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
 import { AuthService } from '../../core/services/auth.service';
@@ -14,6 +15,7 @@ import { EventService } from '../../core/services/event.service';
   standalone: true,
   imports: [
     CommonModule,
+    DatePipe,
     RouterModule,
     Header,
     SidebarComponent
@@ -21,7 +23,9 @@ import { EventService } from '../../core/services/event.service';
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],
 })
-export class MainLayout implements OnInit {
+export class MainLayout implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  private timeInterval: any;
   currentActive = 'calendar';
   currentDate = new Date();
   currentTime = new Date();
@@ -49,12 +53,15 @@ export class MainLayout implements OnInit {
   ) {}
 
   ngOnInit() {
-    setInterval(() => {
+    this.timeInterval = setInterval(() => {
       this.currentTime = new Date();
     }, 1000);
 
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
       .subscribe((event: any) => {
         this.updateActiveTabFromRoute(event.url);
       });
@@ -63,48 +70,60 @@ export class MainLayout implements OnInit {
     this.loadStats();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+    }
+  }
+
   private loadUserData() {
-    this.userService.getProfile().subscribe({
-      next: (profile: UserProfile) => {
-        this.user = {
-          name: profile.name || 'Usuário',
-          email: profile.email,
-          avatar: profile.avatar || '👤',
-          preferences: profile.preferences || {}
-        };
-      },
-      error: (error: any) => {
-        console.error('Erro ao carregar perfil:', error);
-        this.user = {
-          name: 'Usuário',
-          email: '',
-          avatar: '👤',
-          preferences: {}
-        };
-      }
-    });
+    this.userService.getProfile()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (profile: UserProfile) => {
+          this.user = {
+            name: profile.name || 'Usuário',
+            email: profile.email,
+            avatar: profile.avatar || '👤',
+            preferences: profile.preferences || {}
+          };
+        },
+        error: (error: any) => {
+          console.error('Erro ao carregar perfil:', error);
+          this.user = {
+            name: 'Usuário',
+            email: '',
+            avatar: '👤',
+            preferences: {}
+          };
+        }
+      });
   }
 
   private loadStats() {
-    this.userService.getStats().subscribe({
-      next: (stats: UserStats) => {
-        this.stats = {
-          eventsToday: stats.events_today || 0,
-          pendingTasks: stats.pending_tasks || 0,
-          completedTasks: stats.completed_tasks || 0,
-          productivity: stats.productivity_score || 0
-        };
-      },
-      error: (error: any) => {
-        console.error('Erro ao carregar estatísticas:', error);
-        this.stats = {
-          eventsToday: 0,
-          pendingTasks: 0,
-          completedTasks: 0,
-          productivity: 0
-        };
-      }
-    });
+    this.userService.getStats()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (stats: UserStats) => {
+          this.stats = {
+            eventsToday: stats.events_today || 0,
+            pendingTasks: stats.pending_tasks || 0,
+            completedTasks: stats.completed_tasks || 0,
+            productivity: stats.productivity_score || 0
+          };
+        },
+        error: (error: any) => {
+          console.error('Erro ao carregar estatísticas:', error);
+          this.stats = {
+            eventsToday: 0,
+            pendingTasks: 0,
+            completedTasks: 0,
+            productivity: 0
+          };
+        }
+      });
   }
 
   setActive(view: string) {
@@ -124,11 +143,26 @@ export class MainLayout implements OnInit {
   private updateActiveTabFromRoute(url: string) {
     const routeMap: { [key: string]: string } = {
       '/app/calendar': 'calendar',
-      '/app/tasks': 'tasks',
+      '/app/tasks': 'tasks', 
       '/app/ai-assistant': 'ai',
       '/app/productivity': 'productivity',
+      '/app/events': 'events',
+      '/app/collaboration': 'collaboration',
+      '/app/wellness': 'wellness',
+      '/app/analytics': 'analytics',
+      '/app/integrations': 'integrations',
+      '/app/privacy': 'privacy',
+      '/app/settings': 'settings'
     };
 
+    // Find exact match first, then partial match
+    const exactMatch = Object.keys(routeMap).find(route => url === route);
+    if (exactMatch) {
+      this.currentActive = routeMap[exactMatch];
+      return;
+    }
+
+    // Fallback to partial match
     for (const [route, tab] of Object.entries(routeMap)) {
       if (url.includes(route)) {
         this.currentActive = tab;

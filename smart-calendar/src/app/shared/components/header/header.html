@@ -1,9 +1,19 @@
-<header class="app-header" role="banner" data-component="Header">
+<header class="app-header" role="banner">
 	<div class="header-inner">
-		<button class="menu-toggle" aria-label="Abrir menu" data-action="toggle-sidebar">☰</button>
-		<div class="brand" data-component="HeaderBrand">📅 <span class="brand-name">Smart Calendar</span></div>
-		<div class="header-actions" data-component="HeaderActions">
-			<!-- Placeholder para ações globais (notificações, perfil) -->
+		<button class="menu-toggle" (click)="onToggleSidebar()" aria-label="Abrir menu">☰</button>
+		<div class="brand">📅 <span class="brand-name">Smart Calendar</span></div>
+		
+		<div class="header-center">
+			<div class="greeting">{{ greeting }}, {{ user.name }}</div>
+			<div class="current-time">{{ currentTime | date:'HH:mm' }}</div>
+		</div>
+		
+		<div class="header-actions">
+			<div class="user-profile">
+				<span class="user-avatar">{{ user.avatar }}</span>
+				<span class="user-name">{{ user.name }}</span>
+			</div>
+			<button class="logout-btn" (click)="onLogout()" aria-label="Sair">🚪</button>
 		</div>
 	</div>
 </header>

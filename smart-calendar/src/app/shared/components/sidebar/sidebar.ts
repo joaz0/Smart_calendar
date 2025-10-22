@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -13,7 +13,13 @@ interface NavItem {
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
-    <aside class="sidebar">
+    <aside class="sidebar" [class.collapsed]="!isOpen">
+      <div class="sidebar-header">
+        <div class="logo">
+          <h2>📅 Smart</h2>
+        </div>
+      </div>
+
       <nav class="nav-menu">
         <div *ngFor="let item of navItems" class="nav-group">
           <a
@@ -21,13 +27,14 @@ interface NavItem {
             [routerLink]="item.route"
             routerLinkActive="active"
             class="nav-item"
+            [class.active]="isActiveRoute(item.route)"
           >
             <span class="nav-icon">{{ item.icon }}</span>
-            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-label" *ngIf="isOpen">{{ item.label }}</span>
           </a>
 
           <div *ngIf="item.children" class="nav-section">
-            <div class="nav-section-title">{{ item.label }}</div>
+            <div class="nav-section-title" *ngIf="isOpen">{{ item.label }}</div>
             <a
               *ngFor="let child of item.children"
               [routerLink]="child.route"
@@ -35,47 +42,78 @@ interface NavItem {
               class="nav-item nav-item-child"
             >
               <span class="nav-icon">{{ child.icon }}</span>
-              <span class="nav-label">{{ child.label }}</span>
+              <span class="nav-label" *ngIf="isOpen">{{ child.label }}</span>
             </a>
           </div>
         </div>
       </nav>
+
+      <div class="sidebar-stats" *ngIf="isOpen">
+        <div class="stat-item">
+          <span class="stat-icon">📅</span>
+          <div class="stat-info">
+            <strong>{{ stats.eventsToday || 0 }}</strong>
+            <small>Eventos hoje</small>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">✓</span>
+          <div class="stat-info">
+            <strong>{{ stats.pendingTasks || 0 }}</strong>
+            <small>Tarefas pendentes</small>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">⚡</span>
+          <div class="stat-info">
+            <strong>{{ stats.productivity || 0 }}%</strong>
+            <small>Produtividade</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-profile" *ngIf="isOpen">
+        <div class="user-avatar">{{ user.avatar || '👤' }}</div>
+        <div class="user-info">
+          <strong>{{ user.name || 'Usuário' }}</strong>
+          <small>{{ user.email || '' }}</small>
+        </div>
+      </div>
     </aside>
   `,
   styleUrls: ['./sidebar.scss'],
 })
 export class SidebarComponent {
+  @Input() isOpen: boolean = true;
+  @Input() currentActive: string = 'calendar';
+  @Input() stats: any = {};
+  @Input() user: any = {};
+
   navItems: NavItem[] = [
     {
       label: 'Calendário',
       icon: '📅',
-      route: '/calendar',
+      route: '/app/calendar',
     },
     {
       label: 'Eventos',
       icon: '📌',
-      route: '/events',
+      route: '/app/events',
     },
     {
       label: 'Tarefas',
       icon: '✓',
-      route: '/tasks',
+      route: '/app/tasks',
     },
     {
       label: 'Assistente IA',
       icon: '🤖',
-      route: '/ai',
-      children: [
-        { label: 'Sugestões', icon: '💡', route: '/ai/assistant' },
-        { label: 'Agendamento', icon: '🎯', route: '/ai/scheduler' },
-        { label: 'Resumo Diário', icon: '📊', route: '/ai/summary' },
-        { label: 'Tempo de Viagem', icon: '🚗', route: '/ai/travel' },
-      ],
+      route: '/app/ai-assistant',
     },
     {
       label: 'Colaboração',
       icon: '👥',
-      route: '/collaboration',
+      route: '/app/collaboration',
       children: [
         { label: 'Dashboard', icon: '📊', route: '/collaboration/dashboard' },
         { label: 'Time', icon: '👨‍👩‍👧‍👦', route: '/collaboration/team-calendar' },
@@ -86,7 +124,7 @@ export class SidebarComponent {
     {
       label: 'Bem-estar',
       icon: '💚',
-      route: '/wellness',
+      route: '/app/wellness',
       children: [
         { label: 'Dashboard', icon: '📊', route: '/wellness/dashboard' },
         { label: 'Burnout', icon: '🔥', route: '/wellness/burnout' },
@@ -97,7 +135,7 @@ export class SidebarComponent {
     {
       label: 'Produtividade',
       icon: '⚡',
-      route: '/productivity',
+      route: '/app/productivity',
       children: [
         { label: 'Insights', icon: '📈', route: '/productivity/insights' },
         { label: 'Foco', icon: '🎯', route: '/productivity/focus' },
@@ -108,7 +146,7 @@ export class SidebarComponent {
     {
       label: 'Analytics',
       icon: '📊',
-      route: '/analytics',
+      route: '/app/analytics',
       children: [
         { label: 'Tempo', icon: '⏱️', route: '/analytics/time' },
         { label: 'Energia', icon: '⚡', route: '/analytics/energy' },
@@ -120,7 +158,7 @@ export class SidebarComponent {
     {
       label: 'Integrações',
       icon: '🔌',
-      route: '/integrations',
+      route: '/app/integrations',
       children: [
         { label: 'Contatos', icon: '👤', route: '/integrations/contacts' },
         { label: 'Documentos', icon: '📄', route: '/integrations/documents' },
@@ -131,7 +169,7 @@ export class SidebarComponent {
     {
       label: 'Privacidade',
       icon: '🔒',
-      route: '/privacy',
+      route: '/app/privacy',
       children: [
         { label: 'Centro', icon: '🛡️', route: '/privacy/center' },
         { label: 'Calendários', icon: '📅', route: '/privacy/calendars' },
@@ -142,12 +180,22 @@ export class SidebarComponent {
     {
       label: 'Busca',
       icon: '🔍',
-      route: '/search',
+      route: '/app/search',
     },
     {
       label: 'Configurações',
       icon: '⚙️',
-      route: '/settings',
+      route: '/app/settings',
     },
   ];
+
+  isActiveRoute(route: string): boolean {
+    const routeMap: { [key: string]: string } = {
+      '/app/calendar': 'calendar',
+      '/app/tasks': 'tasks',
+      '/app/ai-assistant': 'ai',
+      '/app/productivity': 'productivity',
+    };
+    return routeMap[route] === this.currentActive;
+  }
 }
