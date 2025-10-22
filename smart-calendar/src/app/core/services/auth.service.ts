@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError, switchMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
 import { ApiMapperService } from './api-mapper.service';
+import { OAuthService } from './oauth.service';
 
 interface AuthResponse {
   token: string;
@@ -25,7 +26,7 @@ export class AuthService {
   private tokenSubject = new BehaviorSubject<string | null>(null);
   token$ = this.tokenSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private oauthService: OAuthService) {
     // Verifica se há token salvo
     const token = localStorage.getItem('token');
     if (token) {
@@ -147,6 +148,22 @@ export class AuthService {
     return this.http.post<PasswordResetResponse>(
       `${environment.apiUrl}/auth/validate-reset-token`,
       { token }
+    );
+  }
+
+  loginWithGoogle(): Observable<User> {
+    return this.oauthService.loginWithGoogle().pipe(
+      switchMap((googleResponse) => {
+        return this.loginWithOAuth('google', googleResponse);
+      })
+    );
+  }
+
+  loginWithMicrosoft(): Observable<User> {
+    return this.oauthService.loginWithMicrosoft().pipe(
+      switchMap((microsoftResponse) => {
+        return this.loginWithOAuth('microsoft', microsoftResponse);
+      })
     );
   }
 }

@@ -1,19 +1,19 @@
 /* src/app/layouts/main-layout/main-layout.component.css */
-@import '../../../assets/styles/_variables';
-@import '../../../assets/styles/_mixins';
+@use '../../../assets/styles/_variables' as vars;
+@use '../../../assets/styles/_mixins' as mixins;
 
 .main-layout {
   display: flex;
   height: 100vh;
-  background: $primary-gradient;
+  background: vars.$primary-gradient;
 }
 
 .sidebar {
   width: 280px;
-  background: $card-bg;
+  background: vars.$card-bg;
   color: white;
-  @include flex-column;
-  transition: width $transition-fast;
+  @include mixins.flex-column;
+  transition: width vars.$transition-fast;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-right: 1px solid rgba(255,255,255,0.1);
@@ -53,25 +53,25 @@
   width: 100%;
   background: none;
   border: none;
-  color: $text-secondary;
-  padding: 0.75rem $spacing-md;
-  @include flex-center;
+  color: vars.$text-secondary;
+  padding: 0.75rem vars.$spacing-md;
+  @include mixins.flex-center;
   gap: 0.75rem;
   cursor: pointer;
-  transition: all $transition-fast;
-  border-radius: $border-radius-md;
-  margin: 0 $spacing-sm;
+  transition: all vars.$transition-fast;
+  border-radius: vars.$border-radius-md;
+  margin: 0 vars.$spacing-sm;
 }
 
 .nav-item:hover {
-  background: $primary-hover;
+  background: vars.$primary-hover;
   color: white;
 }
 
 .nav-item.active {
-  background: $primary-light;
+  background: vars.$primary-light;
   color: white;
-  box-shadow: $shadow;
+  box-shadow: vars.$shadow;
 }
 
 .nav-icon {
@@ -159,7 +159,7 @@
 
 .main-content {
   flex: 1;
-  @include flex-column;
+  @include mixins.flex-column;
   overflow: hidden;
   background: rgba(255,255,255,0.05);
   -webkit-backdrop-filter: blur();
@@ -167,9 +167,9 @@
 }
 
 .main-header {
-  @include glass-card;
-  margin: $spacing-md;
-  @include flex-center;
+  @include mixins.glass-card;
+  margin: vars.$spacing-md;
+  @include mixins.flex-center;
   justify-content: space-between;
   border: 1px solid rgba(255,255,255,0.1);
 }
@@ -197,16 +197,16 @@
 .header-btn {
   background: none;
   border: none;
-  padding: $spacing-sm;
-  border-radius: $border-radius-sm;
+  padding: vars.$spacing-sm;
+  border-radius: vars.$border-radius-sm;
   cursor: pointer;
   font-size: 1.2rem;
-  transition: background $transition-fast;
-  color: $text-light;
+  transition: background vars.$transition-fast;
+  color: vars.$text-light;
 }
 
 .header-btn:hover {
-  background: $primary-hover;
+  background: vars.$primary-hover;
   color: white;
 }
 

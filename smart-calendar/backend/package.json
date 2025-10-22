@@ -22,6 +22,9 @@
     "express-validator": "^7.2.1",
     "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-microsoft": "^1.0.0",
     "pg": "^8.11.3",
     "typescript": "^5.3.3"
   },
@@ -33,6 +36,8 @@
     "@types/express-validator": "^2.20.33",
     "@types/helmet": "^0.0.48",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/passport": "^1.0.16",
+    "@types/passport-google-oauth20": "^2.0.14",
     "@types/pg": "^8.10.9",
     "ts-node": "^10.9.2"
   },

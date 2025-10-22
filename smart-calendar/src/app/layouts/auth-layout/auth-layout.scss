@@ -1,20 +1,20 @@
-@import '../../../assets/styles/_variables';
-@import '../../../assets/styles/_mixins';
+@use '../../../assets/styles/_variables' as vars;
+@use '../../../assets/styles/_mixins' as mixins;
 
 .auth-layout {
-  @include full-screen-gradient;
+  @include mixins.full-screen-gradient;
 }
 
 .auth-container {
   width: 100%;
   max-width: 400px;
-  padding: $spacing-xl;
+  padding: vars.$spacing-xl;
   position: relative;
 
 }
 
 .auth-card {
-  @include glass-card;
+  @include mixins.glass-card;
 }
 
 .auth-header {
@@ -44,20 +44,20 @@
 }
 
 .auth-form {
-  @include flex-column;
-  gap: $spacing-md;
+  @include mixins.flex-column;
+  gap: vars.$spacing-md;
 }
 
 .form-group {
-  @include flex-column;
+  @include mixins.flex-column;
 }
 
 .form-group label {
-  @include form-label;
+  @include mixins.form-label;
 }
 
 .form-group input {
-  @include form-input;
+  @include mixins.form-input;
 }
 
 .error-message {
@@ -87,7 +87,7 @@
 }
 
 .submit-btn {
-  @include primary-button;
+  @include mixins.primary-button;
 }
 
 .divider {
@@ -108,13 +108,22 @@
 }
 
 .social-btn {
-  @include social-button;
+  @include mixins.social-button;
+}
+
+.divider {
+  position: relative;
+  margin: 5px;
+  span {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .social-icon {
   width: 20px;
   height: 20px;
-  margin-right: 0.5rem;
+  margin-right: 0.75rem;
   flex-shrink: 0;
 }
 

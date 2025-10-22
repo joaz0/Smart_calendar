@@ -21,6 +21,14 @@ export const routes: Routes = [
     path: 'auth',
     component: AuthLayout
   },
+  {
+    path: 'auth/callback/google',
+    loadComponent: () => import('./features/auth/callback/callback.component').then(m => m.AuthCallbackComponent)
+  },
+  {
+    path: 'auth/callback/microsoft',
+    loadComponent: () => import('./features/auth/callback/callback.component').then(m => m.AuthCallbackComponent)
+  },
 
   // ========== ROTAS PROTEGIDAS ==========
   {

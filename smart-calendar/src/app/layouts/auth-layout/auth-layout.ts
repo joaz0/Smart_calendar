@@ -122,4 +122,28 @@ export class AuthLayout {
     }
     return '';
   }
+
+  loginWithGoogle() {
+    this.isLoading = true;
+    this.authService.loginWithGoogle().subscribe({
+      next: () => this.router.navigate(['/app/calendar']),
+      error: (error: any) => {
+        this.errorMessage = 'Erro no login com Google';
+        this.isLoading = false;
+      },
+      complete: () => this.isLoading = false
+    });
+  }
+
+  loginWithMicrosoft() {
+    this.isLoading = true;
+    this.authService.loginWithMicrosoft().subscribe({
+      next: () => this.router.navigate(['/app/calendar']),
+      error: (error: any) => {
+        this.errorMessage = 'Erro no login com Microsoft';
+        this.isLoading = false;
+      },
+      complete: () => this.isLoading = false
+    });
+  }
 }

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { AiSuggestionsPanel } from '../ai-suggestions-panel/ai-suggestions-panel';
-import { AiAssistantModule } from '../ai-assistant-module';
 
 @Component({
   selector: 'app-ai-scheduling-assistant',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, AiSuggestionsPanel, AiAssistantModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './ai-scheduling-assistant.html',
   styleUrls: ['./ai-scheduling-assistant.scss'],
 })
