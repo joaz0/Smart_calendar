@@ -80,17 +80,25 @@
 }
 
 .remember-me {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: vars.$text-secondary;
-  cursor: pointer;
-  
   input[type="checkbox"] {
     margin: 0;
+    accent-color: #8234db;
+    width: 16px;
+    height: 16px;
+
+    // Fallback para browsers antigos
+    &:checked {
+      background-color: #8234db;
+      border-color: #8234db;
+    }
+
+    &:focus {
+      outline: 2px solid #8234db40;
+      outline-offset: 2px;
+    }
   }
 }
+
 
 .forgot-password {
   background: none;
