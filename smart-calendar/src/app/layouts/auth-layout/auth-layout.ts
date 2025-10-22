@@ -67,7 +67,7 @@ export class AuthLayout {
       this.authService.login(formData.email, formData.password).subscribe({
         next: (user) => {
           console.log('Login successful');
-          this.router.navigate(['/calendar']);
+          this.router.navigate(['/app/calendar']);
         },
         error: (error) => {
           console.error('Login error');
@@ -82,7 +82,7 @@ export class AuthLayout {
       this.authService.register(formData).subscribe({
         next: (user) => {
           console.log('Registration successful');
-          this.router.navigate(['/calendar']);
+          this.router.navigate(['/app/calendar']);
         },
         error: (error) => {
           console.error('Registration error');
@@ -111,7 +111,7 @@ export class AuthLayout {
           console.log('Google login successful');
           this.authService.loginWithOAuth('google', response).subscribe({
             next: (user) => {
-              this.router.navigate(['/calendar']);
+              this.router.navigate(['/app/calendar']);
             },
             error: (error) => {
               console.error('Google OAuth error');
@@ -140,7 +140,7 @@ export class AuthLayout {
           console.log('Microsoft login successful');
           this.authService.loginWithOAuth('microsoft', response).subscribe({
             next: (user) => {
-              this.router.navigate(['/calendar']);
+              this.router.navigate(['/app/calendar']);
             },
             error: (error) => {
               console.error('Microsoft OAuth error');

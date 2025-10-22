@@ -63,7 +63,7 @@ export const publicGuard: CanActivateFn = () => {
       });
 
       // Se já está autenticado, redireciona para dashboard principal
-      return router.createUrlTree(['/calendar']);
+      return router.createUrlTree(['/app/calendar']);
     }),
     catchError((error) => {
       console.error('Erro na verificação de autenticação:', error);

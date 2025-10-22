@@ -13,6 +13,9 @@ import { PrivacyLevel, PrivacyContext } from './core/guards/privacy.guard';
 import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
+  // ========== REDIRECT PADRÃO ==========
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+
   // ========== ROTAS PÚBLICAS ==========
   {
     path: 'auth',
@@ -42,7 +45,7 @@ export const routes: Routes = [
 
   // ========== ROTAS PROTEGIDAS ==========
   {
-    path: '',
+    path: 'app',
     component: MainLayout,
     canActivate: [authGuard],
     children: [
