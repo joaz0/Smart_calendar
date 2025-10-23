@@ -57,7 +57,7 @@
         (click)="item.children ? toggleSubmenu(item) : navigateTo(item.route)"
         [attr.aria-expanded]="item.children ? item.isExpanded : null"
       >
-        <span class="nav-icon">{{ item.icon }}</span>
+        <i class="nav-icon {{ item.icon }}"></i>
         <span class="nav-text" *ngIf="isOpen">{{ item.label }}</span>
         <span class="nav-badge" *ngIf="item.badge && item.badge > 0 && isOpen">{{ item.badge }}</span>
         <span class="nav-arrow" *ngIf="item.children && isOpen">
@@ -73,7 +73,7 @@
           [class.active]="isActiveRoute(child.route)"
           (click)="navigateTo(child.route)"
         >
-          <span class="submenu-icon">{{ child.icon }}</span>
+          <i class="submenu-icon {{ child.icon }}"></i>
           <span class="submenu-text">{{ child.label }}</span>
         </button>
       </div>

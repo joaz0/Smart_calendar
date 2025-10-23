@@ -3,7 +3,8 @@
 
 .sidebar {
   width: 280px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #9966ea 0%, #1c01368c 100%);
+  box-shadow: $shadow;
   color: white;
   @include flex-column;
   transition: all 0.3s ease;
