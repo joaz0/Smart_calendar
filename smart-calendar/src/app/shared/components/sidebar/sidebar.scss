@@ -8,6 +8,7 @@
   color: white;
   @include flex-column;
   transition: all 0.3s ease;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-right: 1px solid rgba(255,255,255,0.1);
   height: 100vh;
@@ -18,11 +19,11 @@
 
   &.collapsed {
     width: 70px;
-    
+
     .nav-text, .nav-badge, .nav-arrow {
       display: none;
     }
-    
+
     .nav-item {
       justify-content: center;
       padding: 0.75rem;
@@ -63,6 +64,7 @@
       padding: 0.5rem;
       border-radius: 6px;
       transition: all 0.2s ease;
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
 
       &:hover {
@@ -78,7 +80,7 @@
 
     .search-box {
       position: relative;
-      
+
       .search-input {
         width: 100%;
         padding: 0.75rem 1rem;
@@ -87,6 +89,7 @@
         background: rgba(255,255,255,0.15);
         color: white;
         font-size: 0.9rem;
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         transition: all 0.2s ease;
 
@@ -135,6 +138,7 @@
       border-radius: 12px;
       padding: 0.75rem 0.5rem;
       text-align: center;
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       transition: all 0.2s ease;
 
@@ -315,6 +319,7 @@
       padding: 0.75rem;
       border-radius: 12px;
       background: rgba(255,255,255,0.1);
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       transition: all 0.2s ease;
 
