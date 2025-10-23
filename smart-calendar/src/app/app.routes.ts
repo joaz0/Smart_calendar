@@ -37,7 +37,13 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       // Redirect padrão
-      { path: '', redirectTo: 'calendar', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      
+      // Dashboard
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard').then(m => m.DashboardComponent)
+      },
 
       // ========== NÍVEL PUBLIC ==========
       // Nenhuma rota pública no momento
@@ -55,12 +61,7 @@ export const routes: Routes = [
       },
       {
         path: 'events',
-        loadChildren: () => import('./features/events/events-module').then((m) => m.EventsModule),
-        canActivate: [privacyGuard],
-        data: {
-          privacyLevel: PrivacyLevel.SHARED,
-          context: PrivacyContext.CALENDAR_EVENTS,
-        },
+        loadComponent: () => import('./features/events/events').then(m => m.EventsComponent)
       },
       {
         path: 'collaboration',
@@ -78,12 +79,7 @@ export const routes: Routes = [
       // ========== NÍVEL PRIVATE ==========
       {
         path: 'tasks',
-        loadChildren: () => import('./features/tasks/tasks-module').then((m) => m.TasksModule),
-        canActivate: [privacyGuard],
-        data: {
-          privacyLevel: PrivacyLevel.PRIVATE,
-          context: PrivacyContext.PERSONAL_INSIGHTS,
-        },
+        loadComponent: () => import('./features/tasks/tasks').then(m => m.TasksComponent)
       },
       {
         path: 'productivity',
@@ -112,23 +108,13 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        loadChildren: () => import('./features/settings/settings').then((m) => m.Settings),
-        canActivate: [privacyGuard],
-        data: {
-          privacyLevel: PrivacyLevel.PRIVATE,
-        },
+        loadComponent: () => import('./features/settings/settings').then(m => m.SettingsComponent)
       },
 
       // ========== NÍVEL CONFIDENTIAL ==========
       {
         path: 'ai-assistant',
-        loadChildren: () =>
-          import('./features/ai-assistant/ai-assistant-module').then((m) => m.AiAssistantModule),
-        canActivate: [privacyGuard],
-        data: {
-          privacyLevel: PrivacyLevel.CONFIDENTIAL,
-          context: PrivacyContext.AI_TRAINING,
-        },
+        loadComponent: () => import('./features/ai-assistant/ai-assistant').then(m => m.AiAssistantComponent)
       },
       {
         path: 'wellness',
