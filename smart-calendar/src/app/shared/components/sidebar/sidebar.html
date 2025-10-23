@@ -1,56 +1,111 @@
-<!-- src/app/shared/components/calendar-sidebar/calendar-sidebar.component.html -->
-<nav class="calendar-sidebar" aria-label="Barra lateral do calendário" data-component="CalendarSidebar">
-  <!-- Mini Calendar -->
-  <div class="mini-calendar">
-    <div class="mini-calendar-header">
-      <button class="nav-btn" (click)="previousMonth()">‹</button>
-      <span class="month-year">{{ currentMonth | date:'MMMM yyyy' }}</span>
-      <button class="nav-btn" (click)="nextMonth()">›</button>
+<nav class="sidebar" [class.collapsed]="!isOpen" aria-label="Navegação principal">
+  <!-- Header -->
+  <div class="sidebar-header">
+    <div class="logo" *ngIf="isOpen">
+      <h2>📅 AgendaRápido</h2>
     </div>
-    <div class="mini-calendar-grid">
-      <div class="week-days">
-        <span *ngFor="let day of weekDays" class="week-day">{{ day }}</span>
+    <button class="toggle-btn" (click)="onToggleSidebar()" aria-label="Alternar sidebar">
+      {{ isOpen ? '◀' : '▶' }}
+    </button>
+  </div>
+
+  <!-- Search -->
+  <div class="search-section" *ngIf="isOpen">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearch()"
+        placeholder="Buscar..."
+        class="search-input"
+      >
+      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">✕</button>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="quick-stats" *ngIf="isOpen">
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-info">
+        <span class="stat-number">{{ stats.todayEvents }}</span>
+        <span class="stat-label">Hoje</span>
       </div>
-      <div class="calendar-days">
-        <div
-          *ngFor="let day of calendarDays"
-          [class.current-month]="day.isCurrentMonth"
-          [class.today]="day.isToday"
-          [class.selected]="day.isSelected"
-          class="calendar-day"
-          (click)="selectDate(day.date)"
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <span class="stat-number">{{ getCompletionPercentage() }}%</span>
+        <span class="stat-label">Completo</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-info">
+        <span class="stat-number" [style.color]="getFocusColor()">{{ getFocusLevel() }}</span>
+        <span class="stat-label">Foco</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="sidebar-nav">
+    <div *ngFor="let item of filteredNavItems" class="nav-group">
+      <button 
+        class="nav-item"
+        [class.active]="isActiveRoute(item.route)"
+        (click)="item.children ? toggleSubmenu(item) : navigateTo(item.route)"
+        [attr.aria-expanded]="item.children ? item.isExpanded : null"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-text" *ngIf="isOpen">{{ item.label }}</span>
+        <span class="nav-badge" *ngIf="item.badge && item.badge > 0 && isOpen">{{ item.badge }}</span>
+        <span class="nav-arrow" *ngIf="item.children && isOpen">
+          {{ item.isExpanded ? '▼' : '▶' }}
+        </span>
+      </button>
+
+      <!-- Submenu -->
+      <div class="submenu" *ngIf="item.children && item.isExpanded && isOpen">
+        <button 
+          *ngFor="let child of item.children"
+          class="submenu-item"
+          [class.active]="isActiveRoute(child.route)"
+          (click)="navigateTo(child.route)"
         >
-          {{ day.date | date:'d' }}
-        </div>
+          <span class="submenu-icon">{{ child.icon }}</span>
+          <span class="submenu-text">{{ child.label }}</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Quick Actions -->
-  <div class="quick-actions-section" data-component="QuickActions">
-    <h4>Quick Actions</h4>
-    <button class="quick-btn" (click)="createEvent()" aria-label="Criar novo evento">
-      + Novo Evento
-    </button>
-    <button class="quick-btn" (click)="goToToday()" aria-label="Ir para hoje">
-      📅 Hoje
-    </button>
+  <!-- Notifications -->
+  <div class="notifications-section" *ngIf="isOpen && notifications > 0">
+    <div class="notification-header">
+      <span>🔔 Notificações</span>
+      <span class="notification-count">{{ notifications }}</span>
+    </div>
   </div>
 
-  <!-- Event List -->
-  <section class="events-section" aria-label="Eventos de hoje" data-component="TodayEvents">
-    <h4>Eventos de Hoje</h4>
-    <div class="events-list">
-      <article *ngFor="let event of todayEvents" class="event-item" data-event-id="{{event.id}}">
-        <time class="event-time">{{ event.startDate | date:'HH:mm' }}</time>
-        <div class="event-details">
-          <div class="event-title">{{ event.title }}</div>
-          <div class="event-location" *ngIf="event.location">{{ event.location }}</div>
-        </div>
-      </article>
-
-      <div *ngIf="todayEvents.length === 0" class="no-events">Nenhum evento para hoje</div>
+  <!-- Footer -->
+  <div class="sidebar-footer">
+    <div class="user-profile" *ngIf="isOpen">
+      <div class="user-avatar">
+        {{ user.name?.charAt(0) || 'U' }}
+      </div>
+      <div class="user-info">
+        <strong>{{ user.name || 'Usuário' }}</strong>
+        <small>{{ user.email || 'user@example.com' }}</small>
+      </div>
+      <button class="logout-btn" aria-label="Sair">
+        🚪
+      </button>
     </div>
-  </section>
+    <div class="collapsed-user" *ngIf="!isOpen">
+      <div class="user-avatar-small">
+        {{ user.name?.charAt(0) || 'U' }}
+      </div>
+    </div>
+  </div>
 </nav>
-</div>
