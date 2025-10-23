@@ -3,7 +3,7 @@
 
 .sidebar {
   width: 280px;
-  background: linear-gradient(135deg, #9966ea 0%, #1c01368c 100%);
+  background: linear-gradient(135deg, #300b6ba9 0%, #1c01368c 100%);
   box-shadow: $shadow;
   color: white;
   @include flex-column;
@@ -12,8 +12,10 @@
   backdrop-filter: blur(10px);
   border-right: 1px solid rgba(255,255,255,0.1);
   height: 100vh;
-  position: relative;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 
   &.collapsed {
     width: 70px;
@@ -43,6 +45,14 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      @include flex-center;
+      gap: 0.5rem;
+
+      .logo-img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
     }
 
     .toggle-btn {
