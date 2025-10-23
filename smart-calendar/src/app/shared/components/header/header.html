@@ -1,11 +1,11 @@
 <header class="app-header" role="banner">
   <div class="header-inner">
     <button class="menu-toggle" (click)="onToggleSidebar()" aria-label="Alternar menu">
-      ☰
+<i class="fas fa-bars"></i>
     </button>
     
     <div class="brand">
-      📅 <span class="brand-name">AgendaRápido</span>
+      <i class="fas fa-calendar-alt"></i> <span class="brand-name">AgendaRápido</span>
     </div>
     
     <div class="header-center">
@@ -19,7 +19,7 @@
         <span class="user-name">{{ user.name || 'Usuário' }}</span>
       </div>
       <button class="logout-btn" (click)="onLogout()" aria-label="Sair">
-        🚪
+        <i class="fas fa-sign-out-alt"></i>
       </button>
     </div>
   </div>

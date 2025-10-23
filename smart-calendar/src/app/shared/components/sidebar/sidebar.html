@@ -2,10 +2,10 @@
   <!-- Header -->
   <div class="sidebar-header">
     <div class="logo" *ngIf="isOpen">
-      <h2>📅 AgendaRápido</h2>
+      <h2><i class="fas fa-calendar-alt"></i> AgendaRápido</h2>
     </div>
     <button class="toggle-btn" (click)="onToggleSidebar()" aria-label="Alternar sidebar">
-      {{ isOpen ? '◀' : '▶' }}
+<i class="fas" [class.fa-chevron-left]="isOpen" [class.fa-chevron-right]="!isOpen"></i>
     </button>
   </div>
 
@@ -19,28 +19,28 @@
         placeholder="Buscar..."
         class="search-input"
       >
-      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">✕</button>
+      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn"><i class="fas fa-times"></i></button>
     </div>
   </div>
 
   <!-- Quick Stats -->
   <div class="quick-stats" *ngIf="isOpen">
     <div class="stat-card">
-      <div class="stat-icon">📅</div>
+      <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
       <div class="stat-info">
         <span class="stat-number">{{ stats.todayEvents }}</span>
         <span class="stat-label">Hoje</span>
       </div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon">✅</div>
+      <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
       <div class="stat-info">
         <span class="stat-number">{{ getCompletionPercentage() }}%</span>
         <span class="stat-label">Completo</span>
       </div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon">⚡</div>
+      <div class="stat-icon"><i class="fas fa-bolt"></i></div>
       <div class="stat-info">
         <span class="stat-number" [style.color]="getFocusColor()">{{ getFocusLevel() }}</span>
         <span class="stat-label">Foco</span>
@@ -60,9 +60,7 @@
         <i class="nav-icon {{ item.icon }}"></i>
         <span class="nav-text" *ngIf="isOpen">{{ item.label }}</span>
         <span class="nav-badge" *ngIf="item.badge && item.badge > 0 && isOpen">{{ item.badge }}</span>
-        <span class="nav-arrow" *ngIf="item.children && isOpen">
-          {{ item.isExpanded ? '▼' : '▶' }}
-        </span>
+        <i class="nav-arrow fas" *ngIf="item.children && isOpen" [class.fa-chevron-down]="item.isExpanded" [class.fa-chevron-right]="!item.isExpanded"></i>
       </button>
 
       <!-- Submenu -->
@@ -83,7 +81,7 @@
   <!-- Notifications -->
   <div class="notifications-section" *ngIf="isOpen && notifications > 0">
     <div class="notification-header">
-      <span>🔔 Notificações</span>
+      <span><i class="fas fa-bell"></i> Notificações</span>
       <span class="notification-count">{{ notifications }}</span>
     </div>
   </div>
@@ -99,7 +97,7 @@
         <small>{{ user.email || 'user@example.com' }}</small>
       </div>
       <button class="logout-btn" aria-label="Sair">
-        🚪
+        <i class="fas fa-sign-out-alt"></i>
       </button>
     </div>
     <div class="collapsed-user" *ngIf="!isOpen">
