@@ -20,6 +20,13 @@
       </app-sidebar>
     </aside>
 
+    <!-- Overlay para mobile -->
+    <div class="sidebar-overlay" 
+         *ngIf="sidebarOpen" 
+         (click)="toggleSidebar()"
+         [class.visible]="sidebarOpen">
+    </div>
+
     <main class="layout-main" role="main">
       <router-outlet></router-outlet>
     </main>

@@ -12,10 +12,7 @@
   backdrop-filter: blur(10px);
   border-right: 1px solid rgba(255,255,255,0.1);
   height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+  position: relative;
 
   &.collapsed {
     width: 70px;
@@ -406,6 +403,32 @@
 
     &:hover {
       background: rgba(255,255,255,0.5);
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .sidebar {
+    &:not(.collapsed) {
+      width: 280px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    .sidebar-header {
+      padding: 1rem 0.5rem;
+    }
+    
+    .search-section,
+    .quick-stats {
+      padding: 0.5rem;
+    }
+    
+    .sidebar-nav {
+      padding: 0.5rem 0;
     }
   }
 }
