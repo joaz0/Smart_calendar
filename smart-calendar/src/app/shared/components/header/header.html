@@ -1,19 +1,26 @@
 <header class="app-header" role="banner">
-	<div class="header-inner">
-		<button class="menu-toggle" (click)="onToggleSidebar()" aria-label="Abrir menu">☰</button>
-		<div class="brand">📅 <span class="brand-name">Smart Calendar</span></div>
-		
-		<div class="header-center">
-			<div class="greeting">{{ greeting }}, {{ user.name }}</div>
-			<div class="current-time">{{ currentTime | date:'HH:mm' }}</div>
-		</div>
-		
-		<div class="header-actions">
-			<div class="user-profile">
-				<span class="user-avatar">{{ user.avatar }}</span>
-				<span class="user-name">{{ user.name }}</span>
-			</div>
-			<button class="logout-btn" (click)="onLogout()" aria-label="Sair">🚪</button>
-		</div>
-	</div>
+  <div class="header-inner">
+    <button class="menu-toggle" (click)="onToggleSidebar()" aria-label="Alternar menu">
+      ☰
+    </button>
+    
+    <div class="brand">
+      📅 <span class="brand-name">AgendaRápido</span>
+    </div>
+    
+    <div class="header-center">
+      <div class="greeting">{{ greeting }}, {{ user.name || 'Usuário' }}</div>
+      <div class="current-time">{{ currentTime | date:'HH:mm:ss' }}</div>
+    </div>
+    
+    <div class="header-actions">
+      <div class="user-profile">
+        <div class="user-avatar">{{ user.name?.charAt(0) || 'U' }}</div>
+        <span class="user-name">{{ user.name || 'Usuário' }}</span>
+      </div>
+      <button class="logout-btn" (click)="onLogout()" aria-label="Sair">
+        🚪
+      </button>
+    </div>
+  </div>
 </header>
