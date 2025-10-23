@@ -56,9 +56,9 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<User> {
-    console.log('🔄 Enviando requisição de login para:', `${environment.apiUrl}/auth/login`);
+    console.log('🔄 Enviando requisição de login para:', `${environment.apiUrl}/api/auth/login`);
     return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/login`, { email, password })
+      .post<AuthResponse>(`${environment.apiUrl}/api/auth/login`, { email, password })
       .pipe(
         tap((response) => {
           console.log('✅ Login bem-sucedido, salvando dados...');
@@ -69,15 +69,15 @@ export class AuthService {
         map((response) => response.user),
         catchError((error) => {
           console.error('❌ Erro no login:', error);
-          console.error('URL da API:', `${environment.apiUrl}/auth/login`);
+          console.error('URL da API:', `${environment.apiUrl}/api/auth/login`);
           throw error;
         })
       );
   }
 
   register(user: Partial<User>): Observable<User> {
-    console.log('🔄 Enviando requisição de registro para:', `${environment.apiUrl}/auth/register`);
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, user).pipe(
+    console.log('🔄 Enviando requisição de registro para:', `${environment.apiUrl}/api/auth/register`);
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/api/auth/register`, user).pipe(
       tap((response) => {
         console.log('✅ Registro bem-sucedido, salvando dados...');
         this.saveAuthData(response.token);
@@ -87,7 +87,7 @@ export class AuthService {
       map((response) => response.user),
       catchError((error) => {
         console.error('❌ Erro no registro:', error);
-        console.error('URL da API:', `${environment.apiUrl}/auth/register`);
+        console.error('URL da API:', `${environment.apiUrl}/api/auth/register`);
         throw error;
       })
     );
@@ -108,7 +108,7 @@ export class AuthService {
   // (removed older void-returning implementations; see richer PasswordResetResponse methods below)
 
   private loadCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}/auth/me`).pipe(
+    return this.http.get<User>(`${environment.apiUrl}/api/auth/me`).pipe(
       tap((user) => this.currentUserSubject.next(user)),
       catchError((error) => {
         console.error('Erro ao carregar usuário:', error);
@@ -120,7 +120,7 @@ export class AuthService {
 
   // OAuth login methods
   loginWithOAuth(provider: string, userData: any): Observable<User> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/oauth/${provider}`, userData).pipe(
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/api/auth/oauth/${provider}`, userData).pipe(
       tap((response) => {
         this.saveAuthData(response.token);
         this.tokenSubject.next(response.token);
@@ -167,25 +167,25 @@ export class AuthService {
   updateUser(user: Partial<User>): Observable<User> {
     const payload = this.mapper ? { ...user, preferences: user.preferences } : user;
     return this.http
-      .patch<User>(`${environment.apiUrl}/auth/profile`, payload)
+      .patch<User>(`${environment.apiUrl}/api/auth/profile`, payload)
       .pipe(tap((updatedUser) => this.currentUserSubject.next(updatedUser)));
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/auth/change-password`, {
+    return this.http.post<void>(`${environment.apiUrl}/api/auth/change-password`, {
       oldPassword,
       newPassword,
     });
   }
   // Password reset endpoints returning a richer response
   forgotPassword(email: string): Observable<PasswordResetResponse> {
-    return this.http.post<PasswordResetResponse>(`${environment.apiUrl}/auth/forgot-password`, {
+    return this.http.post<PasswordResetResponse>(`${environment.apiUrl}/api/auth/forgot-password`, {
       email,
     });
   }
 
   resetPassword(token: string, newPassword: string): Observable<PasswordResetResponse> {
-    return this.http.post<PasswordResetResponse>(`${environment.apiUrl}/auth/reset-password`, {
+    return this.http.post<PasswordResetResponse>(`${environment.apiUrl}/api/auth/reset-password`, {
       token,
       newPassword,
     });
@@ -193,7 +193,7 @@ export class AuthService {
 
   validateResetToken(token: string): Observable<PasswordResetResponse> {
     return this.http.post<PasswordResetResponse>(
-      `${environment.apiUrl}/auth/validate-reset-token`,
+      `${environment.apiUrl}/api/auth/validate-reset-token`,
       { token }
     );
   }
