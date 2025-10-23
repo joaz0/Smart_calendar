@@ -39,7 +39,7 @@ export class TaskService {
   }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.apiUrl}/tasks`).pipe(
+    return this.http.get<Task[]>(`${this.apiUrl}/api/tasks`).pipe(
       // map api payload to front model when mapper available
       map((list: any[]) => (this.mapper ? list.map((a) => this.mapper.fromApiTask(a)) : list))
     );
@@ -47,27 +47,27 @@ export class TaskService {
 
   getTaskById(id: string): Observable<Task> {
     return this.http
-      .get<Task>(`${this.apiUrl}/tasks/${id}`)
+      .get<Task>(`${this.apiUrl}/api/tasks/${id}`)
       .pipe(map((a: any) => (this.mapper ? this.mapper.fromApiTask(a) : a)));
   }
 
   createTask(task: Partial<Task>): Observable<Task> {
     const payload = this.mapper ? this.mapper.toApiTask(task) : task;
-    return this.http.post<Task>(`${this.apiUrl}/tasks`, payload).pipe(tap(() => this.loadTasks()));
+    return this.http.post<Task>(`${this.apiUrl}/api/tasks`, payload).pipe(tap(() => this.loadTasks()));
   }
 
   updateTask(id: string, task: Partial<Task>): Observable<Task> {
     const payload = this.mapper ? this.mapper.toApiTask(task) : task;
     return this.http
-      .put<Task>(`${this.apiUrl}/tasks/${id}`, payload)
+      .put<Task>(`${this.apiUrl}/api/tasks/${id}`, payload)
       .pipe(tap(() => this.loadTasks()));
   }
 
   deleteTask(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/tasks/${id}`).pipe(tap(() => this.loadTasks()));
+    return this.http.delete<void>(`${this.apiUrl}/api/tasks/${id}`).pipe(tap(() => this.loadTasks()));
   }
 
   searchTasks(query: string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.apiUrl}/tasks/search?q=${encodeURIComponent(query)}`);
+    return this.http.get<Task[]>(`${this.apiUrl}/api/tasks/search?q=${encodeURIComponent(query)}`);
   }
 }

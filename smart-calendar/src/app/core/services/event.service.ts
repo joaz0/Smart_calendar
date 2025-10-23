@@ -10,7 +10,7 @@ import { ApiMapperService } from './api-mapper.service';
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = `${environment.apiUrl}/events`;
+  private apiUrl = `${environment.apiUrl}/api/events`;
   private eventsSubject = new BehaviorSubject<Event[]>([]);
   events$ = this.eventsSubject.asObservable();
 
