@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -15,7 +15,6 @@ import { EventService } from '../../core/services/event.service';
   standalone: true,
   imports: [
     CommonModule,
-    DatePipe,
     RouterModule,
     Header,
     SidebarComponent
@@ -38,10 +37,10 @@ export class MainLayout implements OnInit, OnDestroy {
   };
 
   stats = {
-    eventsToday: 0,
+    todayEvents: 0,
     pendingTasks: 0,
     completedTasks: 0,
-    productivity: 0,
+    weeklyFocus: 0,
   };
 
   constructor(
@@ -108,19 +107,19 @@ export class MainLayout implements OnInit, OnDestroy {
       .subscribe({
         next: (stats: UserStats) => {
           this.stats = {
-            eventsToday: stats.events_today || 0,
+            todayEvents: stats.events_today || 0,
             pendingTasks: stats.pending_tasks || 0,
             completedTasks: stats.completed_tasks || 0,
-            productivity: stats.productivity_score || 0
+            weeklyFocus: stats.productivity_score || 0
           };
         },
         error: (error: any) => {
           console.error('Erro ao carregar estatísticas:', error);
           this.stats = {
-            eventsToday: 0,
+            todayEvents: 0,
             pendingTasks: 0,
             completedTasks: 0,
-            productivity: 0
+            weeklyFocus: 0
           };
         }
       });
@@ -181,8 +180,8 @@ export class MainLayout implements OnInit, OnDestroy {
   }
 
   getProductivityColor(): string {
-    if (this.stats.productivity >= 80) return '#4CAF50';
-    if (this.stats.productivity >= 60) return '#FF9800';
+    if (this.stats.weeklyFocus >= 80) return '#4CAF50';
+    if (this.stats.weeklyFocus >= 60) return '#FF9800';
     return '#F44336';
   }
 
