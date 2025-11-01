@@ -59,14 +59,14 @@
     <div class="filters-content">
       <div class="filter-group">
         <label>Tipo:</label>
-        <mat-chip-list>
+        <mat-chip-set>
           <mat-chip *ngFor="let type of searchTypes"
-                   [selected]="selectedTypes.includes(type.value)"
+                   [class.selected]="selectedTypes.includes(type.value)"
                    (click)="toggleType(type.value)">
             <mat-icon>{{ type.icon }}</mat-icon>
             {{ type.label }}
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-set>
       </div>
       
       <div class="filter-group" *ngIf="enableDateFilter">

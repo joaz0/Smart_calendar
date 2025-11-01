@@ -1,30 +1,49 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-empty-state',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './empty-state.html',
-  styleUrls: ['./empty-state.scss']
+  imports: [CommonModule, MatIconModule],
+  template: `
+    <div class="empty-state">
+      <mat-icon>{{ icon }}</mat-icon>
+      <h3>{{ title }}</h3>
+      <p>{{ message }}</p>
+    </div>
+  `,
+  styles: [`
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+    h3 {
+      margin: 0 0 0.5rem 0;
+      font-weight: 500;
+    }
+    p {
+      margin: 0;
+      opacity: 0.8;
+    }
+  `]
 })
-export class EmptyStateComponent {
-  @Input() icon = '🤷';
-  @Input() title = 'No Items Found';
-  @Input() description = 'There are no items to display at this time.';
-  @Input() actionText = 'Add New';
-  @Input() suggestions: string[] = []; // Array de strings simples
-  @Input() showAction = false;
-  @Input() variant: 'default' | 'compact' | 'inline' = 'default';
-  
-  @Output() action = new EventEmitter<void>();
-  @Output() suggestionClick = new EventEmitter<string>(); // Emite a string completa
-
-  onActionClick(): void {
-    this.action.emit();
-  }
-
-  onSuggestionClick(suggestion: string): void {
-    this.suggestionClick.emit(suggestion); // Emite a string completa
-  }
+export class EmptyState {
+  @Input() icon = 'inbox';
+  @Input() title = 'Nenhum item encontrado';
+  @Input() message = 'Não há dados para exibir no momento.';
+  @Input() primaryAction: any;
+  @Input() secondaryAction: any;
 }

@@ -2,18 +2,21 @@ import { Component, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 interface Category {
   id: string;
   name: string;
   color: string;
   count?: number;
+  description?: string;
 }
 
 @Component({
   selector: 'app-category-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatDividerModule],
   templateUrl: './category-picker.html',
   styleUrls: ['./category-picker.scss'],
   providers: [
@@ -28,6 +31,8 @@ export class CategoryPicker implements ControlValueAccessor {
   // Estados do componente
   isOpen = false;
   showCategoryModal = false;
+  allowCreate = true;
+  categories: Category[] = [];
   
   // Categoria selecionada
   selectedCategory: Category | null = null;
@@ -62,6 +67,10 @@ export class CategoryPicker implements ControlValueAccessor {
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
   disabled = false;
+
+  constructor() {
+    this.categories = [...this.defaultCategories, ...this.customCategories];
+  }
 
   writeValue(value: any): void {
     if (value) {
@@ -107,6 +116,10 @@ export class CategoryPicker implements ControlValueAccessor {
   }
 
   // Métodos de gerenciamento de categorias
+  openCreateDialog(): void {
+    this.addNewCategory();
+  }
+
   addNewCategory(): void {
     this.editingCategory = null;
     this.categoryName = '';
@@ -171,5 +184,9 @@ export class CategoryPicker implements ControlValueAccessor {
     this.editingCategory = null;
     this.categoryName = '';
     this.selectedColor = this.colorPalette[0];
+  }
+
+  trackByCategory(index: number, category: Category): string {
+    return category.id;
   }
 }

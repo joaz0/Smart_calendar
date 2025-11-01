@@ -2,8 +2,8 @@
   <header class="layout-header">
     <app-header
       [user]="user"
-      [notifications]="stats.pendingTasks"
-      [isOnline]="true"
+      [notifications]="notificationsSignal"
+      [isOnline]="isOnlineSignal"
       (toggleSidebar)="toggleSidebar()"
       (logout)="logout()"
       (openNotifications)="onOpenNotifications()"

@@ -50,6 +50,9 @@ export class SearchBar implements OnInit, OnDestroy {
   loadingMore: boolean = false;
   hasMoreResults: boolean = false;
   selectedIndex: number = -1;
+  isExpanded: boolean = false;
+  placeholder: string = 'Buscar...';
+  selectedResultId: string = '';
   
   eventResults: CalendarEvent[] = [];
   taskResults: Task[] = [];
@@ -306,5 +309,29 @@ export class SearchBar implements OnInit, OnDestroy {
     this.taskCreate.emit();
     this.showResults = false;
     this.searchText = '';
+  }
+
+  onEnter() {
+    if (this.searchResults.length > 0 && this.selectedIndex >= 0) {
+      this.selectResult(this.searchResults[this.selectedIndex], this.selectedIndex);
+    }
+  }
+
+  onEscape() {
+    this.showResults = false;
+    this.searchInput?.nativeElement.blur();
+  }
+
+  navigateResults(direction: number) {
+    if (this.searchResults.length === 0) return;
+    
+    this.selectedIndex += direction;
+    if (this.selectedIndex < 0) {
+      this.selectedIndex = this.searchResults.length - 1;
+    } else if (this.selectedIndex >= this.searchResults.length) {
+      this.selectedIndex = 0;
+    }
+    
+    this.selectedResultId = this.searchResults[this.selectedIndex]?.id || '';
   }
 }

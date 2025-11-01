@@ -2,20 +2,20 @@
   <!-- Header -->
   <div class="sidebar-header">
     <div class="logo" *ngIf="isOpen">
-      <img src="/assets/images/Logo_dark.png" 
-           alt="AgendaRápido" 
+      <img src="/assets/images/Logo_dark.png"
+           alt="AgendaRápido"
            class="logo-img"
            loading="lazy">
       <h2 class="logo-text">AgendaRápido</h2>
     </div>
     <div class="logo-collapsed" *ngIf="!isOpen">
-      <img src="/assets/images/Logo_dark.png" 
-           alt="AgendaRápido" 
+      <img src="/assets/images/Logo_dark.png"
+           alt="AgendaRápido"
            class="logo-img-small"
            loading="lazy">
     </div>
-    <button class="toggle-btn" 
-            (click)="onToggleSidebar()" 
+    <button class="toggle-btn"
+            (click)="onToggleSidebar()"
             [attr.aria-label]="isOpen ? 'Recolher sidebar' : 'Expandir sidebar'"
             [attr.aria-expanded]="isOpen">
       <mat-icon>{{ isOpen ? 'chevron_left' : 'chevron_right' }}</mat-icon>
@@ -36,21 +36,21 @@
         aria-label="Campo de busca"
         [attr.aria-describedby]="searchTerm ? 'search-results' : null"
       >
-      <button mat-icon-button 
-              *ngIf="searchTerm" 
-              (click)="clearSearch()" 
+      <button mat-icon-button
+              *ngIf="searchTerm"
+              (click)="clearSearch()"
               class="clear-btn"
               aria-label="Limpar busca">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    
-    <div class="search-results" 
-         *ngIf="searchResults.length > 0" 
+
+    <div class="search-results"
+         *ngIf="searchResults.length > 0"
          id="search-results"
          role="listbox"
          aria-label="Resultados da busca">
-      <div *ngFor="let result of searchResults; trackBy: trackBySearchResult" 
+      <div *ngFor="let result of searchResults; trackBy: trackBySearchResult"
            class="search-result-item"
            role="option"
            (click)="selectSearchResult(result)"
@@ -72,9 +72,9 @@
         <mat-icon>refresh</mat-icon>
       </button>
     </div>
-    
+
     <div class="stats-grid">
-      <div class="stat-card" 
+      <div class="stat-card"
            [attr.aria-label]="'Eventos hoje: ' + stats.todayEvents"
            (click)="navigateToToday()">
         <div class="stat-icon">
@@ -85,8 +85,8 @@
           <span class="stat-label">Eventos Hoje</span>
         </div>
       </div>
-      
-      <div class="stat-card" 
+
+      <div class="stat-card"
            [attr.aria-label]="'Progresso: ' + getCompletionPercentage() + ' por cento'"
            (click)="navigateToTasks()">
         <div class="stat-icon">
@@ -97,12 +97,12 @@
           <span class="stat-label">Completo</span>
         </div>
         <div class="stat-progress">
-          <div class="progress-bar" 
+          <div class="progress-bar"
                [style.width.%]="getCompletionPercentage()"></div>
         </div>
       </div>
-      
-      <div class="stat-card" 
+
+      <div class="stat-card"
            [attr.aria-label]="'Nível de foco: ' + getFocusLevel()"
            (click)="navigateToProductivity()">
         <div class="stat-icon">
@@ -113,8 +113,8 @@
           <span class="stat-label">Foco</span>
         </div>
       </div>
-      
-      <div class="stat-card" 
+
+      <div class="stat-card"
            [attr.aria-label]="'Tarefas pendentes: ' + stats.pendingTasks"
            (click)="navigateToTasks()">
         <div class="stat-icon">
@@ -143,12 +143,12 @@
       >
         <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
         <span class="nav-text" *ngIf="isOpen">{{ item.label }}</span>
-        <span class="nav-badge" 
+        <span class="nav-badge"
               *ngIf="item.badge && item.badge > 0 && isOpen"
               [attr.aria-label]="item.badge + ' itens'">
           {{ item.badge > 99 ? '99+' : item.badge }}
         </span>
-        <mat-icon class="nav-arrow" 
+        <mat-icon class="nav-arrow"
                  *ngIf="item.children && isOpen"
                  [class.expanded]="item.isExpanded">
           {{ item.isExpanded ? 'expand_less' : 'expand_more' }}
@@ -156,7 +156,7 @@
       </button>
 
       <!-- Submenu -->
-      <div class="submenu" 
+      <div class="submenu"
            *ngIf="item.children && item.isExpanded && isOpen"
            role="group"
            [attr.aria-label]="'Submenu de ' + item.label">
@@ -169,7 +169,7 @@
         >
           <mat-icon class="submenu-icon">{{ child.icon }}</mat-icon>
           <span class="submenu-text">{{ child.label }}</span>
-          <span class="submenu-badge" 
+          <span class="submenu-badge"
                 *ngIf="child.badge && child.badge > 0"
                 [attr.aria-label]="child.badge + ' itens'">
             {{ child.badge > 99 ? '99+' : child.badge }}
@@ -177,14 +177,13 @@
         </button>
       </div>
     </div>
-  </div>
 
   <!-- Notifications -->
-  <div class="notifications-section" 
-       *ngIf="isOpen && notifications > 0" 
-       role="region" 
+  <div class="notifications-section"
+       *ngIf="isOpen && notifications > 0"
+       role="region"
        aria-label="Notificações">
-    <button class="notification-header" 
+    <button class="notification-header"
             (click)="openNotifications()"
             [attr.aria-label]="'Abrir ' + notifications + ' notificações'">
       <div class="notification-icon">
@@ -194,9 +193,9 @@
       <span class="notification-text">Notificações</span>
       <span class="notification-count">{{ notifications > 99 ? '99+' : notifications }}</span>
     </button>
-    
+
     <div class="recent-notifications" *ngIf="recentNotifications.length > 0">
-      <div *ngFor="let notification of recentNotifications | slice:0:3; trackBy: trackByNotification" 
+      <div *ngFor="let notification of recentNotifications | slice:0:3; trackBy: trackByNotification"
            class="notification-item"
            [class.unread]="!notification.read"
            (click)="openNotification(notification)">
@@ -212,7 +211,7 @@
   <!-- Footer -->
   <div class="sidebar-footer">
     <div class="user-profile" *ngIf="isOpen">
-      <div class="user-avatar" 
+      <div class="user-avatar"
            [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'">
         {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
       </div>
@@ -224,13 +223,13 @@
           <span class="status-text">{{ getUserStatusText() }}</span>
         </div>
       </div>
-      <button mat-icon-button 
-              class="user-menu-btn" 
+      <button mat-icon-button
+              class="user-menu-btn"
               [matMenuTriggerFor]="sidebarUserMenu"
               aria-label="Menu do usuário">
         <mat-icon>more_vert</mat-icon>
       </button>
-      
+
       <mat-menu #sidebarUserMenu="matMenu">
         <button mat-menu-item (click)="openProfile()">
           <mat-icon>person</mat-icon>
@@ -247,19 +246,19 @@
         </button>
       </mat-menu>
     </div>
-    
+
     <div class="collapsed-user" *ngIf="!isOpen">
-      <button mat-icon-button 
+      <button mat-icon-button
               class="user-avatar-small"
               [matMenuTriggerFor]="collapsedUserMenu"
               [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'"
               [attr.aria-label]="'Menu do usuário: ' + (user.name || 'Usuário')">
         {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
       </button>
-      
+
       <mat-menu #collapsedUserMenu="matMenu">
         <div class="collapsed-menu-header">
-          <div class="user-avatar-large" 
+          <div class="user-avatar-large"
                [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'">
             {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
           </div>
@@ -283,4 +282,5 @@
         </button>
       </mat-menu>
     </div>
+  </div>
 </nav>

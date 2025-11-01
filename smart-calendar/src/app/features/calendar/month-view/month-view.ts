@@ -5,7 +5,7 @@ import { takeUntil, map, startWith } from 'rxjs/operators';
 import { CalendarService } from '../../../core/services/calendar.service';
 import { TaskService } from '../../../core/services/task.service';
 import { EventService } from '../../../core/services/event.service';
-import { Event } from '../../../core/models/event.model';
+import { Event as CalendarEvent } from '../../../core/models/event.model';
 import { Task } from '../../../core/models/task.model';
 import { EventDialogComponent } from '../event-dialog/event-dialog';
 import { TaskDialogComponent } from '../task-dialog/task-dialog';
@@ -34,7 +34,7 @@ import { MatChipsModule } from '@angular/material/chips';
 export class MonthView implements OnInit, OnDestroy {
   currentDate: Date = new Date();
   weeks: Date[][] = [];
-  events: Event[] = [];
+  events: CalendarEvent[] = [];
   tasks: Task[] = [];
   weekdays: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   private destroy$ = new Subject<void>();
@@ -127,7 +127,7 @@ export class MonthView implements OnInit, OnDestroy {
       });
   }
 
-  getEventsForDay(date: Date): Event[] {
+  getEventsForDay(date: Date): CalendarEvent[] {
     return this.events.filter(
       (event) => event.startDate && this.calendarService.isSameDay(new Date(event.startDate), date)
     );
@@ -168,7 +168,7 @@ export class MonthView implements OnInit, OnDestroy {
     this.loadTasks();
   }
 
-  openEventDialog(event?: Event, date?: Date) {
+  openEventDialog(event?: CalendarEvent, date?: Date) {
     const dialogRef = this.dialog.open(EventDialogComponent, {
       width: '500px',
       data: {
@@ -246,5 +246,72 @@ export class MonthView implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  addEvent() {
+    this.openEventDialog(undefined, this.currentDate);
+  }
+
+  trackByWeek(index: number): number {
+    return index;
+  }
+
+  trackByDay(index: number, day: Date): number {
+    return day.getTime();
+  }
+
+  trackByEvent(index: number, event: CalendarEvent): any {
+    return event.id || index;
+  }
+
+  trackByTask(index: number, task: Task): any {
+    return task.id || index;
+  }
+
+  isWeekend(date: Date): boolean {
+    const day = date.getDay();
+    return day === 0 || day === 6;
+  }
+
+  hasEvents(date: Date): boolean {
+    return this.getEventsForDay(date).length > 0;
+  }
+
+  getDayAriaLabel(date: Date): string {
+    return date.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  selectDay(date: Date) {
+    this.showAllDayItems(date);
+  }
+
+  getDayIndicators(date: Date): any[] {
+    return [];
+  }
+
+  getEventTooltip(event: CalendarEvent): string {
+    return event.title || '';
+  }
+
+  getTaskTooltip(task: Task): string {
+    return task.title || '';
+  }
+
+  openEvent(event: CalendarEvent, mouseEvent: PointerEvent) {
+    mouseEvent.stopPropagation();
+    this.openEventDialog(event);
+  }
+
+  openTask(task: Task, mouseEvent: PointerEvent) {
+    mouseEvent.stopPropagation();
+    this.openTaskDialog(task);
+  }
+
+  showMoreEvents(date: Date) {
+    this.showAllDayItems(date);
+  }
+
+  showMoreTasks(date: Date) {
+    this.showAllDayItems(date);
   }
 }

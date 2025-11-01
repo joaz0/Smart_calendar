@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Input, Output, forwardRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-color-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatDividerModule, MatFormFieldModule, MatInputModule],
   templateUrl: './color-picker.html',
   styleUrls: ['./color-picker.scss'],
   providers: [
@@ -19,11 +23,25 @@ import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() selectedColor: string = '#FFFFFF';
   @Input() disabled: boolean = false;
+  @Input() allowCustom: boolean = true;
   @Output() colorSelected = new EventEmitter<string>();
 
   isPickerOpen = false;
+  customColor: string = '';
+  recentColors: string[] = [];
 
   // Paletas de cores organizadas por categoria
+  colors = [
+    { name: 'Azul', value: '#2196F3' },
+    { name: 'Verde', value: '#4CAF50' },
+    { name: 'Vermelho', value: '#F44336' },
+    { name: 'Laranja', value: '#FF9800' },
+    { name: 'Roxo', value: '#9C27B0' },
+    { name: 'Rosa', value: '#E91E63' },
+    { name: 'Ciano', value: '#00BCD4' },
+    { name: 'Amarelo', value: '#FFEB3B' }
+  ];
+
   readonly primaryColors: string[] = [
     '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5',
     '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50',
@@ -171,5 +189,13 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
     if (isDisabled) {
       this.closePicker();
     }
+  }
+
+  trackByColor(index: number, color: any): string {
+    return color.value;
+  }
+
+  trackByRecentColor(index: number, color: string): string {
+    return color;
   }
 }

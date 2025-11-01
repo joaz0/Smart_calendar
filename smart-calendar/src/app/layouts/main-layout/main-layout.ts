@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -43,6 +43,9 @@ export class MainLayout implements OnInit, OnDestroy {
     completedTasks: 0,
     weeklyFocus: 0,
   };
+
+  notificationsSignal = signal(0);
+  isOnlineSignal = signal(true);
 
   constructor(
     private router: Router,
@@ -114,6 +117,7 @@ export class MainLayout implements OnInit, OnDestroy {
             completedTasks: stats.completed_tasks || 0,
             weeklyFocus: stats.productivity_score || 0
           };
+          this.notificationsSignal.set(this.stats.pendingTasks);
         },
         error: (error: any) => {
           console.error('Erro ao carregar estatísticas:', error);
@@ -123,6 +127,7 @@ export class MainLayout implements OnInit, OnDestroy {
             completedTasks: 0,
             weeklyFocus: 0
           };
+          this.notificationsSignal.set(0);
         }
       });
   }
