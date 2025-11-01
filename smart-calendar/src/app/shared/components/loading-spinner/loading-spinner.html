@@ -1,13 +1,56 @@
-<div class="loading-spinner" data-component="LoadingSpinner" role="status" aria-live="polite"
-     [class.overlay]="overlay" [class.small]="size === 'small'" [class.large]="size === 'large'">
-  <div class="spinner-container">
-    <div class="spinner" aria-hidden="true"></div>
-    <div class="spinner-text" *ngIf="message">{{ message }}</div>
-    <div class="spinner-progress" *ngIf="progress !== undefined">
-      <div class="progress-bar" aria-hidden="true">
-        <div class="progress-fill" [style.width.%]="progress"></div>
+<div class="loading-spinner-container" 
+     [class.overlay]="overlay"
+     [class.fullscreen]="fullscreen"
+     role="status"
+     [attr.aria-label]="message || 'Carregando'">
+  
+  <div class="spinner-content">
+    <div class="spinner-wrapper">
+      <mat-spinner 
+        [diameter]="size"
+        [strokeWidth]="strokeWidth"
+        [color]="color">
+      </mat-spinner>
+      
+      <div class="spinner-logo" *ngIf="showLogo">
+        <img src="/assets/images/logo.png" 
+             alt="Logo" 
+             class="logo-animation">
       </div>
-      <div class="progress-text">{{ progress }}%</div>
+    </div>
+    
+    <div class="loading-message" *ngIf="message">
+      <p class="message-text">{{ message }}</p>
+      <div class="loading-dots" *ngIf="showDots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    
+    <div class="progress-info" *ngIf="progress !== undefined">
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="progress"
+        [color]="color">
+      </mat-progress-bar>
+      <span class="progress-text">{{ progress }}%</span>
+    </div>
+    
+    <div class="loading-tips" *ngIf="showTips && tips.length > 0">
+      <p class="tip-text">
+        <mat-icon>lightbulb</mat-icon>
+        {{ currentTip }}
+      </p>
     </div>
   </div>
+  
+  <button *ngIf="cancellable" 
+          mat-stroked-button 
+          (click)="onCancel()"
+          class="cancel-btn"
+          aria-label="Cancelar operação">
+    <mat-icon>close</mat-icon>
+    Cancelar
+  </button>
 </div>

@@ -1,0 +1,33 @@
+{
+  "name": "n8n-nodes-agenda-rapido",
+  "version": "1.0.0",
+  "description": "N8N nodes for AgendaRapido Smart Calendar integration",
+  "keywords": [
+    "n8n-community-node-package"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/AgendaRapidoApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/AgendaRapido/AgendaRapido.node.js"
+    ]
+  },
+  "devDependencies": {
+    "n8n-workflow": "*",
+    "typescript": "^4.8.4"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}

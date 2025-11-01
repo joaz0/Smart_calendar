@@ -1,25 +1,70 @@
-<div class="empty-state" [class]="variant">
-  <div class="empty-icon">{{ icon }}</div>
-  <h3 class="empty-title">{{ title }}</h3>
-  <p class="empty-description">{{ description }}</p>
+<div class="empty-state" 
+     [class]="'type-' + type"
+     role="region"
+     [attr.aria-label]="title">
   
-  <div class="empty-actions" *ngIf="showAction">
-    <button class="action-btn" (click)="onActionClick()">
-      {{ actionText }}
-    </button>
-  </div>
-
-  <!-- Sugestões como strings simples -->
-  <div class="empty-suggestions" *ngIf="suggestions.length > 0">
-    <div class="suggestions-title">Sugestões:</div>
-    <div class="suggestion-list">
-      <div 
-        *ngFor="let suggestion of suggestions"
-        class="suggestion-item"
-        (click)="onSuggestionClick(suggestion)"
-      >
-        <div class="suggestion-text">{{ suggestion }}</div>
+  <div class="empty-state-content">
+    <div class="empty-icon" *ngIf="!customIcon">
+      <mat-icon [class]="'icon-' + type">{{ getDefaultIcon() }}</mat-icon>
+    </div>
+    
+    <div class="custom-icon" *ngIf="customIcon">
+      <ng-content select="[slot=icon]"></ng-content>
+    </div>
+    
+    <div class="empty-text">
+      <h2 class="empty-title">{{ title }}</h2>
+      <p class="empty-description" *ngIf="description">{{ description }}</p>
+      
+      <div class="empty-suggestions" *ngIf="suggestions && suggestions.length > 0">
+        <h3>Sugestões:</h3>
+        <ul>
+          <li *ngFor="let suggestion of suggestions">{{ suggestion }}</li>
+        </ul>
       </div>
+    </div>
+    
+    <div class="empty-actions" *ngIf="showActions">
+      <button *ngIf="primaryAction"
+              mat-raised-button 
+              color="primary"
+              (click)="onPrimaryAction()"
+              [disabled]="isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <mat-icon *ngIf="!isLoading && primaryAction.icon">{{ primaryAction.icon }}</mat-icon>
+        <span>{{ primaryAction.text }}</span>
+      </button>
+      
+      <button *ngIf="secondaryAction"
+              mat-stroked-button
+              (click)="onSecondaryAction()"
+              [disabled]="isLoading">
+        <mat-icon *ngIf="secondaryAction.icon">{{ secondaryAction.icon }}</mat-icon>
+        <span>{{ secondaryAction.text }}</span>
+      </button>
+      
+      <ng-content select="[slot=actions]"></ng-content>
+    </div>
+    
+    <div class="empty-help" *ngIf="helpText || helpLink">
+      <p *ngIf="helpText" class="help-text">{{ helpText }}</p>
+      <a *ngIf="helpLink" 
+         [href]="helpLink.url" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="help-link">
+        <mat-icon>help_outline</mat-icon>
+        {{ helpLink.text }}
+      </a>
+    </div>
+  </div>
+  
+  <!-- Animated Background Elements -->
+  <div class="empty-background" *ngIf="showAnimation">
+    <div class="floating-element" 
+         *ngFor="let element of backgroundElements; let i = index"
+         [style.animation-delay]="i * 0.5 + 's'">
+      <mat-icon>{{ element }}</mat-icon>
     </div>
   </div>
 </div>

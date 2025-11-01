@@ -1,133 +1,540 @@
-// src/assets/styles/global.scss
-@import './variables';
+// Global Styles - Modern CSS Reset and Base Styles
+@import 'variables';
+@import 'mixins';
+@import 'breakpoints';
+@import 'responsive';
+@import 'responsive-utilities';
 
-* {
+// Modern CSS Reset
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: var(--bg-primary);
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1;
+  font-kerning: normal;
+  
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--leading-normal);
   color: var(--text-primary);
-  overflow: hidden;
+  background: var(--bg-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  
+  // Prevent zoom on iOS double-tap
+  touch-action: manipulation;
+  
+  // Prevent overscroll bounce on iOS
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
+  }
 }
 
-// Scrollbar Styling (Obsidian inspired)
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+// Remove default button styles
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+// Remove default input styles
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
+// Remove default link styles
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-tertiary);
+// Remove default list styles
+ul,
+ol {
+  list-style: none;
 }
 
-// Selection Styling
-::selection {
-  background: var(--selection-bg);
-  color: white;
+// Remove default table styles
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-// Focus Styling
+// Image optimization
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// Focus styles
 :focus-visible {
-  outline: 2px solid var(--focus-ring);
+  outline: 2px solid var(--primary-500);
   outline-offset: 2px;
 }
 
-// Utility Classes
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-tertiary { color: var(--text-tertiary); }
-
-.bg-primary { background: var(--bg-primary); }
-.bg-secondary { background: var(--bg-secondary); }
-.bg-sidebar { background: var(--bg-sidebar); }
-
-.border { border: 1px solid var(--border-color); }
-.border-light { border: 1px solid var(--border-light); }
-
-.rounded-sm { border-radius: var(--radius-sm); }
-.rounded-md { border-radius: var(--radius-md); }
-.rounded-lg { border-radius: var(--radius-lg); }
-
-.shadow-sm { box-shadow: var(--shadow-sm); }
-.shadow-md { box-shadow: var(--shadow-md); }
-.shadow-lg { box-shadow: var(--shadow-lg); }
-
-// Animation Classes
-.fade-in {
-  animation: fadeIn 0.2s ease;
+// Selection styles
+::selection {
+  background: var(--primary-200);
+  color: var(--primary-900);
 }
 
-.slide-in-left {
-  animation: slideInLeft 0.2s ease;
+::-moz-selection {
+  background: var(--primary-200);
+  color: var(--primary-900);
 }
 
-.slide-in-right {
-  animation: slideInRight 0.2s ease;
+// Global scrollbar
+* {
+  @include custom-scrollbar;
 }
 
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  line-height: var(--leading-relaxed);
+}
+
+// Utility classes for common patterns
+.visually-hidden {
+  @include sr-only;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--primary-600);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: var(--z-tooltip);
+  
+  &:focus {
+    top: 6px;
+  }
+}
+
+// Loading states
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.loading * {
+  pointer-events: none;
+}
+
+// Disabled states
+.disabled,
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+// Error states
+.error {
+  color: var(--error-600);
+  border-color: var(--error-500);
+}
+
+.error-text {
+  color: var(--error-600);
+  font-size: var(--font-size-sm);
+}
+
+// Success states
+.success {
+  color: var(--success-600);
+  border-color: var(--success-500);
+}
+
+.success-text {
+  color: var(--success-600);
+  font-size: var(--font-size-sm);
+}
+
+// Warning states
+.warning {
+  color: var(--warning-600);
+  border-color: var(--warning-500);
+}
+
+.warning-text {
+  color: var(--warning-600);
+  font-size: var(--font-size-sm);
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  :root {
+    --shadow-sm: 0 0 0 1px currentColor;
+    --shadow-md: 0 0 0 2px currentColor;
+    --shadow-lg: 0 0 0 3px currentColor;
+  }
+  
+  button,
+  input,
+  select,
+  textarea {
+    border: 2px solid currentColor;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Print styles
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  p,
+  blockquote {
+    page-break-inside: avoid;
+  }
+}
+
+// Dark mode specific adjustments
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+}
+
+// Light mode specific adjustments
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+  }
+}
+
+// Container queries support
+@supports (container-type: inline-size) {
+  .container-query {
+    container-type: inline-size;
+  }
+}
+
+// Backdrop filter support
+@supports (backdrop-filter: blur(10px)) {
+  .backdrop-blur {
+    backdrop-filter: blur(10px);
+  }
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur {
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  [data-theme="dark"] .backdrop-blur {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+// Aspect ratio support
+@supports not (aspect-ratio: 1) {
+  .aspect-square::before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+  
+  .aspect-video::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+  }
+}
+
+// Modern CSS features with fallbacks
+.modern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+// Fallback for older browsers
+@supports not (display: grid) {
+  .modern-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(var(--space-4) * -0.5);
+  }
+  
+  .modern-grid > * {
+    flex: 1 1 250px;
+    margin: calc(var(--space-4) * 0.5);
+  }
+}
+
+// Safe area insets for mobile devices
+.safe-area-inset {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+// Smooth scrolling for supported browsers
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+// Custom properties for dynamic theming
+.theme-transition {
+  transition: background-color var(--transition-normal),
+              color var(--transition-normal),
+              border-color var(--transition-normal);
+}
+
+// Performance optimizations
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.optimize-legibility {
+  text-rendering: optimizeLegibility;
+}
+
+.optimize-speed {
+  text-rendering: optimizeSpeed;
+}
+
+// Accessibility improvements
+.focus-trap {
+  &:focus-within {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
+}
+
+.screen-reader-text {
+  @include sr-only;
+  
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: var(--space-2);
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    background: var(--primary-600);
+    color: white;
+    border-radius: var(--radius-sm);
+  }
+}
+
+// Animation utilities
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes slideInLeft {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-// Responsive Text
-@media (max-width: 768px) {
-  html {
-    font-size: 14px;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// Drag and Drop Styles
-.dragging {
-  opacity: 0.5;
-  cursor: grabbing !important;
-}
-
-.drag-over {
-  background: var(--accent-primary) !important;
-  opacity: 0.7;
-  border: 2px dashed var(--accent-secondary) !important;
-}
-
-.drop-zone {
-  border: 2px dashed var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  text-align: center;
-  transition: all var(--transition-fast);
-  background: var(--bg-secondary);
-
-  &:hover, &.drag-over {
-    border-color: var(--accent-primary);
-    background: var(--accent-primary);
-    color: white;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  .drop-content {
-    pointer-events: none;
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Only apply animations if motion is not reduced
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-in {
+    animation: fadeIn var(--transition-normal) ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp var(--transition-normal) ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown var(--transition-normal) ease-out;
+  }
+  
+  .animate-slide-left {
+    animation: slideLeft var(--transition-normal) ease-out;
+  }
+  
+  .animate-slide-right {
+    animation: slideRight var(--transition-normal) ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn var(--transition-normal) ease-out;
+  }
+  
+  .animate-bounce {
+    animation: bounce 1s ease-in-out;
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
   }
 }

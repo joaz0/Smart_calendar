@@ -9,6 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserService, UserProfile, UserStats } from '../../core/services/user.service';
 import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -48,7 +49,8 @@ export class MainLayout implements OnInit, OnDestroy {
     private authService: AuthService,
     private userService: UserService,
     private taskService: TaskService,
-    private eventService: EventService
+    private eventService: EventService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit() {
@@ -190,5 +192,18 @@ export class MainLayout implements OnInit, OnDestroy {
     if (hour < 12) return 'Bom dia';
     if (hour < 18) return 'Boa tarde';
     return 'Boa noite';
+  }
+
+  onToggleTheme() {
+    this.themeService.toggleTheme();
+  }
+
+  onOpenNotifications() {
+    // Implementar abertura de notificações
+    console.log('Abrir notificações');
+  }
+
+  onOpenProfile() {
+    this.router.navigate(['/app/settings']);
   }
 }

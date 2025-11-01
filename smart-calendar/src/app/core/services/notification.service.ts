@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject } from 'rxjs';
 
 export interface Notification {
   id: string;
@@ -9,125 +8,146 @@ export interface Notification {
   type: 'info' | 'success' | 'warning' | 'error';
   timestamp: Date;
   read: boolean;
+  actionLabel?: string;
+  actionCallback?: () => void;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NotificationService {
-  private notifications = new BehaviorSubject<Notification[]>([]);
-  notifications$ = this.notifications.asObservable();
+  notifications = signal<Notification[]>([]);
+  unreadCount = signal(0);
 
   constructor(private snackBar: MatSnackBar) {}
 
-  success(message: string, duration: number = 3000) {
-    this.snackBar.open(message, 'Fechar', {
-      duration,
-      panelClass: ['success-snackbar'],
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
+  initializeNotifications() {
+    // Load notifications from localStorage or API
+    this.loadNotifications();
   }
 
-  error(message: string, duration: number = 5000) {
-    this.snackBar.open(message, 'Fechar', {
-      duration,
-      panelClass: ['error-snackbar'],
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
-  }
-
-  info(message: string, duration: number = 3000) {
-    this.snackBar.open(message, 'Fechar', {
-      duration,
-      panelClass: ['info-snackbar'],
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
-  }
-
-  warning(message: string, duration: number = 4000) {
-    this.snackBar.open(message, 'Fechar', {
-      duration,
-      panelClass: ['warning-snackbar'],
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
+  private loadNotifications() {
+    // Mock notifications for demo
+    const mockNotifications: Notification[] = [
+      {
+        id: '1',
+        title: 'Reunião em 15 minutos',
+        message: 'Reunião de equipe às 14:00',
+        type: 'info',
+        timestamp: new Date(),
+        read: false
+      },
+      {
+        id: '2',
+        title: 'Tarefa vencendo',
+        message: 'Relatório mensal vence hoje',
+        type: 'warning',
+        timestamp: new Date(Date.now() - 3600000),
+        read: false
+      }
+    ];
+    
+    this.notifications.set(mockNotifications);
+    this.updateUnreadCount();
   }
 
   addNotification(notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) {
     const newNotification: Notification = {
       ...notification,
-      id: this.generateId(),
+      id: Date.now().toString(),
       timestamp: new Date(),
-      read: false,
+      read: false
     };
-
-    const current = this.notifications.value || [];
-    this.notifications.next([newNotification, ...current]);
-
-    // mostra snackbar e tenta notificação do navegador
-    this.showSnackBar(newNotification.message, newNotification.type);
-    this.showBrowserNotification(newNotification);
+    
+    this.notifications.update(notifications => [newNotification, ...notifications]);
+    this.updateUnreadCount();
+    
+    // Show snackbar
+    this.showSnackbar(newNotification);
   }
 
-  markAsRead(notificationId: string) {
-    const current = this.notifications.value || [];
-    const updated = current.map((n) => (n.id === notificationId ? { ...n, read: true } : n));
-    this.notifications.next(updated);
+  markAsRead(id: string) {
+    this.notifications.update(notifications =>
+      notifications.map(n => n.id === id ? { ...n, read: true } : n)
+    );
+    this.updateUnreadCount();
+  }
+
+  markAllAsRead() {
+    this.notifications.update(notifications =>
+      notifications.map(n => ({ ...n, read: true }))
+    );
+    this.updateUnreadCount();
+  }
+
+  removeNotification(id: string) {
+    this.notifications.update(notifications =>
+      notifications.filter(n => n.id !== id)
+    );
+    this.updateUnreadCount();
   }
 
   clearAll() {
-    this.notifications.next([]);
+    this.notifications.set([]);
+    this.updateUnreadCount();
   }
 
-  initializeNotifications() {
-    // Carregue notificações salvas se necessário
-    this.checkPermissions();
+  private updateUnreadCount() {
+    const unread = this.notifications().filter(n => !n.read).length;
+    this.unreadCount.set(unread);
   }
 
-  private async checkPermissions() {
-    try {
-      // A API de Notification pode não existir em todos os ambientes
-      const win = window as any;
-      if (win && 'Notification' in win) {
-        const permission = await win.Notification.requestPermission();
-        if (permission === 'granted') {
-          console.log('Notificações permitidas');
-        }
-      }
-    } catch (e) {
-      // não bloquear a aplicação por falhas na API de notificações
-      console.warn('Erro ao checar permissões de notificação', e);
+  private showSnackbar(notification: Notification) {
+    const config = {
+      duration: 5000,
+      horizontalPosition: 'right' as const,
+      verticalPosition: 'top' as const,
+      panelClass: [`snackbar-${notification.type}`]
+    };
+
+    const snackBarRef = this.snackBar.open(
+      `${notification.title}: ${notification.message}`,
+      notification.actionLabel || 'Fechar',
+      config
+    );
+
+    if (notification.actionCallback) {
+      snackBarRef.onAction().subscribe(() => {
+        notification.actionCallback!();
+      });
     }
   }
 
-  private showBrowserNotification(notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) {
-    try {
-      const win = window as any;
-      if (win && 'Notification' in win && win.Notification.permission === 'granted') {
-        // eslint-disable-next-line no-new
-        new win.Notification(notification.title, {
-          body: notification.message,
-          icon: '/assets/icons/notification-icon.png',
-        });
-      }
-    } catch (e) {
-      // ignore
-    }
+  // Utility methods for common notifications
+  showSuccess(message: string, title = 'Sucesso') {
+    this.addNotification({
+      title,
+      message,
+      type: 'success'
+    });
   }
 
-  private generateId(): string {
-    return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  showError(message: string, title = 'Erro') {
+    this.addNotification({
+      title,
+      message,
+      type: 'error'
+    });
   }
 
-  private showSnackBar(message: string, type: Notification['type']) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: type === 'error' ? 5000 : 3000,
-      panelClass: [`${type}-snackbar`],
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+  showWarning(message: string, title = 'Atenção') {
+    this.addNotification({
+      title,
+      message,
+      type: 'warning'
+    });
+  }
+
+  showInfo(message: string, title = 'Informação') {
+    this.addNotification({
+      title,
+      message,
+      type: 'info'
     });
   }
 }

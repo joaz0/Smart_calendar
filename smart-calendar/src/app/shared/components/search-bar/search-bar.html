@@ -1,71 +1,219 @@
-<div class="search-bar" data-component="SearchBar">
-  <div class="search-container">
-    <div class="search-icon" aria-hidden="true">🔍</div>
-    <input
-      #searchInput
-      type="text"
-      [(ngModel)]="searchText"
-      placeholder="Buscar eventos, tarefas, contatos..."
-      class="search-input"
-      (input)="onSearch($event)"
-      (focus)="onFocus()"
-      (blur)="onBlur()"
-      aria-label="Buscar"
-    />
-    <div class="search-actions">
-      <button class="search-action" *ngIf="searchText" (click)="clearSearch()" aria-label="Limpar busca">×</button>
-      <div class="search-shortcut" aria-hidden="true">⌘K</div>
+<div class="search-bar" 
+     [class.expanded]="isExpanded"
+     [class.has-results]="searchResults.length > 0">
+  
+  <div class="search-input-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>{{ placeholder }}</mat-label>
+      <input matInput
+             #searchInput
+             [(ngModel)]="searchTerm"
+             (input)="onSearch($event)"
+             (focus)="onFocus()"
+             (blur)="onBlur()"
+             (keydown.enter)="onEnter()"
+             (keydown.escape)="onEscape()"
+             (keydown.arrowdown)="navigateResults(1)"
+             (keydown.arrowup)="navigateResults(-1)"
+             [placeholder]="placeholder"
+             autocomplete="off"
+             role="combobox"
+             [attr.aria-expanded]="showResults"
+             [attr.aria-owns]="showResults ? 'search-results' : null"
+             [attr.aria-activedescendant]="selectedResultId">
+      
+      <mat-icon matPrefix class="search-icon">search</mat-icon>
+      
+      <button matSuffix
+              mat-icon-button
+              *ngIf="searchTerm"
+              (click)="clearSearch()"
+              aria-label="Limpar busca">
+        <mat-icon>close</mat-icon>
+      </button>
+      
+      <button matSuffix
+              mat-icon-button
+              *ngIf="showFilters"
+              (click)="toggleFilters()"
+              [class.active]="filtersOpen"
+              aria-label="Filtros de busca">
+        <mat-icon>tune</mat-icon>
+      </button>
+    </mat-form-field>
+    
+    <button mat-icon-button
+            class="voice-search-btn"
+            *ngIf="enableVoiceSearch"
+            (click)="startVoiceSearch()"
+            [class.listening]="isListening"
+            [attr.aria-label]="isListening ? 'Parar gravação' : 'Busca por voz'">
+      <mat-icon>{{ isListening ? 'mic' : 'mic_none' }}</mat-icon>
+    </button>
+  </div>
+  
+  <!-- Filters Panel -->
+  <div class="search-filters" 
+       *ngIf="showFilters && filtersOpen"
+       [@slideDown]>
+    <div class="filters-content">
+      <div class="filter-group">
+        <label>Tipo:</label>
+        <mat-chip-list>
+          <mat-chip *ngFor="let type of searchTypes"
+                   [selected]="selectedTypes.includes(type.value)"
+                   (click)="toggleType(type.value)">
+            <mat-icon>{{ type.icon }}</mat-icon>
+            {{ type.label }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      
+      <div class="filter-group" *ngIf="enableDateFilter">
+        <label>Período:</label>
+        <mat-form-field appearance="outline">
+          <mat-label>Data inicial</mat-label>
+          <input matInput 
+                 [matDatepicker]="startPicker" 
+                 [(ngModel)]="dateRange.start">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Data final</mat-label>
+          <input matInput 
+                 [matDatepicker]="endPicker" 
+                 [(ngModel)]="dateRange.end">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      
+      <div class="filter-actions">
+        <button mat-button (click)="clearFilters()">Limpar</button>
+        <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar</button>
+      </div>
     </div>
   </div>
-
-  <!-- Search Results Dropdown -->
-  <div class="search-results" *ngIf="showResults && searchText">
-    <!-- Eventos -->
-    <div class="search-section" *ngIf="eventResults.length > 0">
-      <div class="section-title">Eventos</div>
-      <div class="result-item" *ngFor="let event of eventResults" (click)="selectEvent(event)">
-        <div class="result-icon">📅</div>
-        <div class="result-content">
-          <div class="result-title">{{ event.title }}</div>
-          <div class="result-meta">{{ event.startDate | date:'dd/MM/yyyy HH:mm' }}</div>
+  
+  <!-- Search Results -->
+  <div class="search-results-container" 
+       *ngIf="showResults && searchResults.length > 0"
+       [@fadeInOut]>
+    <div class="search-results" 
+         id="search-results"
+         role="listbox"
+         [attr.aria-label]="'Resultados da busca: ' + searchResults.length + ' encontrados'">
+      
+      <div class="results-header" *ngIf="searchResults.length > 0">
+        <span class="results-count">
+          {{ searchResults.length }} resultado{{ searchResults.length !== 1 ? 's' : '' }} encontrado{{ searchResults.length !== 1 ? 's' : '' }}
+        </span>
+        <button mat-icon-button 
+                (click)="closeResults()"
+                aria-label="Fechar resultados">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="results-list">
+        <div *ngFor="let result of searchResults; let i = index; trackBy: trackByResult"
+             class="search-result-item"
+             [class.selected]="selectedIndex === i"
+             [id]="'result-' + i"
+             role="option"
+             [attr.aria-selected]="selectedIndex === i"
+             (click)="selectResult(result, i)"
+             (mouseenter)="selectedIndex = i">
+          
+          <div class="result-icon">
+            <mat-icon [class]="'type-' + result.type">{{ getResultIcon(result.type) }}</mat-icon>
+          </div>
+          
+          <div class="result-content">
+            <div class="result-title" [innerHTML]="highlightSearchTerm(result.title)"></div>
+            <div class="result-subtitle" *ngIf="result.subtitle">
+              {{ result.subtitle }}
+            </div>
+            <div class="result-meta">
+              <span class="result-type">{{ getTypeLabel(result.type) }}</span>
+              <span class="result-date" *ngIf="result.date">
+                {{ result.date | date:'short' }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="result-actions">
+            <button mat-icon-button
+                    (click)="quickAction(result, $event)"
+                    [attr.aria-label]="'Ação rápida para ' + result.title">
+              <mat-icon>{{ getQuickActionIcon(result.type) }}</mat-icon>
+            </button>
+          </div>
         </div>
+      </div>
+      
+      <div class="results-footer" *ngIf="hasMoreResults">
+        <button mat-stroked-button 
+                (click)="loadMoreResults()"
+                [disabled]="loadingMore">
+          <mat-icon *ngIf="!loadingMore">expand_more</mat-icon>
+          <mat-spinner *ngIf="loadingMore" diameter="20"></mat-spinner>
+          {{ loadingMore ? 'Carregando...' : 'Ver mais resultados' }}
+        </button>
       </div>
     </div>
-
-    <!-- Tarefas -->
-    <div class="search-section" *ngIf="taskResults.length > 0">
-      <div class="section-title">Tarefas</div>
-      <div class="result-item" *ngFor="let task of taskResults" (click)="selectTask(task)">
-        <div class="result-icon">✅</div>
-        <div class="result-content">
-          <div class="result-title">{{ task.title }}</div>
-          <div class="result-meta">{{ task.category }}</div>
-        </div>
+  </div>
+  
+  <!-- No Results -->
+  <div class="no-results" 
+       *ngIf="showResults && searchResults.length === 0 && searchTerm && !isSearching"
+       [@fadeInOut]>
+    <div class="no-results-content">
+      <mat-icon>search_off</mat-icon>
+      <h3>Nenhum resultado encontrado</h3>
+      <p>Tente usar termos diferentes ou verifique a ortografia</p>
+      <div class="no-results-actions">
+        <button mat-stroked-button (click)="clearSearch()">
+          <mat-icon>clear</mat-icon>
+          Limpar busca
+        </button>
+        <button mat-raised-button 
+                color="primary" 
+                (click)="createFromSearch()"
+                *ngIf="enableCreateFromSearch">
+          <mat-icon>add</mat-icon>
+          Criar "{{ searchTerm }}"
+        </button>
       </div>
     </div>
-
-    <!-- Nenhum resultado -->
-    <div class="search-section" *ngIf="eventResults.length === 0 && taskResults.length === 0">
-      <div class="no-results">Nenhum resultado encontrado</div>
+  </div>
+  
+  <!-- Recent Searches -->
+  <div class="recent-searches" 
+       *ngIf="showRecentSearches && recentSearches.length > 0 && !searchTerm"
+       [@fadeInOut]>
+    <div class="recent-header">
+      <span>Buscas recentes</span>
+      <button mat-icon-button 
+              (click)="clearRecentSearches()"
+              aria-label="Limpar buscas recentes">
+        <mat-icon>clear_all</mat-icon>
+      </button>
     </div>
-
-    <!-- Comandos -->
-    <div class="search-section">
-      <div class="section-title">Comandos</div>
-      <div class="result-item" (click)="createEvent()">
-        <div class="result-icon">➕</div>
-        <div class="result-content">
-          <div class="result-title">Criar Novo Evento</div>
-          <div class="result-meta">Adicionar evento ao calendário</div>
-        </div>
-      </div>
-      <div class="result-item" (click)="createTask()">
-        <div class="result-icon">📝</div>
-        <div class="result-content">
-          <div class="result-title">Adicionar Tarefa</div>
-          <div class="result-meta">Criar nova tarefa</div>
-        </div>
-      </div>
+    <div class="recent-list">
+      <button *ngFor="let recent of recentSearches; trackBy: trackByRecent"
+              class="recent-item"
+              (click)="selectRecentSearch(recent)">
+        <mat-icon>history</mat-icon>
+        <span>{{ recent }}</span>
+        <button mat-icon-button 
+                (click)="removeRecentSearch(recent, $event)"
+                aria-label="Remover busca recente">
+          <mat-icon>close</mat-icon>
+        </button>
+      </button>
     </div>
   </div>
 </div>

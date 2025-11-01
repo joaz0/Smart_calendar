@@ -3,44 +3,75 @@
 
 .auth-layout {
   @include mixins.full-screen-gradient;
+  padding: var(--space-4);
+  
+  // Safe area insets for mobile devices
+  @supports (padding: max(0px)) {
+    padding-top: max(var(--space-4), env(safe-area-inset-top));
+    padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+  }
 }
 
 .auth-container {
   width: 100%;
-  max-width: 400px;
-  padding: vars.$spacing-xl;
+  max-width: min(400px, 90vw);
+  padding: clamp(var(--space-4), 5vw, var(--space-8));
   position: relative;
-
+  margin: 0 auto;
 }
 
 .auth-card {
   @include mixins.glass-card;
+  padding: clamp(var(--space-6), 6vw, var(--space-10));
+  width: 100%;
+  
+  // Enhanced backdrop blur for better readability
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  // Better border for glass effect
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  // Subtle animation on load
+  animation: slideUp var(--transition-normal) ease-out;
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(var(--space-6), 5vw, var(--space-8));
 }
 
 .auth-header h1 {
-  margin: 0 0 0.5rem 0;
-  color: #6000faa8;
-  text-shadow: 1px 1px #dcc7fdda;
+  margin: 0 0 var(--space-2) 0;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: var(--font-bold);
+  
+  @include mobile-only {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
 }
 
 .app-logo {
-  width: 80px;
-  height: 80px;
+  width: clamp(60px, 15vw, 80px);
+  height: clamp(60px, 15vw, 80px);
   object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .auth-subtitle {
-  color: #7f8c8d;
+  color: rgba(255, 255, 255, 0.8);
   margin: 0;
+  font-size: clamp(var(--font-size-sm), 3vw, var(--font-size-base));
+  font-weight: var(--font-normal);
 }
 
 .auth-form {
@@ -77,25 +108,48 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-2);
+  
+  @include mobile-only {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
 }
 
 .remember-me {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  
   input[type="checkbox"] {
     margin: 0;
-    accent-color: #8234db;
-    width: 16px;
-    height: 16px;
-
-    // Fallback para browsers antigos
-    &:checked {
-      background-color: #8234db;
-      border-color: #8234db;
+    accent-color: var(--primary-500);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    
+    @media (pointer: coarse) {
+      width: 20px;
+      height: 20px;
     }
 
-    &:focus {
-      outline: 2px solid #8234db40;
+    &:checked {
+      background-color: var(--primary-500);
+      border-color: var(--primary-500);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(99, 102, 241, 0.5);
       outline-offset: 2px;
     }
+  }
+  
+  span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-sm);
+    user-select: none;
   }
 }
 
@@ -103,9 +157,27 @@
 .forgot-password {
   background: none;
   border: none;
-  color: #8234dbc5;
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+  }
+  
+  @include mobile-only {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .submit-btn {
@@ -126,51 +198,102 @@
 .social-login {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .social-btn {
-  @include mixins.social-button;
+  @include button-base;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .divider {
   position: relative;
-  margin: 5px;
+  margin: var(--space-4) 0;
+  text-align: center;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
   span {
     position: relative;
     z-index: 1;
+    background: var(--surface-glass);
+    padding: 0 var(--space-4);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--font-size-sm);
   }
 }
 
 .social-icon {
   width: 20px;
   height: 20px;
-  margin-right: 0.75rem;
+  margin-right: var(--space-3);
   flex-shrink: 0;
 }
 
 .auth-switch {
   text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #ecf0f1;
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .auth-switch p {
   margin: 0;
-  color: #7f8c8d;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-sm);
 }
 
 .switch-btn {
   background: none;
   border: none;
-  color: #8234dbc5;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: var(--font-semibold);
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+  }
 }
 
 .auth-footer {
   text-align: center;
-  margin-top: 2rem;
-  color: rgba(255,255,255,0.8);
+  margin-top: var(--space-8);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--font-size-xs);
+  
+  p {
+    margin: 0;
+  }
 }

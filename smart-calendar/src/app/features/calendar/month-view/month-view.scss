@@ -1,21 +1,64 @@
 @import '../../../../assets/styles/_variables';
 @import '../../../../assets/styles/_mixins';
+@import '../../../../assets/styles/_breakpoints';
 
 .month-view {
   @include glass-card;
-  margin: $spacing-md;
   border: 1px solid rgba(255,255,255,0.1);
+  width: 100%;
+  overflow: hidden;
+  
+  @include desktop-only {
+    margin: $spacing-md;
+  }
+  
+  @include tablet-only {
+    margin: $spacing-sm;
+  }
+  
+  @include mobile-only {
+    margin: 0;
+    border-radius: 0;
+  }
 
   .month-header {
     @include flex-center;
     justify-content: space-between;
-    padding: $spacing-md;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+    @include desktop-only {
+      padding: $spacing-md;
+    }
+    
+    @include tablet-only {
+      padding: $spacing-sm $spacing-md;
+    }
+    
+    @include mobile-only {
+      padding: $spacing-sm;
+      flex-direction: column;
+      align-items: center;
+    }
 
     h2 {
       color: $primary-purple;
       text-shadow: 1px 1px $text-shadow;
       margin: 0;
+      
+      @include desktop-only {
+        font-size: 1.5rem;
+      }
+      
+      @include tablet-only {
+        font-size: 1.3rem;
+      }
+      
+      @include mobile-only {
+        font-size: 1.2rem;
+        text-align: center;
+      }
     }
 
     .nav-buttons {
@@ -24,8 +67,22 @@
 
       button {
         @include primary-button;
-        padding: $spacing-sm $spacing-md;
-        font-size: 0.9rem;
+        
+        @include desktop-only {
+          padding: $spacing-sm $spacing-md;
+          font-size: 0.9rem;
+        }
+        
+        @include tablet-only {
+          padding: $spacing-xs $spacing-sm;
+          font-size: 0.85rem;
+        }
+        
+        @include mobile-only {
+          padding: $spacing-xs;
+          font-size: 0.8rem;
+          min-width: 40px;
+        }
       }
     }
   }
@@ -35,22 +92,52 @@
     grid-template-columns: repeat(7, 1fr);
     gap: 1px;
     background: rgba(255,255,255,0.1);
+    width: 100%;
+    overflow-x: auto;
 
     .day-header {
-      padding: $spacing-md;
       text-align: center;
       font-weight: bold;
       background: $primary-dark;
       color: $text-light;
+      
+      @include desktop-only {
+        padding: $spacing-md;
+        font-size: 0.9rem;
+      }
+      
+      @include tablet-only {
+        padding: $spacing-sm;
+        font-size: 0.85rem;
+      }
+      
+      @include mobile-only {
+        padding: $spacing-xs;
+        font-size: 0.75rem;
+      }
     }
 
     .day-cell {
-      min-height: 120px;
-      padding: $spacing-sm;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       cursor: pointer;
       transition: background $transition-fast;
+      overflow: hidden;
+      
+      @include desktop-only {
+        min-height: 120px;
+        padding: $spacing-sm;
+      }
+      
+      @include tablet-only {
+        min-height: 100px;
+        padding: $spacing-xs;
+      }
+      
+      @include mobile-only {
+        min-height: 80px;
+        padding: 0.25rem;
+      }
 
       &:hover {
         background: rgba(255,255,255,0.1);
@@ -69,6 +156,19 @@
         font-weight: bold;
         color: $text-light;
         margin-bottom: $spacing-xs;
+        
+        @include desktop-only {
+          font-size: 1rem;
+        }
+        
+        @include tablet-only {
+          font-size: 0.9rem;
+        }
+        
+        @include mobile-only {
+          font-size: 0.8rem;
+          margin-bottom: 0.125rem;
+        }
       }
 
       .events {
@@ -76,16 +176,36 @@
         gap: 2px;
 
         .event {
-          padding: 2px $spacing-xs;
           border-radius: $border-radius-sm;
-          font-size: 0.75rem;
           background: $primary-light;
           color: white;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          
+          @include desktop-only {
+            padding: 2px $spacing-xs;
+            font-size: 0.75rem;
+          }
+          
+          @include tablet-only {
+            padding: 1px 0.25rem;
+            font-size: 0.7rem;
+          }
+          
+          @include mobile-only {
+            padding: 1px 0.2rem;
+            font-size: 0.65rem;
+          }
         }
       }
+    }
+  }
+  
+  // Scroll horizontal para mobile se necessário
+  @include mobile-only {
+    .calendar-grid {
+      min-width: 100%;
     }
   }
 }

@@ -1,8 +1,18 @@
+@import '../../../../assets/styles/_variables';
+@import '../../../../assets/styles/_mixins';
+@import '../../../../assets/styles/_breakpoints';
+
 .event-form {
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   overflow: hidden;
   height: 100%;
+  width: 100%;
+  
+  @include mobile-only {
+    border-radius: 0;
+    height: 100vh;
+  }
 
   form {
     display: flex;
@@ -14,21 +24,60 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 24px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
+    
+    @include desktop-only {
+      padding: 20px 24px;
+    }
+    
+    @include tablet-only {
+      padding: 16px 20px;
+    }
+    
+    @include mobile-only {
+      padding: 12px 16px;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
 
     h2 {
       margin: 0;
-      font-size: 18px;
       font-weight: 600;
       color: var(--text-primary);
+      
+      @include desktop-only {
+        font-size: 18px;
+      }
+      
+      @include tablet-only {
+        font-size: 17px;
+      }
+      
+      @include mobile-only {
+        font-size: 16px;
+        text-align: center;
+      }
     }
 
     .form-actions {
       display: flex;
-      gap: 12px;
+      
+      @include desktop-only {
+        gap: 12px;
+      }
+      
+      @include tablet-only {
+        gap: 10px;
+      }
+      
+      @include mobile-only {
+        gap: 8px;
+        width: 100%;
+        justify-content: flex-end;
+      }
 
       .btn-secondary, .btn-primary {
         padding: 8px 16px;
@@ -74,8 +123,25 @@
     display: flex;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
-    padding: 0 24px;
     flex-shrink: 0;
+    
+    @include desktop-only {
+      padding: 0 24px;
+    }
+    
+    @include tablet-only {
+      padding: 0 20px;
+    }
+    
+    @include mobile-only {
+      padding: 0 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
 
     .tab-btn {
       background: none;
@@ -103,9 +169,20 @@
 
   .tab-content {
     flex: 1;
-    padding: 24px;
     overflow-y: auto;
     min-height: 0;
+    
+    @include desktop-only {
+      padding: 24px;
+    }
+    
+    @include tablet-only {
+      padding: 20px;
+    }
+    
+    @include mobile-only {
+      padding: 16px;
+    }
 
     .tab-pane {
       animation: fadeIn 0.2s ease;
@@ -222,10 +299,18 @@
 
   .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-
-    @media (max-width: 768px) {
+    
+    @include desktop-only {
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    @include tablet-only {
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    
+    @include mobile-only {
       grid-template-columns: 1fr;
       gap: 12px;
     }
@@ -410,39 +495,9 @@
   }
 }
 
-// Responsive
-@media (max-width: 768px) {
+// Ajustes específicos para mobile
+@include mobile-only {
   .event-form {
-    .form-header {
-      flex-direction: column;
-      gap: 12px;
-      align-items: stretch;
-      padding: 16px;
-
-      .form-actions {
-        width: 100%;
-        justify-content: flex-end;
-      }
-    }
-
-    .form-tabs {
-      padding: 0 16px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    .tab-content {
-      padding: 16px;
-    }
-
-    .form-row {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
     .reminders-list {
       .reminder-item {
         flex-direction: column;
@@ -456,6 +511,20 @@
           align-self: flex-end;
         }
       }
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+      
+      .form-input, .form-textarea, .form-select {
+        font-size: 16px; // Previne zoom no iOS
+        padding: 10px 12px;
+      }
+    }
+    
+    .ai-suggestions {
+      margin-top: 16px;
+      padding: 12px;
     }
   }
 }

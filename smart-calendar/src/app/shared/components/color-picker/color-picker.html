@@ -1,59 +1,53 @@
-<div class="color-picker">
-  <div class="color-display" (click)="togglePicker($event)">
-    <div class="selected-color" [style.backgroundColor]="selectedColor"></div>
-    <div class="color-value">{{ selectedColor }}</div>
-    <div class="dropdown-arrow">{{ isPickerOpen ? '▴' : '▾' }}</div>
+<div class="color-picker" role="radiogroup" aria-label="Seletor de cores">
+  <div class="color-grid">
+    <button *ngFor="let color of colors; trackBy: trackByColor"
+            type="button"
+            class="color-option"
+            [class.selected]="selectedColor === color.value"
+            [style.background-color]="color.value"
+            [attr.aria-label]="color.name"
+            [attr.aria-checked]="selectedColor === color.value"
+            role="radio"
+            (click)="selectColor(color.value)"
+            (keydown.enter)="selectColor(color.value)"
+            (keydown.space)="selectColor(color.value)">
+      <mat-icon *ngIf="selectedColor === color.value" class="check-icon">check</mat-icon>
+    </button>
   </div>
-
-  <div class="color-palette" *ngIf="isPickerOpen" (click)="$event.stopPropagation()">
-    <div class="palette-section">
-      <div class="section-title">Cores Principais</div>
-      <div class="color-grid">
-        <div 
-          *ngFor="let color of primaryColors"
-          class="color-option"
-          [class.selected]="selectedColor === color"
-          [style.backgroundColor]="color"
-          (click)="selectColor(color, $event)"
-        >
-          <div class="checkmark" *ngIf="selectedColor === color">✓</div>
-        </div>
-      </div>
+  
+  <div class="custom-color-section" *ngIf="allowCustom">
+    <mat-divider></mat-divider>
+    <div class="custom-color-input">
+      <mat-form-field appearance="outline">
+        <mat-label>Cor personalizada</mat-label>
+        <input matInput 
+               type="color" 
+               [(ngModel)]="customColor"
+               (ngModelChange)="onCustomColorChange($event)"
+               aria-label="Seletor de cor personalizada">
+      </mat-form-field>
+      <button mat-icon-button 
+              (click)="selectColor(customColor)"
+              [disabled]="!customColor"
+              aria-label="Aplicar cor personalizada">
+        <mat-icon>check</mat-icon>
+      </button>
     </div>
-
-    <div class="palette-section">
-      <div class="section-title">Cores de Categoria</div>
-      <div class="color-grid">
-        <div 
-          *ngFor="let color of categoryColors"
-          class="color-option"
-          [class.selected]="selectedColor === color"
-          [style.backgroundColor]="color"
-          (click)="selectColor(color, $event)"
-        >
-          <div class="checkmark" *ngIf="selectedColor === color">✓</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="custom-color">
-      <div class="section-title">Cor Personalizada</div>
-      <div class="custom-controls">
-        <input 
-          placeholder="Escolha uma cor"
-          type="color" 
-          [value]="selectedColor"
-          (input)="onCustomColorChange($event)"
-          class="color-input"
-        />
-        <input 
-          type="text" 
-          [value]="selectedColor"
-          placeholder="#000000"
-          class="color-text"
-          (input)="onColorTextChange($event)"
-        />
-      </div>
+  </div>
+  
+  <div class="recent-colors" *ngIf="recentColors.length > 0">
+    <mat-divider></mat-divider>
+    <h4>Cores recentes</h4>
+    <div class="recent-colors-grid">
+      <button *ngFor="let color of recentColors; trackBy: trackByRecentColor"
+              type="button"
+              class="color-option recent"
+              [class.selected]="selectedColor === color"
+              [style.background-color]="color"
+              [attr.aria-label]="'Cor recente: ' + color"
+              (click)="selectColor(color)">
+        <mat-icon *ngIf="selectedColor === color" class="check-icon">check</mat-icon>
+      </button>
     </div>
   </div>
 </div>

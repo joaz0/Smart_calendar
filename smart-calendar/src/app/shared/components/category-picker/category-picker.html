@@ -1,116 +1,48 @@
 <div class="category-picker">
-  <div 
-    class="selected-category" 
-    (click)="toggleDropdown()"
-    [class.disabled]="disabled"
-  >
-    <div 
-      class="category-color" 
-      [style.backgroundColor]="selectedCategory?.color || '#9ca3af'"
-    ></div>
-    <span class="category-name">
-      {{ selectedCategory?.name || 'Selecionar Categoria' }}
-    </span>
-    <div class="dropdown-arrow">{{ isOpen ? '▴' : '▾' }}</div>
-  </div>
-
-  <div class="categories-dropdown" *ngIf="isOpen">
-    <div class="dropdown-content">
-      <!-- Categorias Padrão -->
-      <div 
-        *ngFor="let category of defaultCategories"
-        class="category-option"
-        [class.selected]="selectedCategory?.id === category.id"
-        (click)="selectCategory(category)"
-      >
-        <div class="category-color" [style.backgroundColor]="category.color"></div>
+  <div class="category-list" role="listbox" aria-label="Seletor de categorias">
+    <div *ngFor="let category of categories; trackBy: trackByCategory"
+         class="category-item"
+         [class.selected]="selectedCategory?.id === category.id"
+         role="option"
+         [attr.aria-selected]="selectedCategory?.id === category.id"
+         (click)="selectCategory(category)"
+         (keydown.enter)="selectCategory(category)"
+         (keydown.space)="selectCategory(category)"
+         tabindex="0">
+      <div class="category-color" [style.background-color]="category.color"></div>
+      <div class="category-info">
         <span class="category-name">{{ category.name }}</span>
-        <div class="category-count" *ngIf="getCategoryCount(category) > 0">
-          {{ getCategoryCount(category) }}
-        </div>
+        <span class="category-description" *ngIf="category.description">
+          {{ category.description }}
+        </span>
       </div>
-
-      <!-- Divisor (só mostra se houver categorias personalizadas) -->
-      <div class="dropdown-divider" *ngIf="customCategories.length > 0"></div>
-
-      <!-- Categorias Personalizadas -->
-      <div 
-        *ngFor="let category of customCategories"
-        class="category-option"
-        [class.selected]="selectedCategory?.id === category.id"
-        (click)="selectCategory(category)"
-      >
-        <div class="category-color" [style.backgroundColor]="category.color"></div>
-        <span class="category-name">{{ category.name }}</span>
-        <div class="category-actions" (click)="$event.stopPropagation()">
-          <button 
-            class="action-btn" 
-            (click)="editCategory(category, $event)"
-            title="Editar categoria"
-          >
-            ✏️
-          </button>
-          <button 
-            class="action-btn" 
-            (click)="deleteCategory(category, $event)"
-            title="Excluir categoria"
-          >
-            🗑️
-          </button>
-        </div>
-      </div>
-
-      <!-- Adicionar Nova Categoria -->
-      <div class="dropdown-divider"></div>
-      <div class="add-category" (click)="addNewCategory()">
-        <div class="add-icon">+</div>
-        <span>Nova Categoria</span>
-      </div>
+      <mat-icon *ngIf="selectedCategory?.id === category.id" class="selected-icon">
+        check_circle
+      </mat-icon>
     </div>
   </div>
-
-  <!-- Modal de Edição de Categoria -->
-  <div class="category-modal" *ngIf="showCategoryModal">
-    <div class="modal-overlay" (click)="closeModal()"></div>
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <h3>{{ editingCategory ? 'Editar Categoria' : 'Nova Categoria' }}</h3>
-      
-      <div class="form-group">
-        <label>Nome da Categoria</label>
-        <input 
-          type="text" 
-          [(ngModel)]="categoryName"
-          placeholder="Ex: Trabalho, Pessoal, Saúde..."
-          class="form-input"
-          (keyup.enter)="saveCategory()"
-          autofocus
-        />
-      </div>
-
-      <div class="form-group">
-        <label>Cor</label>
-        <div class="color-palette">
-          <div 
-            *ngFor="let color of colorPalette"
-            class="color-option"
-            [class.selected]="selectedColor === color"
-            [style.backgroundColor]="color"
-            (click)="selectColor(color)"
-            [title]="color"
-          ></div>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
-        <button 
-          class="btn-primary" 
-          (click)="saveCategory()"
-          [disabled]="!categoryName.trim()"
-        >
-          Salvar
-        </button>
-      </div>
-    </div>
+  
+  <mat-divider *ngIf="allowCreate"></mat-divider>
+  
+  <div class="create-category" *ngIf="allowCreate">
+    <button mat-stroked-button 
+            (click)="openCreateDialog()"
+            class="create-btn"
+            aria-label="Criar nova categoria">
+      <mat-icon>add</mat-icon>
+      Nova Categoria
+    </button>
+  </div>
+  
+  <div class="no-categories" *ngIf="categories.length === 0">
+    <mat-icon>category</mat-icon>
+    <p>Nenhuma categoria disponível</p>
+    <button mat-raised-button 
+            color="primary"
+            (click)="openCreateDialog()"
+            *ngIf="allowCreate">
+      <mat-icon>add</mat-icon>
+      Criar Primeira Categoria
+    </button>
   </div>
 </div>

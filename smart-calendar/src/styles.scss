@@ -35,6 +35,9 @@ body {
 }
 @import './assets/styles/_variables';
 @import './assets/styles/_mixins';
+@import './assets/styles/_breakpoints';
+@import './assets/styles/_responsive';
+@import './assets/styles/_components';
 
 /* Global Styles */
 * {

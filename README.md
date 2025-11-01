@@ -5,7 +5,7 @@ Sistema completo de agenda inteligente com Angular 18 e Node.js, pronto para dep
 ## 🚀 Funcionalidades
 
 ### Frontend (Angular 18)
-- ✅ Interface moderna e responsiva
+- ✅ Interface moderna e **100% responsiva**
 - ✅ Calendário interativo (mês/semana/dia)
 - ✅ Gerenciamento de eventos e tarefas
 - ✅ Sistema de categorias com cores
@@ -13,6 +13,8 @@ Sistema completo de agenda inteligente com Angular 18 e Node.js, pronto para dep
 - ✅ Configurações de privacidade avançadas
 - ✅ Tema claro/escuro
 - ✅ PWA ready
+- ✅ **Otimizado para mobile, tablet e desktop**
+- ✅ **Touch-friendly em dispositivos móveis**
 
 ### Backend (Node.js + PostgreSQL)
 - ✅ API REST completa
@@ -148,8 +150,35 @@ ng serve
 
 - Tema claro/escuro
 - Cores personalizáveis
-- Layout responsivo
+- **Layout 100% responsivo**
 - Acessibilidade (WCAG)
+- **Adaptação automática para diferentes tamanhos de tela**
+- **Interface otimizada para touch em dispositivos móveis**
+
+## 📱 Responsividade
+
+### Breakpoints Suportados
+- **Mobile**: 0px - 767px (smartphones)
+- **Tablet**: 768px - 991px (tablets)
+- **Desktop**: 992px+ (desktops e laptops)
+
+### Características Responsivas
+- ✅ Menu lateral colapsável
+- ✅ Grid de calendário adaptável
+- ✅ Formulários otimizados para mobile
+- ✅ Navegação touch-friendly
+- ✅ Modais responsivos
+- ✅ Tabelas com scroll horizontal
+- ✅ Tipografia escalável
+- ✅ Imagens e ícones adaptativos
+
+### Otimizações Mobile
+- Prevenção de zoom indesejado no iOS
+- Scroll suave e natural
+- Botões com tamanho adequado para touch
+- Performance otimizada para dispositivos móveis
+
+> 📝 **Guia Completo**: Consulte [RESPONSIVE_GUIDE.md](RESPONSIVE_GUIDE.md) para documentação detalhada sobre responsividade.
 
 ## 📈 Performance
 

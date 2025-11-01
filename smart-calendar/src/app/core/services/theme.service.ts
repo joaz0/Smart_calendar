@@ -1,37 +1,77 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal, effect } from '@angular/core';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'auto';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ThemeService {
-  private currentTheme = new BehaviorSubject<Theme>('light');
-  currentTheme$ = this.currentTheme.asObservable();
+  private readonly THEME_KEY = 'smart-calendar-theme';
+  
+  currentTheme = signal<Theme>('auto');
+  isDarkMode = signal(false);
 
-  initializeTheme() {
-    // Verifica preferência do usuário salva
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) {
-      this.setTheme(savedTheme);
-      return;
+  constructor() {
+    this.initializeTheme();
+    
+    // Watch for system theme changes
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      mediaQuery.addEventListener('change', () => {
+        if (this.currentTheme() === 'auto') {
+          this.updateThemeClass();
+        }
+      });
     }
 
-    // Verifica preferência do sistema
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.setTheme(prefersDark ? 'dark' : 'light');
+    // Effect to update DOM when theme changes
+    effect(() => {
+      this.updateThemeClass();
+    });
+  }
+
+  initializeTheme() {
+    if (typeof window === 'undefined') return;
+    
+    const savedTheme = localStorage.getItem(this.THEME_KEY) as Theme;
+    if (savedTheme && ['light', 'dark', 'auto'].includes(savedTheme)) {
+      this.currentTheme.set(savedTheme);
+    } else {
+      this.currentTheme.set('auto');
+    }
   }
 
   setTheme(theme: Theme) {
-    document.body.classList.remove('light-theme', 'dark-theme');
-    document.body.classList.add(`${theme}-theme`);
-    localStorage.setItem('theme', theme);
-    this.currentTheme.next(theme);
+    this.currentTheme.set(theme);
+    localStorage.setItem(this.THEME_KEY, theme);
   }
 
   toggleTheme() {
-    const newTheme = this.currentTheme.value === 'light' ? 'dark' : 'light';
-    this.setTheme(newTheme);
+    const current = this.currentTheme();
+    const next = current === 'light' ? 'dark' : 'light';
+    this.setTheme(next);
+  }
+
+  private updateThemeClass() {
+    if (typeof document === 'undefined') return;
+    
+    const theme = this.currentTheme();
+    let isDark = false;
+    
+    if (theme === 'dark') {
+      isDark = true;
+    } else if (theme === 'auto') {
+      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    this.isDarkMode.set(isDark);
+    
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark-theme', isDark);
+  }
+
+  getSystemTheme(): 'light' | 'dark' {
+    if (typeof window === 'undefined') return 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 }

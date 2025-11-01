@@ -2,10 +2,13 @@
   <header class="layout-header">
     <app-header
       [user]="user"
-      [currentTime]="currentTime"
-      [greeting]="getGreeting()"
+      [notifications]="stats.pendingTasks"
+      [isOnline]="true"
       (toggleSidebar)="toggleSidebar()"
-      (logout)="logout()">
+      (logout)="logout()"
+      (openNotifications)="onOpenNotifications()"
+      (openProfile)="onOpenProfile()"
+      (toggleTheme)="onToggleTheme()">
     </app-header>
   </header>
 
