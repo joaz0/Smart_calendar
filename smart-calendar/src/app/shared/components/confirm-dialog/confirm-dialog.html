@@ -5,28 +5,28 @@
     </div>
     <h2 mat-dialog-title id="confirm-dialog-title">{{ title }}</h2>
   </div>
-  
+
   <mat-dialog-content class="dialog-content">
     <div class="message-content">
       <p class="primary-message">{{ message }}</p>
       <p class="secondary-message" *ngIf="details">{{ details }}</p>
-      
-      <div class="warning-box" *ngIf="type === 'destructive' || type === 'warning' || type === 'danger'">
+
+      <div class="warning-box" *ngIf="type === 'warning' || type === 'danger'">
         <mat-icon>warning</mat-icon>
         <span>Esta ação não pode ser desfeita</span>
       </div>
-      
+
       <div class="info-list" *ngIf="additionalInfo && additionalInfo.length > 0">
         <h4>Informações adicionais:</h4>
         <ul>
           <li *ngFor="let info of additionalInfo">{{ info }}</li>
         </ul>
       </div>
-      
+
       <div class="confirmation-input" *ngIf="requireConfirmation">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Digite "{{ confirmationText }}" para confirmar</mat-label>
-          <input matInput 
+          <input matInput
                  [(ngModel)]="userConfirmation"
                  (input)="onConfirmationInput()"
                  [placeholder]="confirmationText"
@@ -36,26 +36,27 @@
           </mat-error>
         </mat-form-field>
       </div>
-      
+
       <div class="checkbox-options" *ngIf="checkboxOptions && checkboxOptions.length > 0">
         <mat-checkbox *ngFor="let option of checkboxOptions; trackBy: trackByOption"
                      [(ngModel)]="option.checked"
-                     [disabled]="option.disabled || false">
+                     [disabled]="option.disabled">
           {{ option.label }}
         </mat-checkbox>
       </div>
     </div>
   </mat-dialog-content>
-  
+
   <mat-dialog-actions align="end" class="dialog-actions">
-    <button mat-button 
+    <button mat-button
             (click)="onCancel()"
             [disabled]="isProcessing"
             class="cancel-btn">
       {{ cancelText || 'Cancelar' }}
     </button>
-    
-    <button mat-raised-button 
+
+    <button mat-raised-button
+            [color]="getConfirmButtonColor()"
             (click)="onConfirm()"
             [disabled]="!canConfirm() || isProcessing"
             class="confirm-btn">
