@@ -1,18 +1,9 @@
 <nav class="sidebar" [class.collapsed]="!isOpen" aria-label="Navegação principal">
   <!-- Header -->
   <div class="sidebar-header">
-    <div class="logo" *ngIf="isOpen">
-      <img src="/assets/images/Logo_dark.png"
-           alt="AgendaRápido"
-           class="logo-img"
-           loading="lazy">
-      <h2 class="logo-text">AgendaRápido</h2>
-    </div>
-    <div class="logo-collapsed" *ngIf="!isOpen">
-      <img src="/assets/images/Logo_dark.png"
-           alt="AgendaRápido"
-           class="logo-img-small"
-           loading="lazy">
+    <div class="brand" *ngIf="isOpen">
+      <mat-icon class="brand-icon">calendar_today</mat-icon>
+      <h2 class="brand-text">AgendaRápido</h2>
     </div>
     <button class="toggle-btn"
             (click)="onToggleSidebar()"

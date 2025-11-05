@@ -159,6 +159,13 @@
       transition: all var(--transition-normal);
       position: relative;
       overflow: hidden;
+      width: 44px;
+      height: 44px;
+      
+      @include mobile-tablet {
+        width: 40px;
+        height: 40px;
+      }
       
       &::before {
         content: '';
@@ -200,81 +207,10 @@
       }
     }
 
-    .user-profile {
-      @include flex-center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-3);
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      transition: all var(--transition-normal);
-      position: relative;
-      overflow: hidden;
-      min-height: var(--touch-target-min);
-      
-      @media (pointer: coarse) {
-        min-height: var(--touch-target-comfortable);
-        padding: var(--space-3) var(--space-4);
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-        transition: left 0.5s ease;
-      }
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(255, 255, 255, 0.3);
-        transform: translateY(-1px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-
-        &::before {
-          left: 100%;
-        }
-        
-        .dropdown-icon {
-          transform: rotate(180deg);
-        }
-      }
-
-      .user-avatar {
-        width: clamp(32px, 5vw, 36px);
-        height: clamp(32px, 5vw, 36px);
-        border-radius: 50%;
-        @include flex-center;
-        position: relative;
-        overflow: hidden;
-        flex-shrink: 0;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        
-        .avatar-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-        
-        .avatar-text {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-          width: 100%;
-          height: 100%;
-          @include flex-center;
-          font-size: clamp(0.9rem, 2vw, 1rem);
-          font-weight: var(--font-bold);
-          color: white;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-        }
-      }
-
-
+    .profile-btn:hover {
+      background: rgba(109, 59, 247, 0.2);
+      border-color: rgba(109, 59, 247, 0.4);
+      color: #6d3bf7;
     }
   }
 

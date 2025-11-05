@@ -48,7 +48,11 @@ export class SidebarComponent implements OnInit {
     completedTasks: 0,
     weeklyFocus: 0
   };
-  @Input() user: any = {};
+  @Input() user: any = {
+    name: 'Usuário',
+    email: 'user@example.com',
+    avatar: null
+  };
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() searchQuery = new EventEmitter<string>();
 
@@ -64,87 +68,87 @@ export class SidebarComponent implements OnInit {
   navItems: NavItem[] = [
     {
       label: 'Dashboard',
-      icon: 'fas fa-home',
+      icon: 'dashboard',
       route: '/app/dashboard',
     },
     {
       label: 'Calendário',
-      icon: 'fas fa-calendar-alt',
+      icon: 'calendar_today',
       route: '/app/calendar',
       badge: this.stats.todayEvents,
     },
     {
       label: 'Tarefas',
-      icon: 'fas fa-check-circle',
+      icon: 'task_alt',
       route: '/app/tasks',
       badge: this.stats.pendingTasks,
     },
     {
       label: 'Eventos',
-      icon: 'fas fa-bookmark',
+      icon: 'event',
       route: '/app/events',
     },
     {
       label: 'Assistente IA',
-      icon: 'fas fa-robot',
+      icon: 'smart_toy',
       route: '/app/ai-assistant',
     },
     {
       label: 'Colaboração',
-      icon: 'fas fa-users',
+      icon: 'groups',
       route: '/app/collaboration',
       isExpanded: false,
       children: [
-        { label: 'Dashboard', icon: 'fas fa-chart-bar', route: '/app/collaboration/dashboard' },
-        { label: 'Equipe', icon: 'fas fa-user-friends', route: '/app/collaboration/team' },
-        { label: 'Disponibilidade', icon: 'fas fa-circle', route: '/app/collaboration/availability' },
-        { label: 'Reuniões', icon: 'fas fa-video', route: '/app/collaboration/meetings' },
+        { label: 'Dashboard', icon: 'analytics', route: '/app/collaboration/dashboard' },
+        { label: 'Equipe', icon: 'group', route: '/app/collaboration/team' },
+        { label: 'Disponibilidade', icon: 'schedule', route: '/app/collaboration/availability' },
+        { label: 'Reuniões', icon: 'videocam', route: '/app/collaboration/meetings' },
       ],
     },
     {
       label: 'Produtividade',
-      icon: 'fas fa-bolt',
+      icon: 'trending_up',
       route: '/app/productivity',
       isExpanded: false,
       children: [
-        { label: 'Foco', icon: 'fas fa-bullseye', route: '/app/productivity/focus' },
-        { label: 'Hábitos', icon: 'fas fa-sync-alt', route: '/app/productivity/habits' },
-        { label: 'Templates', icon: 'fas fa-file-alt', route: '/app/productivity/templates' },
-        { label: 'Pomodoro', icon: 'fas fa-clock', route: '/app/productivity/pomodoro' },
+        { label: 'Foco', icon: 'center_focus_strong', route: '/app/productivity/focus' },
+        { label: 'Hábitos', icon: 'repeat', route: '/app/productivity/habits' },
+        { label: 'Templates', icon: 'description', route: '/app/productivity/templates' },
+        { label: 'Pomodoro', icon: 'timer', route: '/app/productivity/pomodoro' },
       ],
     },
     {
       label: 'Bem-estar',
-      icon: 'fas fa-heart',
+      icon: 'favorite',
       route: '/app/wellness',
       isExpanded: false,
       children: [
-        { label: 'Dashboard', icon: 'fas fa-chart-line', route: '/app/wellness/dashboard' },
-        { label: 'Pausas', icon: 'fas fa-coffee', route: '/app/wellness/breaks' },
-        { label: 'Meditação', icon: 'fas fa-leaf', route: '/app/wellness/meditation' },
-        { label: 'Sono', icon: 'fas fa-moon', route: '/app/wellness/sleep' },
+        { label: 'Dashboard', icon: 'insights', route: '/app/wellness/dashboard' },
+        { label: 'Pausas', icon: 'coffee', route: '/app/wellness/breaks' },
+        { label: 'Meditação', icon: 'spa', route: '/app/wellness/meditation' },
+        { label: 'Sono', icon: 'bedtime', route: '/app/wellness/sleep' },
       ],
     },
     {
       label: 'Analytics',
-      icon: 'fas fa-chart-pie',
+      icon: 'pie_chart',
       route: '/app/analytics',
       isExpanded: false,
       children: [
-        { label: 'Tempo', icon: 'fas fa-stopwatch', route: '/app/analytics/time' },
-        { label: 'Produtividade', icon: 'fas fa-chart-line', route: '/app/analytics/productivity' },
-        { label: 'Insights', icon: 'fas fa-lightbulb', route: '/app/analytics/insights' },
-        { label: 'Relatórios', icon: 'fas fa-clipboard-list', route: '/app/analytics/reports' },
+        { label: 'Tempo', icon: 'schedule', route: '/app/analytics/time' },
+        { label: 'Produtividade', icon: 'show_chart', route: '/app/analytics/productivity' },
+        { label: 'Insights', icon: 'lightbulb', route: '/app/analytics/insights' },
+        { label: 'Relatórios', icon: 'assignment', route: '/app/analytics/reports' },
       ],
     },
     {
       label: 'Integrações',
-      icon: 'fas fa-plug',
+      icon: 'extension',
       route: '/app/integrations',
     },
     {
       label: 'Configurações',
-      icon: 'fas fa-cog',
+      icon: 'settings',
       route: '/app/settings',
     },
   ];
