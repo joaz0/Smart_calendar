@@ -1,0 +1,140 @@
+<div class="events-container">
+  <!-- Events Header -->
+  <div class="events-header">
+    <div class="title-section">
+      <h1>Eventos</h1>
+      <p class="subtitle">Gerencie todos os seus eventos</p>
+    </div>
+    
+    <div class="header-actions">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar eventos</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="filterEvents()" placeholder="Digite para buscar...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="date-filter">
+        <mat-label>Período</mat-label>
+        <mat-select [(value)]="selectedPeriod" (selectionChange)="filterByPeriod()">
+          <mat-option value="today">Hoje</mat-option>
+          <mat-option value="week">Esta Semana</mat-option>
+          <mat-option value="month">Este Mês</mat-option>
+          <mat-option value="all">Todos</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary" (click)="createEvent()">
+        <mat-icon>add</mat-icon>
+        Novo Evento
+      </button>
+    </div>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="category-filters">
+    <mat-chip-set>
+      <mat-chip 
+        [selected]="selectedCategories.length === 0"
+        (click)="clearCategoryFilter()">
+        Todas as Categorias
+      </mat-chip>
+      <mat-chip 
+        *ngFor="let category of categories"
+        [selected]="isCategorySelected(category.id)"
+        (click)="toggleCategory(category.id)"
+        [style.background-color]="isCategorySelected(category.id) ? category.color : 'transparent'"
+        [style.color]="isCategorySelected(category.id) ? 'white' : category.color">
+        {{ category.name }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Events List -->
+  <div class="events-content">
+    <div class="events-timeline" *ngIf="groupedEvents.length > 0; else noEvents">
+      <div class="event-group" *ngFor="let group of groupedEvents">
+        <div class="group-header">
+          <h3 class="group-date">{{ group.date | date:'fullDate':'pt-BR' }}</h3>
+          <span class="event-count">{{ group.events.length }} evento(s)</span>
+        </div>
+        
+        <div class="event-list">
+          <div class="event-card" 
+               *ngFor="let event of group.events; trackBy: trackByEvent"
+               (click)="viewEvent(event)"
+               [class.past-event]="isPastEvent(event)">
+            
+            <div class="event-time">
+              <div class="time-start">{{ event.startTime | date:'shortTime' }}</div>
+              <div class="time-end" *ngIf="event.endTime">{{ event.endTime | date:'shortTime' }}</div>
+            </div>
+            
+            <div class="event-content">
+              <div class="event-header">
+                <h4 class="event-title">{{ event.title }}</h4>
+                <div class="event-badges">
+                  <mat-chip class="category-chip" [style.background-color]="event.category.color">
+                    {{ event.category.name }}
+                  </mat-chip>
+                  <mat-icon *ngIf="event.isRecurring" class="recurring-icon" matTooltip="Evento recorrente">
+                    repeat
+                  </mat-icon>
+                  <mat-icon *ngIf="event.hasReminder" class="reminder-icon" matTooltip="Com lembrete">
+                    notifications
+                  </mat-icon>
+                </div>
+              </div>
+              
+              <p class="event-description" *ngIf="event.description">
+                {{ event.description }}
+              </p>
+              
+              <div class="event-meta">
+                <span class="location" *ngIf="event.location">
+                  <mat-icon>place</mat-icon>
+                  {{ event.location }}
+                </span>
+                <span class="attendees" *ngIf="event.attendees?.length > 0">
+                  <mat-icon>people</mat-icon>
+                  {{ event.attendees.length }} participante(s)
+                </span>
+              </div>
+            </div>
+            
+            <div class="event-actions">
+              <button mat-icon-button (click)="editEvent(event); $event.stopPropagation()" 
+                      matTooltip="Editar evento">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteEvent(event); $event.stopPropagation()" 
+                      matTooltip="Excluir evento">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noEvents>
+      <div class="empty-state">
+        <mat-icon class="empty-icon">event</mat-icon>
+        <h3>Nenhum evento encontrado</h3>
+        <p>Crie seu primeiro evento para começar a organizar sua agenda</p>
+        <button mat-raised-button color="primary" (click)="createEvent()">
+          <mat-icon>add</mat-icon>
+          Criar Evento
+        </button>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Floating Action Button -->
+  <button mat-fab 
+          color="primary" 
+          class="fab-add"
+          (click)="createEvent()"
+          matTooltip="Criar novo evento">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

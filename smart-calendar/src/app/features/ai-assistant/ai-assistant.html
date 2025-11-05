@@ -1,0 +1,156 @@
+<div class="ai-assistant-container">
+  <!-- AI Assistant Header -->
+  <div class="ai-header">
+    <div class="ai-avatar">
+      <mat-icon class="ai-icon">smart_toy</mat-icon>
+    </div>
+    <div class="ai-info">
+      <h1>Assistente IA</h1>
+      <p class="ai-status">{{ aiStatus }}</p>
+    </div>
+    <div class="ai-actions">
+      <button mat-icon-button [matMenuTriggerFor]="aiMenu" aria-label="Menu do assistente">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-grid">
+    <mat-card class="action-card" (click)="scheduleWithAI()">
+      <mat-card-content>
+        <mat-icon>schedule</mat-icon>
+        <h3>Agendar Inteligente</h3>
+        <p>Deixe a IA encontrar o melhor horário</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="action-card" (click)="optimizeDay()">
+      <mat-card-content>
+        <mat-icon>tune</mat-icon>
+        <h3>Otimizar Dia</h3>
+        <p>Reorganize sua agenda automaticamente</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="action-card" (click)="generateSummary()">
+      <mat-card-content>
+        <mat-icon>summarize</mat-icon>
+        <h3>Resumo Diário</h3>
+        <p>Obtenha insights do seu dia</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="action-card" (click)="predictTasks()">
+      <mat-card-content>
+        <mat-icon>psychology</mat-icon>
+        <h3>Sugerir Tarefas</h3>
+        <p>Receba sugestões personalizadas</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Chat Interface -->
+  <mat-card class="chat-card">
+    <mat-card-header>
+      <mat-card-title>Conversar com IA</mat-card-title>
+      <mat-card-subtitle>Digite sua pergunta ou comando</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="chat-messages" #chatContainer>
+        <div class="message" 
+             *ngFor="let message of chatMessages; trackBy: trackByMessage"
+             [class.user-message]="message.isUser"
+             [class.ai-message]="!message.isUser">
+          
+          <div class="message-avatar">
+            <mat-icon *ngIf="message.isUser">person</mat-icon>
+            <mat-icon *ngIf="!message.isUser">smart_toy</mat-icon>
+          </div>
+          
+          <div class="message-content">
+            <div class="message-text">{{ message.text }}</div>
+            <div class="message-time">{{ message.timestamp | date:'shortTime' }}</div>
+            
+            <!-- AI Suggestions -->
+            <div class="ai-suggestions" *ngIf="!message.isUser && message.suggestions">
+              <button mat-stroked-button 
+                      *ngFor="let suggestion of message.suggestions"
+                      (click)="applySuggestion(suggestion)"
+                      class="suggestion-btn">
+                {{ suggestion.text }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <mat-form-field appearance="outline" class="message-field">
+          <mat-label>Digite sua mensagem...</mat-label>
+          <input matInput 
+                 [(ngModel)]="currentMessage"
+                 (keydown.enter)="sendMessage()"
+                 [disabled]="isProcessing"
+                 placeholder="Ex: Agende uma reunião para amanhã às 14h">
+          <button matSuffix 
+                  mat-icon-button 
+                  (click)="sendMessage()"
+                  [disabled]="!currentMessage.trim() || isProcessing">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- AI Insights -->
+  <div class="insights-section">
+    <h2>Insights Recentes</h2>
+    
+    <div class="insights-grid">
+      <mat-card class="insight-card" *ngFor="let insight of recentInsights">
+        <mat-card-content>
+          <div class="insight-header">
+            <mat-icon [style.color]="insight.color">{{ insight.icon }}</mat-icon>
+            <span class="insight-type">{{ insight.type }}</span>
+          </div>
+          <h4>{{ insight.title }}</h4>
+          <p>{{ insight.description }}</p>
+          <div class="insight-actions">
+            <button mat-button color="primary" (click)="applyInsight(insight)">
+              Aplicar
+            </button>
+            <button mat-button (click)="dismissInsight(insight)">
+              Dispensar
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- AI Menu -->
+  <mat-menu #aiMenu="matMenu">
+    <button mat-menu-item (click)="clearChat()">
+      <mat-icon>clear_all</mat-icon>
+      Limpar Conversa
+    </button>
+    <button mat-menu-item (click)="exportChat()">
+      <mat-icon>download</mat-icon>
+      Exportar Conversa
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="aiSettings()">
+      <mat-icon>settings</mat-icon>
+      Configurações da IA
+    </button>
+  </mat-menu>
+
+  <!-- Loading Indicator -->
+  <div class="ai-loading" *ngIf="isProcessing">
+    <mat-spinner diameter="24"></mat-spinner>
+    <span>IA processando...</span>
+  </div>
+</div>

@@ -1,28 +1,203 @@
-<form class="task-form" data-component="TaskForm" [formGroup]="form" (ngSubmit)="submit()" aria-label="Formulário de tarefa">
-	<div class="form-row">
-		<label for="title">Título</label>
-		<input id="title" type="text" formControlName="title" placeholder="Título da tarefa" />
-	</div>
+<div class="task-form-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Editar Tarefa' : 'Nova Tarefa' }}</h2>
+    <button mat-icon-button (click)="close()" aria-label="Fechar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
-	<div class="form-row">
-		<label for="description">Descrição</label>
-		<textarea id="description" formControlName="description" placeholder="Detalhes da tarefa"></textarea>
-	</div>
+  <form [formGroup]="taskForm" class="task-form">
+    <!-- Title -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título da Tarefa</mat-label>
+      <input matInput 
+             formControlName="title" 
+             placeholder="Digite o título da tarefa"
+             autofocus>
+      <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+        Título é obrigatório
+      </mat-error>
+    </mat-form-field>
 
-	<div class="form-row form-inline">
-		<label for="due_date">Prazo</label>
-		<input id="due_date" type="date" formControlName="due_date" />
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput 
+                formControlName="description" 
+                rows="3"
+                placeholder="Adicione uma descrição (opcional)">
+      </textarea>
+    </mat-form-field>
 
-		<label for="priority">Prioridade</label>
-		<select id="priority" formControlName="priority">
-			<option value="low">Baixa</option>
-			<option value="medium">Média</option>
-			<option value="high">Alta</option>
-		</select>
-	</div>
+    <!-- Priority and Category Row -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="priority-field">
+        <mat-label>Prioridade</mat-label>
+        <mat-select formControlName="priority">
+          <mat-option value="low">
+            <div class="priority-option">
+              <mat-icon style="color: #4CAF50;">flag</mat-icon>
+              Baixa
+            </div>
+          </mat-option>
+          <mat-option value="medium">
+            <div class="priority-option">
+              <mat-icon style="color: #FF9800;">flag</mat-icon>
+              Média
+            </div>
+          </mat-option>
+          <mat-option value="high">
+            <div class="priority-option">
+              <mat-icon style="color: #F44336;">flag</mat-icon>
+              Alta
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-	<div class="form-actions">
-		<button type="submit" [disabled]="form.invalid">Salvar</button>
-		<button type="button" (click)="cancel()">Cancelar</button>
-	</div>
-</form>
+      <mat-form-field appearance="outline" class="category-field">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            <div class="category-option">
+              <span class="category-color" [style.background-color]="category.color"></span>
+              {{ category.name }}
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Due Date and Time -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="date-field">
+        <mat-label>Data de Vencimento</mat-label>
+        <input matInput 
+               [matDatepicker]="dueDatePicker" 
+               formControlName="dueDate">
+        <mat-datepicker-toggle matIconSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #dueDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="time-field">
+        <mat-label>Horário</mat-label>
+        <input matInput 
+               type="time" 
+               formControlName="dueTime">
+      </mat-form-field>
+    </div>
+
+    <!-- Estimated Duration -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Duração Estimada</mat-label>
+      <mat-select formControlName="estimatedDuration">
+        <mat-option value="15">15 minutos</mat-option>
+        <mat-option value="30">30 minutos</mat-option>
+        <mat-option value="60">1 hora</mat-option>
+        <mat-option value="120">2 horas</mat-option>
+        <mat-option value="240">4 horas</mat-option>
+        <mat-option value="480">8 horas</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Tags -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tags</mat-label>
+      <mat-chip-grid #chipGrid>
+        <mat-chip-row *ngFor="let tag of tags" (removed)="removeTag(tag)">
+          {{ tag }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input matInput 
+             [matChipInputFor]="chipGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             (matChipInputTokenEnd)="addTag($event)"
+             placeholder="Digite uma tag e pressione Enter">
+    </mat-form-field>
+
+    <!-- Subtasks -->
+    <div class="subtasks-section">
+      <div class="subtasks-header">
+        <h3>Subtarefas</h3>
+        <button mat-icon-button (click)="addSubtask()" type="button">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      
+      <div class="subtasks-list" *ngIf="subtasks.length > 0">
+        <div class="subtask-item" *ngFor="let subtask of subtasks; let i = index">
+          <mat-checkbox [(ngModel)]="subtask.completed" [ngModelOptions]="{standalone: true}">
+          </mat-checkbox>
+          <mat-form-field appearance="outline" class="subtask-input">
+            <input matInput 
+                   [(ngModel)]="subtask.title" 
+                   [ngModelOptions]="{standalone: true}"
+                   placeholder="Título da subtarefa">
+          </mat-form-field>
+          <button mat-icon-button (click)="removeSubtask(i)" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reminder -->
+    <div class="reminder-section">
+      <mat-checkbox [(ngModel)]="hasReminder" [ngModelOptions]="{standalone: true}">
+        Adicionar lembrete
+      </mat-checkbox>
+      
+      <mat-form-field appearance="outline" *ngIf="hasReminder" class="reminder-field">
+        <mat-label>Lembrar</mat-label>
+        <mat-select [(ngModel)]="reminderTime" [ngModelOptions]="{standalone: true}">
+          <mat-option value="0">No momento</mat-option>
+          <mat-option value="15">15 minutos antes</mat-option>
+          <mat-option value="30">30 minutos antes</mat-option>
+          <mat-option value="60">1 hora antes</mat-option>
+          <mat-option value="1440">1 dia antes</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Recurring Task -->
+    <div class="recurring-section">
+      <mat-checkbox [(ngModel)]="isRecurring" [ngModelOptions]="{standalone: true}">
+        Tarefa recorrente
+      </mat-checkbox>
+      
+      <mat-form-field appearance="outline" *ngIf="isRecurring" class="recurrence-field">
+        <mat-label>Repetir</mat-label>
+        <mat-select [(ngModel)]="recurrencePattern" [ngModelOptions]="{standalone: true}">
+          <mat-option value="daily">Diariamente</mat-option>
+          <mat-option value="weekly">Semanalmente</mat-option>
+          <mat-option value="monthly">Mensalmente</mat-option>
+          <mat-option value="yearly">Anualmente</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button mat-button type="button" (click)="close()">
+        Cancelar
+      </button>
+      <button mat-button 
+              color="warn" 
+              type="button"
+              *ngIf="isEditMode"
+              (click)="deleteTask()">
+        Excluir
+      </button>
+      <button mat-raised-button 
+              color="primary" 
+              type="submit"
+              (click)="saveTask()"
+              [disabled]="taskForm.invalid || isSaving">
+        {{ isSaving ? 'Salvando...' : (isEditMode ? 'Salvar' : 'Criar') }}
+      </button>
+    </div>
+  </form>
+</div>

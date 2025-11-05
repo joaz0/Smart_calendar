@@ -1,104 +1,73 @@
-<div class="month-view" role="main" aria-label="Visualização mensal do calendário">
-  <div class="calendar-header">
-    <div class="month-navigation">
-      <button mat-icon-button (click)="previousMonth()" 
-              aria-label="Mês anterior" 
-              [attr.aria-describedby]="'current-month'">
-        <mat-icon>chevron_left</mat-icon>
-      </button>
-      <h2 id="current-month" class="current-month">{{ currentDate | date:'MMMM yyyy' }}</h2>
-      <button mat-icon-button (click)="nextMonth()" 
-              aria-label="Próximo mês" 
-              [attr.aria-describedby]="'current-month'">
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
-    <div class="header-actions">
-      <button mat-button (click)="goToToday()" class="today-btn">
-        <mat-icon>today</mat-icon>
-        <span class="btn-text">Hoje</span>
-      </button>
-      <button mat-icon-button (click)="addEvent()" 
-              aria-label="Adicionar evento" 
-              class="add-event-btn">
-        <mat-icon>add</mat-icon>
-      </button>
+<div class="month-view-container">
+  <!-- Month Header -->
+  <div class="month-header">
+    <div class="weekdays">
+      <div class="weekday" *ngFor="let day of weekdays">
+        {{ day }}
+      </div>
     </div>
   </div>
 
-  <div class="calendar-grid" role="grid" aria-label="Grade do calendário">
-    <div class="weekdays" role="row">
-      <div class="weekday" role="columnheader" aria-label="Domingo">Dom</div>
-      <div class="weekday" role="columnheader" aria-label="Segunda-feira">Seg</div>
-      <div class="weekday" role="columnheader" aria-label="Terça-feira">Ter</div>
-      <div class="weekday" role="columnheader" aria-label="Quarta-feira">Qua</div>
-      <div class="weekday" role="columnheader" aria-label="Quinta-feira">Qui</div>
-      <div class="weekday" role="columnheader" aria-label="Sexta-feira">Sex</div>
-      <div class="weekday" role="columnheader" aria-label="Sábado">Sáb</div>
-    </div>
+  <!-- Calendar Grid -->
+  <div class="calendar-grid">
+    <div class="calendar-week" *ngFor="let week of calendarWeeks">
+      <div class="calendar-day" 
+           *ngFor="let day of week"
+           [class.other-month]="!day.isCurrentMonth"
+           [class.today]="day.isToday"
+           [class.selected]="day.isSelected"
+           [class.has-events]="day.events.length > 0"
+           (click)="selectDate(day.date)">
+        
+        <!-- Day Number -->
+        <div class="day-number">
+          {{ day.date.getDate() }}
+        </div>
 
-    <div class="weeks">
-      <div class="week" *ngFor="let week of weeks; trackBy: trackByWeek" role="row">
-        <div class="day" 
-            *ngFor="let day of week; trackBy: trackByDay" 
-            role="gridcell"
-            [class.today]="isToday(day)"
-            [class.other-month]="!isCurrentMonth(day)"
-            [class.weekend]="isWeekend(day)"
-            [class.has-events]="hasEvents(day)"
-            [attr.aria-label]="getDayAriaLabel(day)"
-            [attr.tabindex]="isCurrentMonth(day) ? 0 : -1"
-            (click)="selectDay(day)"
-            (keydown.enter)="selectDay(day)"
-            (keydown.space)="selectDay(day)">
-          <div class="day-header">
-            <span class="day-number">{{ day | date:'d' }}</span>
-            <div class="day-indicators" *ngIf="getDayIndicators(day).length > 0">
-              <span *ngFor="let indicator of getDayIndicators(day)" 
-                    class="indicator" 
-                    [class]="indicator.type"
-                    [attr.title]="indicator.tooltip"></span>
+        <!-- Events -->
+        <div class="day-events" *ngIf="day.events.length > 0">
+          <div class="event-item" 
+               *ngFor="let event of day.events | slice:0:maxEventsPerDay; trackBy: trackByEvent"
+               [style.background-color]="event.category.color"
+               [class.all-day]="event.allDay"
+               (click)="onEventClick(event, $event)"
+               [matTooltip]="getEventTooltip(event)">
+            
+            <div class="event-content">
+              <span class="event-time" *ngIf="!event.allDay">
+                {{ event.startTime | date:'shortTime' }}
+              </span>
+              <span class="event-title">{{ event.title }}</span>
             </div>
           </div>
-          
-          <div class="day-content">
-            <div class="events-list" *ngIf="getEventsForDay(day).length > 0">
-              <div class="event" 
-                   *ngFor="let event of getEventsForDay(day); trackBy: trackByEvent"
-                   [style.background-color]="event.color || '#6d3bf7'"
-                   [attr.title]="getEventTooltip(event)"
-                   (click)="openEvent(event, $event)">
-                <span class="event-time" *ngIf="!event.allDay">{{ event.startDate | date:'HH:mm' }}</span>
-                <span class="event-title">{{ event.title | slice:0:20 }}{{ event.title.length > 20 ? '...' : '' }}</span>
-                <mat-icon class="event-icon" *ngIf="event.recurrence">repeat</mat-icon>
-              </div>
-              <div class="more-events" *ngIf="getEventsForDay(day).length > 3" 
-                   (click)="showMoreEvents(day)">
-                +{{ getEventsForDay(day).length - 3 }} mais
-              </div>
-            </div>
 
-            <div class="tasks-list" *ngIf="getTasksForDay(day).length > 0">
-              <div class="task" 
-                   *ngFor="let task of getTasksForDay(day); trackBy: trackByTask"
-                   [class.completed]="task.completed"
-                   [attr.title]="getTaskTooltip(task)"
-                   (click)="openTask(task, $event)">
-                <mat-icon class="task-icon" 
-                         [class.completed]="task.completed"
-                         [class.high-priority]="task.priority === 'high'">
-                  {{ task.completed ? 'check_circle' : 'radio_button_unchecked' }}
-                </mat-icon>
-                <span class="task-title">{{ task.title | slice:0:15 }}{{ task.title.length > 15 ? '...' : '' }}</span>
-              </div>
-              <div class="more-tasks" *ngIf="getTasksForDay(day).length > 2" 
-                   (click)="showMoreTasks(day)">
-                +{{ getTasksForDay(day).length - 2 }} mais
-              </div>
-            </div>
+          <!-- More Events Indicator -->
+          <div class="more-events" 
+               *ngIf="day.events.length > maxEventsPerDay"
+               (click)="showMoreEvents(day, $event)">
+            +{{ day.events.length - maxEventsPerDay }} mais
           </div>
         </div>
+
+        <!-- Add Event Button -->
+        <button class="add-event-btn" 
+                *ngIf="day.isCurrentMonth"
+                (click)="createEventOnDate(day.date, $event)"
+                matTooltip="Adicionar evento">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
     </div>
+  </div>
+
+  <!-- Mini Calendar Navigation -->
+  <div class="mini-nav" *ngIf="showMiniNav">
+    <button mat-icon-button (click)="previousMonth()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="current-month">{{ currentMonthName }}</span>
+    <button mat-icon-button (click)="nextMonth()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
 </div>

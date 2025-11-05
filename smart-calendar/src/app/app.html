@@ -1,18 +1,50 @@
-<div class="app-container">
-  <!-- Layout principal que muda baseado na rota (auth ou main) -->
-  <!-- App shell: router outlet and global overlays -->
-  <div class="app-shell" data-component="AppShell">
-    <router-outlet></router-outlet>
-
-    <!-- Global overlays: snackbars, dialogs, loading -->
-    <div id="global-overlays" aria-hidden="true"></div>
+<div class="app-container" [class.dark-theme]="isDarkTheme">
+  <router-outlet></router-outlet>
+  
+  <!-- Global Loading Indicator -->
+  <div class="global-loading" *ngIf="isGlobalLoading">
+    <app-loading-spinner></app-loading-spinner>
   </div>
 
-  <!-- Overlay para carregamento global -->
-  <div class="global-loader" *ngIf="isLoading$ | async">
-    <mat-spinner></mat-spinner>
+  <!-- Toast Notifications -->
+  <div class="toast-container" 
+       *ngIf="toastNotifications.length > 0">
+    <div class="toast-notification"
+         *ngFor="let notification of toastNotifications; trackBy: trackByNotification"
+         [class]="'toast-' + notification.type"
+         [@slideInOut]>
+      <mat-icon class="toast-icon">{{ getNotificationIcon(notification.type) }}</mat-icon>
+      <div class="toast-content">
+        <div class="toast-title">{{ notification.title }}</div>
+        <div class="toast-message">{{ notification.message }}</div>
+      </div>
+      <button mat-icon-button 
+              (click)="dismissNotification(notification.id)"
+              class="toast-close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <!-- Container para notificações toast -->
-  <div class="toast-container"></div>
+  <!-- PWA Update Available -->
+  <div class="pwa-update-banner" 
+       *ngIf="showPwaUpdate"
+       [@slideInOut]>
+    <div class="update-content">
+      <mat-icon>system_update</mat-icon>
+      <span>Nova versão disponível!</span>
+    </div>
+    <div class="update-actions">
+      <button mat-button (click)="dismissPwaUpdate()">Depois</button>
+      <button mat-raised-button color="primary" (click)="updatePwa()">Atualizar</button>
+    </div>
+  </div>
+
+  <!-- Offline Indicator -->
+  <div class="offline-indicator" 
+       *ngIf="!isOnline"
+       [@slideInOut]>
+    <mat-icon>cloud_off</mat-icon>
+    <span>Você está offline. Algumas funcionalidades podem estar limitadas.</span>
+  </div>
 </div>

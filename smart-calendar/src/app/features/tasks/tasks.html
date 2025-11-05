@@ -1,0 +1,116 @@
+<div class="tasks-container">
+  <!-- Tasks Header -->
+  <div class="tasks-header">
+    <div class="title-section">
+      <h1>Tarefas</h1>
+      <p class="subtitle">{{ pendingTasks }} pendentes de {{ totalTasks }} tarefas</p>
+    </div>
+    
+    <div class="header-actions">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar tarefas</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="filterTasks()" placeholder="Digite para buscar...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      
+      <button mat-icon-button [matMenuTriggerFor]="sortMenu" aria-label="Ordenar">
+        <mat-icon>sort</mat-icon>
+      </button>
+      
+      <button mat-raised-button color="primary" (click)="createTask()">
+        <mat-icon>add</mat-icon>
+        Nova Tarefa
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Chips -->
+  <div class="filter-chips">
+    <mat-chip-set>
+      <mat-chip 
+        [selected]="activeFilter === 'all'"
+        (click)="setFilter('all')">
+        Todas ({{ totalTasks }})
+      </mat-chip>
+      <mat-chip 
+        [selected]="activeFilter === 'pending'"
+        (click)="setFilter('pending')">
+        Pendentes ({{ pendingTasks }})
+      </mat-chip>
+      <mat-chip 
+        [selected]="activeFilter === 'completed'"
+        (click)="setFilter('completed')">
+        Concluídas ({{ completedTasks }})
+      </mat-chip>
+      <mat-chip 
+        [selected]="activeFilter === 'overdue'"
+        (click)="setFilter('overdue')">
+        Atrasadas ({{ overdueTasks }})
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Tasks List -->
+  <div class="tasks-content">
+    <div class="task-groups" *ngIf="groupedTasks.length > 0; else noTasks">
+      <div class="task-group" *ngFor="let group of groupedTasks">
+        <h3 class="group-title">{{ group.title }}</h3>
+        
+        <div class="task-list">
+          <app-task-item
+            *ngFor="let task of group.tasks; trackBy: trackByTask"
+            [task]="task"
+            (taskToggled)="onTaskToggled($event)"
+            (taskEdited)="onTaskEdited($event)"
+            (taskDeleted)="onTaskDeleted($event)">
+          </app-task-item>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noTasks>
+      <div class="empty-state">
+        <mat-icon class="empty-icon">task_alt</mat-icon>
+        <h3>Nenhuma tarefa encontrada</h3>
+        <p>Crie sua primeira tarefa para começar a organizar seu dia</p>
+        <button mat-raised-button color="primary" (click)="createTask()">
+          <mat-icon>add</mat-icon>
+          Criar Tarefa
+        </button>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-section" *ngIf="totalTasks > 0">
+    <div class="progress-info">
+      <span>Progresso do dia</span>
+      <span>{{ completionPercentage }}%</span>
+    </div>
+    <mat-progress-bar 
+      mode="determinate" 
+      [value]="completionPercentage"
+      class="progress-bar">
+    </mat-progress-bar>
+  </div>
+
+  <!-- Sort Menu -->
+  <mat-menu #sortMenu="matMenu">
+    <button mat-menu-item (click)="setSortBy('priority')">
+      <mat-icon>flag</mat-icon>
+      Por Prioridade
+    </button>
+    <button mat-menu-item (click)="setSortBy('dueDate')">
+      <mat-icon>schedule</mat-icon>
+      Por Data de Vencimento
+    </button>
+    <button mat-menu-item (click)="setSortBy('created')">
+      <mat-icon>access_time</mat-icon>
+      Por Data de Criação
+    </button>
+    <button mat-menu-item (click)="setSortBy('alphabetical')">
+      <mat-icon>sort_by_alpha</mat-icon>
+      Alfabética
+    </button>
+  </mat-menu>
+</div>

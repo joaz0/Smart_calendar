@@ -1,82 +1,127 @@
-<header class="app-header" role="banner">
-  <div class="header-inner">
-    <!-- Hamburger Menu -->
-    <button class="hamburger-menu" 
-            (click)="onToggleSidebar()" 
-            matTooltip="Menu"
-            aria-label="Menu">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
+<header class="app-header">
+  <!-- Left Section -->
+  <div class="header-left">
+    <button mat-icon-button 
+            class="sidebar-toggle"
+            (click)="onSidebarToggle()"
+            [attr.aria-label]="sidebarOpen ? 'Fechar sidebar' : 'Abrir sidebar'">
+      <mat-icon>{{ sidebarOpen ? 'menu_open' : 'menu' }}</mat-icon>
     </button>
-    
-    <!-- Brand -->
-    <div class="brand">
-      <div class="logo-container">
-        <img src="/assets/images/Logo_light.png" 
-             alt="AgendaRápido" 
-             class="logo-img"
-             loading="lazy"> 
-      </div>
-      <div class="brand-text">
-        <span class="brand-name">AgendaRápido</span>
-        <span class="brand-tagline">Smart Calendar</span>
-      </div>
-    </div>
-    
-    <!-- Spacer -->
-    <div class="header-spacer"></div>
-    
-    <!-- Header Actions -->
-    <div class="header-actions">
-      <!-- Theme Toggle -->
-      <app-theme-toggle></app-theme-toggle>
-      
-      <!-- Settings -->
-      <button mat-icon-button 
-              class="action-btn settings-btn"
-              matTooltip="Configurações"
-              aria-label="Configurações">
-        <mat-icon>settings</mat-icon>
-      </button>
-      
-      <!-- Notifications -->
-      <button mat-icon-button 
-              class="action-btn notifications-btn"
-              (click)="onOpenNotifications()"
-              [matBadge]="notifications()"
-              [matBadgeHidden]="notifications() === 0"
-              matBadgeColor="warn"
-              matBadgeSize="small"
-              matTooltip="Notificações"
-              aria-label="Notificações">
-        <mat-icon>notifications</mat-icon>
-      </button>
-      
-      <!-- User Profile -->
-      <button mat-icon-button 
-              class="action-btn profile-btn"
-              [matMenuTriggerFor]="userMenu"
-              matTooltip="Meu Perfil"
-              aria-label="Meu Perfil">
-        <mat-icon>person</mat-icon>
-      </button>
+
+    <div class="breadcrumb" *ngIf="breadcrumbs.length > 0">
+      <span *ngFor="let crumb of breadcrumbs; let last = last">
+        <a [routerLink]="crumb.url" *ngIf="!last">{{ crumb.label }}</a>
+        <span *ngIf="last" class="current-page">{{ crumb.label }}</span>
+        <mat-icon *ngIf="!last" class="breadcrumb-separator">chevron_right</mat-icon>
+      </span>
     </div>
   </div>
-  
-  <!-- User Menu -->
-  <mat-menu #userMenu="matMenu" class="user-dropdown">
-    <button mat-menu-item (click)="onOpenProfile()">
-      <mat-icon>account_circle</mat-icon>
-      <span>Meu Perfil</span>
+
+  <!-- Center Section -->
+  <div class="header-center">
+    <app-search-bar 
+      [placeholder]="'Buscar eventos, tarefas...'"
+      (searchQuery)="onSearch($event)">
+    </app-search-bar>
+  </div>
+
+  <!-- Right Section -->
+  <div class="header-right">
+    <!-- Theme Toggle -->
+    <button mat-icon-button 
+            (click)="onThemeToggle()"
+            matTooltip="Alternar tema"
+            class="theme-toggle">
+      <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
     </button>
-    <button mat-menu-item>
-      <mat-icon>help_outline</mat-icon>
-      <span>Ajuda</span>
+
+    <!-- Notifications -->
+    <button mat-icon-button 
+            [matBadge]="notificationCount > 0 ? notificationCount : null"
+            matBadgeColor="warn"
+            matBadgeSize="small"
+            (click)="onNotificationsClick()"
+            matTooltip="Notificações"
+            class="notifications-btn">
+      <mat-icon>notifications</mat-icon>
+    </button>
+
+    <!-- Quick Actions -->
+    <button mat-icon-button 
+            [matMenuTriggerFor]="quickActionsMenu"
+            matTooltip="Ações rápidas"
+            class="quick-actions-btn">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+
+    <!-- User Menu -->
+    <button mat-button 
+            [matMenuTriggerFor]="userMenu"
+            class="user-menu-btn">
+      <div class="user-avatar" 
+           [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'">
+        {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
+      </div>
+      <span class="user-name">{{ user.name || 'Usuário' }}</span>
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </div>
+
+  <!-- Quick Actions Menu -->
+  <mat-menu #quickActionsMenu="matMenu">
+    <button mat-menu-item (click)="createEvent()">
+      <mat-icon>event</mat-icon>
+      <span>Novo Evento</span>
+    </button>
+    <button mat-menu-item (click)="createTask()">
+      <mat-icon>task_alt</mat-icon>
+      <span>Nova Tarefa</span>
+    </button>
+    <button mat-menu-item (click)="createReminder()">
+      <mat-icon>alarm</mat-icon>
+      <span>Novo Lembrete</span>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="onLogout()" class="logout-menu-item">
-      <mat-icon>exit_to_app</mat-icon>
+    <button mat-menu-item (click)="importCalendar()">
+      <mat-icon>file_upload</mat-icon>
+      <span>Importar Calendário</span>
+    </button>
+  </mat-menu>
+
+  <!-- User Menu -->
+  <mat-menu #userMenu="matMenu">
+    <div class="user-menu-header">
+      <div class="user-avatar-large" 
+           [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'">
+        {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
+      </div>
+      <div class="user-details">
+        <strong>{{ user.name || 'Usuário' }}</strong>
+        <small>{{ user.email || 'user@example.com' }}</small>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <button mat-menu-item (click)="openProfile()">
+      <mat-icon>person</mat-icon>
+      <span>Meu Perfil</span>
+    </button>
+    
+    <button mat-menu-item (click)="openSettings()">
+      <mat-icon>settings</mat-icon>
+      <span>Configurações</span>
+    </button>
+    
+    <button mat-menu-item (click)="openHelp()">
+      <mat-icon>help</mat-icon>
+      <span>Ajuda</span>
+    </button>
+    
+    <mat-divider></mat-divider>
+    
+    <button mat-menu-item (click)="logout()" class="logout-item">
+      <mat-icon>logout</mat-icon>
       <span>Sair</span>
     </button>
   </mat-menu>
