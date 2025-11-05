@@ -1,227 +1,182 @@
-@import '../../../assets/styles/_variables';
-@import '../../../assets/styles/_mixins';
-@import '../../../assets/styles/_breakpoints';
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+@import '../../../assets/styles/breakpoints';
 
-.app-container {
+.main-layout {
   display: flex;
-  flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  width: 100vw;
-  background: var(--gradient-primary);
   overflow: hidden;
-  position: relative;
-  
-  // Prevent overscroll bounce on iOS
-  @supports (-webkit-touch-callout: none) {
-    height: -webkit-fill-available;
+  background: var(--bg-primary);
+
+  &.sidebar-collapsed {
+    .sidebar-container {
+      @include desktop-only {
+        width: 64px;
+      }
+    }
+
+    .main-content {
+      @include desktop-only {
+        margin-left: 64px;
+      }
+    }
   }
 }
 
-.layout-header {
-  position: sticky;
+.sidebar-container {
+  position: fixed;
   top: 0;
-  z-index: var(--z-sticky);
-  width: 100%;
-  flex-shrink: 0;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  
-  // Safe area support for notched devices
-  @supports (padding: max(0px)) {
-    padding-top: env(safe-area-inset-top);
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  z-index: var(--z-fixed);
+  transition: all var(--transition-normal);
+
+  @include mobile-tablet {
+    transform: translateX(-100%);
+    
+    .main-layout:not(.sidebar-collapsed) & {
+      transform: translateX(0);
+    }
   }
-}
-
-.app-body {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.layout-sidebar {
-  transition: all var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
-  will-change: transform, width;
 
   @include desktop-only {
     position: relative;
-    height: 100vh;
-    height: 100dvh;
-    
-    &.collapsed {
-      .sidebar {
-        width: 70px;
-        
-        .nav-text,
-        .nav-badge,
-        .nav-arrow,
-        .search-section,
-        .quick-stats .stat-label {
-          opacity: 0;
-          visibility: hidden;
-        }
-      }
-    }
-  }
-
-  @include mobile-tablet {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    height: 100dvh;
-    z-index: var(--z-modal);
-    transform: translateX(-100%);
-    transition: transform var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
-    
-    // Safe area support
-    @supports (padding: max(0px)) {
-      height: calc(100vh - env(safe-area-inset-top));
-      top: env(safe-area-inset-top);
-    }
-
-    &:not(.collapsed) {
-      transform: translateX(0);
-    }
-
-    .sidebar {
-      width: min(280px, 85vw);
-      box-shadow: var(--shadow-2xl);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-
-      @include mobile-only {
-        width: min(100vw, 320px);
-      }
-    }
+    transform: none;
   }
 }
 
-.layout-main {
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 260px;
+  transition: margin-left var(--transition-normal);
+  min-height: 100vh;
+  overflow: hidden;
+
+  @include mobile-tablet {
+    margin-left: 0;
+  }
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--surface-primary);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.content-area {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--surface-glass);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  width: 100%;
+  background: var(--bg-primary);
   position: relative;
-  container-type: inline-size;
-  
-  // Responsive padding with clamp
-  padding: clamp(1rem, 3vw, 2rem);
-  
-  // Custom scrollbar
   @include custom-scrollbar;
-  
-  // Safe area insets for mobile devices
+
+  // Smooth scrolling
+  scroll-behavior: smooth;
+
+  // Prevent overscroll on mobile
+  overscroll-behavior: contain;
+
+  // Add padding for safe areas on mobile
   @supports (padding: max(0px)) {
-    padding-left: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-left));
-    padding-right: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-right));
-    padding-bottom: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-bottom));
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
   }
 }
 
-.sidebar-overlay {
-  display: none;
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: var(--z-modal);
+  @include flex-center;
+  animation: fadeIn 0.2s ease-out;
+}
 
-  @include mobile-tablet {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: calc(var(--z-modal) - 10);
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--transition-normal) ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    cursor: pointer;
-    
-    // Safe area support
-    @supports (padding: max(0px)) {
-      height: calc(100vh + env(safe-area-inset-top));
-      top: calc(-1 * env(safe-area-inset-top));
-    }
-
-    &.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    // Prevent scroll when overlay is active
-    &.visible ~ .layout-main {
-      overflow: hidden;
-    }
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: calc(var(--z-fixed) - 1);
+  animation: fadeIn 0.3s ease-out;
+  
+  @include desktop-only {
+    display: none;
   }
 }
 
-// Ultra-wide screen optimizations
-@media (min-width: 1600px) {
-  .layout-main {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  
-  .app-body {
-    justify-content: center;
-  }
-}
-
-// Foldable device support
-@media (max-width: 280px) {
-  .layout-sidebar .sidebar {
-    width: 100vw;
-    font-size: 0.875rem;
-  }
-  
-  .layout-main {
-    padding: var(--space-2);
-  }
-}
-
-// Landscape mobile optimization
-@media (max-height: 500px) and (orientation: landscape) {
-  .layout-header {
-    position: fixed;
-    width: 100%;
-    z-index: var(--z-sticky);
-  }
-  
-  .app-body {
-    padding-top: 60px;
-  }
-  
-  .layout-sidebar {
-    @include mobile-tablet {
-      height: calc(100vh - 60px);
-      top: 60px;
+// Responsive adjustments
+@include mobile-only {
+  .main-layout {
+    &.sidebar-open {
+      .sidebar-container {
+        transform: translateX(0);
+      }
     }
+  }
+
+  .content-area {
+    // Add extra padding on mobile for better touch interaction
+    padding-bottom: var(--space-4);
   }
 }
 
 // High contrast mode support
 @media (prefers-contrast: high) {
-  .layout-sidebar {
-    border-right: 2px solid currentColor;
+  .main-header {
+    border-bottom-width: 2px;
   }
   
-  .sidebar-overlay {
-    background: rgba(0, 0, 0, 0.8);
+  .sidebar-container {
+    border-right: 2px solid var(--border-primary);
   }
 }
 
 // Reduced motion support
 @media (prefers-reduced-motion: reduce) {
-  .layout-sidebar,
-  .sidebar-overlay {
+  .sidebar-container,
+  .main-content {
     transition: none;
+  }
+  
+  .content-area {
+    scroll-behavior: auto;
+  }
+}
+
+// Print styles
+@media print {
+  .main-layout {
+    height: auto;
+    overflow: visible;
+  }
+  
+  .sidebar-container {
+    display: none;
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .main-header {
+    position: static;
+    box-shadow: none;
+    border-bottom: 1px solid #000;
   }
 }
