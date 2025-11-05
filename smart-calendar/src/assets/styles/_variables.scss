@@ -162,19 +162,19 @@
 
 // Theme Variables (Dark)
 [data-theme="dark"] {
-  --bg-primary: #0a0059;
-  --bg-secondary: #120077;
-  --bg-tertiary: #1a0095;
+  --bg-primary: #050033;
+  --bg-secondary: #0a0059;
+  --bg-tertiary: #120077;
   --text-primary: #ffffff;
   --text-secondary: #e0e7ff;
   --text-tertiary: #c7d2fe;
-  --border-primary: #2A00D1;
-  --border-secondary: #7C5CFF;
-  --surface-primary: rgba(42, 0, 209, 0.9);
-  --surface-secondary: rgba(124, 92, 255, 0.7);
-  --surface-glass: rgba(124, 92, 255, 0.1);
-  --gradient-primary: linear-gradient(135deg, #2A00D1 0%, #7C5CFF 100%);
-  --gradient-dark: linear-gradient(135deg, #0a0059 0%, #2A00D1 100%);
+  --border-primary: #1a0095;
+  --border-secondary: #2A00D1;
+  --surface-primary: rgba(26, 0, 149, 0.9);
+  --surface-secondary: rgba(42, 0, 209, 0.7);
+  --surface-glass: rgba(42, 0, 209, 0.1);
+  --gradient-primary: linear-gradient(135deg, #1a0095 0%, #2A00D1 100%);
+  --gradient-dark: linear-gradient(135deg, #050033 0%, #1a0095 100%);
 }
 
 // High Contrast Mode

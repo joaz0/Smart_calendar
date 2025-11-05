@@ -1,13 +1,13 @@
 <header class="app-header" role="banner">
   <div class="header-inner">
-    <!-- Menu Toggle -->
-    <button mat-icon-button 
-            class="menu-toggle" 
+    <!-- Hamburger Menu -->
+    <button class="hamburger-menu" 
             (click)="onToggleSidebar()" 
-            matTooltip="Alternar menu lateral"
-            matTooltipPosition="below"
-            aria-label="Alternar menu lateral">
-      <mat-icon>menu</mat-icon>
+            matTooltip="Menu"
+            aria-label="Menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </button>
     
     <!-- Brand -->
@@ -24,19 +24,8 @@
       </div>
     </div>
     
-    <!-- Header Center -->
-    <div class="header-center">
-      <div class="greeting-section">
-        <div class="greeting">{{ greeting() }}, {{ user.name || 'Usuário' }}</div>
-        <div class="time-info">
-          <span class="current-time">{{ currentTime() | date:'HH:mm:ss' }}</span>
-          <span class="connection-status" [class.offline]="!isOnline()">
-            <mat-icon class="status-icon">{{ isOnline() ? 'wifi' : 'wifi_off' }}</mat-icon>
-            {{ getConnectionStatus() }}
-          </span>
-        </div>
-      </div>
-    </div>
+    <!-- Spacer -->
+    <div class="header-spacer"></div>
     
     <!-- Header Actions -->
     <div class="header-actions">
@@ -58,13 +47,10 @@
       
       <!-- User Profile -->
       <div class="user-profile" 
-           (click)="onOpenProfile()"
            [matMenuTriggerFor]="userMenu"
-           matTooltip="Perfil do usuário"
+           matTooltip="Perfil"
            role="button"
-           tabindex="0"
-           (keydown.enter)="onOpenProfile()"
-           (keydown.space)="onOpenProfile()">
+           tabindex="0">
         <div class="user-avatar">
           <img *ngIf="user.avatar; else initials" 
                [src]="user.avatar" 
@@ -75,21 +61,7 @@
             <span class="avatar-text">{{ getUserInitials() }}</span>
           </ng-template>
         </div>
-        <div class="user-info">
-          <span class="user-name">{{ user.name || 'Usuário' }}</span>
-          <span class="user-role">{{ user.role || 'Usuário' }}</span>
-        </div>
-        <mat-icon class="dropdown-icon">expand_more</mat-icon>
       </div>
-      
-      <!-- Quick Logout -->
-      <button mat-icon-button 
-              class="action-btn logout-btn" 
-              (click)="onLogout()" 
-              matTooltip="Sair"
-              aria-label="Sair">
-        <mat-icon>logout</mat-icon>
-      </button>
     </div>
   </div>
   
