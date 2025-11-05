@@ -5,6 +5,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Header } from '../../shared/components/header/header';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
+import { LoadingSpinner } from '../../shared/components/loading-spinner/loading-spinner';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService, UserProfile, UserStats } from '../../core/services/user.service';
 import { TaskService } from '../../core/services/task.service';
@@ -18,7 +19,8 @@ import { ThemeService } from '../../core/services/theme.service';
     CommonModule,
     RouterModule,
     Header,
-    SidebarComponent
+    SidebarComponent,
+    LoadingSpinner
   ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],
@@ -30,6 +32,15 @@ export class MainLayout implements OnInit, OnDestroy {
   currentDate = new Date();
   currentTime = new Date();
   sidebarOpen = true;
+  isLoading = false;
+  isMobile = false;
+  userStats: any = {};
+  currentUser: any = {
+    name: 'Carregando...',
+    email: '',
+    avatar: '👤',
+    preferences: {}
+  };
   user: any = {
     name: 'Carregando...',
     email: '',
@@ -210,5 +221,21 @@ export class MainLayout implements OnInit, OnDestroy {
 
   onOpenProfile() {
     this.router.navigate(['/app/settings']);
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
+  openProfile(): void {
+    this.router.navigate(['/app/settings/profile']);
+  }
+
+  openNotifications(): void {
+    console.log('Abrir notificações');
+  }
+
+  closeSidebar(): void {
+    this.sidebarOpen = false;
   }
 }

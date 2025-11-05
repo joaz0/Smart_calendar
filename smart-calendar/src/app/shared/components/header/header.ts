@@ -6,7 +6,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
+import { SearchBar } from '../search-bar/search-bar';
 
 interface User {
   id?: string;
@@ -21,13 +23,15 @@ interface User {
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
     MatBadgeModule,
     MatTooltipModule,
     MatDividerModule,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    SearchBar
   ],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
@@ -35,13 +39,22 @@ interface User {
 })
 export class Header implements OnInit, OnDestroy {
   @Input() user: User = {};
+  @Input() sidebarOpen = true;
   @Input() notifications = signal(0);
   @Input() isOnline = signal(true);
+  @Output() sidebarToggle = new EventEmitter<void>();
+  @Output() themeToggle = new EventEmitter<void>();
+  @Output() profileClick = new EventEmitter<void>();
+  @Output() notificationsClick = new EventEmitter<void>();
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
   @Output() openNotifications = new EventEmitter<void>();
   @Output() openProfile = new EventEmitter<void>();
   @Output() toggleTheme = new EventEmitter<void>();
+  
+  breadcrumbs: any[] = [];
+  isDarkTheme = false;
+  notificationCount = 0;
 
   currentTime = signal(new Date());
   greeting = signal('');
@@ -113,5 +126,33 @@ export class Header implements OnInit, OnDestroy {
 
   getConnectionStatus(): string {
     return this.isOnline() ? 'Online' : 'Offline';
+  }
+
+  onSearch(query: string): void {
+    console.log('Buscar:', query);
+  }
+
+  createEvent(): void {
+    console.log('Criar evento');
+  }
+
+  createTask(): void {
+    console.log('Criar tarefa');
+  }
+
+  createReminder(): void {
+    console.log('Criar lembrete');
+  }
+
+  importCalendar(): void {
+    console.log('Importar calendário');
+  }
+
+  openSettings(): void {
+    console.log('Abrir configurações');
+  }
+
+  openHelp(): void {
+    console.log('Abrir ajuda');
   }
 }
