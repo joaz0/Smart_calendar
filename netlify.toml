@@ -1,5 +1,5 @@
 [build]
-  command = "cd smart-calendar && npm ci && npx ng build --configuration=production"
+  command = "cd smart-calendar && npm install && npx ng build --configuration=production"
   publish = "smart-calendar/dist/smart-calendar"
 
 [[redirects]]
