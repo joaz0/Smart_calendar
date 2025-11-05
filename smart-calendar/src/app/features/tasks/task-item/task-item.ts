@@ -1,20 +1,86 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-task-item',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [
+    CommonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    MatDividerModule,
+    MatTooltipModule
+  ],
   templateUrl: './task-item.html',
-  styleUrl: './task-item.scss',
+  styleUrls: ['./task-item.scss']
 })
 export class TaskItem {
-  @Input() task: any | null = null;
-  @Output() edit = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
+  @Input() task: any = {};
+  @Output() taskToggled = new EventEmitter<any>();
+  @Output() taskEdited = new EventEmitter<any>();
+  @Output() taskDeleted = new EventEmitter<any>();
 
-  toggleComplete(task: any): void {
-    if (!task) return;
-    task.completed = !task.completed;
+  showDescription = false;
+
+  get isOverdue(): boolean {
+    if (!this.task.dueDate || this.task.completed) return false;
+    return new Date(this.task.dueDate) < new Date();
+  }
+
+  onToggleComplete(): void {
+    this.taskToggled.emit(this.task);
+  }
+
+  onTaskClick(): void {
+    this.showDescription = !this.showDescription;
+  }
+
+  onEdit(event: Event): void {
+    event.stopPropagation();
+    this.taskEdited.emit(this.task);
+  }
+
+  onDelete(): void {
+    this.taskDeleted.emit(this.task);
+  }
+
+  onDuplicate(): void {
+    console.log('Duplicar tarefa');
+  }
+
+  onSetReminder(): void {
+    console.log('Definir lembrete');
+  }
+
+  onMoveToCategory(): void {
+    console.log('Mover para categoria');
+  }
+
+  formatDuration(minutes: number): string {
+    if (minutes < 60) return `${minutes}min`;
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return mins > 0 ? `${hours}h ${mins}min` : `${hours}h`;
+  }
+
+  getCompletedSubtasks(): number {
+    return this.task.subtasks?.filter((s: any) => s.completed).length || 0;
+  }
+
+  getSubtaskProgress(): number {
+    if (!this.task.subtasks?.length) return 0;
+    return (this.getCompletedSubtasks() / this.task.subtasks.length) * 100;
   }
 }
