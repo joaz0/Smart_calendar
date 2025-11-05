@@ -9,20 +9,20 @@
   @include glass-card;
   border: 1px solid rgba(255,255,255,0.1);
   transition: all 0.3s ease;
-  
+
   @include desktop-only {
     padding: $spacing-xl;
   }
-  
+
   @include tablet-only {
     padding: $spacing-lg;
   }
-  
+
   @include mobile-only {
     padding: $spacing-md;
     margin: $spacing-sm 0;
   }
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.2);
@@ -33,16 +33,16 @@
 .dashboard-grid {
   display: grid;
   gap: $spacing-lg;
-  
+
   @include desktop-only {
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   @include tablet-only {
     grid-template-columns: repeat(2, 1fr);
     gap: $spacing-md;
   }
-  
+
   @include mobile-only {
     grid-template-columns: 1fr;
     gap: $spacing-sm;
@@ -54,25 +54,25 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
-  
+
   .list-item {
     @include glass-card;
     border: 1px solid rgba(255,255,255,0.1);
     transition: all 0.2s ease;
-    
+
     @include desktop-only {
       padding: $spacing-md;
     }
-    
+
     @include tablet-only {
       padding: $spacing-sm;
     }
-    
+
     @include mobile-only {
       padding: $spacing-sm;
       border-radius: $border-radius-sm;
     }
-    
+
     &:hover {
       background: rgba(255,255,255,0.1);
     }
@@ -82,23 +82,23 @@
 // Navegação responsiva
 .responsive-nav {
   display: flex;
-  
+
   @include desktop-only {
     flex-direction: row;
     gap: $spacing-lg;
   }
-  
+
   @include tablet-only {
     flex-direction: row;
     gap: $spacing-md;
     overflow-x: auto;
   }
-  
+
   @include mobile-only {
     flex-direction: column;
     gap: $spacing-xs;
   }
-  
+
   .nav-item {
     @include flex-center;
     padding: $spacing-sm $spacing-md;
@@ -107,12 +107,12 @@
     text-decoration: none;
     transition: all 0.2s ease;
     white-space: nowrap;
-    
+
     @include mobile-only {
       padding: $spacing-sm;
       justify-content: flex-start;
     }
-    
+
     &:hover, &.active {
       background: rgba(255,255,255,0.1);
       color: white;
@@ -123,53 +123,53 @@
 // Formulário responsivo
 .responsive-form {
   width: 100%;
-  
+
   .form-section {
     margin-bottom: $spacing-lg;
-    
+
     @include mobile-only {
       margin-bottom: $spacing-md;
     }
   }
-  
+
   .form-row {
     display: grid;
     gap: $spacing-md;
-    
+
     @include desktop-only {
       grid-template-columns: repeat(2, 1fr);
     }
-    
+
     @include tablet-only {
       grid-template-columns: repeat(2, 1fr);
       gap: $spacing-sm;
     }
-    
+
     @include mobile-only {
       grid-template-columns: 1fr;
       gap: $spacing-sm;
     }
-    
+
     &.form-row-3 {
       @include desktop-only {
         grid-template-columns: repeat(3, 1fr);
       }
-      
+
       @include tablet-only {
         grid-template-columns: repeat(2, 1fr);
       }
     }
   }
-  
+
   .form-actions {
     @include flex-center;
     gap: $spacing-sm;
     margin-top: $spacing-lg;
-    
+
     @include mobile-only {
       flex-direction: column;
       gap: $spacing-xs;
-      
+
       .btn {
         width: 100%;
       }
@@ -187,27 +187,28 @@
   background: rgba(0,0,0,0.6);
   @include flex-center;
   z-index: 1000;
+  -webkit-backdrop-filter: blur();
   backdrop-filter: blur(4px);
-  
+
   .modal-content {
     @include glass-card;
     border: 1px solid rgba(255,255,255,0.2);
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    
+
     @include desktop-only {
       width: 90%;
       max-width: 800px;
       padding: $spacing-xl;
     }
-    
+
     @include tablet-only {
       width: 95%;
       max-width: 600px;
       padding: $spacing-lg;
     }
-    
+
     @include mobile-only {
       width: 95%;
       max-width: 400px;
@@ -215,32 +216,32 @@
       margin: $spacing-sm;
     }
   }
-  
+
   .modal-header {
     @include flex-center;
     justify-content: space-between;
     margin-bottom: $spacing-lg;
     padding-bottom: $spacing-md;
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    
+
     @include mobile-only {
       margin-bottom: $spacing-md;
       padding-bottom: $spacing-sm;
     }
-    
+
     h2 {
       margin: 0;
       color: rgba(255,255,255,0.9);
-      
+
       @include desktop-only {
         font-size: 1.5rem;
       }
-      
+
       @include mobile-only {
         font-size: 1.2rem;
       }
     }
-    
+
     .close-btn {
       background: none;
       border: none;
@@ -250,7 +251,7 @@
       padding: $spacing-xs;
       border-radius: 50%;
       transition: all 0.2s ease;
-      
+
       &:hover {
         background: rgba(255,255,255,0.1);
         color: white;
@@ -264,43 +265,43 @@
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  
+
   table {
     width: 100%;
     border-collapse: collapse;
     background: rgba(255,255,255,0.05);
     border-radius: $border-radius-md;
     overflow: hidden;
-    
+
     @include mobile-only {
       min-width: 600px;
     }
-    
+
     th, td {
       text-align: left;
       border-bottom: 1px solid rgba(255,255,255,0.1);
       color: rgba(255,255,255,0.9);
-      
+
       @include desktop-only {
         padding: $spacing-md;
       }
-      
+
       @include tablet-only {
         padding: $spacing-sm;
       }
-      
+
       @include mobile-only {
         padding: $spacing-xs;
         font-size: 0.9rem;
       }
     }
-    
+
     th {
       background: rgba(255,255,255,0.1);
       font-weight: 600;
       color: white;
     }
-    
+
     tr:hover {
       background: rgba(255,255,255,0.05);
     }
@@ -311,69 +312,69 @@
 .stats-grid {
   display: grid;
   gap: $spacing-md;
-  
+
   @include desktop-only {
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   @include tablet-only {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @include mobile-only {
     grid-template-columns: 1fr;
     gap: $spacing-sm;
   }
-  
+
   .stat-card {
     @include glass-card;
     border: 1px solid rgba(255,255,255,0.1);
     text-align: center;
     transition: all 0.3s ease;
-    
+
     @include desktop-only {
       padding: $spacing-lg;
     }
-    
+
     @include tablet-only {
       padding: $spacing-md;
     }
-    
+
     @include mobile-only {
       padding: $spacing-sm;
     }
-    
+
     &:hover {
       transform: translateY(-4px);
       background: rgba(255,255,255,0.1);
     }
-    
+
     .stat-icon {
       font-size: 2rem;
       color: $primary-light;
       margin-bottom: $spacing-sm;
-      
+
       @include mobile-only {
         font-size: 1.5rem;
         margin-bottom: $spacing-xs;
       }
     }
-    
+
     .stat-value {
       font-size: 2rem;
       font-weight: bold;
       color: white;
       margin-bottom: $spacing-xs;
-      
+
       @include mobile-only {
         font-size: 1.5rem;
       }
     }
-    
+
     .stat-label {
       color: rgba(255,255,255,0.7);
       font-size: 0.9rem;
-      
+
       @include mobile-only {
         font-size: 0.8rem;
       }
@@ -387,30 +388,30 @@
   border-radius: $border-radius-md;
   margin-bottom: $spacing-md;
   border-left: 4px solid;
-  
+
   @include mobile-only {
     padding: $spacing-sm;
     font-size: 0.9rem;
   }
-  
+
   &.alert-info {
     background: rgba(52, 152, 219, 0.1);
     border-color: #3498db;
     color: #3498db;
   }
-  
+
   &.alert-success {
     background: rgba(46, 204, 113, 0.1);
     border-color: #2ecc71;
     color: #2ecc71;
   }
-  
+
   &.alert-warning {
     background: rgba(241, 196, 15, 0.1);
     border-color: #f1c40f;
     color: #f1c40f;
   }
-  
+
   &.alert-error {
     background: rgba(231, 76, 60, 0.1);
     border-color: #e74c3c;
@@ -421,19 +422,19 @@
 // Loading spinner responsivo
 .responsive-spinner {
   @include flex-center;
-  
+
   @include desktop-only {
     padding: $spacing-xl;
   }
-  
+
   @include tablet-only {
     padding: $spacing-lg;
   }
-  
+
   @include mobile-only {
     padding: $spacing-md;
   }
-  
+
   .spinner {
     width: 40px;
     height: 40px;
@@ -441,7 +442,7 @@
     border-top: 4px solid $primary-light;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    
+
     @include mobile-only {
       width: 32px;
       height: 32px;

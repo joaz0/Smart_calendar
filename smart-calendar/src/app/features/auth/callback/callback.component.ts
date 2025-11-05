@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--gradient-primary);
     }
     .loading {
       text-align: center;

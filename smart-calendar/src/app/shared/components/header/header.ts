@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 
 interface User {
   id?: string;
@@ -25,7 +26,8 @@ interface User {
     MatMenuModule,
     MatBadgeModule,
     MatTooltipModule,
-    MatDividerModule
+    MatDividerModule,
+    ThemeToggleComponent
   ],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],

@@ -49,9 +49,27 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: $primary-gradient;
-  color: $text-light;
+  background: var(--gradient-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+// Dark theme styles
+[data-theme="dark"] {
+  body {
+    background: var(--gradient-dark);
+    color: var(--text-primary);
+  }
+  
+  .mat-mdc-card {
+    background: var(--surface-primary);
+    border-color: var(--border-primary);
+  }
+  
+  .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+    background: var(--surface-glass);
+  }
 }
 
 // Material Design overrides
