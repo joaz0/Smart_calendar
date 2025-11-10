@@ -1,27 +1,6 @@
-@use '@angular/material/core' as mat-core;
-@use '@angular/material/button' as mat-button;
-@use '@angular/material/card' as mat-card;
-@use '@angular/material/form-field' as mat-form-field;
-@use '@angular/material/input' as mat-input;
+@import '~@angular/material/theming';
 
-@include mat-core.core();
-
-$primary-palette: mat-core.define-palette(mat-core.$indigo-palette);
-$accent-palette: mat-core.define-palette(mat-core.$pink-palette);
-
-$theme: mat-core.define-light-theme((
-  color: (
-    primary: $primary-palette,
-    accent: $accent-palette,
-  ),
-  typography: mat-core.define-typography-config(),
-  density: 0,
-));
-
-@include mat-button.theme($theme);
-@include mat-card.theme($theme);
-@include mat-form-field.theme($theme);
-@include mat-input.theme($theme);
+@include mat-core();
 
 body {
   // Default the application to a light color theme. This can be changed to
