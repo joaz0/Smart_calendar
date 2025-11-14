@@ -12,7 +12,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule, FormArray } from '@angular/forms';
+import { RecurrenceSettings } from '../../events/recurrence-settings/recurrence-settings';
 
 interface DialogData {
   event?: Event;
@@ -33,7 +35,9 @@ interface DialogData {
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatChipsModule,
     FormsModule,
+    RecurrenceSettings,
   ],
   templateUrl: './event-dialog.html',
   styleUrls: ['./event-dialog.scss'],
@@ -41,6 +45,14 @@ interface DialogData {
 export class EventDialogComponent {
   eventForm: FormGroup;
   isEditing: boolean;
+  isEditMode: boolean;
+  isSaving = false;
+  attendees: string[] = [];
+  separatorKeysCodes = [13, 188];
+  hasReminder = false;
+  reminderTime = 15;
+  isRecurring = false;
+  recurrenceRule: any = null;
   categories = [
     { id: '1', name: 'Pessoal', color: '#2196f3' },
     { id: '2', name: 'Trabalho', color: '#4caf50' },
@@ -53,6 +65,7 @@ export class EventDialogComponent {
     private eventService: EventService
   ) {
     this.isEditing = !!data.event;
+    this.isEditMode = !!data.event;
     const ev: any = data.event as any;
     this.eventForm = this.fb.group({
       title: [ev?.title || '', [Validators.required]],
@@ -134,5 +147,31 @@ export class EventDialogComponent {
     const reminders = this.eventForm.get('reminders')?.value || [];
     reminders.splice(index, 1);
     this.eventForm.get('reminders')?.setValue(reminders);
+  }
+
+  addAttendee(event: any) {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.attendees.push(value);
+    }
+    if (event.input) {
+      event.input.value = '';
+    }
+  }
+
+  removeAttendee(attendee: string) {
+    const index = this.attendees.indexOf(attendee);
+    if (index >= 0) {
+      this.attendees.splice(index, 1);
+    }
+  }
+
+  saveEvent() {
+    this.isSaving = true;
+    this.onSubmit();
+  }
+
+  deleteEvent() {
+    this.onDelete();
   }
 }

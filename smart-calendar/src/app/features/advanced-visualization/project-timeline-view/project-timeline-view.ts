@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-project-timeline-view',
   imports: [],
   templateUrl: './project-timeline-view.html',

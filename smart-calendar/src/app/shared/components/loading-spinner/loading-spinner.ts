@@ -27,6 +27,7 @@ export class LoadingSpinner {
   @Input() showDots = false;
   @Input() customIcon?: string;
   @Input() showIllustration = false;
+  @Input() showLogo = false;
 
   get spinnerSize(): number {
     switch (this.size) {
