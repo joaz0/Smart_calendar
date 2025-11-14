@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "dev": "ts-node src/server.ts",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "migrate": "node migrate.js",
     "migrate-full": "npx ts-node src/scripts/setup-database.ts",
     "test": "jest",
