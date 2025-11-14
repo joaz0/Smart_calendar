@@ -14,6 +14,15 @@ import aiTrainingRoutes from './routes/ai-training.routes';
 import aiSuggestionsRoutes from './routes/ai-suggestions.routes';
 import productivityRoutes from './routes/productivity.routes';
 import aiCommandsRoutes from './routes/ai-commands.routes';
+import habitsRoutes from './routes/habits.routes';
+import focusModeRoutes from './routes/focus-mode.routes';
+import smartSchedulerRoutes from './routes/smart-scheduler.routes';
+import dailySummaryRoutes from './routes/daily-summary.routes';
+import schedulingPollsRoutes from './routes/scheduling-polls.routes';
+import taskDelegationRoutes from './routes/task-delegation.routes';
+import burnoutRoutes from './routes/burnout.routes';
+import breaksRoutes from './routes/breaks.routes';
+import windDownRoutes from './routes/wind-down.routes';
 import { pool } from './config/database';
 
 dotenv.config();
@@ -76,6 +85,15 @@ app.use('/api/ai-training', aiTrainingRoutes);
 app.use('/api/ai-suggestions', aiSuggestionsRoutes);
 app.use('/api/productivity', productivityRoutes);
 app.use('/api/ai-commands', aiCommandsRoutes);
+app.use('/api/habits', habitsRoutes);
+app.use('/api/focus-mode', focusModeRoutes);
+app.use('/api/smart-scheduler', smartSchedulerRoutes);
+app.use('/api/daily-summary', dailySummaryRoutes);
+app.use('/api/polls', schedulingPollsRoutes);
+app.use('/api/tasks', taskDelegationRoutes);
+app.use('/api/burnout', burnoutRoutes);
+app.use('/api/breaks', breaksRoutes);
+app.use('/api/wind-down', windDownRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

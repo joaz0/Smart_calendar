@@ -1,1 +1,79 @@
-<p>focus-mode-manager works!</p>
+<div class="focus-mode">
+  <div class="focus-header">
+    <h2>🔒 Modo Foco</h2>
+    <div class="status-badge" [class.active]="isActive">
+      {{isActive ? '🟢 Ativo' : '⚪ Inativo'}}
+    </div>
+  </div>
+
+  @if (!isActive) {
+    <div class="activate-section">
+      <div class="timer-selector">
+        <label>Duração:</label>
+        <div class="duration-buttons">
+          @for (duration of durations; track duration) {
+            <button [class.selected]="selectedDuration === duration"
+                    (click)="selectedDuration = duration">
+              {{duration}} min
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="block-settings">
+        <h3>Bloquear durante o foco:</h3>
+        <div class="block-list">
+          <label>
+            <input type="checkbox" [(ngModel)]="blockApps">
+            <span>📱 Apps de mensagem</span>
+          </label>
+          <label>
+            <input type="checkbox" [(ngModel)]="blockWebsites">
+            <span>🌐 Sites distractores</span>
+          </label>
+          <label>
+            <input type="checkbox" [(ngModel)]="blockNotifications">
+            <span>🔔 Notificações</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn-activate" (click)="activate()">
+        🚀 Ativar Modo Foco
+      </button>
+    </div>
+  } @else {
+    <div class="active-session">
+      <div class="timer-display">
+        <div class="time-remaining">{{timeRemaining}}</div>
+        <div class="progress-ring">
+          <svg width="200" height="200">
+            <circle cx="100" cy="100" r="90" 
+                    stroke="#e0e0e0" 
+                    stroke-width="10" 
+                    fill="none"/>
+            <circle cx="100" cy="100" r="90"
+                    stroke="#4CAF50"
+                    stroke-width="10"
+                    fill="none"
+                    [style.stroke-dasharray]="565"
+                    [style.stroke-dashoffset]="progressOffset"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="blocked-items">
+        <h3>Bloqueado:</h3>
+        <div class="blocked-tags">
+          @for (item of blockedItems; track item) {
+            <span class="tag">{{item}}</span>
+          }
+        </div>
+      </div>
+
+      <button class="btn-deactivate" (click)="deactivate()">
+        ⏹️ Encerrar Foco
+      </button>
+    </div>
+  }
+</div>

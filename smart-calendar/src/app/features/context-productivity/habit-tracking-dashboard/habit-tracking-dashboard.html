@@ -1,1 +1,46 @@
-<p>habit-tracking-dashboard works!</p>
+<div class="habit-dashboard">
+  <div class="header">
+    <h2>📈 Rastreador de Hábitos</h2>
+    <button class="btn-primary" (click)="openCreateDialog()">+ Novo Hábito</button>
+  </div>
+
+  <div class="habits-grid">
+    @for (habit of habits; track habit.id) {
+      <div class="habit-card" [style.border-left-color]="habit.color">
+        <div class="habit-header">
+          <span class="habit-icon">{{habit.icon}}</span>
+          <h3>{{habit.name}}</h3>
+        </div>
+        
+        <div class="streak-info">
+          <div class="streak-badge">
+            <span class="streak-number">{{habit.currentStreak}}</span>
+            <span class="streak-label">dias</span>
+          </div>
+          <div class="consistency">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="habit.consistencyRate"></div>
+            </div>
+            <span>{{habit.consistencyRate}}% consistência</span>
+          </div>
+        </div>
+
+        <div class="habit-calendar">
+          @for (day of getLast7Days(); track day) {
+            <div class="day-cell" 
+                 [class.completed]="isCompleted(habit.id, day)"
+                 (click)="toggleDay(habit.id, day)">
+              <span class="day-label">{{getDayLabel(day)}}</span>
+            </div>
+          }
+        </div>
+
+        <div class="habit-actions">
+          <button (click)="viewStats(habit.id)">📊 Stats</button>
+          <button (click)="editHabit(habit.id)">✏️</button>
+          <button (click)="deleteHabit(habit.id)">🗑️</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,1 +1,42 @@
-<p>wind-down-scheduler works!</p>
+<div class="wind-down">
+  <h2>🌙 Horário de Desacelerar</h2>
+
+  <div class="config-card">
+    <div class="form-group">
+      <label>Horário de Dormir</label>
+      <input type="time" [(ngModel)]="settings.sleepTime">
+    </div>
+
+    <div class="form-group">
+      <label>Tempo de Desaceleração (minutos)</label>
+      <input type="number" [(ngModel)]="settings.windDownDuration" min="30" step="15">
+    </div>
+
+    <div class="blocked-categories">
+      <h3>Bloquear Categorias:</h3>
+      @for (cat of categories; track cat.id) {
+        <label>
+          <input type="checkbox" [checked]="isBlocked(cat.id)" (change)="toggleCategory(cat.id)">
+          <span>{{cat.name}}</span>
+        </label>
+      }
+    </div>
+
+    <button class="btn-save" (click)="save()">💾 Salvar Configurações</button>
+  </div>
+
+  @if (violations.length > 0) {
+    <div class="violations-card">
+      <h3>⚠️ Eventos em Conflito</h3>
+      @for (v of violations; track v.id) {
+        <div class="violation-item">
+          <div class="event-info">
+            <strong>{{v.title}}</strong>
+            <span>{{v.time}}</span>
+          </div>
+          <button (click)="reschedule(v.id)">📅 Reagendar</button>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,1 +1,40 @@
-<p>active-breaks-reminder works!</p>
+<div class="breaks-reminder">
+  <h2>💧 Pausas Ativas</h2>
+
+  <div class="settings-card">
+    <h3>⚙️ Configurações</h3>
+    <div class="setting-row">
+      <label>Intervalo entre pausas (minutos)</label>
+      <input type="number" [(ngModel)]="settings.interval" min="30" step="15">
+    </div>
+    <div class="setting-row">
+      <label>Duração da pausa (minutos)</label>
+      <input type="number" [(ngModel)]="settings.duration" min="5" step="5">
+    </div>
+    <div class="setting-row">
+      <label>
+        <input type="checkbox" [(ngModel)]="settings.autoSchedule">
+        Agendar automaticamente
+      </label>
+    </div>
+    <button class="btn-save" (click)="saveSettings()">💾 Salvar</button>
+  </div>
+
+  <div class="next-break">
+    <h3>⏰ Próxima Pausa</h3>
+    <div class="countdown">{{nextBreakTime}}</div>
+    <button class="btn-skip" (click)="skipBreak()">⏭️ Pular</button>
+  </div>
+
+  <div class="break-history">
+    <h3>📊 Histórico Hoje</h3>
+    <div class="history-list">
+      @for (break of todayBreaks; track break.id) {
+        <div class="break-item" [class.completed]="break.completed">
+          <span class="time">{{break.time}}</span>
+          <span class="status">{{break.completed ? '✅' : '⏳'}}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>
