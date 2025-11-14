@@ -34,18 +34,18 @@ export function extractEntities(text: string): { [key: string]: any } {
   
   datePatterns.forEach(pattern => {
     const match = text.match(pattern);
-    if (match) entities.date = match[0];
+    if (match) entities['date'] = match[0];
   });
   
   // Extract times
   const timePattern = /\d{1,2}:\d{2}|\d{1,2}h\d{0,2}/g;
   const times = text.match(timePattern);
-  if (times) entities.time = times[0];
+  if (times) entities['time'] = times[0];
   
   // Extract duration
   const durationPattern = /(\d+)\s*(hora|horas|minuto|minutos|h|min)/i;
   const duration = text.match(durationPattern);
-  if (duration) entities.duration = duration[0];
+  if (duration) entities['duration'] = duration[0];
   
   return entities;
 }

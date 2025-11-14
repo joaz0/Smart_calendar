@@ -53,7 +53,7 @@ export function getNotificationIcon(type: string): string {
     default: '🔔'
   };
   
-  return icons[type] || icons.default;
+  return icons[type] || icons['default'];
 }
 
 export function canSendNotification(): boolean {

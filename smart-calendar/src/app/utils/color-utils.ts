@@ -56,5 +56,5 @@ export function getCategoryColor(category: string): string {
     default: '#6B7280'
   };
   
-  return colors[category.toLowerCase()] || colors.default;
+  return colors[category.toLowerCase()] || colors['default'];
 }
