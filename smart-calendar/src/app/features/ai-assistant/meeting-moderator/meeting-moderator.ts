@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  standalone: true,
   selector: 'app-meeting-moderator',
   imports: [],
   templateUrl: './meeting-moderator.html',

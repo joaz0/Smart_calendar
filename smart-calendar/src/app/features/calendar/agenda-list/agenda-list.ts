@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  standalone: true,
   selector: 'app-agenda-list',
   imports: [],
   templateUrl: './agenda-list.html',

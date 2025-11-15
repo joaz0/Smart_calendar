@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  standalone: true,
   selector: 'app-semantic-search-interface',
   imports: [],
   templateUrl: './semantic-search-interface.html',
