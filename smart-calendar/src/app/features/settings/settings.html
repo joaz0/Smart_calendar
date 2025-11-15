@@ -225,7 +225,7 @@
             <div class="profile-section">
               <div class="avatar-section">
                 <div class="current-avatar">
-                  <img *ngIf="user.avatar" [src]="user.avatar" [alt]="user.name">
+                  <img *ngIf="user.avatar" [src]="user.avatar" [alt]="user.name" width="120" height="120" style="aspect-ratio: 1/1;">
                   <div *ngIf="!user.avatar" class="avatar-placeholder">
                     {{ user.name?.charAt(0) || 'U' }}
                   </div>

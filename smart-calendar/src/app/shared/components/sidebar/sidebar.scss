@@ -17,13 +17,13 @@
   overflow: hidden;
   z-index: 1030;
   
-  @media (max-width: 767px) {
+  @media (max-width: $breakpoint-md - 1) {
     width: 280px;
     max-width: 85vw;
   }
 
   &.collapsed {
-    @media (min-width: 992px) {
+    @media (min-width: $breakpoint-lg) {
       width: 64px;
 
       .nav-text, .nav-badge, .nav-arrow {
@@ -93,8 +93,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 36px;
-      height: 36px;
+      min-width: 44px;
+      height: 44px;
 
       &:hover {
         background: rgba(42, 0, 255, 0.5);
@@ -145,6 +145,11 @@
           outline: none;
           background: rgba(42, 0, 255, 0.4);
           box-shadow: 0 0 0 2px var(--primary-400);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--primary-300);
+          outline-offset: 2px;
         }
       }
 
@@ -620,8 +625,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-width: 28px;
-        height: 28px;
+        min-width: 44px;
+        height: 44px;
 
         &:hover {
           background: rgba(42, 0, 255, 0.3);
@@ -684,7 +689,7 @@
 }
 
 // Responsividade aprimorada
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-md) {
   .sidebar {
     &:not(.collapsed) {
       width: 260px;
@@ -697,7 +702,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: $breakpoint-sm) {
   .sidebar {
     .sidebar-header {
       padding: 0.75rem;

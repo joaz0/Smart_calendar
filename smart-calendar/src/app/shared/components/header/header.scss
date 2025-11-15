@@ -16,7 +16,7 @@
   z-index: 1010;
   box-sizing: border-box;
 
-  @media (max-width: 767px) {
+  @media (max-width: $breakpoint-md - 1) {
     padding: var(--space-3) var(--space-4);
     min-height: 56px;
   }
@@ -38,7 +38,7 @@
       background: var(--surface-glass);
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: $breakpoint-lg) {
       display: none;
     }
   }
@@ -49,7 +49,7 @@
     gap: var(--space-2);
     font-size: var(--font-size-sm);
 
-    @media (max-width: 767px) {
+    @media (max-width: $breakpoint-md - 1) {
       display: none;
     }
 
@@ -80,7 +80,7 @@
   max-width: 500px;
   margin: 0 var(--space-6);
 
-  @media (max-width: 767px) {
+  @media (max-width: $breakpoint-md - 1) {
     display: none;
   }
 
@@ -154,7 +154,7 @@
       font-size: var(--font-size-sm);
       font-weight: var(--font-medium);
 
-      @media (max-width: 767px) {
+      @media (max-width: $breakpoint-md - 1) {
         display: none;
       }
     }
@@ -270,7 +270,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $breakpoint-md - 1) {
   .app-header {
     .header-right {
       gap: var(--space-1);
