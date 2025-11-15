@@ -1,17 +1,17 @@
 // Design System - Modern Variables
 :root {
   // Primary Colors
-  --primary-50: #f0f4ff;
-  --primary-100: #e0e7ff;
-  --primary-200: #c7d2fe;
-  --primary-300: #a5b4fc;
-  --primary-400: #818cf8;
-  --primary-500: #7C5CFF;
-  --primary-600: #2A00D1;
-  --primary-700: #2200b3;
-  --primary-800: #1a0095;
-  --primary-900: #120077;
-  --primary-950: #0a0059;
+  --primary-50: #EAE6FF;
+  --primary-100: #C3B8FF;
+  --primary-200: #9D8AFF;
+  --primary-300: #775CFF;
+  --primary-400: #512EFF;
+  --primary-500: #2A00FF;
+  --primary-600: #2300D1;
+  --primary-700: #1A0095;
+  --primary-800: #140075;
+  --primary-900: #0C0047;
+  --primary-950: #04001A;
 
   // Accent Colors
   --accent-50: #fdf4ff;
@@ -53,10 +53,10 @@
   --info-600: #2563eb;
 
   // Gradients
-  --gradient-primary: linear-gradient(135deg, #2A00D1 0%, #7C5CFF 100%);
-  --gradient-accent: linear-gradient(135deg, var(--accent-500) 0%, #2A00D1 100%);
-  --gradient-dark: linear-gradient(135deg, #1a0095 0%, #0a0059 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  --gradient-primary: linear-gradient(135deg, #2A00FF 0%, #512EFF 100%);
+  --gradient-accent: linear-gradient(135deg, #775CFF 0%, #2A00FF 100%);
+  --gradient-dark: linear-gradient(135deg, #0C0047 0%, #1A0095 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(42,0,255,0.1) 0%, rgba(42,0,255,0.05) 100%);
 
   // Shadows
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -144,37 +144,20 @@
   --container-7xl: 80rem;
 }
 
-// Theme Variables (Light)
-[data-theme="light"],
+// Dark Theme (Default and Only)
 :root {
-  --bg-primary: var(--gray-50);
-  --bg-secondary: var(--gray-100);
-  --bg-tertiary: var(--gray-200);
-  --text-primary: var(--gray-900);
-  --text-secondary: var(--gray-600);
-  --text-tertiary: var(--gray-400);
-  --border-primary: var(--gray-200);
-  --border-secondary: var(--gray-300);
-  --surface-primary: rgba(255, 255, 255, 0.9);
-  --surface-secondary: rgba(255, 255, 255, 0.7);
-  --surface-glass: rgba(255, 255, 255, 0.1);
-}
-
-// Theme Variables (Dark)
-[data-theme="dark"] {
-  --bg-primary: #050033;
-  --bg-secondary: #0a0059;
-  --bg-tertiary: #120077;
-  --text-primary: #ffffff;
-  --text-secondary: #e0e7ff;
-  --text-tertiary: #c7d2fe;
-  --border-primary: #1a0095;
-  --border-secondary: #2A00D1;
-  --surface-primary: rgba(26, 0, 149, 0.9);
-  --surface-secondary: rgba(42, 0, 209, 0.7);
-  --surface-glass: rgba(42, 0, 209, 0.1);
-  --gradient-primary: linear-gradient(135deg, #1a0095 0%, #2A00D1 100%);
-  --gradient-dark: linear-gradient(135deg, #050033 0%, #1a0095 100%);
+  --bg-primary: #04001A;
+  --bg-secondary: #0C0047;
+  --bg-tertiary: #140075;
+  --text-primary: #EAE6FF;
+  --text-secondary: #C3B8FF;
+  --text-tertiary: #9D8AFF;
+  --border-primary: #1A0095;
+  --border-secondary: #2300D1;
+  --surface-primary: rgba(26, 0, 149, 0.5);
+  --surface-secondary: rgba(35, 0, 209, 0.3);
+  --surface-glass: rgba(42, 0, 255, 0.1);
+  color-scheme: dark;
 }
 
 // High Contrast Mode
