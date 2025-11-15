@@ -39,8 +39,12 @@ export class MonthView implements OnInit, OnDestroy {
   
   currentDate: Date = new Date();
   weeks: Date[][] = [];
+  calendarWeeks: any[] = [];
   tasks: Task[] = [];
   weekdays: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  maxEventsPerDay = 3;
+  showMiniNav = false;
+  currentMonthName = '';
   private destroy$ = new Subject<void>();
   private readonly maxVisibleItems = 3;
 
@@ -287,6 +291,20 @@ export class MonthView implements OnInit, OnDestroy {
 
   selectDay(date: Date) {
     this.showAllDayItems(date);
+  }
+
+  selectDate(date: Date) {
+    this.dateSelected.emit(date);
+  }
+
+  onEventClick(event: any, mouseEvent: Event) {
+    mouseEvent.stopPropagation();
+    this.eventClicked.emit(event);
+  }
+
+  createEventOnDate(date: Date, mouseEvent: Event) {
+    mouseEvent.stopPropagation();
+    this.openEventDialog(undefined, date);
   }
 
   getDayIndicators(date: Date): any[] {

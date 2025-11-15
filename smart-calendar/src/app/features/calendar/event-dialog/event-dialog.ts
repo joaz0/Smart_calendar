@@ -47,7 +47,7 @@ export class EventDialogComponent {
   isEditing: boolean;
   isEditMode: boolean;
   isSaving = false;
-  attendees: string[] = [];
+  attendees: {email: string}[] = [];
   separatorKeysCodes = [13, 188];
   hasReminder = false;
   reminderTime = 15;
@@ -152,14 +152,14 @@ export class EventDialogComponent {
   addAttendee(event: any) {
     const value = (event.value || '').trim();
     if (value) {
-      this.attendees.push(value);
+      this.attendees.push({email: value});
     }
     if (event.input) {
       event.input.value = '';
     }
   }
 
-  removeAttendee(attendee: string) {
+  removeAttendee(attendee: {email: string}) {
     const index = this.attendees.indexOf(attendee);
     if (index >= 0) {
       this.attendees.splice(index, 1);
