@@ -27,7 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
 @Component({
   selector: 'app-month-view',
   standalone: true,
-  imports: [CommonModule, DatePipe, MatIconModule, MatButtonModule, MatListModule],
+  imports: [CommonModule, DatePipe, MatIconModule, MatButtonModule, MatListModule, MatTooltipModule],
   templateUrl: './month-view.html',
   styleUrls: ['./month-view.scss'],
 })
@@ -268,8 +268,8 @@ export class MonthView implements OnInit, OnDestroy {
     return day.getTime();
   }
 
-  trackByEvent(index: number, event: CalendarEvent): any {
-    return event.id || index;
+  trackByEvent(index: number, event: any): any {
+    return event?.id || index;
   }
 
   trackByTask(index: number, task: Task): any {
@@ -329,8 +329,9 @@ export class MonthView implements OnInit, OnDestroy {
     this.openTaskDialog(task);
   }
 
-  showMoreEvents(date: Date) {
-    this.showAllDayItems(date);
+  showMoreEvents(day: any, event?: Event) {
+    if (event) event.stopPropagation();
+    this.showAllDayItems(day.date || day);
   }
 
   showMoreTasks(date: Date) {

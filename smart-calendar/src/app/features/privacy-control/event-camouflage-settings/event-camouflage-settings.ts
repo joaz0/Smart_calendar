@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-event-camouflage-settings',
   imports: [],
   templateUrl: './event-camouflage-settings.html',

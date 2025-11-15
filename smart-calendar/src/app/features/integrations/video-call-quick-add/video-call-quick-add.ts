@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-video-call-quick-add',
   imports: [],
   templateUrl: './video-call-quick-add.html',

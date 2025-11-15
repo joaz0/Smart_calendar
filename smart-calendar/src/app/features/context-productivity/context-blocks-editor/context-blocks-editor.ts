@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-context-blocks-editor',
   imports: [],
   templateUrl: './context-blocks-editor.html',

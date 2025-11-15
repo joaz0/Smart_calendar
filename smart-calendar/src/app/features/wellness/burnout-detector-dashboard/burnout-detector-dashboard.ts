@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-burnout-detector-dashboard',
   imports: [],
   templateUrl: './burnout-detector-dashboard.html',
