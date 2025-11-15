@@ -3,11 +3,15 @@
 @import '../../../../assets/styles/breakpoints';
 
 .app-header {
-  @include flex-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: var(--space-4) var(--space-6);
   background: var(--surface-primary);
   border-bottom: 1px solid var(--border-primary);
   min-height: 64px;
+  position: relative;
+  z-index: 1020;
 
   @include mobile-only {
     padding: var(--space-3) var(--space-4);
