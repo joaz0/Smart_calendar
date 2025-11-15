@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntil, map, startWith } from 'rxjs/operators';
@@ -32,9 +32,13 @@ import { MatChipsModule } from '@angular/material/chips';
   styleUrls: ['./month-view.scss'],
 })
 export class MonthView implements OnInit, OnDestroy {
+  @Input() events: CalendarEvent[] = [];
+  @Input() selectedDate: Date = new Date();
+  @Output() dateSelected = new EventEmitter<Date>();
+  @Output() eventClicked = new EventEmitter<any>();
+  
   currentDate: Date = new Date();
   weeks: Date[][] = [];
-  events: CalendarEvent[] = [];
   tasks: Task[] = [];
   weekdays: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   private destroy$ = new Subject<void>();

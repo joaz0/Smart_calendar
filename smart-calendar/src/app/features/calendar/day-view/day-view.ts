@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -17,6 +17,10 @@ import { LoadingSpinner } from '../../../shared/components/loading-spinner/loadi
   styleUrl: './day-view.scss',
 })
 export class DayView {
+  @Input() events: any[] = [];
+  @Input() selectedDate: Date = new Date();
+  @Output() eventClicked = new EventEmitter<any>();
+  
   day: Date = new Date();
   dayTasks: any[] = [];
   is24Hour = true;

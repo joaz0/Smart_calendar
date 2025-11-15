@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -14,6 +14,11 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './week-view.scss',
 })
 export class WeekView {
+  @Input() events: any[] = [];
+  @Input() selectedDate: Date = new Date();
+  @Output() dateSelected = new EventEmitter<Date>();
+  @Output() eventClicked = new EventEmitter<any>();
+  
   startOfWeek: Date = this.getStartOfWeek(new Date());
   weekDays: { date: Date; events: any[] }[] = [];
   showSummary = true;
