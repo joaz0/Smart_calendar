@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,12 +9,14 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PriorityIndicator } from '../priority-indicator/priority-indicator';
 
 @Component({
   selector: 'app-task-item',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatCheckboxModule,
     MatIconModule,
     MatButtonModule,
@@ -21,7 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatChipsModule,
     MatProgressBarModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    PriorityIndicator
   ],
   templateUrl: './task-item.html',
   styleUrls: ['./task-item.scss']

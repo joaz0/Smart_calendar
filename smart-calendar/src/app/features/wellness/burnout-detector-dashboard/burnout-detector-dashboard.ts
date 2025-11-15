@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './burnout-detector-dashboard.scss'
 })
 export class BurnoutDetectorDashboard {
+  analysis: any = null;
 
+  getRiskColor() { return '#ff0000'; }
+  getRiskLabel() { return 'Alto'; }
+  analyze() {}
 }

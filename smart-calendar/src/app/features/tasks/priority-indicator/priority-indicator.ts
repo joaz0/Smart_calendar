@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './priority-indicator.scss'
 })
 export class PriorityIndicator {
-
+  @Input() priority: string = 'medium';
+  @Input() size: string = 'medium';
 }
