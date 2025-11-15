@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { LoadingService } from './core/services/loading.service';
 import { NotificationService } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
@@ -19,7 +20,9 @@ import { LoadingSpinner } from './shared/components/loading-spinner/loading-spin
   standalone: true,
   imports: [CommonModule, RouterOutlet, MatProgressSpinnerModule, MatIconModule, MatButtonModule, LoadingSpinner],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
   isLoading$ = new BehaviorSubject<boolean>(false);
   isDarkTheme = false;
   isGlobalLoading = false;
@@ -38,14 +41,17 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Inscreve no serviço de loading global
-    this.loadingService.isLoading$.subscribe((isLoading) => this.isLoading$.next(isLoading));
+    this.loadingService.isLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isLoading) => this.isLoading$.next(isLoading));
 
-    // Inicializa o tema
     this.themeService.initializeTheme();
-
-    // Configura os listeners de notificação
     this.notificationService.initializeNotifications();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   trackByNotification(index: number, notification: any): string {

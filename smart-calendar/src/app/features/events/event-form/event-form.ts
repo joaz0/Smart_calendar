@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,6 +8,8 @@ import {
   FormControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CalendarEvent } from '../../../core/models/event.model';
 
 @Component({
@@ -17,7 +19,9 @@ import { CalendarEvent } from '../../../core/models/event.model';
   templateUrl: './event-form.html',
   styleUrls: ['./event-form.scss'],
 })
-export class EventForm implements OnInit {
+export class EventForm implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
   @Input() isEditMode: boolean = false;
   @Input() eventData: CalendarEvent | null = null;
   @Output() cancel = new EventEmitter<void>();
@@ -35,8 +39,9 @@ export class EventForm implements OnInit {
       this.patchFormWithEventData();
     }
 
-    // Listen to allDay changes to update form validation
-    this.eventForm.get('allDay')?.valueChanges.subscribe((allDay) => {
+    this.eventForm.get('allDay')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((allDay) => {
       if (allDay) {
         this.eventForm.get('startTime')?.clearValidators();
         this.eventForm.get('endTime')?.clearValidators();
@@ -47,6 +52,11 @@ export class EventForm implements OnInit {
       this.eventForm.get('startTime')?.updateValueAndValidity();
       this.eventForm.get('endTime')?.updateValueAndValidity();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private createForm(): FormGroup {
