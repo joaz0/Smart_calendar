@@ -28,16 +28,16 @@
         <div class="day-events" *ngIf="day.events.length > 0">
           <div class="event-item" 
                *ngFor="let event of day.events | slice:0:maxEventsPerDay; trackBy: trackByEvent"
-               [style.background-color]="event.category.color"
-               [class.all-day]="event.allDay"
-               (click)="onEventClick(event, $event)"
-               [matTooltip]="getEventTooltip(event)">
+               [style.background-color]="$any(event).category?.color"
+               [class.all-day]="$any(event).allDay"
+               (click)="onEventClick($any(event), $event)"
+               [matTooltip]="getEventTooltip($any(event))">
             
             <div class="event-content">
-              <span class="event-time" *ngIf="!event.allDay">
-                {{ event.startTime | date:'shortTime' }}
+              <span class="event-time" *ngIf="!$any(event).allDay">
+                {{ $any(event).startTime | date:'shortTime' }}
               </span>
-              <span class="event-title">{{ event.title }}</span>
+              <span class="event-title">{{ $any(event).title }}</span>
             </div>
           </div>
 

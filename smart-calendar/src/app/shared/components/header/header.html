@@ -3,7 +3,7 @@
   <div class="header-left">
     <button mat-icon-button 
             class="sidebar-toggle"
-            (click)="onSidebarToggle()"
+            (click)="onToggleSidebar()"
             [attr.aria-label]="sidebarOpen ? 'Fechar sidebar' : 'Abrir sidebar'">
       <mat-icon>{{ sidebarOpen ? 'menu_open' : 'menu' }}</mat-icon>
     </button>
@@ -29,7 +29,7 @@
   <div class="header-right">
     <!-- Theme Toggle -->
     <button mat-icon-button 
-            (click)="onThemeToggle()"
+            (click)="onToggleTheme()"
             matTooltip="Alternar tema"
             class="theme-toggle">
       <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
@@ -40,7 +40,7 @@
             [matBadge]="notificationCount > 0 ? notificationCount : null"
             matBadgeColor="warn"
             matBadgeSize="small"
-            (click)="onNotificationsClick()"
+            (click)="onOpenNotifications()"
             matTooltip="Notificações"
             class="notifications-btn">
       <mat-icon>notifications</mat-icon>
@@ -103,7 +103,7 @@
     
     <mat-divider></mat-divider>
     
-    <button mat-menu-item (click)="openProfile()">
+    <button mat-menu-item (click)="onOpenProfile()">
       <mat-icon>person</mat-icon>
       <span>Meu Perfil</span>
     </button>
@@ -120,7 +120,7 @@
     
     <mat-divider></mat-divider>
     
-    <button mat-menu-item (click)="logout()" class="logout-item">
+    <button mat-menu-item (click)="onLogout()" class="logout-item">
       <mat-icon>logout</mat-icon>
       <span>Sair</span>
     </button>
