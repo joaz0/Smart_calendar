@@ -11,25 +11,19 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-right: 1px solid rgba(255,255,255,0.1);
   height: 100vh;
+  height: 100dvh;
+  width: 260px;
   position: relative;
   overflow: hidden;
   z-index: 1030;
   
-  @include desktop-only {
-    width: 260px;
-  }
-  
-  @include tablet-only {
-    width: 260px;
-  }
-  
-  @include mobile-only {
-    width: 100vw;
-    max-width: 280px;
+  @media (max-width: 767px) {
+    width: 280px;
+    max-width: 85vw;
   }
 
-  @include desktop-only {
-    &.collapsed {
+  &.collapsed {
+    @media (min-width: 992px) {
       width: 64px;
 
       .nav-text, .nav-badge, .nav-arrow {
@@ -43,7 +37,8 @@
       
       .brand-text,
       .search-section,
-      .quick-stats {
+      .quick-stats,
+      .notifications-section {
         display: none;
       }
     }

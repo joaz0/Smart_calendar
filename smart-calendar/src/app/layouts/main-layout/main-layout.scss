@@ -4,21 +4,21 @@
 
 .main-layout {
   display: flex;
+  width: 100vw;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
   background: var(--bg-primary);
+  position: relative;
 
   &.sidebar-collapsed {
-    .sidebar-container {
-      @include desktop-only {
+    @media (min-width: 992px) {
+      .sidebar-container {
         width: 64px;
       }
-    }
 
-    .main-content {
-      @include desktop-only {
-        margin-left: 64px;
+      .main-content {
+        width: calc(100% - 64px);
       }
     }
   }
@@ -29,21 +29,19 @@
   top: 0;
   left: 0;
   height: 100vh;
+  height: 100dvh;
   width: 260px;
   z-index: 1030;
-  transition: all var(--transition-normal);
+  transition: transform var(--transition-normal);
 
-  @include mobile-tablet {
+  @media (max-width: 991px) {
     transform: translateX(-100%);
-    
-    .main-layout:not(.sidebar-collapsed) & {
-      transform: translateX(0);
-    }
   }
 
-  @include desktop-only {
+  @media (min-width: 992px) {
     position: relative;
     transform: none;
+    flex-shrink: 0;
   }
 }
 
@@ -51,13 +49,17 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 260px;
-  transition: margin-left var(--transition-normal);
+  width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 
-  @include mobile-tablet {
+  @media (max-width: 991px) {
     margin-left: 0;
+  }
+
+  @media (min-width: 992px) {
+    width: calc(100% - 260px);
   }
 }
 
@@ -65,27 +67,36 @@
   position: sticky;
   top: 0;
   z-index: 1020;
+  width: 100%;
   background: var(--surface-primary);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-primary);
   box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
 }
 
 .content-area {
   flex: 1;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   background: var(--bg-primary);
   position: relative;
-  @include custom-scrollbar;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-400) transparent;
 
-  // Smooth scrolling
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-400);
+    border-radius: 3px;
+  }
+
   scroll-behavior: smooth;
-
-  // Prevent overscroll on mobile
   overscroll-behavior: contain;
 
-  // Add padding for safe areas on mobile
   @supports (padding: max(0px)) {
     padding-left: max(0px, env(safe-area-inset-left));
     padding-right: max(0px, env(safe-area-inset-right));
@@ -122,18 +133,17 @@
   }
 }
 
-// Responsive adjustments
-@include mobile-only {
-  .main-layout {
-    &.sidebar-open {
-      .sidebar-container {
-        transform: translateX(0);
-      }
+// Mobile sidebar open state
+.main-layout:not(.sidebar-collapsed) {
+  @media (max-width: 991px) {
+    .sidebar-container {
+      transform: translateX(0);
     }
   }
+}
 
+@media (max-width: 767px) {
   .content-area {
-    // Add extra padding on mobile for better touch interaction
     padding-bottom: var(--space-4);
   }
 }
