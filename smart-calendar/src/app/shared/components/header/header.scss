@@ -8,25 +8,29 @@
   justify-content: space-between;
   width: 100%;
   padding: var(--space-4) var(--space-6);
-  background: var(--surface-primary);
+  background: var(--bg-secondary);
+  backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-primary);
   min-height: 64px;
   position: relative;
-  z-index: 1020;
+  z-index: 1010;
   box-sizing: border-box;
 
-  @include mobile-only {
+  @media (max-width: 767px) {
     padding: var(--space-3) var(--space-4);
     min-height: 56px;
   }
 }
 
 .header-left {
-  @include flex-center;
+  display: flex;
+  align-items: center;
   gap: var(--space-4);
+  flex-shrink: 0;
 
   .sidebar-toggle {
-    @include touch-target;
+    min-height: 44px;
+    min-width: 44px;
     color: var(--text-secondary);
     
     &:hover {
@@ -34,17 +38,18 @@
       background: var(--surface-glass);
     }
 
-    @include desktop-only {
+    @media (min-width: 992px) {
       display: none;
     }
   }
 
   .breadcrumb {
-    @include flex-center;
+    display: flex;
+    align-items: center;
     gap: var(--space-2);
     font-size: var(--font-size-sm);
 
-    @include mobile-only {
+    @media (max-width: 767px) {
       display: none;
     }
 
@@ -75,7 +80,7 @@
   max-width: 500px;
   margin: 0 var(--space-6);
 
-  @include mobile-only {
+  @media (max-width: 767px) {
     display: none;
   }
 
@@ -85,11 +90,14 @@
 }
 
 .header-right {
-  @include flex-center;
+  display: flex;
+  align-items: center;
   gap: var(--space-2);
+  flex-shrink: 0;
 
   button {
-    @include touch-target;
+    min-height: 44px;
+    min-width: 44px;
     color: var(--text-secondary);
     transition: all var(--transition-fast);
 
@@ -113,7 +121,8 @@
   }
 
   .user-menu-btn {
-    @include flex-center;
+    display: flex;
+    align-items: center;
     gap: var(--space-3);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-md);
@@ -145,7 +154,7 @@
       font-size: var(--font-size-sm);
       font-weight: var(--font-medium);
 
-      @include mobile-only {
+      @media (max-width: 767px) {
         display: none;
       }
     }
@@ -164,7 +173,8 @@
     min-width: 200px;
 
     .user-menu-header {
-      @include flex-center;
+      display: flex;
+      align-items: center;
       justify-content: flex-start;
       gap: var(--space-3);
       padding: var(--space-4);
@@ -177,7 +187,9 @@
         height: 40px;
         border-radius: var(--radius-full);
         background: var(--gradient-primary);
-        @include flex-center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: var(--font-size-base);
         font-weight: var(--font-semibold);
         color: white;
@@ -201,7 +213,8 @@
     }
 
     .mat-menu-item {
-      @include flex-center;
+      display: flex;
+      align-items: center;
       justify-content: flex-start;
       gap: var(--space-3);
       padding: var(--space-3) var(--space-4);
@@ -257,8 +270,7 @@
   }
 }
 
-// Responsive adjustments
-@include mobile-only {
+@media (max-width: 767px) {
   .app-header {
     .header-right {
       gap: var(--space-1);
