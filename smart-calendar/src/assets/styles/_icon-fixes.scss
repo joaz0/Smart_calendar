@@ -1,0 +1,53 @@
+// Material Icon Fixes
+mat-icon {
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  &.mat-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    line-height: 24px;
+  }
+}
+
+// Fix icon alignment in buttons
+button mat-icon,
+a mat-icon {
+  vertical-align: middle;
+}
+
+// Fix icon alignment in flex containers
+.mat-mdc-button mat-icon,
+.mat-mdc-raised-button mat-icon,
+.mat-mdc-icon-button mat-icon {
+  margin: 0;
+  vertical-align: middle;
+}
+
+// Fix icon size variants
+.icon-sm mat-icon,
+mat-icon.icon-sm {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.icon-lg mat-icon,
+mat-icon.icon-lg {
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  line-height: 32px;
+}
+
+.icon-xl mat-icon,
+mat-icon.icon-xl {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  line-height: 48px;
+}

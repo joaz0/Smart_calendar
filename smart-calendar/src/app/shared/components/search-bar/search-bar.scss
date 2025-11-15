@@ -71,10 +71,11 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
   backdrop-filter: blur(20px);
-  z-index: var(--z-dropdown);
+  z-index: 1000;
   max-height: 400px;
   overflow-y: auto;
-  @include custom-scrollbar;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-400) transparent;
 
   @include mobile-only {
     position: fixed;
@@ -350,7 +351,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: calc(var(--z-dropdown) - 1);
+  z-index: 999;
   background: transparent;
 
   @include mobile-only {
