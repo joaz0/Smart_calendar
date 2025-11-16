@@ -3,9 +3,21 @@
 @import '../../../../assets/styles/_breakpoints';
 
 .sidebar {
-  background: linear-gradient(135deg, #2A00FF 0%, #512EFF 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #2A00FF 0%, #512EFF 50%, #775CFF 100%);
+  box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   color: #EAE6FF;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(119, 92, 255, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
   display: flex;
   flex-direction: column;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -226,17 +238,36 @@
     }
 
     .stat-card {
-      background: rgba(42, 0, 255, 0.2);
-      border-radius: 10px;
-      padding: 0.75rem;
+      background: linear-gradient(135deg, rgba(42, 0, 255, 0.25) 0%, rgba(42, 0, 255, 0.15) 100%);
+      border-radius: 12px;
+      padding: 0.875rem;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid var(--border-primary);
+      transition: all var(--transition-normal);
+      border: 1px solid rgba(119, 92, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, var(--primary-400) 50%, transparent 100%);
+        opacity: 0;
+        transition: opacity var(--transition-normal);
+      }
 
       &:hover {
-        background: rgba(42, 0, 255, 0.3);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, rgba(42, 0, 255, 0.35) 0%, rgba(42, 0, 255, 0.25) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(42, 0, 255, 0.3), 0 0 0 1px rgba(119, 92, 255, 0.3);
+        border-color: var(--primary-400);
+
+        &::before {
+          opacity: 1;
+        }
       }
 
       .stat-icon {
@@ -314,8 +345,8 @@
       justify-content: flex-start;
       gap: 0.75rem;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 10px;
+      transition: all var(--transition-normal);
+      border-radius: 12px;
       margin: 0.125rem 0.5rem;
       text-align: left;
       position: relative;
@@ -324,14 +355,16 @@
       &:hover {
         background: rgba(42, 0, 255, 0.3);
         color: var(--primary-50);
-        border-color: var(--border-primary);
+        border-color: rgba(119, 92, 255, 0.3);
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(42, 0, 255, 0.2);
       }
 
       &.active {
-        background: rgba(42, 0, 255, 0.4);
+        background: linear-gradient(90deg, rgba(42, 0, 255, 0.5) 0%, rgba(42, 0, 255, 0.3) 100%);
         color: var(--primary-50);
         border-color: var(--primary-400);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 12px rgba(42, 0, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
         &::before {
           content: '';
@@ -339,10 +372,11 @@
           left: 0;
           top: 50%;
           transform: translateY(-50%);
-          width: 3px;
+          width: 4px;
           height: 60%;
-          background: var(--primary-50);
-          border-radius: 0 2px 2px 0;
+          background: linear-gradient(180deg, var(--primary-50) 0%, var(--primary-200) 100%);
+          border-radius: 0 4px 4px 0;
+          box-shadow: 0 0 8px rgba(234, 230, 255, 0.5);
         }
       }
 

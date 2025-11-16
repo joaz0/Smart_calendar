@@ -86,12 +86,21 @@
   scrollbar-color: var(--primary-400) transparent;
 
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(12, 0, 71, 0.5);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--primary-400);
-    border-radius: 3px;
+    background: linear-gradient(180deg, var(--primary-400) 0%, var(--primary-500) 100%);
+    border-radius: 4px;
+    border: 2px solid rgba(12, 0, 71, 0.5);
+
+    &:hover {
+      background: linear-gradient(180deg, var(--primary-300) 0%, var(--primary-400) 100%);
+    }
   }
 
   scroll-behavior: smooth;

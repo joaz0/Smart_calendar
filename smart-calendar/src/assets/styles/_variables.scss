@@ -58,13 +58,14 @@
   --gradient-dark: linear-gradient(135deg, #0C0047 0%, #1A0095 100%);
   --gradient-glass: linear-gradient(135deg, rgba(42,0,255,0.1) 0%, rgba(42,0,255,0.05) 100%);
 
-  // Shadows
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  // Shadows - Enhanced for dark theme
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.5), 0 4px 8px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 30px -8px rgba(0, 0, 0, 0.6), 0 8px 12px -6px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(42, 0, 255, 0.1);
+  --shadow-glow: 0 0 20px rgba(42, 0, 255, 0.3), 0 0 40px rgba(42, 0, 255, 0.1);
 
   // Responsive Spacing Scale
   --space-1: clamp(0.2rem, 0.5vw, 0.25rem);
@@ -111,10 +112,11 @@
   --font-semibold: 600;
   --font-bold: 700;
 
-  // Transitions
+  // Transitions - Smooth and polished
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
   // Z-Index Scale
   --z-dropdown: 1000;
