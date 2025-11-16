@@ -82,14 +82,14 @@
       
       .brand-icon {
         font-size: 1.5rem;
-        color: var(--primary-50);
+        color: #FFFFFF;
       }
       
       .brand-text {
         margin: 0;
         font-size: 1.1rem;
         font-weight: 600;
-        color: var(--primary-50);
+        color: #FFFFFF;
         letter-spacing: -0.02em;
       }
     }
@@ -97,7 +97,7 @@
     .toggle-btn {
       background: rgba(42, 0, 255, 0.3);
       border: none;
-      color: var(--primary-50);
+      color: #FFFFFF;
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 8px;
@@ -144,13 +144,13 @@
         border: none;
         border-radius: 25px;
         background: rgba(42, 0, 255, 0.3);
-        color: var(--primary-50);
+        color: #FFFFFF;
         font-size: 0.9rem;
         backdrop-filter: blur(10px);
         transition: all 0.2s ease;
 
         &::placeholder {
-          color: var(--primary-200);
+          color: #EAE6FF;
         }
 
         &:focus {
@@ -172,7 +172,7 @@
         transform: translateY(-50%);
         background: none;
         border: none;
-        color: var(--primary-200);
+        color: #EAE6FF;
         cursor: pointer;
         font-size: 0.8rem;
         padding: 0.25rem;
@@ -181,7 +181,7 @@
 
         &:hover {
           background: rgba(42, 0, 255, 0.3);
-          color: var(--primary-50);
+          color: #FFFFFF;
         }
       }
     }
@@ -212,13 +212,13 @@
         margin: 0;
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--primary-50);
+        color: #FFFFFF;
       }
       
       button {
         background: none;
         border: none;
-        color: var(--primary-200);
+        color: #EAE6FF;
         cursor: pointer;
         padding: 0.25rem;
         border-radius: 4px;
@@ -226,7 +226,7 @@
         
         &:hover {
           background: rgba(42, 0, 255, 0.3);
-          color: var(--primary-50);
+          color: #FFFFFF;
         }
       }
     }
@@ -275,7 +275,7 @@
         
         mat-icon {
           font-size: 1.25rem;
-          color: var(--primary-100);
+          color: #EAE6FF;
         }
       }
 
@@ -286,12 +286,12 @@
         .stat-number {
           font-size: 1rem;
           font-weight: 700;
-          color: var(--primary-50);
+          color: #FFFFFF;
         }
 
         .stat-label {
           font-size: 0.75rem;
-          color: var(--primary-200);
+          color: #EAE6FF;
           font-weight: 500;
         }
       }
@@ -338,7 +338,7 @@
       width: calc(100% - 1rem);
       background: none;
       border: none;
-      color: var(--primary-100);
+      color: #EAE6FF;
       padding: 0.75rem 1rem;
       display: flex;
       align-items: center;
@@ -354,7 +354,7 @@
 
       &:hover {
         background: rgba(42, 0, 255, 0.3);
-        color: var(--primary-50);
+        color: #FFFFFF;
         border-color: rgba(119, 92, 255, 0.3);
         transform: translateX(4px);
         box-shadow: 0 4px 12px rgba(42, 0, 255, 0.2);
@@ -362,7 +362,7 @@
 
       &.active {
         background: linear-gradient(90deg, rgba(42, 0, 255, 0.5) 0%, rgba(42, 0, 255, 0.3) 100%);
-        color: var(--primary-50);
+        color: #FFFFFF;
         border-color: var(--primary-400);
         box-shadow: 0 4px 12px rgba(42, 0, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
@@ -408,7 +408,7 @@
 
       .nav-arrow {
         font-size: 0.8rem;
-        color: var(--primary-200);
+        color: #EAE6FF;
         transition: transform 0.2s ease;
       }
     }
@@ -422,7 +422,7 @@
         width: calc(100% - 0.5rem);
         background: none;
         border: none;
-        color: var(--primary-200);
+        color: #EAE6FF;
         padding: 0.5rem 0.75rem;
         display: flex;
         align-items: center;
@@ -436,12 +436,12 @@
 
         &:hover {
           background: rgba(42, 0, 255, 0.2);
-          color: var(--primary-50);
+          color: #FFFFFF;
         }
 
         &.active {
           background: rgba(42, 0, 255, 0.3);
-          color: var(--primary-50);
+          color: #FFFFFF;
         }
 
         .submenu-icon {
@@ -469,7 +469,7 @@
       padding: 0.75rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      color: var(--primary-50);
+      color: #FFFFFF;
       font-size: 0.9rem;
 
       &:hover {
@@ -535,7 +535,7 @@
 
         .notification-type-icon {
           font-size: 1rem;
-          color: var(--primary-200);
+          color: #EAE6FF;
         }
 
         .notification-content {
@@ -545,14 +545,14 @@
           .notification-title {
             display: block;
             font-size: 0.8rem;
-            color: var(--primary-50);
+            color: #FFFFFF;
             margin-bottom: 0.2rem;
           }
 
           .notification-time {
             display: block;
             font-size: 0.7rem;
-            color: var(--primary-200);
+            color: #EAE6FF;
           }
         }
       }
@@ -600,7 +600,7 @@
         justify-content: center;
         font-size: 1rem;
         font-weight: 600;
-        color: var(--primary-50);
+        color: #FFFFFF;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         border: 2px solid var(--primary-400);
       }
@@ -614,14 +614,14 @@
 
         strong {
           font-size: 0.875rem;
-          color: var(--primary-50);
+          color: #FFFFFF;
           font-weight: 600;
           letter-spacing: -0.01em;
         }
 
         small {
           font-size: 0.75rem;
-          color: var(--primary-200);
+          color: #EAE6FF;
         }
         
         .user-status {
@@ -643,7 +643,7 @@
           
           .status-text {
             font-size: 0.7rem;
-            color: var(--primary-200);
+            color: #EAE6FF;
           }
         }
       }
@@ -651,7 +651,7 @@
       .user-menu-btn {
         background: rgba(42, 0, 255, 0.2);
         border: none;
-        color: var(--primary-200);
+        color: #EAE6FF;
         cursor: pointer;
         padding: 0.25rem;
         border-radius: 6px;
@@ -664,7 +664,7 @@
 
         &:hover {
           background: rgba(42, 0, 255, 0.3);
-          color: var(--primary-50);
+          color: #FFFFFF;
         }
         
         mat-icon {
