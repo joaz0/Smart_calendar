@@ -27,6 +27,16 @@ import { pool } from './config/database';
 
 dotenv.config();
 
+async function initDatabase() {
+  try {
+    const client = await pool.connect();
+    console.log('✅ Banco de dados conectado');
+    client.release();
+  } catch (error: any) {
+    console.error('⚠️ Erro ao conectar ao banco:', error.message);
+  }
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -131,14 +141,16 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log('\n🚀 ========================================');
-  console.log(`   Smart Calendar API está rodando!`);
-  console.log('   ========================================');
-  console.log(`   📍 Server: http://localhost:${PORT}`);
-  console.log(`   📊 API: http://localhost:${PORT}/api`);
-  console.log(`   ❤️  Health: http://localhost:${PORT}/health`);
-  console.log('   ========================================\n');
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log('\n🚀 ========================================');
+    console.log(`   Smart Calendar API está rodando!`);
+    console.log('   ========================================');
+    console.log(`   📍 Server: http://localhost:${PORT}`);
+    console.log(`   📊 API: http://localhost:${PORT}/api`);
+    console.log(`   ❤️  Health: http://localhost:${PORT}/health`);
+    console.log('   ========================================\n');
+  });
 });
 
 // Graceful shutdown

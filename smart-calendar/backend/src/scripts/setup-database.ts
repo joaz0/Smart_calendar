@@ -1,18 +1,28 @@
-import { pool } from '../config/database';
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL?.includes('render.com') ? { rejectUnauthorized: false } : false,
+  connectionTimeoutMillis: 30000,
+});
 
 async function setupDatabase() {
   let client;
-  let retries = 3;
+  let retries = 5;
   
   while (retries > 0) {
     try {
       client = await pool.connect();
+      console.log('✅ Conectado ao banco de dados');
       break;
-    } catch (err) {
+    } catch (err: any) {
       retries--;
+      console.log(`⚠️ Tentando reconectar... (${5 - retries}/5) - ${err.message}`);
       if (retries === 0) throw err;
-      console.log(`⚠️ Tentando reconectar... (${3 - retries}/3)`);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
     }
   }
   try {
@@ -402,7 +412,6 @@ async function setupDatabase() {
   }
 }
 
-// Executar setup
 setupDatabase()
   .then(async () => {
     console.log('✅ Setup concluído');
@@ -410,7 +419,7 @@ setupDatabase()
     process.exit(0);
   })
   .catch(async (error) => {
-    console.error('❌ Setup falhou:', error);
-    await pool.end();
+    console.error('❌ Setup falhou:', error.message);
+    try { await pool.end(); } catch {}
     process.exit(1);
   });
