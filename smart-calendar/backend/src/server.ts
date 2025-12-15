@@ -23,6 +23,7 @@ import taskDelegationRoutes from './routes/task-delegation.routes';
 import burnoutRoutes from './routes/burnout.routes';
 import breaksRoutes from './routes/breaks.routes';
 import windDownRoutes from './routes/wind-down.routes';
+import setupRoutes from './routes/setup.routes';
 import { pool } from './config/database';
 
 dotenv.config();
@@ -104,6 +105,7 @@ app.use('/api/tasks', taskDelegationRoutes);
 app.use('/api/burnout', burnoutRoutes);
 app.use('/api/breaks', breaksRoutes);
 app.use('/api/wind-down', windDownRoutes);
+app.use('/api/setup', setupRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
