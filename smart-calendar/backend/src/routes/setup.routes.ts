@@ -4,10 +4,11 @@ import { Pool } from 'pg';
 const router = Router();
 
 router.post('/database', async (req, res) => {
-  const client = await new Pool({
+  const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
-  }).connect();
+  });
+  const client = await pool.connect();
 
   try {
     await client.query(`CREATE TABLE IF NOT EXISTS users (
@@ -18,11 +19,19 @@ router.post('/database', async (req, res) => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
     
-    res.json({ success: true, message: 'Database setup completed' });
+    const bcrypt = require('bcryptjs');
+    const hash = await bcrypt.hash('123456', 10);
+    await client.query(
+      `INSERT INTO users (email, name, password_hash) VALUES ($1, $2, $3) ON CONFLICT (email) DO NOTHING`,
+      ['teste@teste.com', 'Usuário Teste', hash]
+    );
+    
+    res.json({ success: true, message: 'Setup completo. User: teste@teste.com / 123456' });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   } finally {
     client.release();
+    await pool.end();
   }
 });
 
