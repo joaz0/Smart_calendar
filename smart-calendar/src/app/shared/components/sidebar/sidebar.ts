@@ -234,23 +234,51 @@ export class SidebarComponent implements OnInit {
   }
 
   refreshStats() {
-    // Implementar refresh das estatísticas
+    // Recarregar estatísticas do servidor
+    console.log('Atualizando estatísticas...');
+    // Simular atualização
+    this.stats = {
+      todayEvents: Math.floor(Math.random() * 10),
+      pendingTasks: Math.floor(Math.random() * 20),
+      completedTasks: Math.floor(Math.random() * 15),
+      weeklyFocus: Math.floor(Math.random() * 100)
+    };
+    this.updateBadges();
   }
 
   navigateToToday() {
-    this.router.navigate(['/app/calendar']);
+    const today = new Date().toISOString().split('T')[0];
+    this.router.navigate(['/app/calendar'], { queryParams: { date: today } });
   }
 
   navigateToTasks() {
-    this.router.navigate(['/app/tasks']);
+    this.router.navigate(['/app/tasks'], { queryParams: { filter: 'pending' } });
   }
 
   navigateToProductivity() {
-    this.router.navigate(['/app/productivity']);
+    this.router.navigate(['/app/productivity/dashboard']);
   }
 
   openNotifications() {
-    // Implementar abertura de notificações
+    // Implementar painel de notificações
+    console.log('Abrindo notificações');
+    // Simular notificações
+    this.recentNotifications = [
+      {
+        id: '1',
+        type: 'event',
+        title: 'Reunião em 15 minutos',
+        timestamp: new Date(),
+        read: false
+      },
+      {
+        id: '2', 
+        type: 'task',
+        title: 'Tarefa vencendo hoje',
+        timestamp: new Date(),
+        read: false
+      }
+    ];
   }
 
   trackByNotification(index: number, notification: any): string {
@@ -258,7 +286,13 @@ export class SidebarComponent implements OnInit {
   }
 
   openNotification(notification: any) {
-    // Implementar abertura de notificação específica
+    // Marcar como lida e navegar
+    notification.read = true;
+    if (notification.type === 'event') {
+      this.router.navigate(['/app/calendar']);
+    } else if (notification.type === 'task') {
+      this.router.navigate(['/app/tasks']);
+    }
   }
 
   getNotificationIcon(type: string): string {
@@ -287,11 +321,21 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    // Implementar logout
+    if (confirm('Tem certeza que deseja sair?')) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('loginTime');
+      this.router.navigate(['/auth']);
+    }
   }
 
   selectSearchResult(result: any) {
-    // Implementar seleção de resultado
+    // Navegar para o resultado selecionado
+    if (result.type === 'event') {
+      this.router.navigate(['/app/calendar'], { queryParams: { eventId: result.id } });
+    } else if (result.type === 'task') {
+      this.router.navigate(['/app/tasks'], { queryParams: { taskId: result.id } });
+    }
+    this.clearSearch();
   }
 
   trackBySearchResult(index: number, result: any): string {

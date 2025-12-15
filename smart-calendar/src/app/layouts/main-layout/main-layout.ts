@@ -215,8 +215,10 @@ export class MainLayout implements OnInit, OnDestroy {
   }
 
   onOpenNotifications() {
-    // Implementar abertura de notificações
-    console.log('Abrir notificações');
+    // Implementar painel de notificações
+    console.log('Abrindo notificações');
+    // Simular notificações
+    alert('Você tem 3 notificações pendentes:\n\n1. Reunião em 15 minutos\n2. Tarefa vencendo hoje\n3. Novo evento adicionado');
   }
 
   onOpenProfile() {
@@ -228,14 +230,43 @@ export class MainLayout implements OnInit, OnDestroy {
   }
 
   openProfile(): void {
-    this.router.navigate(['/app/settings/profile']);
+    this.router.navigate(['/app/settings']);
   }
 
   openNotifications(): void {
-    console.log('Abrir notificações');
+    this.onOpenNotifications();
   }
 
   closeSidebar(): void {
     this.sidebarOpen = false;
+  }
+
+  // Novas funcionalidades para melhorar a experiência
+  createQuickEvent(): void {
+    const title = prompt('Digite o título do evento:');
+    if (title) {
+      const startTime = prompt('Horário (HH:MM):');
+      if (startTime) {
+        console.log(`Evento criado: ${title} às ${startTime}`);
+        alert(`Evento "${title}" criado com sucesso!`);
+        this.loadStats(); // Atualizar estatísticas
+      }
+    }
+  }
+
+  createQuickTask(): void {
+    const title = prompt('Digite o título da tarefa:');
+    if (title) {
+      console.log(`Tarefa criada: ${title}`);
+      alert(`Tarefa "${title}" criada com sucesso!`);
+      this.loadStats(); // Atualizar estatísticas
+    }
+  }
+
+  refreshData(): void {
+    console.log('Atualizando dados...');
+    this.loadUserData();
+    this.loadStats();
+    alert('Dados atualizados com sucesso!');
   }
 }

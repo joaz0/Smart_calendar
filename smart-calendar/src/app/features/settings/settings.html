@@ -4,315 +4,163 @@
       <mat-icon>settings</mat-icon>
       Configurações
     </h1>
-    <p class="settings-subtitle">Personalize sua experiência no AgendaRápido</p>
+    <p>Gerencie suas preferências e configurações da conta</p>
   </div>
 
   <div class="settings-content">
-    <mat-tab-group class="settings-tabs" animationDuration="300ms">
-      <!-- Geral -->
-      <mat-tab label="Geral">
-        <div class="tab-content">
-          <div class="settings-section">
-            <h3>Aparência</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Tema</label>
-                <span class="setting-description">Escolha entre tema claro ou escuro</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.darkTheme" (change)="onThemeChange($event)">
-                {{ settings.darkTheme ? 'Escuro' : 'Claro' }}
-              </mat-slide-toggle>
+    <!-- Profile Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Perfil</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="profile-info">
+          <div class="avatar-section">
+            <div class="avatar">
+              {{ user.name?.charAt(0) || 'U' }}
             </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Idioma</label>
-                <span class="setting-description">Idioma da interface</span>
-              </div>
-              <mat-select [(ngModel)]="settings.language" (selectionChange)="onLanguageChange($event)">
-                <mat-option value="pt-BR">Português (Brasil)</mat-option>
-                <mat-option value="en-US">English (US)</mat-option>
-                <mat-option value="es-ES">Español</mat-option>
-              </mat-select>
-            </div>
+            <button mat-button (click)="updateProfile()">Alterar Perfil</button>
           </div>
-
-          <div class="settings-section">
-            <h3>Calendário</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Início da semana</label>
-                <span class="setting-description">Primeiro dia da semana no calendário</span>
-              </div>
-              <mat-select [(ngModel)]="settings.weekStart">
-                <mat-option value="0">Domingo</mat-option>
-                <mat-option value="1">Segunda-feira</mat-option>
-              </mat-select>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Formato de hora</label>
-                <span class="setting-description">Como exibir os horários</span>
-              </div>
-              <mat-select [(ngModel)]="settings.timeFormat">
-                <mat-option value="24h">24 horas (14:30)</mat-option>
-                <mat-option value="12h">12 horas (2:30 PM)</mat-option>
-              </mat-select>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Visualização padrão</label>
-                <span class="setting-description">Visualização inicial do calendário</span>
-              </div>
-              <mat-select [(ngModel)]="settings.defaultView">
-                <mat-option value="month">Mês</mat-option>
-                <mat-option value="week">Semana</mat-option>
-                <mat-option value="day">Dia</mat-option>
-              </mat-select>
-            </div>
+          <div class="profile-details">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome</mat-label>
+              <input matInput [(ngModel)]="user.name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput [(ngModel)]="user.email" type="email">
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="updateProfile()">
+              Salvar Alterações
+            </button>
           </div>
         </div>
-      </mat-tab>
+      </mat-card-content>
+    </mat-card>
 
-      <!-- Notificações -->
-      <mat-tab label="Notificações">
-        <div class="tab-content">
-          <div class="settings-section">
-            <h3>Notificações Gerais</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Notificações do navegador</label>
-                <span class="setting-description">Receber notificações no desktop</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.browserNotifications">
-              </mat-slide-toggle>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Notificações por email</label>
-                <span class="setting-description">Receber lembretes por email</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.emailNotifications">
-              </mat-slide-toggle>
-            </div>
+    <!-- Preferences Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Preferências</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="preferences">
+          <div class="preference-item">
+            <span>Tema Escuro</span>
+            <mat-slide-toggle 
+              [(ngModel)]="settings.darkMode" 
+              (change)="toggleDarkMode()">
+            </mat-slide-toggle>
           </div>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Idioma</mat-label>
+            <mat-select [(value)]="settings.language">
+              <mat-option value="pt-BR">Português (Brasil)</mat-option>
+              <mat-option value="en-US">English (US)</mat-option>
+              <mat-option value="es-ES">Español</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Fuso Horário</mat-label>
+            <mat-select [(value)]="settings.timezone">
+              <mat-option value="America/Sao_Paulo">São Paulo (UTC-3)</mat-option>
+              <mat-option value="America/New_York">New York (UTC-5)</mat-option>
+              <mat-option value="Europe/London">London (UTC+0)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-          <div class="settings-section">
-            <h3>Lembretes de Eventos</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Lembrete padrão</label>
-                <span class="setting-description">Tempo padrão para lembretes</span>
-              </div>
-              <mat-select [(ngModel)]="settings.defaultReminder">
-                <mat-option value="0">No momento</mat-option>
-                <mat-option value="5">5 minutos antes</mat-option>
-                <mat-option value="15">15 minutos antes</mat-option>
-                <mat-option value="30">30 minutos antes</mat-option>
-                <mat-option value="60">1 hora antes</mat-option>
-                <mat-option value="1440">1 dia antes</mat-option>
-              </mat-select>
-            </div>
+    <!-- Notifications Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Notificações</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="notifications">
+          <div class="notification-item">
+            <span>Notificações Gerais</span>
+            <mat-slide-toggle [(ngModel)]="settings.notifications"></mat-slide-toggle>
+          </div>
+          <div class="notification-item">
+            <span>Notificações por Email</span>
+            <mat-slide-toggle [(ngModel)]="settings.emailNotifications"></mat-slide-toggle>
+          </div>
+          <div class="notification-item">
+            <span>Sons de Notificação</span>
+            <mat-slide-toggle [(ngModel)]="settings.soundNotifications"></mat-slide-toggle>
           </div>
         </div>
-      </mat-tab>
+      </mat-card-content>
+    </mat-card>
 
-      <!-- Privacidade -->
-      <mat-tab label="Privacidade">
-        <div class="tab-content">
-          <div class="settings-section">
-            <h3>Compartilhamento</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Compartilhar calendário</label>
-                <span class="setting-description">Permitir que outros vejam seu calendário</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.shareCalendar">
-              </mat-slide-toggle>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Mostrar disponibilidade</label>
-                <span class="setting-description">Exibir quando você está livre/ocupado</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.showAvailability">
-              </mat-slide-toggle>
-            </div>
-          </div>
-
-          <div class="settings-section">
-            <h3>Dados e Analytics</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Coleta de dados de uso</label>
-                <span class="setting-description">Ajudar a melhorar o produto</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.allowAnalytics">
-              </mat-slide-toggle>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Recursos de IA</label>
-                <span class="setting-description">Usar IA para sugestões e insights</span>
-              </div>
-              <mat-slide-toggle [(ngModel)]="settings.enableAI">
-              </mat-slide-toggle>
-            </div>
-          </div>
+    <!-- Calendar Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Calendário</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="calendar-settings">
+          <mat-form-field appearance="outline">
+            <mat-label>Início da Semana</mat-label>
+            <mat-select [(value)]="settings.weekStart">
+              <mat-option value="sunday">Domingo</mat-option>
+              <mat-option value="monday">Segunda-feira</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Horário de Trabalho - Início</mat-label>
+            <input matInput type="time" [(ngModel)]="settings.workingHours.start">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Horário de Trabalho - Fim</mat-label>
+            <input matInput type="time" [(ngModel)]="settings.workingHours.end">
+          </mat-form-field>
         </div>
-      </mat-tab>
+      </mat-card-content>
+    </mat-card>
 
-      <!-- Integrações -->
-      <mat-tab label="Integrações">
-        <div class="tab-content">
-          <div class="settings-section">
-            <h3>Calendários Externos</h3>
-            <div class="integration-item">
-              <div class="integration-info">
-                <mat-icon>event</mat-icon>
-                <div>
-                  <h4>Google Calendar</h4>
-                  <p>Sincronizar com sua conta Google</p>
-                </div>
-              </div>
-              <button mat-stroked-button (click)="connectGoogle()">
-                {{ settings.googleConnected ? 'Desconectar' : 'Conectar' }}
-              </button>
-            </div>
-            
-            <div class="integration-item">
-              <div class="integration-info">
-                <mat-icon>event</mat-icon>
-                <div>
-                  <h4>Outlook Calendar</h4>
-                  <p>Sincronizar com Microsoft Outlook</p>
-                </div>
-              </div>
-              <button mat-stroked-button (click)="connectOutlook()">
-                {{ settings.outlookConnected ? 'Desconectar' : 'Conectar' }}
-              </button>
-            </div>
-          </div>
-
-          <div class="settings-section">
-            <h3>Aplicativos de Produtividade</h3>
-            <div class="integration-item">
-              <div class="integration-info">
-                <mat-icon>task</mat-icon>
-                <div>
-                  <h4>Todoist</h4>
-                  <p>Importar tarefas do Todoist</p>
-                </div>
-              </div>
-              <button mat-stroked-button (click)="connectTodoist()">
-                Conectar
-              </button>
-            </div>
-          </div>
+    <!-- Security Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Segurança</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="security-options">
+          <button mat-raised-button (click)="changePassword()">
+            <mat-icon>lock</mat-icon>
+            Alterar Senha
+          </button>
         </div>
-      </mat-tab>
+      </mat-card-content>
+    </mat-card>
 
-      <!-- Conta -->
-      <mat-tab label="Conta">
-        <div class="tab-content">
-          <div class="settings-section">
-            <h3>Informações Pessoais</h3>
-            <div class="profile-section">
-              <div class="avatar-section">
-                <div class="current-avatar">
-                  <img *ngIf="user.avatar" [src]="user.avatar" [alt]="user.name" width="120" height="120" style="aspect-ratio: 1/1;">
-                  <div *ngIf="!user.avatar" class="avatar-placeholder">
-                    {{ user.name?.charAt(0) || 'U' }}
-                  </div>
-                </div>
-                <button mat-stroked-button (click)="changeAvatar()">
-                  <mat-icon>photo_camera</mat-icon>
-                  Alterar Foto
-                </button>
-              </div>
-              
-              <div class="profile-fields">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nome</mat-label>
-                  <input matInput [(ngModel)]="user.name">
-                </mat-form-field>
-                
-                <mat-form-field appearance="outline">
-                  <mat-label>Email</mat-label>
-                  <input matInput [(ngModel)]="user.email" readonly>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-section">
-            <h3>Segurança</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Alterar senha</label>
-                <span class="setting-description">Última alteração: {{ lastPasswordChange | date:'short' }}</span>
-              </div>
-              <button mat-stroked-button (click)="changePassword()">
-                <mat-icon>lock</mat-icon>
-                Alterar
-              </button>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Autenticação de dois fatores</label>
-                <span class="setting-description">Adicionar camada extra de segurança</span>
-              </div>
-              <button mat-stroked-button (click)="setup2FA()">
-                <mat-icon>security</mat-icon>
-                {{ settings.twoFactorEnabled ? 'Configurado' : 'Configurar' }}
-              </button>
-            </div>
-          </div>
-
-          <div class="settings-section danger-section">
-            <h3>Zona de Perigo</h3>
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Exportar dados</label>
-                <span class="setting-description">Baixar todos os seus dados</span>
-              </div>
-              <button mat-stroked-button (click)="exportData()">
-                <mat-icon>download</mat-icon>
-                Exportar
-              </button>
-            </div>
-            
-            <div class="setting-item">
-              <div class="setting-info">
-                <label>Excluir conta</label>
-                <span class="setting-description">Remover permanentemente sua conta</span>
-              </div>
-              <button mat-stroked-button color="warn" (click)="deleteAccount()">
-                <mat-icon>delete_forever</mat-icon>
-                Excluir
-              </button>
-            </div>
-          </div>
+    <!-- Data Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Dados</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="data-options">
+          <button mat-raised-button (click)="exportData()">
+            <mat-icon>download</mat-icon>
+            Exportar Dados
+          </button>
+          <button mat-raised-button (click)="saveSettings()">
+            <mat-icon>save</mat-icon>
+            Salvar Configurações
+          </button>
+          <button mat-raised-button color="warn" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Sair
+          </button>
         </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-
-  <div class="settings-footer">
-    <div class="save-actions">
-      <button mat-button (click)="resetToDefaults()">
-        Restaurar Padrões
-      </button>
-      <button mat-raised-button color="primary" (click)="saveSettings()" [disabled]="!hasChanges">
-        <mat-icon>save</mat-icon>
-        Salvar Alterações
-      </button>
-    </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

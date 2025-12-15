@@ -129,30 +129,59 @@ export class Header implements OnInit, OnDestroy {
   }
 
   onSearch(query: string): void {
-    console.log('Buscar:', query);
+    // Implementar busca global
+    if (query.trim()) {
+      // Navegar para página de resultados ou filtrar conteúdo atual
+      console.log('Buscando por:', query);
+    }
   }
 
   createEvent(): void {
-    console.log('Criar evento');
+    // Abrir modal de criação de evento
+    import('../../../features/calendar/event-dialog/event-dialog').then(m => {
+      // Implementar abertura do modal
+      console.log('Abrindo modal de evento');
+    });
   }
 
   createTask(): void {
-    console.log('Criar tarefa');
+    // Abrir modal de criação de tarefa
+    import('../../../features/tasks/task-form/task-form').then(m => {
+      console.log('Abrindo modal de tarefa');
+    });
   }
 
   createReminder(): void {
-    console.log('Criar lembrete');
+    // Criar lembrete rápido
+    const title = prompt('Digite o lembrete:');
+    if (title) {
+      console.log('Criando lembrete:', title);
+      // Implementar criação de lembrete
+    }
   }
 
   importCalendar(): void {
-    console.log('Importar calendário');
+    // Abrir seletor de arquivo para importar calendário
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.ics,.csv';
+    input.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        console.log('Importando calendário:', file.name);
+        // Implementar importação
+      }
+    };
+    input.click();
   }
 
   openSettings(): void {
-    console.log('Abrir configurações');
+    // Navegar para configurações
+    window.location.href = '/app/settings';
   }
 
   openHelp(): void {
-    console.log('Abrir ajuda');
+    // Abrir página de ajuda
+    window.open('https://help.agendarapido.com', '_blank');
   }
 }

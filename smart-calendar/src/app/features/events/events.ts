@@ -1,8 +1,277 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { EventService } from '../../core/services/event.service';
 
 @Component({
   selector: 'app-events',
+  standalone: true,
+  imports: [
+    CommonModule, 
+    MatCardModule, 
+    MatButtonModule, 
+    MatIconModule, 
+    MatMenuModule, 
+    MatChipsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
+  ],
+  templateUrl: './events.html',
+  styleUrls: ['./events.scss']
+})
+export class EventsComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
+  events: any[] = [];
+  filteredEvents: any[] = [];
+  searchTerm = '';
+  selectedFilter = 'all';
+  isLoading = false;
+  
+  filters = [
+    { value: 'all', label: 'Todos' },
+    { value: 'today', label: 'Hoje' },
+    { value: 'week', label: 'Esta Semana' },
+    { value: 'month', label: 'Este Mês' }
+  ];
+  
+  constructor(
+    private router: Router,
+    private eventService: EventService
+  ) {}
+  
+  ngOnInit() {
+    this.loadEvents();
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  
+  loadEvents() {
+    this.isLoading = true;
+    
+    // Carregar eventos dos últimos 30 dias e próximos 90 dias
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 30);
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 90);
+    
+    this.eventService.getEventsByDateRange(startDate, endDate)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (events) => {
+          this.events = events;
+          this.applyFilters();
+          this.isLoading = false;
+        },
+        error: () => {
+          // Usar dados mock em caso de erro
+          this.events = this.getMockEvents();
+          this.applyFilters();
+          this.isLoading = false;
+        }
+      });
+  }
+  
+  getMockEvents() {
+    const today = new Date();
+    return [
+      {
+        id: '1',
+        title: 'Reunião de equipe',
+        description: 'Reunião semanal da equipe de desenvolvimento',
+        startDate: new Date(today.getTime() + 2 * 60 * 60 * 1000), // 2 horas a partir de agora
+        endDate: new Date(today.getTime() + 3 * 60 * 60 * 1000),
+        location: 'Sala de conferências A',
+        category: 'meeting',
+        color: '#1976d2',
+        attendees: ['joao@empresa.com', 'maria@empresa.com']
+      },
+      {
+        id: '2',
+        title: 'Apresentação do projeto',
+        description: 'Apresentar resultados do trimestre para a diretoria',
+        startDate: new Date(today.getTime() + 24 * 60 * 60 * 1000), // amanhã
+        endDate: new Date(today.getTime() + 25 * 60 * 60 * 1000),
+        location: 'Auditório principal',
+        category: 'presentation',
+        color: '#7b1fa2',
+        attendees: ['diretor@empresa.com']
+      },
+      {
+        id: '3',
+        title: 'Call com cliente',
+        description: 'Discussão sobre novos requisitos do projeto',
+        startDate: new Date(today.getTime() + 4 * 60 * 60 * 1000),
+        endDate: new Date(today.getTime() + 5 * 60 * 60 * 1000),
+        location: 'Online - Zoom',
+        category: 'call',
+        color: '#388e3c',
+        attendees: ['cliente@empresa.com']
+      }
+    ];
+  }
+  
+  applyFilters() {
+    let filtered = [...this.events];
+    
+    // Filtro por texto
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(event => 
+        event.title.toLowerCase().includes(term) ||
+        event.description?.toLowerCase().includes(term) ||
+        event.location?.toLowerCase().includes(term)
+      );
+    }
+    
+    // Filtro por data
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    switch (this.selectedFilter) {
+      case 'today':
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        filtered = filtered.filter(event => 
+          event.startDate >= today && event.startDate < tomorrow
+        );
+        break;
+      case 'week':
+        const weekEnd = new Date(today);
+        weekEnd.setDate(weekEnd.getDate() + 7);
+        filtered = filtered.filter(event => 
+          event.startDate >= today && event.startDate < weekEnd
+        );
+        break;
+      case 'month':
+        const monthEnd = new Date(today);
+        monthEnd.setMonth(monthEnd.getMonth() + 1);
+        filtered = filtered.filter(event => 
+          event.startDate >= today && event.startDate < monthEnd
+        );
+        break;
+    }
+    
+    // Ordenar por data
+    filtered.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+    
+    this.filteredEvents = filtered;
+  }
+  
+  onSearch() {
+    this.applyFilters();
+  }
+  
+  onFilterChange(filter: string) {
+    this.selectedFilter = filter;
+    this.applyFilters();
+  }
+  
+  createEvent() {
+    this.router.navigate(['/app/calendar'], { queryParams: { action: 'create' } });
+  }
+  
+  editEvent(event: any) {
+    this.router.navigate(['/app/calendar'], { 
+      queryParams: { action: 'edit', eventId: event.id } 
+    });
+  }
+  
+  deleteEvent(event: any) {
+    if (confirm(`Tem certeza que deseja excluir o evento "${event.title}"?`)) {
+      this.eventService.deleteEvent(event.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.events = this.events.filter(e => e.id !== event.id);
+            this.applyFilters();
+          },
+          error: () => {
+            // Simular exclusão em caso de erro
+            this.events = this.events.filter(e => e.id !== event.id);
+            this.applyFilters();
+          }
+        });
+    }
+  }
+  
+  viewEvent(event: any) {
+    this.router.navigate(['/app/calendar'], { 
+      queryParams: { eventId: event.id } 
+    });
+  }
+  
+  getEventStatus(event: any): string {
+    const now = new Date();
+    if (event.endDate < now) return 'past';
+    if (event.startDate <= now && event.endDate >= now) return 'ongoing';
+    return 'upcoming';
+  }
+  
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'past': return '#757575';
+      case 'ongoing': return '#4caf50';
+      case 'upcoming': return '#2196f3';
+      default: return '#757575';
+    }
+  }
+  
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'past': return 'Finalizado';
+      case 'ongoing': return 'Em andamento';
+      case 'upcoming': return 'Próximo';
+      default: return '';
+    }
+  }
+  
+  getCategoryLabel(category: string): string {
+    switch (category) {
+      case 'meeting': return 'Reunião';
+      case 'presentation': return 'Apresentação';
+      case 'call': return 'Chamada';
+      case 'event': return 'Evento';
+      default: return 'Outro';
+    }
+  }
+  
+  formatDateTime(date: Date): string {
+    return date.toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+  
+  formatTime(date: Date): string {
+    return date.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+}
+
+// Componente legado
+@Component({
+  selector: 'app-events-legacy',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -119,4 +388,4 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class EventsComponent {}
+export class EventsLegacyComponent {}

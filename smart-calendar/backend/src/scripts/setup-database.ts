@@ -388,11 +388,13 @@ async function setupDatabase() {
 
 // Executar setup
 setupDatabase()
-  .then(() => {
+  .then(async () => {
     console.log('✅ Setup concluído');
+    await pool.end();
     process.exit(0);
   })
-  .catch((error) => {
+  .catch(async (error) => {
     console.error('❌ Setup falhou:', error);
+    await pool.end();
     process.exit(1);
   });

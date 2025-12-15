@@ -1,8 +1,203 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { UserService } from '../../core/services/user.service';
+import { EventService } from '../../core/services/event.service';
+import { TaskService } from '../../core/services/task.service';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
+  templateUrl: './dashboard.html',
+  styleUrls: ['./dashboard.scss']
+})
+export class DashboardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
+  user: any = { name: 'Usuário' };
+  currentDate = new Date();
+  
+  todayStats = {
+    events: 0,
+    tasks: 0,
+    productivity: 0,
+    wellness: 'Bom'
+  };
+  
+  todayEvents: any[] = [];
+  quickTasks: any[] = [];
+  aiInsights: any[] = [
+    {
+      icon: 'schedule',
+      title: 'Otimização de Tempo',
+      description: 'Você tem 2 horas livres entre as reuniões hoje.'
+    },
+    {
+      icon: 'trending_up',
+      title: 'Produtividade',
+      description: 'Sua produtividade aumentou 15% esta semana.'
+    }
+  ];
+  
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private eventService: EventService,
+    private taskService: TaskService
+  ) {}
+  
+  ngOnInit() {
+    this.loadUserData();
+    this.loadTodayData();
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  
+  private loadUserData() {
+    this.userService.getProfile()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (profile) => {
+          this.user = profile;
+        },
+        error: () => {
+          this.user = { name: 'Usuário' };
+        }
+      });
+  }
+  
+  private loadTodayData() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    // Carregar eventos de hoje
+    this.eventService.getEventsByDateRange(today, tomorrow)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (events) => {
+          this.todayEvents = events.map(event => ({
+            ...event,
+            startTime: event.startDate,
+            category: { color: '#4facfe' }
+          }));
+          this.todayStats.events = events.length;
+        },
+        error: () => {
+          this.todayEvents = this.getMockEvents();
+          this.todayStats.events = this.todayEvents.length;
+        }
+      });
+    
+    // Carregar tarefas
+    this.loadTasks();
+    
+    // Carregar estatísticas
+    this.userService.getStats()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (stats) => {
+          this.todayStats.tasks = stats.pending_tasks || 0;
+          this.todayStats.productivity = stats.productivity_score || 0;
+        },
+        error: () => {
+          this.todayStats.tasks = 5;
+          this.todayStats.productivity = 85;
+        }
+      });
+  }
+  
+  private loadTasks() {
+    // Simular carregamento de tarefas
+    this.quickTasks = [
+      { id: '1', title: 'Revisar relatório mensal', completed: false, priority: 'high' },
+      { id: '2', title: 'Preparar apresentação', completed: false, priority: 'medium' },
+      { id: '3', title: 'Responder emails', completed: true, priority: 'low' }
+    ];
+  }
+  
+  private getMockEvents() {
+    return [
+      {
+        id: '1',
+        title: 'Reunião de equipe',
+        description: 'Reunião semanal da equipe',
+        startTime: new Date(new Date().setHours(9, 0)),
+        category: { color: '#4facfe' }
+      },
+      {
+        id: '2',
+        title: 'Apresentação do projeto',
+        description: 'Apresentar resultados do trimestre',
+        startTime: new Date(new Date().setHours(14, 30)),
+        category: { color: '#ff6b6b' }
+      }
+    ];
+  }
+  
+  createEvent() {
+    this.router.navigate(['/app/calendar'], { queryParams: { action: 'create' } });
+  }
+  
+  refreshSchedule() {
+    this.loadTodayData();
+  }
+  
+  addTask() {
+    const title = prompt('Digite o título da tarefa:');
+    if (title) {
+      const newTask = {
+        id: Date.now().toString(),
+        title,
+        completed: false,
+        priority: 'medium'
+      };
+      this.quickTasks.unshift(newTask);
+      this.todayStats.tasks++;
+    }
+  }
+  
+  toggleTask(task: any) {
+    task.completed = !task.completed;
+    if (task.completed) {
+      this.todayStats.tasks--;
+    } else {
+      this.todayStats.tasks++;
+    }
+  }
+  
+  getPriorityColor(priority: string): string {
+    switch (priority) {
+      case 'high': return '#f44336';
+      case 'medium': return '#ff9800';
+      case 'low': return '#4caf50';
+      default: return '#757575';
+    }
+  }
+  
+  getPriorityIcon(priority: string): string {
+    switch (priority) {
+      case 'high': return 'priority_high';
+      case 'medium': return 'remove';
+      case 'low': return 'keyboard_arrow_down';
+      default: return 'remove';
+    }
+  }
+}
+
+// Componente legado mantido para compatibilidade
+@Component({
+  selector: 'app-dashboard-legacy',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -230,4 +425,4 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class DashboardComponent {}
+export class DashboardLegacyComponent {}

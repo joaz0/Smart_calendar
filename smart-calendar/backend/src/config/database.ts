@@ -3,16 +3,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const isProduction = process.env.NODE_ENV === 'production';
 const useRemoteDB = process.env.DATABASE_URL?.includes('render.com');
 
 export const pool = new Pool(
   useRemoteDB ? {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    max: 10,
+    idleTimeoutMillis: 60000,
+    connectionTimeoutMillis: 10000,
+    statement_timeout: 30000,
   } : {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432'),
@@ -20,9 +20,9 @@ export const pool = new Pool(
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD,
     ssl: false,
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    max: 10,
+    idleTimeoutMillis: 60000,
+    connectionTimeoutMillis: 10000,
   }
 );
 
@@ -31,6 +31,5 @@ pool.on('connect', () => {
 });
 
 pool.on('error', (err) => {
-  console.error('❌ Erro no PostgreSQL:', err);
-  process.exit(-1);
+  console.error('❌ Erro no PostgreSQL:', err.message);
 });
