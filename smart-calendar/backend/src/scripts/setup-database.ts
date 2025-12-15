@@ -1,6 +1,20 @@
 import { pool } from '../config/database';
 
 async function setupDatabase() {
+  let client;
+  let retries = 3;
+  
+  while (retries > 0) {
+    try {
+      client = await pool.connect();
+      break;
+    } catch (err) {
+      retries--;
+      if (retries === 0) throw err;
+      console.log(`⚠️ Tentando reconectar... (${3 - retries}/3)`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
   try {
     console.log('\n🔧 ========================================');
     console.log('   Configurando banco de dados completo...');
@@ -8,7 +22,7 @@ async function setupDatabase() {
 
     // 1. Tabela de Usuários
     console.log('👤 Criando tabela de usuários...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
@@ -35,14 +49,14 @@ async function setupDatabase() {
 
     // Adicionar colunas de preferências se não existirem
     console.log('⚙️ Adicionando colunas de preferências...');
-    await pool.query(`
+    await client.query(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS preferences JSONB DEFAULT '{}';
     `);
     console.log('✅ Colunas de preferências adicionadas');
 
     // Tabela de estatísticas do usuário
     console.log('📊 Criando tabela de estatísticas do usuário...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS user_stats (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -58,7 +72,7 @@ async function setupDatabase() {
 
     // Função para atualizar estatísticas automaticamente
     console.log('🔄 Criando função de atualização de stats...');
-    await pool.query(`
+    await client.query(`
       CREATE OR REPLACE FUNCTION update_user_stats(user_id_param INTEGER)
       RETURNS VOID AS $$
       BEGIN
@@ -87,7 +101,7 @@ async function setupDatabase() {
 
     // 2. Tabela de Categorias
     console.log('📂 Criando tabela de categorias...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS categories (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
@@ -102,7 +116,7 @@ async function setupDatabase() {
 
     // 3. Tabela de Eventos
     console.log('📅 Criando tabela de eventos...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS events (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
@@ -130,7 +144,7 @@ async function setupDatabase() {
 
     // 4. Tabela de Tarefas
     console.log('📝 Criando tabela de tarefas...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS tasks (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
@@ -149,7 +163,7 @@ async function setupDatabase() {
 
     // 5. Tabela de Lembretes
     console.log('⏰ Criando tabela de lembretes...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS reminders (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -166,7 +180,7 @@ async function setupDatabase() {
 
     // 6. Tabela de Participantes
     console.log('👥 Criando tabela de participantes...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS event_participants (
         id SERIAL PRIMARY KEY,
         event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
@@ -182,7 +196,7 @@ async function setupDatabase() {
 
     // 7. Tabela de Anexos
     console.log('📎 Criando tabela de anexos...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS attachments (
         id SERIAL PRIMARY KEY,
         event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
@@ -199,7 +213,7 @@ async function setupDatabase() {
 
     // Índices para performance
     console.log('📊 Criando índices...');
-    await pool.query(`
+    await client.query(`
       -- Índices para eventos
       CREATE INDEX IF NOT EXISTS idx_events_user_id ON events(user_id);
       CREATE INDEX IF NOT EXISTS idx_events_start_time ON events(start_time);
@@ -231,7 +245,7 @@ async function setupDatabase() {
 
     // Triggers para updated_at
     console.log('⚡ Criando triggers...');
-    await pool.query(`
+    await client.query(`
       CREATE OR REPLACE FUNCTION update_updated_at_column()
       RETURNS TRIGGER AS $$
       BEGIN
@@ -279,7 +293,7 @@ async function setupDatabase() {
 
     // 8. Tabelas para AI training data
     console.log('🤖 Criando tabelas para AI training data...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS ai_training_datasets (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -304,17 +318,17 @@ async function setupDatabase() {
 
     // Seed inicial para AI training (apenas se não houver datasets)
     console.log('🌱 Inserindo seed inicial para AI training data (se necessário)...');
-    const { rows: existingDatasets } = await pool.query(
+    const { rows: existingDatasets } = await client.query(
       'SELECT id FROM ai_training_datasets LIMIT 1'
     );
     if (existingDatasets.length === 0) {
-      const ds = await pool.query(
+      const ds = await client.query(
         `INSERT INTO ai_training_datasets (name, description) VALUES ($1, $2) RETURNING *`,
         ['Default Dataset', 'Dataset inicial gerado pelo setup']
       );
       const datasetId = ds.rows[0].id;
 
-      await pool.query(
+      await client.query(
         `INSERT INTO ai_training_examples (dataset_id, input, output, label, metadata)
          VALUES
          ($1, $2, $3, $4, $5),
@@ -339,7 +353,7 @@ async function setupDatabase() {
 
     // 9. Tabelas opcionais para histórico e persistência de AI
     console.log('🧠 Criando tabelas opcionais para AI (suggestions, productivity, commands)...');
-    await pool.query(`
+    await client.query(`
       CREATE TABLE IF NOT EXISTS ai_suggestions (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
@@ -383,6 +397,8 @@ async function setupDatabase() {
   } catch (error) {
     console.error('\n❌ Erro ao configurar banco de dados:', error);
     throw error;
+  } finally {
+    if (client) client.release();
   }
 }
 
