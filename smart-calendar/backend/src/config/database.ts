@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import { Pool, PoolClient } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,12 +9,11 @@ export const pool = new Pool(
   useRemoteDB ? {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 30000,
-    query_timeout: 60000,
-    keepAlive: true,
-    keepAliveInitialDelayMillis: 10000,
+    max: 10,
+    min: 2,
+    idleTimeoutMillis: 10000,
+    connectionTimeoutMillis: 10000,
+    allowExitOnIdle: false,
   } : {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432'),
@@ -35,3 +34,12 @@ pool.on('connect', () => {
 pool.on('error', (err) => {
   console.error('❌ Erro no PostgreSQL:', err.message);
 });
+
+export const query = async (text: string, params?: any[]) => {
+  const client = await pool.connect();
+  try {
+    return await client.query(text, params);
+  } finally {
+    client.release();
+  }
+};

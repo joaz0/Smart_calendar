@@ -1,4 +1,4 @@
-import { pool } from '../config/database';
+import { query } from '../config/database';
 
 interface BreakSlot {
   start: Date;
@@ -20,7 +20,7 @@ export class ActiveBreaksService {
   }
 
   private async getDayEvents(userId: number, day: Date) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT * FROM events 
        WHERE user_id = $1 AND DATE(start_time) = $2 AND is_break = false
        ORDER BY start_time`,
@@ -30,7 +30,7 @@ export class ActiveBreaksService {
   }
 
   private async getBreakPreferences(userId: number) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT * FROM break_preferences WHERE user_id = $1`,
       [userId]
     );
@@ -61,7 +61,7 @@ export class ActiveBreaksService {
   }
 
   private async createBreakEvent(userId: number, breakSlot: BreakSlot) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `INSERT INTO events (title, start_time, end_time, user_id, is_break, break_type, color)
        VALUES ($1, $2, $3, $4, true, $5, '#4CAF50') RETURNING *`,
       ['💧 Pausa Ativa', breakSlot.start, breakSlot.end, userId, breakSlot.type]

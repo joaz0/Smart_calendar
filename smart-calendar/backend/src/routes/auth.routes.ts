@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 const { body, validationResult } = require('express-validator');
-import { pool } from '../config/database';
+import { query } from '../config/database';
 import { jwtConfig } from '../config/jwt';
 
 const router = Router();
@@ -22,14 +22,14 @@ router.post('/register', [
 
     const { email, password, name } = req.body;
 
-    const existingUser = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+    const existingUser = await query('SELECT id FROM users WHERE email = $1', [email]);
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ error: 'Email já cadastrado' });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
 
-    const result = await pool.query(
+    const result = await query(
       'INSERT INTO users (email, name, password_hash) VALUES ($1, $2, $3) RETURNING id, email, name, created_at',
       [email, name, passwordHash]
     );
@@ -57,7 +57,7 @@ router.post('/login', [
 
     const { email, password } = req.body;
 
-    const result = await pool.query('SELECT id, email, name, password_hash FROM users WHERE email = $1', [email]);
+    const result = await query('SELECT id, email, name, password_hash FROM users WHERE email = $1', [email]);
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
@@ -93,7 +93,7 @@ router.get('/me', async (req: Request, res: Response) => {
     }
 
     const decoded = jwt.verify(token, jwtConfig.publicKey, jwtConfig.verifyOptions) as any;
-    const result = await pool.query('SELECT id, email, name, created_at FROM users WHERE id = $1', [decoded.userId]);
+    const result = await query('SELECT id, email, name, created_at FROM users WHERE id = $1', [decoded.userId]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
@@ -118,7 +118,7 @@ router.post('/forgot-password', [
 
     const { email } = req.body;
     
-    const userResult = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+    const userResult = await query('SELECT id FROM users WHERE email = $1', [email]);
     if (userResult.rows.length === 0) {
       return res.json({ message: 'Se o e-mail existir, um link será enviado' });
     }
@@ -126,7 +126,7 @@ router.post('/forgot-password', [
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetExpires = new Date(Date.now() + 3600000); // 1 hora
 
-    await pool.query(
+    await query(
       'UPDATE users SET reset_token = $1, reset_expires = $2 WHERE email = $3',
       [resetToken, resetExpires, email]
     );
@@ -153,7 +153,7 @@ router.post('/reset-password', [
 
     const { token, newPassword } = req.body;
     
-    const userResult = await pool.query(
+    const userResult = await query(
       'SELECT id FROM users WHERE reset_token = $1 AND reset_expires > NOW()',
       [token]
     );
@@ -164,7 +164,7 @@ router.post('/reset-password', [
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
     
-    await pool.query(
+    await query(
       'UPDATE users SET password_hash = $1, reset_token = NULL, reset_expires = NULL WHERE reset_token = $2',
       [passwordHash, token]
     );

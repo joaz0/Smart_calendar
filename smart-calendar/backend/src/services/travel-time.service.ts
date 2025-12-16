@@ -1,8 +1,8 @@
-import { pool } from '../config/database';
+import { query } from '../config/database';
 
 export class TravelTimeService {
   async addTravelTime(eventId: number, userId: number) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT * FROM events WHERE id = $1`,
       [eventId]
     );
@@ -18,7 +18,7 @@ export class TravelTimeService {
     const travelStart = new Date(event.start_time);
     travelStart.setMinutes(travelStart.getMinutes() - travelMinutes);
 
-    const { rows: travelRows } = await pool.query(
+    const { rows: travelRows } = await query(
       `INSERT INTO events (title, start_time, end_time, user_id, is_travel_time, parent_event_id, color)
        VALUES ($1, $2, $3, $4, true, $5, '#9E9E9E')
        RETURNING *`,
@@ -35,7 +35,7 @@ export class TravelTimeService {
   }
 
   private async getPreviousEvent(userId: number, beforeTime: Date) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT * FROM events 
        WHERE user_id = $1 AND end_time < $2 AND is_travel_time = false
        ORDER BY end_time DESC LIMIT 1`,

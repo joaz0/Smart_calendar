@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { pool } from '../config/database';
+import { query } from '../config/database';
 
 export class AiSuggestionsController {
   async list(req: Request, res: Response) {
     try {
-      const result = await pool.query('SELECT * FROM ai_suggestions ORDER BY created_at DESC');
+      const result = await query('SELECT * FROM ai_suggestions ORDER BY created_at DESC');
       res.json(result.rows);
     } catch (error) {
       console.error('Error listing AI suggestions:', error);
@@ -17,7 +17,7 @@ export class AiSuggestionsController {
       const { user_id, payload, score } = req.body;
       if (!payload) return res.status(400).json({ error: 'payload é obrigatório' });
 
-      const result = await pool.query(
+      const result = await query(
         `INSERT INTO ai_suggestions (user_id, payload, score) VALUES ($1, $2, $3) RETURNING *`,
         [user_id || null, JSON.stringify(payload), score || null]
       );

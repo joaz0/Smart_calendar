@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { pool } from '../config/database';
+import { query } from '../config/database';
 
 export class TaskController {
   async getAll(req: Request, res: Response) {
     try {
-      const result = await pool.query(
+      const result = await query(
         'SELECT * FROM tasks ORDER BY created_at DESC'
       );
       res.json(result.rows);
@@ -17,7 +17,7 @@ export class TaskController {
   async getById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const result = await pool.query('SELECT * FROM tasks WHERE id = $1', [id]);
+      const result = await query('SELECT * FROM tasks WHERE id = $1', [id]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Tarefa não encontrada' });
@@ -53,7 +53,7 @@ export class TaskController {
         return res.status(400).json({ error: 'Status inválido' });
       }
       
-      const result = await pool.query(
+      const result = await query(
         `INSERT INTO tasks (title, description, category_id, priority, status, due_date, is_completed)
           VALUES ($1, $2, $3, $4, $5, $6, $7)
           RETURNING *`,
@@ -74,7 +74,7 @@ export class TaskController {
       const { id } = req.params;
       const { title, description, category_id, priority, status, due_date, is_completed } = req.body;
 
-      const result = await pool.query(
+      const result = await query(
         `UPDATE tasks
          SET title = $1,
              description = $2,
@@ -103,7 +103,7 @@ export class TaskController {
   async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const result = await pool.query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
+      const result = await query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Tarefa não encontrada' });
       }
@@ -120,7 +120,7 @@ export class TaskController {
       if (!q || typeof q !== 'string') {
         return res.status(400).json({ error: 'Parâmetro de busca inválido' });
       }
-      const result = await pool.query(
+      const result = await query(
         `SELECT * FROM tasks WHERE to_tsvector('portuguese', title) @@ plainto_tsquery('portuguese', $1)`,
         [q]
       );

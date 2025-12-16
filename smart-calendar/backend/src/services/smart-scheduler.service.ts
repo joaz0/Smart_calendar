@@ -1,4 +1,4 @@
-import { pool } from '../config/database';
+import { query } from '../config/database';
 
 interface TimeSlot {
   start: Date;
@@ -19,7 +19,7 @@ export class SmartSchedulerService {
   }
 
   private async getProductivityPattern(userId: number) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT 
         EXTRACT(HOUR FROM start_time) as hour,
         COUNT(*) as total_tasks,
@@ -42,7 +42,7 @@ export class SmartSchedulerService {
   }
 
   private async getAvailableSlots(userId: number, duration: number): Promise<TimeSlot[]> {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT start_time, end_time FROM events 
        WHERE user_id = $1 AND start_time >= NOW()
        ORDER BY start_time`,
@@ -87,7 +87,7 @@ export class SmartSchedulerService {
   }
 
   private async getUserAvailability(userId: number) {
-    const { rows } = await pool.query(
+    const { rows } = await query(
       `SELECT * FROM user_availability WHERE user_id = $1 AND is_available = true`,
       [userId]
     );

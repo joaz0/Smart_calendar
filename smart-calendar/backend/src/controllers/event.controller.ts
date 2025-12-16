@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { pool } from '../config/database';
+import { query } from '../config/database';
 
 export class EventController {
   async getAll(req: Request, res: Response) {
     try {
-      const result = await pool.query(
+      const result = await query(
         'SELECT * FROM events ORDER BY start_time DESC'
       );
       res.json(result.rows);
@@ -17,7 +17,7 @@ export class EventController {
   async getById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const result = await pool.query('SELECT * FROM events WHERE id = $1', [id]);
+      const result = await query('SELECT * FROM events WHERE id = $1', [id]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Evento não encontrado' });
@@ -46,7 +46,7 @@ export class EventController {
         return res.status(400).json({ error: 'Título deve ter no máximo 255 caracteres' });
       }
 
-      const result = await pool.query(
+      const result = await query(
         `INSERT INTO events (title, description, start_time, end_time, location, category_id, is_all_day)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
          RETURNING *`,
@@ -83,7 +83,7 @@ export class EventController {
         return res.status(400).json({ error: 'Título deve ter no máximo 255 caracteres' });
       }
 
-      const result = await pool.query(
+      const result = await query(
         `UPDATE events
          SET title = $1, description = $2, start_time = $3, end_time = $4,
              location = $5, category_id = $6, is_all_day = $7, updated_at = CURRENT_TIMESTAMP
@@ -112,7 +112,7 @@ export class EventController {
   async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const result = await pool.query('DELETE FROM events WHERE id = $1 RETURNING id', [id]);
+      const result = await query('DELETE FROM events WHERE id = $1 RETURNING id', [id]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Evento não encontrado' });
@@ -133,7 +133,7 @@ export class EventController {
         return res.status(400).json({ error: 'Query parameter "q" é obrigatório' });
       }
 
-      const result = await pool.query(
+      const result = await query(
         `SELECT * FROM events
          WHERE title ILIKE $1 OR description ILIKE $1
          ORDER BY start_time DESC
