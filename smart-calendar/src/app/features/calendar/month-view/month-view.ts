@@ -124,14 +124,14 @@ export class MonthView implements OnInit, OnDestroy {
     const endDate = this.weeks[this.weeks.length - 1][6];
 
     this.taskService
-      .getTasks()
+      .getAllTasks()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (tasks) =>
+        next: (tasks: Task[]) =>
           (this.tasks = tasks.filter(
-            (task) => task.dueDate && task.dueDate >= startDate && task.dueDate <= endDate
+            (task: Task) => task.dueDate && task.dueDate >= startDate && task.dueDate <= endDate
           )),
-        error: (error) => console.error('Erro ao carregar tarefas:', error),
+        error: (error: any) => console.error('Erro ao carregar tarefas:', error),
       });
   }
 
