@@ -4,13 +4,11 @@ import { query } from '../config/database';
 class EventController {
   async getAll(req: Request, res: Response) {
     try {
-      const result = await query(
-        'SELECT * FROM events ORDER BY start_time DESC'
-      );
-      res.json(result.rows);
-    } catch (error) {
+      const result = await query('SELECT * FROM events ORDER BY created_at DESC');
+      res.json(result.rows || []);
+    } catch (error: any) {
       console.error('Error fetching events:', error);
-      res.status(500).json({ error: 'Erro ao buscar eventos' });
+      res.status(500).json({ error: error.message || 'Erro ao buscar eventos' });
     }
   }
 

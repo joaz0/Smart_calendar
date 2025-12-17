@@ -4,13 +4,11 @@ import { query } from '../config/database';
 class TaskController {
   async getAll(req: Request, res: Response) {
     try {
-      const result = await query(
-        'SELECT * FROM tasks ORDER BY created_at DESC'
-      );
-      res.json(result.rows);
-    } catch (error) {
+      const result = await query('SELECT * FROM tasks ORDER BY created_at DESC');
+      res.json(result.rows || []);
+    } catch (error: any) {
       console.error('Error fetching tasks:', error);
-      res.status(500).json({ error: 'Erro ao buscar tarefas' });
+      res.status(500).json({ error: error.message || 'Erro ao buscar tarefas' });
     }
   }
 
