@@ -8,10 +8,9 @@ router.post('/database', async (req, res) => {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   });
-  const client = await pool.connect();
 
   try {
-    await client.query(`CREATE TABLE IF NOT EXISTS users (
+    await pool.query(`CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       email VARCHAR(255) UNIQUE NOT NULL,
       name VARCHAR(255) NOT NULL,
@@ -20,17 +19,16 @@ router.post('/database', async (req, res) => {
     )`);
     
     const bcrypt = require('bcryptjs');
-    const hash = await bcrypt.hash('123456', 10);
-    await client.query(
-      `INSERT INTO users (email, name, password_hash) VALUES ($1, $2, $3) ON CONFLICT (email) DO NOTHING`,
-      ['teste@teste.com', 'Usuário Teste', hash]
+    const hash = await bcrypt.hash('123456', 12);
+    await pool.query(
+      `INSERT INTO users (email, name, password_hash) VALUES ($1, $2, $3) ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash`,
+      ['teste@teste.com', 'Usuario Teste', hash]
     );
     
     res.json({ success: true, message: 'Setup completo. User: teste@teste.com / 123456' });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   } finally {
-    client.release();
     await pool.end();
   }
 });

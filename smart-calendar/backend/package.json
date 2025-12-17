@@ -14,8 +14,7 @@
     "ensure-test-user": "npx ts-node src/scripts/ensure-test-user.ts",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "postbuild": "npx ts-node src/scripts/ensure-test-user.ts"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@types/node": "^20.0.0",
