@@ -56,7 +56,6 @@ app.use(limiter);
 const allowedOrigins = [
   'http://localhost:4200',
   'https://smartcallendar.netlify.app',
-  'https://smartcalendarl.netlify.app',
   process.env.CORS_ORIGIN
 ].filter(Boolean);
 
