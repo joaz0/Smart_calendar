@@ -11,10 +11,11 @@
     "migrate-full": "npx ts-node src/scripts/setup-database.ts",
     "add-test-user": "npx ts-node src/scripts/add-test-user.ts",
     "create-test-user": "npx ts-node src/scripts/create-test-user.ts",
+    "ensure-test-user": "npx ts-node src/scripts/ensure-test-user.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "postbuild": "node -e \"console.log('Build completed successfully')\""
+    "postbuild": "npx ts-node src/scripts/ensure-test-user.ts"
   },
   "dependencies": {
     "@types/node": "^20.0.0",

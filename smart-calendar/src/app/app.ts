@@ -74,9 +74,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
   dismissPwaUpdate(): void {
     this.showPwaUpdate = false;
+    localStorage.setItem('pwa-update-dismissed', Date.now().toString());
   }
 
   updatePwa(): void {
-    // Implementar atualização PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then((registration) => {
+        if (registration?.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+          window.location.reload();
+        }
+      });
+    }
   }
 }
