@@ -9,11 +9,9 @@ export const pool = new Pool(
   useRemoteDB ? {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
-    max: 10,
-    min: 2,
-    idleTimeoutMillis: 10000,
-    connectionTimeoutMillis: 10000,
-    allowExitOnIdle: false,
+    max: 5,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 5000,
   } : {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432'),
