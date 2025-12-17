@@ -36,10 +36,14 @@ pool.on('error', (err) => {
 });
 
 export const query = async (text: string, params?: any[]) => {
-  const client = await pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     return await client.query(text, params);
+  } catch (error) {
+    console.error('Query error:', error);
+    throw error;
   } finally {
-    client.release();
+    if (client) client.release();
   }
 };
