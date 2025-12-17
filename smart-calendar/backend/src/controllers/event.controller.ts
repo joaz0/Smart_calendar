@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { query } from '../config/database';
 
-export class EventController {
+class EventController {
   async getAll(req: Request, res: Response) {
     try {
       const result = await query(
@@ -148,3 +148,5 @@ export class EventController {
     }
   }
 }
+
+export default new EventController();

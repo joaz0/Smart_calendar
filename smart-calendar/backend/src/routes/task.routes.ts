@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { TaskController } from '../controllers/task.controller';
+import taskController from '../controllers/task.controller';
 
 const router = Router();
-const taskController = new TaskController();
 
 router.get('/', (req, res) => taskController.getAll(req, res));
 router.get('/search', (req, res) => taskController.search(req, res));

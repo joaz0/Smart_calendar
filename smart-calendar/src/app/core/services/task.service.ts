@@ -1,73 +1,77 @@
-// src/app/core/services/task.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Task } from '../models/task.model'; // Importar do modelo unificado
+import { Task } from '../models/task.model';
 import { ApiMapperService } from './api-mapper.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private apiUrl = `${environment.apiUrl}`;
+  private apiUrl = `${environment.apiUrl}/api/tasks`;
   private tasksSubject = new BehaviorSubject<Task[]>([]);
-  public tasks$ = this.tasksSubject.asObservable();
+  tasks$ = this.tasksSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private mapper: ApiMapperService) {
     this.loadTasks();
   }
 
-  // inject mapper via property injector to avoid breaking constructors in tests where not provided
-  mapper!: ApiMapperService;
-
-  setMapper(mapper: ApiMapperService) {
-    this.mapper = mapper;
-  }
-
   private loadTasks() {
-    this.getTasks().subscribe({
-      next: (tasks) => {
-        this.tasksSubject.next(tasks);
-      },
-      error: (error) => {
-        console.error('Erro ao carregar tarefas:', error);
-        this.tasksSubject.next([]);
-      },
-    });
+    this.getAllTasks().subscribe(
+      (tasks) => this.tasksSubject.next(tasks),
+      (error) => console.error('Erro ao carregar tarefas:', error)
+    );
   }
 
-  getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.apiUrl}/api/tasks`).pipe(
-      // map api payload to front model when mapper available
-      map((list: any[]) => (this.mapper ? list.map((a) => this.mapper.fromApiTask(a)) : list))
-    );
+  getAllTasks(): Observable<Task[]> {
+    return this.http
+      .get<any[]>(this.apiUrl)
+      .pipe(map((tasks) => tasks.map((t) => this.mapper.fromApiTask(t))));
   }
 
   getTaskById(id: string): Observable<Task> {
     return this.http
-      .get<Task>(`${this.apiUrl}/api/tasks/${id}`)
-      .pipe(map((a: any) => (this.mapper ? this.mapper.fromApiTask(a) : a)));
+      .get<any>(`${this.apiUrl}/${id}`)
+      .pipe(map((t) => this.mapper.fromApiTask(t)));
   }
 
-  createTask(task: Partial<Task>): Observable<Task> {
-    const payload = this.mapper ? this.mapper.toApiTask(task) : task;
-    return this.http.post<Task>(`${this.apiUrl}/api/tasks`, payload).pipe(tap(() => this.loadTasks()));
+  createTask(task: Omit<Task, 'id' | 'created_at' | 'updated_at'>): Observable<Task> {
+    const payload = this.mapper.toApiTask(task as any);
+    return this.http.post<any>(this.apiUrl, payload).pipe(
+      map((t) => this.mapper.fromApiTask(t)),
+      tap((newTask) => this.tasksSubject.next([...this.tasksSubject.value, newTask]))
+    );
   }
 
   updateTask(id: string, task: Partial<Task>): Observable<Task> {
-    const payload = this.mapper ? this.mapper.toApiTask(task) : task;
-    return this.http
-      .put<Task>(`${this.apiUrl}/api/tasks/${id}`, payload)
-      .pipe(tap(() => this.loadTasks()));
+    const payload = this.mapper.toApiTask(task as any);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, payload).pipe(
+      map((t) => this.mapper.fromApiTask(t)),
+      tap((updatedTask) => {
+        const currentTasks = this.tasksSubject.value;
+        const idx = currentTasks.findIndex((t) => t.id === id);
+        if (idx !== -1) {
+          currentTasks[idx] = updatedTask;
+          this.tasksSubject.next([...currentTasks]);
+        }
+      })
+    );
   }
 
   deleteTask(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/api/tasks/${id}`).pipe(tap(() => this.loadTasks()));
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        const currentTasks = this.tasksSubject.value;
+        this.tasksSubject.next(currentTasks.filter((t) => t.id !== id));
+      })
+    );
   }
 
   searchTasks(query: string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.apiUrl}/api/tasks/search?q=${encodeURIComponent(query)}`);
+    return this.http
+      .get<any[]>(`${this.apiUrl}/search`, { params: { q: query } })
+      .pipe(map((tasks) => tasks.map((t) => this.mapper.fromApiTask(t))));
   }
 }

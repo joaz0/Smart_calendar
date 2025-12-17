@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { EventController } from '../controllers/event.controller';
+import eventController from '../controllers/event.controller';
 
 const router = Router();
-const eventController = new EventController();
 
 router.get('/', (req, res) => eventController.getAll(req, res));
 router.get('/search', (req, res) => eventController.search(req, res));
