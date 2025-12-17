@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node start.js",
-    "dev": "ts-node src/server.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "dev": "npx ts-node src/server.ts",
+    "build": "tsc",
     "migrate": "node migrate.js",
     "migrate-full": "npx ts-node src/scripts/setup-database.ts",
     "add-test-user": "npx ts-node src/scripts/add-test-user.ts",
@@ -38,7 +38,6 @@
     "@types/compression": "^1.8.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "@types/express-validator": "^2.20.33",
     "@types/helmet": "^0.0.48",
     "@types/jest": "^29.5.0",
     "@types/jsonwebtoken": "^9.0.10",
