@@ -3,10 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const useRemoteDB = process.env.DATABASE_URL?.includes('render.com');
-
 export const pool = new Pool(
-  useRemoteDB ? {
+  process.env.DATABASE_URL ? {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
     max: 5,
