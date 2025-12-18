@@ -66,7 +66,7 @@ export class BurnoutDetectorService {
   }
 
   private identifyRiskFactors(metrics: any): string[] {
-    const factors = [];
+    const factors: string[] = [];
     if (metrics.workHoursScore > 0.7) factors.push('Excesso de horas de trabalho');
     if (metrics.meetingDensityScore > 0.7) factors.push('Muitas reuniões');
     if (metrics.freeTimeScore < 0.3) factors.push('Pouco tempo livre');
@@ -74,7 +74,7 @@ export class BurnoutDetectorService {
   }
 
   private generateRecommendations(metrics: any): string[] {
-    const recommendations = [];
+    const recommendations: string[] = [];
     if (metrics.workHoursScore > 0.7) recommendations.push('Reduza suas horas de trabalho');
     if (metrics.meetingDensityScore > 0.7) recommendations.push('Decline reuniões desnecessárias');
     return recommendations;
