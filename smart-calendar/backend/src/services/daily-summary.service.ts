@@ -39,7 +39,7 @@ export class DailySummaryService {
   }
 
   private async detectConflicts(events: any[]) {
-    const conflicts = [];
+    const conflicts: Array<{ event1: any; event2: any }> = [];
     for (let i = 0; i < events.length - 1; i++) {
       if (events[i].end_time > events[i + 1].start_time) {
         conflicts.push({ event1: events[i], event2: events[i + 1] });
