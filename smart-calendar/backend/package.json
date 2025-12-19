@@ -4,7 +4,7 @@
   "description": "Backend para Smart Calendar - Sistema de agenda inteligente",
   "main": "src/server.js",
   "scripts": {
-    "start": "node start.js",
+    "start": "node migrate.js && node start.js",
     "dev": "npx ts-node src/server.ts",
     "build": "tsc",
     "migrate": "node migrate.js",
