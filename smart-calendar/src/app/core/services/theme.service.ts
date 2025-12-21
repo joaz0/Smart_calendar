@@ -1,4 +1,4 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, untracked } from '@angular/core';
 
 export type Theme = 'light' | 'dark' | 'auto';
 
@@ -26,7 +26,8 @@ export class ThemeService {
 
     // Effect to update DOM when theme changes
     effect(() => {
-      this.updateThemeClass();
+      const theme = this.currentTheme();
+      untracked(() => this.updateThemeClass());
     });
   }
 
