@@ -1,12 +1,20 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { Subject, takeUntil, filter } from 'rxjs';
+
+const MOBILE_BREAKPOINT = 768;
+const STORAGE_KEYS = {
+  SIDEBAR_STATE: 'sidebarState',
+  TOKEN: 'token',
+  LOGIN_TIME: 'loginTime'
+} as const;
 
 interface NavItem {
   label: string;
@@ -38,6 +46,7 @@ interface UserStats {
   ],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
   @Input() isOpen: boolean = true;
@@ -63,9 +72,12 @@ export class SidebarComponent implements OnInit {
   hasUnreadNotifications: boolean = true;
   recentNotifications: any[] = [];
 
-  constructor(private router: Router) {}
+  private destroy$ = new Subject<void>();
+  private cachedCompletionPercentage?: number;
+  private cachedFocusLevel?: string;
+  private cachedFocusColor?: string;
 
-  navItems: NavItem[] = [
+  readonly navItems: NavItem[] = [
     {
       label: 'Dashboard',
       icon: 'dashboard',
@@ -75,13 +87,13 @@ export class SidebarComponent implements OnInit {
       label: 'Calendário',
       icon: 'calendar_today',
       route: '/app/calendar',
-      badge: this.stats.todayEvents,
+      badge: 0,
     },
     {
       label: 'Tarefas',
       icon: 'task_alt',
       route: '/app/tasks',
-      badge: this.stats.pendingTasks,
+      badge: 0,
     },
     {
       label: 'Eventos',
@@ -153,28 +165,72 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
+
   ngOnInit() {
-    this.filteredNavItems = [...this.navItems];
+    this.filteredNavItems = this.navItems;
     this.updateBadges();
+    this.subscribeToRouteChanges();
+    
+    const savedState = localStorage.getItem(STORAGE_KEYS.SIDEBAR_STATE);
+    if (savedState) {
+      this.isOpen = JSON.parse(savedState);
+    }
   }
 
-  updateBadges() {
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private subscribeToRouteChanges(): void {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event: NavigationEnd) => {
+        this.currentActive = event.url;
+        this.updateSubmenuStates();
+        this.cdr.markForCheck();
+      });
+  }
+
+  private updateSubmenuStates(): void {
     this.navItems.forEach(item => {
-      if (item.route === '/app/calendar') {
-        item.badge = this.stats.todayEvents;
-      } else if (item.route === '/app/tasks') {
-        item.badge = this.stats.pendingTasks;
+      if (item.children) {
+        item.isExpanded = item.children.some(child => this.router.url.includes(child.route));
       }
     });
   }
 
+  updateBadges() {
+    const calendarItem = this.navItems.find(item => item.route === '/app/calendar');
+    const tasksItem = this.navItems.find(item => item.route === '/app/tasks');
+    
+    if (calendarItem) calendarItem.badge = this.stats.todayEvents;
+    if (tasksItem) tasksItem.badge = this.stats.pendingTasks;
+    
+    this.invalidateCache();
+    this.cdr.markForCheck();
+  }
+
   onToggleSidebar() {
+    this.isOpen = !this.isOpen;
+    localStorage.setItem(STORAGE_KEYS.SIDEBAR_STATE, JSON.stringify(this.isOpen));
     this.toggleSidebar.emit();
+    
+    if (!this.isOpen) {
+      this.clearSearch();
+    }
   }
 
   onSearch() {
     if (!this.searchTerm.trim()) {
-      this.filteredNavItems = [...this.navItems];
+      this.filteredNavItems = this.navItems;
       return;
     }
 
@@ -191,7 +247,7 @@ export class SidebarComponent implements OnInit {
 
   clearSearch() {
     this.searchTerm = '';
-    this.filteredNavItems = [...this.navItems];
+    this.filteredNavItems = this.navItems;
   }
 
   toggleSubmenu(item: NavItem) {
@@ -202,6 +258,11 @@ export class SidebarComponent implements OnInit {
 
   navigateTo(route: string) {
     this.router.navigate([route]);
+    
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
+      this.isOpen = false;
+      this.toggleSidebar.emit();
+    }
   }
 
   isActiveRoute(route: string): boolean {
@@ -209,20 +270,40 @@ export class SidebarComponent implements OnInit {
   }
 
   getCompletionPercentage(): number {
+    if (this.cachedCompletionPercentage !== undefined) {
+      return this.cachedCompletionPercentage;
+    }
     const total = this.stats.pendingTasks + this.stats.completedTasks;
-    return total > 0 ? Math.round((this.stats.completedTasks / total) * 100) : 0;
+    this.cachedCompletionPercentage = total > 0 ? Math.round((this.stats.completedTasks / total) * 100) : 0;
+    return this.cachedCompletionPercentage;
   }
 
   getFocusLevel(): string {
-    if (this.stats.weeklyFocus >= 80) return 'Alto';
-    if (this.stats.weeklyFocus >= 60) return 'Médio';
-    return 'Baixo';
+    if (this.cachedFocusLevel) return this.cachedFocusLevel;
+    
+    const focus = this.stats.weeklyFocus;
+    if (focus >= 80) this.cachedFocusLevel = 'Alto';
+    else if (focus >= 60) this.cachedFocusLevel = 'Médio';
+    else this.cachedFocusLevel = 'Baixo';
+    
+    return this.cachedFocusLevel;
   }
 
   getFocusColor(): string {
-    if (this.stats.weeklyFocus >= 80) return '#4CAF50';
-    if (this.stats.weeklyFocus >= 60) return '#FF9800';
-    return '#F44336';
+    if (this.cachedFocusColor) return this.cachedFocusColor;
+    
+    const focus = this.stats.weeklyFocus;
+    if (focus >= 80) this.cachedFocusColor = '#4CAF50';
+    else if (focus >= 60) this.cachedFocusColor = '#FF9800';
+    else this.cachedFocusColor = '#F44336';
+    
+    return this.cachedFocusColor;
+  }
+
+  private invalidateCache(): void {
+    this.cachedCompletionPercentage = undefined;
+    this.cachedFocusLevel = undefined;
+    this.cachedFocusColor = undefined;
   }
 
   trackByNavItem(index: number, item: NavItem): string {
@@ -234,9 +315,6 @@ export class SidebarComponent implements OnInit {
   }
 
   refreshStats() {
-    // Recarregar estatísticas do servidor
-    console.log('Atualizando estatísticas...');
-    // Simular atualização
     this.stats = {
       todayEvents: Math.floor(Math.random() * 10),
       pendingTasks: Math.floor(Math.random() * 20),
@@ -260,9 +338,6 @@ export class SidebarComponent implements OnInit {
   }
 
   openNotifications() {
-    // Implementar painel de notificações
-    console.log('Abrindo notificações');
-    // Simular notificações
     this.recentNotifications = [
       {
         id: '1',
@@ -286,26 +361,25 @@ export class SidebarComponent implements OnInit {
   }
 
   openNotification(notification: any) {
-    // Marcar como lida e navegar
     notification.read = true;
-    if (notification.type === 'event') {
-      this.router.navigate(['/app/calendar']);
-    } else if (notification.type === 'task') {
-      this.router.navigate(['/app/tasks']);
-    }
+    const routes: Record<string, string> = {
+      event: '/app/calendar',
+      task: '/app/tasks'
+    };
+    this.router.navigate([routes[notification.type] || '/app/notifications']);
   }
 
   getNotificationIcon(type: string): string {
-    switch (type) {
-      case 'event': return 'event';
-      case 'task': return 'task_alt';
-      case 'reminder': return 'alarm';
-      default: return 'notifications';
-    }
+    const icons: Record<string, string> = {
+      event: 'event',
+      task: 'task_alt',
+      reminder: 'alarm'
+    };
+    return icons[type] || 'notifications';
   }
 
   getUserStatusClass(): string {
-    return 'online'; // ou 'offline', 'away', etc.
+    return 'online';
   }
 
   getUserStatusText(): string {
@@ -322,14 +396,14 @@ export class SidebarComponent implements OnInit {
 
   logout() {
     if (confirm('Tem certeza que deseja sair?')) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('loginTime');
+      localStorage.removeItem(STORAGE_KEYS.TOKEN);
+      localStorage.removeItem(STORAGE_KEYS.LOGIN_TIME);
+      localStorage.removeItem(STORAGE_KEYS.SIDEBAR_STATE);
       this.router.navigate(['/auth']);
     }
   }
 
   selectSearchResult(result: any) {
-    // Navegar para o resultado selecionado
     if (result.type === 'event') {
       this.router.navigate(['/app/calendar'], { queryParams: { eventId: result.id } });
     } else if (result.type === 'task') {
