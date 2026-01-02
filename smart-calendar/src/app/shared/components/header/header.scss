@@ -265,7 +265,7 @@
       align-items: flex-start;
       min-width: 0;
 
-      @media (max-width: #{map-get(vars.$breakpoints, 'md') - 1px}) { display: none; }
+      @media (max-width: #{map-get($breakpoints, 'md') - 1px}) { display: none; }
 
       .user-name, .user-role {
         @include truncate;
@@ -286,7 +286,7 @@
       font-size: var(--font-size-lg);
       color: var(--text-tertiary);
       transition: transform var(--transition-slow);
-      @media (max-width: #{map-get(vars.$breakpoints, 'md') - 1px}) { display: none; }
+      @media (max-width: #{map-get($breakpoints, 'md') - 1px}) { display: none; }
     }
 
     &:hover mat-icon { transform: rotate(180deg); }

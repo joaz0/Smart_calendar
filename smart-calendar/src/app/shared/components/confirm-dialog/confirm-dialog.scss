@@ -207,7 +207,7 @@
 }
 
 // Responsive
-@media (max-width: #{map-get(vars.$breakpoints, 'sm')}) {
+@media (max-width: 575px) {
   .confirm-dialog {
     padding: var(--space-4);
     .dialog-content {

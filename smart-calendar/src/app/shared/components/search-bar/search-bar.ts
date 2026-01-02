@@ -26,10 +26,11 @@ interface SearchResult {
   title: string;
   subtitle?: string;
   meta?: string;
-  color?: string;
+  icon?: string;
   route?: string;
   data?: any;
   date?: string | Date;
+  color?: string;
   quickAction?: {
     icon: string;
     tooltip: string;
@@ -106,9 +107,6 @@ export class SearchBar implements OnInit, OnDestroy {
   groupedResults: SearchGroup[] = [];
   searchResults: SearchResult[] = [];
   selectedIndex: number = -1;
-  highlightedIndex: number = -1;
-  highlightedGroupIndex: number = -1;
-  searchResults: SearchResult[] = [];
 
   private searchSubject$ = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -213,7 +211,7 @@ export class SearchBar implements OnInit, OnDestroy {
   private updateGroupedResults(): void {
     if (!this.groupResults) {
       this.groupedResults = [{
-        name: 'Resultados',
+        title: 'Resultados',
         icon: 'search',
         items: this.results.slice(0, this.maxResults),
         count: this.results.length
@@ -233,7 +231,6 @@ export class SearchBar implements OnInit, OnDestroy {
 
     this.groupedResults = Array.from(groups.entries()).map(([type, items]) => ({
       title: this.getGroupName(type),
-      name: this.getGroupName(type),
       icon: this.getGroupIcon(type),
       items: items.slice(0, this.maxResults),
       count: items.length
@@ -305,6 +302,10 @@ export class SearchBar implements OnInit, OnDestroy {
 
   createFromSearch(): void {
     // Handle creating new item from search term
+  }
+
+  highlightResult(index: number): void {
+    this.selectedIndex = index;
   }
 
   // Limpeza
@@ -510,7 +511,7 @@ export class SearchBar implements OnInit, OnDestroy {
 
   // TrackBy
   trackByGroup(index: number, group: SearchGroup): string {
-    return group.name;
+    return group.title;
   }
 
   trackByResult(index: number, result: SearchResult): string {

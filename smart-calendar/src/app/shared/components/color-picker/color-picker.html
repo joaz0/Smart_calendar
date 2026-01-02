@@ -1,17 +1,17 @@
 <div class="color-picker" role="radiogroup" aria-label="Seletor de cores">
   <div class="color-grid">
-    <button *ngFor="let color of colors; trackBy: trackByColor"
+    <button *ngFor="let palette of palettes; trackBy: trackByPalette"
             type="button"
             class="color-option"
-            [class.selected]="selectedColor === color.value"
-            [style.background-color]="color.value"
-            [attr.aria-label]="color.name"
-            [attr.aria-checked]="selectedColor === color.value"
+            [class.selected]="selectedColor === palette.colors[0]"
+            [style.background-color]="palette.colors[0]"
+            [attr.aria-label]="palette.name"
+            [attr.aria-checked]="selectedColor === palette.colors[0]"
             role="radio"
-            (click)="selectColor(color.value)"
-            (keydown.enter)="selectColor(color.value)"
-            (keydown.space)="selectColor(color.value)">
-      <mat-icon *ngIf="selectedColor === color.value" class="check-icon">check</mat-icon>
+            (click)="selectColor(palette.colors[0])"
+            (keydown.enter)="selectColor(palette.colors[0])"
+            (keydown.space)="selectColor(palette.colors[0])">
+      <mat-icon *ngIf="selectedColor === palette.colors[0]" class="check-icon">check</mat-icon>
     </button>
   </div>
   

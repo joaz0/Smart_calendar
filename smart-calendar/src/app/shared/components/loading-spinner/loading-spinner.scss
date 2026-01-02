@@ -410,7 +410,7 @@
 }
 
 // Responsive
-@media (max-width: #{map-get(vars.$breakpoints, 'sm')}) {
+@media (max-width: 575px) {
   .loading-container {
     padding: var(--space-6);
     &.loading-large { padding: var(--space-8); }
