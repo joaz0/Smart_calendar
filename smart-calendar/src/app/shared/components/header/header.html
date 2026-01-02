@@ -10,7 +10,7 @@
 
     <div class="breadcrumb" *ngIf="breadcrumbs.length > 0">
       <span *ngFor="let crumb of breadcrumbs; let last = last">
-        <a [routerLink]="crumb.url" *ngIf="!last">{{ crumb.label }}</a>
+        <a [routerLink]="crumb.route || crumb.url" *ngIf="!last">{{ crumb.label }}</a>
         <span *ngIf="last" class="current-page">{{ crumb.label }}</span>
         <mat-icon *ngIf="!last" class="breadcrumb-separator">chevron_right</mat-icon>
       </span>
@@ -19,10 +19,18 @@
 
   <!-- Center Section -->
   <div class="header-center">
-    <app-search-bar 
-      [placeholder]="'Buscar eventos, tarefas...'"
-      (searchQuery)="onSearch($event)">
-    </app-search-bar>
+    <!-- Search Bar -->
+    <div class="search-container" *ngIf="showSearch">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar eventos, tarefas...</mat-label>
+        <input matInput 
+               type="text"
+               (input)="onSearch(($event.target as HTMLInputElement)?.value || '')"
+               placeholder="Buscar eventos, tarefas..."
+               class="search-input">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
   </div>
 
   <!-- Right Section -->
@@ -37,10 +45,10 @@
 
     <!-- Notifications -->
     <button mat-icon-button 
-            [matBadge]="notificationCount > 0 ? notificationCount : null"
+            [matBadge]="unreadCount() > 0 ? unreadCount() : null"
             matBadgeColor="warn"
             matBadgeSize="small"
-            (click)="onOpenNotifications()"
+            (click)="showNotificationsPanel = !showNotificationsPanel"
             matTooltip="Notificações"
             class="notifications-btn">
       <mat-icon>notifications</mat-icon>

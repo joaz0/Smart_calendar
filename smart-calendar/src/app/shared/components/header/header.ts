@@ -18,7 +18,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 
@@ -53,6 +54,7 @@ interface QuickAction {
 interface Breadcrumb {
   label: string;
   route?: string;
+  url?: string;
   icon?: string;
 }
 
@@ -68,7 +70,9 @@ interface Breadcrumb {
     MatBadgeModule,
     MatTooltipModule,
     MatDividerModule,
-    MatRippleModule
+    MatRippleModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
@@ -407,9 +411,9 @@ export class Header implements OnInit, OnDestroy {
     // Implementar abertura de modal
   }
 
-  private importCalendar(): void {
-    console.log('Importando calendário...');
-    // Implementar importação
+  private createReminder(): void {
+    console.log('Criando lembrete...');
+    // Implementar abertura de modal
   }
 
   // Atalhos de teclado
