@@ -25,7 +25,8 @@
         <mat-label>Buscar eventos, tarefas...</mat-label>
         <input matInput 
                type="text"
-               (input)="onSearch(($event.target as HTMLInputElement)?.value || '')"
+               #searchInput
+               (input)="onSearch(searchInput.value)"
                placeholder="Buscar eventos, tarefas..."
                class="search-input">
         <mat-icon matPrefix>search</mat-icon>
