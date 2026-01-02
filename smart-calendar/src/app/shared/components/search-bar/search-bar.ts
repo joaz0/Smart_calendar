@@ -26,7 +26,7 @@ interface SearchResult {
   title: string;
   subtitle?: string;
   meta?: string;
-  icon?: string;
+  color?: string;
   route?: string;
   data?: any;
   date?: string | Date;
@@ -37,7 +37,7 @@ interface SearchResult {
 }
 
 interface SearchGroup {
-  name: string;
+  title: string;
   icon: string;
   items: SearchResult[];
   count: number;
@@ -104,6 +104,8 @@ export class SearchBar implements OnInit, OnDestroy {
   searchTerm: string = '';
   showResults: boolean = false;
   groupedResults: SearchGroup[] = [];
+  searchResults: SearchResult[] = [];
+  selectedIndex: number = -1;
   highlightedIndex: number = -1;
   highlightedGroupIndex: number = -1;
   searchResults: SearchResult[] = [];
@@ -201,6 +203,7 @@ export class SearchBar implements OnInit, OnDestroy {
   // Quando results são atualizados externamente
   ngOnChanges(changes: any): void {
     if (changes.results && this.results) {
+      this.searchResults = this.results;
       this.updateGroupedResults();
       this.isSearching = false;
       this.cdr.markForCheck();
@@ -229,6 +232,7 @@ export class SearchBar implements OnInit, OnDestroy {
     });
 
     this.groupedResults = Array.from(groups.entries()).map(([type, items]) => ({
+      title: this.getGroupName(type),
       name: this.getGroupName(type),
       icon: this.getGroupIcon(type),
       items: items.slice(0, this.maxResults),
@@ -348,6 +352,15 @@ export class SearchBar implements OnInit, OnDestroy {
     this.highlightedIndex = -1;
     this.highlightedGroupIndex = -1;
     this.focusChanged.emit(false);
+    this.cdr.markForCheck();
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    this.handleKeyboard(event);
+  }
+
+  highlightResult(index: number): void {
+    this.selectedIndex = index;
     this.cdr.markForCheck();
   }
 
