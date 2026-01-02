@@ -29,6 +29,11 @@ interface SearchResult {
   icon?: string;
   route?: string;
   data?: any;
+  date?: string | Date;
+  quickAction?: {
+    icon: string;
+    tooltip: string;
+  };
 }
 
 interface SearchGroup {
@@ -101,6 +106,7 @@ export class SearchBar implements OnInit, OnDestroy {
   groupedResults: SearchGroup[] = [];
   highlightedIndex: number = -1;
   highlightedGroupIndex: number = -1;
+  searchResults: SearchResult[] = [];
 
   private searchSubject$ = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -284,6 +290,17 @@ export class SearchBar implements OnInit, OnDestroy {
     action.callback();
     this.actionExecuted.emit(action);
     this.closeResults();
+  }
+
+  quickAction(item: SearchResult, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    // Handle quick action for search result item
+  }
+
+  createFromSearch(): void {
+    // Handle creating new item from search term
   }
 
   // Limpeza

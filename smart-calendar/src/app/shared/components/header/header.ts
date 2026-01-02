@@ -401,19 +401,20 @@ export class Header implements OnInit, OnDestroy {
     ];
   }
 
-  private createEvent(): void {
+  createEvent(): void {
     console.log('Criando evento...');
-    // Implementar abertura de modal
   }
 
-  private createTask(): void {
+  createTask(): void {
     console.log('Criando tarefa...');
-    // Implementar abertura de modal
   }
 
-  private createReminder(): void {
+  createReminder(): void {
     console.log('Criando lembrete...');
-    // Implementar abertura de modal
+  }
+
+  importCalendar(): void {
+    console.log('Importando calendário...');
   }
 
   // Atalhos de teclado
