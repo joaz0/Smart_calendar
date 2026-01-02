@@ -310,6 +310,57 @@ export class SearchBar implements OnInit, OnDestroy {
     this.selectedIndex = index;
   }
 
+  // Limpeza
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.clearResults();
+    this.closeResults();
+    this.searchCleared.emit();
+    this.cdr.markForCheck();
+  }
+
+  removeRecentSearch(search: string, event: Event): void {
+    event.stopPropagation();
+    this.recentSearches = this.recentSearches.filter(s => s !== search);
+    localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches));
+    this.cdr.markForCheck();
+  }
+
+  clearRecentSearches(): void {
+    this.recentSearches = [];
+    localStorage.removeItem('recentSearches');
+    this.cdr.markForCheck();
+  }
+
+  // Controles de foco
+  onFocus(): void {
+    this.showResults = true;
+    this.focusChanged.emit(true);
+    this.cdr.markForCheck();
+  }
+
+  onBlur(): void {
+    setTimeout(() => {
+      this.closeResults();
+    }, 200);
+  }
+
+  focus(): void {
+    this.searchInput?.nativeElement.focus();
+  }
+
+  closeResults(): void {
+    this.showResults = false;
+    this.highlightedIndex = -1;
+    this.highlightedGroupIndex = -1;
+    this.focusChanged.emit(false);
+    this.cdr.markForCheck();
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    this.handleKeyboard(event);
+  }
+
   // Navegação por teclado
   @HostListener('document:keydown', ['$event'])
   handleKeyboard(event: KeyboardEvent): void {
