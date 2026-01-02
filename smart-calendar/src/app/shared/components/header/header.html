@@ -55,15 +55,11 @@
     </button>
 
     <!-- User Menu -->
-    <button mat-button 
+    <button mat-icon-button 
             [matMenuTriggerFor]="userMenu"
+            matTooltip="Perfil"
             class="user-menu-btn">
-      <div class="user-avatar" 
-           [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'">
-        {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
-      </div>
-      <span class="user-name">{{ user.name || 'Usuário' }}</span>
-      <mat-icon>expand_more</mat-icon>
+      <mat-icon>person</mat-icon>
     </button>
   </div>
 
@@ -90,38 +86,25 @@
 
   <!-- User Menu -->
   <mat-menu #userMenu="matMenu">
-    <div class="user-menu-header">
-      <div class="user-avatar-large" 
-           [style.background-image]="user.avatar ? 'url(' + user.avatar + ')' : 'none'">
-        {{ !user.avatar ? (user.name?.charAt(0) || 'U') : '' }}
-      </div>
-      <div class="user-details">
-        <strong>{{ user.name || 'Usuário' }}</strong>
-        <small>{{ user.email || 'user@example.com' }}</small>
-      </div>
-    </div>
-    
-    <mat-divider></mat-divider>
-    
     <button mat-menu-item (click)="onOpenProfile()">
-      <mat-icon>person</mat-icon>
+      <mat-icon>account_circle</mat-icon>
       <span>Meu Perfil</span>
     </button>
     
-    <button mat-menu-item (click)="openSettings()">
+    <button mat-menu-item (click)="onOpenSettings()">
       <mat-icon>settings</mat-icon>
       <span>Configurações</span>
     </button>
     
-    <button mat-menu-item (click)="openHelp()">
-      <mat-icon>help</mat-icon>
+    <button mat-menu-item>
+      <mat-icon>help_outline</mat-icon>
       <span>Ajuda</span>
     </button>
     
     <mat-divider></mat-divider>
     
     <button mat-menu-item (click)="onLogout()" class="logout-item">
-      <mat-icon>logout</mat-icon>
+      <mat-icon>exit_to_app</mat-icon>
       <span>Sair</span>
     </button>
   </mat-menu>
