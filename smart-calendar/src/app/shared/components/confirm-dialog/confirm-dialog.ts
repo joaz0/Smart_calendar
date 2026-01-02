@@ -18,6 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 interface CheckboxOption {
   label: string;
@@ -35,7 +38,10 @@ interface CheckboxOption {
     MatButtonModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   templateUrl: './confirm-dialog.html',
   styleUrls: ['./confirm-dialog.scss'],
@@ -308,7 +314,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   }
 
   // Getters para UI
-  getDialogIcon(): string {
+  getIcon(): string {
     if (this.icon) return this.icon;
 
     const iconMap: Record<string, string> = {
@@ -321,6 +327,14 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
     };
 
     return iconMap[this.type] || 'help_outline';
+  }
+
+  getConfirmButtonColor(): string {
+    return this.type === 'destructive' || this.type === 'danger' ? 'warn' : 'primary';
+  }
+
+  getConfirmIcon(): string {
+    return this.type === 'destructive' || this.type === 'danger' ? 'warning' : 'check';
   }
 
   getDialogIconEmoji(): string {

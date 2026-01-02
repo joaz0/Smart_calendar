@@ -39,7 +39,7 @@
     <mat-divider></mat-divider>
     <h4>Cores recentes</h4>
     <div class="recent-colors-grid">
-      <button *ngFor="let color of recentColors; trackBy: trackByRecentColor"
+      <button *ngFor="let color of recentColors; trackBy: trackByColor"
               type="button"
               class="color-option recent"
               [class.selected]="selectedColor === color"

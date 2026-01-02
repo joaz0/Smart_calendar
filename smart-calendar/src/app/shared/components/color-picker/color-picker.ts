@@ -17,6 +17,9 @@ import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
 
 interface ColorPalette {
@@ -32,7 +35,10 @@ interface ColorPalette {
     FormsModule,
     MatIconModule,
     MatTooltipModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   templateUrl: './color-picker.html',
   styleUrls: ['./color-picker.scss'],
