@@ -1,18 +1,73 @@
 
 
-body {
-  color-scheme: light dark;
+@use '@angular/material' as mat;
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+@include mat.core();
 
-  // Reset the user agent margin.
-  margin: 0;
-}
+$smart-calendar-primary: (
+  50: #EAE6FF,
+  100: #C3B8FF,
+  200: #9D8AFF,
+  300: #775CFF,
+  400: #512EFF,
+  500: #2A00FF,
+  600: #2300D1,
+  700: #1A0095,
+  800: #140075,
+  900: #0C0047,
+  950: #04001A,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    950: #ffffff,
+  )
+);
+
+$smart-calendar-accent: (
+  50: #fdf4ff,
+  100: #fae8ff,
+  200: #f5d0fe,
+  300: #f0abfc,
+  400: #e879f9,
+  500: #d946ef,
+  600: #c026d3,
+  700: #a21caf,
+  800: #86198f,
+  900: #701a75,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  )
+);
+
+$smart-calendar-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette($smart-calendar-primary, 500),
+    accent: mat.define-palette($smart-calendar-accent, 500),
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($smart-calendar-theme);
+
+
 @import './assets/styles/_variables';
 @import './assets/styles/_mixins';
 @import './assets/styles/_breakpoints';
@@ -88,5 +143,4 @@ html, body {
   background: $primary-dark;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
