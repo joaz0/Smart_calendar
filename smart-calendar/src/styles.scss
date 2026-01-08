@@ -1,11 +1,11 @@
 
 
 @use '@angular/material' as mat;
-@use 'sass:map';
 
 @include mat.core();
 
-$smart-calendar-primary: mat.define-palette((
+// Define color palettes
+$smart-calendar-primary-palette: (
   50: #EAE6FF,
   100: #C3B8FF,
   200: #9D8AFF,
@@ -30,9 +30,9 @@ $smart-calendar-primary: mat.define-palette((
     900: #ffffff,
     950: #ffffff,
   )
-), 500);
+);
 
-$smart-calendar-accent: mat.define-palette((
+$smart-calendar-accent-palette: (
   50: #fdf4ff,
   100: #fae8ff,
   200: #f5d0fe,
@@ -55,15 +55,18 @@ $smart-calendar-accent: mat.define-palette((
     800: #ffffff,
     900: #ffffff,
   )
-), 500);
+);
 
+// Create Material palettes
+$smart-calendar-primary: mat.define-palette($smart-calendar-primary-palette, 500);
+$smart-calendar-accent: mat.define-palette($smart-calendar-accent-palette, 500);
+
+// Create theme
 $smart-calendar-theme: mat.define-dark-theme((
   color: (
     primary: $smart-calendar-primary,
     accent: $smart-calendar-accent,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
+  )
 ));
 
 @include mat.all-component-themes($smart-calendar-theme);
