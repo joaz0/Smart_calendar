@@ -57,12 +57,12 @@ $smart-calendar-accent-palette: (
   )
 );
 
-// Create Material palettes
-$smart-calendar-primary: mat.define-palette($smart-calendar-primary-palette, 500);
-$smart-calendar-accent: mat.define-palette($smart-calendar-accent-palette, 500);
+// Create Material palettes (using M2 API for Angular Material 18+)
+$smart-calendar-primary: mat.m2-define-palette($smart-calendar-primary-palette, 500);
+$smart-calendar-accent: mat.m2-define-palette($smart-calendar-accent-palette, 500);
 
-// Create theme
-$smart-calendar-theme: mat.define-dark-theme((
+// Create theme (using M2 API for Angular Material 18+)
+$smart-calendar-theme: mat.m2-define-dark-theme((
   color: (
     primary: $smart-calendar-primary,
     accent: $smart-calendar-accent,
