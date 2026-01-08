@@ -26,12 +26,12 @@
 
     <mat-card class="summary-card">
       <div class="summary-icon">
-        <mat-icon [style.color]="getStreakColor(habits[0]?.streak || 0)">
-          {{ getStreakIcon(habits[0]?.streak || 0) }}
+        <mat-icon [style.color]="getStreakColor(habits[0].streak || 0)">
+          {{ getStreakIcon(habits[0].streak || 0) }}
         </mat-icon>
       </div>
       <div class="summary-info">
-        <h3>{{ habits[0]?.streak || 0 }}</h3>
+        <h3>{{ habits[0].streak || 0 }}</h3>
         <p>Melhor Sequência</p>
       </div>
     </mat-card>

@@ -56,14 +56,16 @@ $smart-calendar-accent: (
   )
 );
 
-$smart-calendar-theme: mat.define-dark-theme((
-  color: (
-    primary: mat.define-palette($smart-calendar-primary, 500),
-    accent: mat.define-palette($smart-calendar-accent, 500),
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$smart-calendar-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: mat.define-palette($smart-calendar-primary, 500),
+      accent: mat.define-palette($smart-calendar-accent, 500),
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
 
 @include mat.all-component-themes($smart-calendar-theme);
 
