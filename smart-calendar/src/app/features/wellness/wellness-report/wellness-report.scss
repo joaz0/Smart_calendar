@@ -1,0 +1,148 @@
+.wellness-report {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  .header h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 28px;
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    padding: 60px;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+
+    mat-card-content {
+      text-align: center;
+      padding: 24px !important;
+
+      mat-icon {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+        color: var(--primary-color);
+        margin-bottom: 12px;
+      }
+
+      .metric-value {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .metric-label {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  .break-patterns-card {
+    margin-bottom: 24px;
+
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+
+      .pattern-day {
+        text-align: center;
+        padding: 16px;
+        border-radius: 8px;
+        background: var(--background);
+
+        .day-label {
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+
+        .breaks-count {
+          font-size: 20px;
+          font-weight: 700;
+          color: #4CAF50;
+          margin-bottom: 4px;
+
+          &.below-recommended {
+            color: #F44336;
+          }
+        }
+
+        .avg-duration {
+          font-size: 12px;
+          color: var(--text-secondary);
+        }
+      }
+    }
+  }
+
+  .recommendations-card {
+    .recommendation-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 12px;
+
+      mat-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+      }
+
+      .rec-content {
+        flex: 1;
+
+        .rec-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+
+        .rec-description {
+          font-size: 14px;
+          color: var(--text-secondary);
+        }
+      }
+
+      .priority-chip {
+        color: white;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .wellness-report {
+    padding: 16px;
+
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .break-patterns-card .patterns-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

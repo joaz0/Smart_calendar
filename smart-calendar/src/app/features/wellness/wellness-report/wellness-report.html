@@ -1,1 +1,95 @@
-<p>wellness-report works!</p>
+<div class="wellness-report">
+  <div class="header">
+    <h2><mat-icon>favorite</mat-icon> Relatório de Bem-Estar</h2>
+  </div>
+
+  <div *ngIf="loading" class="loading"><mat-spinner></mat-spinner></div>
+
+  <div *ngIf="!loading && metrics" class="content">
+    <div class="metrics-grid">
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>balance</mat-icon>
+          <div class="metric-value" [style.color]="getScoreColor(metrics.workLifeBalance)">{{metrics.workLifeBalance}}%</div>
+          <div class="metric-label">Equilíbrio Vida-Trabalho</div>
+          <mat-progress-bar mode="determinate" [value]="metrics.workLifeBalance" [color]="metrics.workLifeBalance >= 70 ? 'primary' : 'warn'"></mat-progress-bar>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>coffee</mat-icon>
+          <div class="metric-value" [style.color]="getScoreColor(metrics.breakFrequency)">{{metrics.breakFrequency}}%</div>
+          <div class="metric-label">Frequência de Pausas</div>
+          <mat-progress-bar mode="determinate" [value]="metrics.breakFrequency" color="primary"></mat-progress-bar>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>schedule</mat-icon>
+          <div class="metric-value" style="color: #F44336;">{{metrics.overworkHours}}h</div>
+          <div class="metric-label">Horas Extras</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>psychology</mat-icon>
+          <div class="metric-value" [style.color]="getStressColor(metrics.stressLevel)">
+            {{metrics.stressLevel === 'low' ? 'Baixo' : metrics.stressLevel === 'medium' ? 'Médio' : 'Alto'}}
+          </div>
+          <div class="metric-label">Nível de Estresse</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>bedtime</mat-icon>
+          <div class="metric-value" [style.color]="getScoreColor(metrics.sleepQuality)">{{metrics.sleepQuality}}%</div>
+          <div class="metric-label">Qualidade do Sono</div>
+          <mat-progress-bar mode="determinate" [value]="metrics.sleepQuality" color="primary"></mat-progress-bar>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>fitness_center</mat-icon>
+          <div class="metric-value" style="color: #4CAF50;">{{metrics.exerciseMinutes}} min</div>
+          <div class="metric-label">Exercícios Semanais</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-card class="break-patterns-card">
+      <mat-card-header><mat-card-title><mat-icon>timeline</mat-icon> Padrão de Pausas (7 dias)</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div class="patterns-grid">
+          <div *ngFor="let pattern of breakPatterns" class="pattern-day">
+            <div class="day-label">{{pattern.day}}</div>
+            <div class="breaks-count" [class.below-recommended]="pattern.breaksTaken < pattern.recommended">
+              {{pattern.breaksTaken}} / {{pattern.recommended}}
+            </div>
+            <div class="avg-duration">{{pattern.avgBreakDuration}} min</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="recommendations-card">
+      <mat-card-header><mat-card-title><mat-icon>lightbulb</mat-icon> Recomendações</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let rec of recommendations" class="recommendation-item">
+          <mat-icon [style.color]="getPriorityColor(rec.priority)">{{rec.icon}}</mat-icon>
+          <div class="rec-content">
+            <div class="rec-title">{{rec.title}}</div>
+            <div class="rec-description">{{rec.description}}</div>
+          </div>
+          <mat-chip [style.background-color]="getPriorityColor(rec.priority)" class="priority-chip">
+            {{rec.priority === 'high' ? 'Alta' : rec.priority === 'medium' ? 'Média' : 'Baixa'}}
+          </mat-chip>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

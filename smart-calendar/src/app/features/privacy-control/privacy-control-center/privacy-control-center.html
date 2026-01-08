@@ -1,1 +1,163 @@
-<p>privacy-control-center works!</p>
+<div class="privacy-control-center">
+  <div class="header">
+    <h2><mat-icon>security</mat-icon> Centro de Controle de Privacidade</h2>
+  </div>
+
+  <div *ngIf="settings" class="content">
+    <mat-card class="settings-card">
+      <mat-card-header><mat-card-title>Configurações de Privacidade</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <mat-icon>share</mat-icon>
+            <div>
+              <div class="setting-title">Compartilhamento de Dados</div>
+              <div class="setting-description">Permitir compartilhamento de dados com terceiros</div>
+            </div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="settings.dataSharing" (change)="updateSettings()"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <mat-icon>analytics</mat-icon>
+            <div>
+              <div class="setting-title">Rastreamento de Analytics</div>
+              <div class="setting-description">Coletar dados de uso para melhorar o serviço</div>
+            </div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="settings.analyticsTracking" (change)="updateSettings()"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <mat-icon>location_on</mat-icon>
+            <div>
+              <div class="setting-title">Rastreamento de Localização</div>
+              <div class="setting-description">Permitir acesso à sua localização</div>
+            </div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="settings.locationTracking" (change)="updateSettings()"></mat-slide-toggle>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="notifications-card">
+      <mat-card-header><mat-card-title>Preferências de Notificação</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <mat-icon>email</mat-icon>
+            <div class="setting-title">Notificações por Email</div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="settings.notificationPreferences.email" (change)="updateSettings()"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <mat-icon>notifications</mat-icon>
+            <div class="setting-title">Notificações Push</div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="settings.notificationPreferences.push" (change)="updateSettings()"></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <mat-icon>sms</mat-icon>
+            <div class="setting-title">Notificações por SMS</div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="settings.notificationPreferences.sms" (change)="updateSettings()"></mat-slide-toggle>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="visibility-card">
+      <mat-card-header><mat-card-title>Configurações de Visibilidade</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div class="visibility-setting">
+          <div class="vis-label">
+            <mat-icon>calendar_today</mat-icon>
+            <span>Calendário</span>
+          </div>
+          <mat-select [(ngModel)]="settings.visibilitySettings.calendar" (selectionChange)="updateSettings()">
+            <mat-option value="public">Público</mat-option>
+            <mat-option value="team">Equipe</mat-option>
+            <mat-option value="private">Privado</mat-option>
+          </mat-select>
+        </div>
+
+        <div class="visibility-setting">
+          <div class="vis-label">
+            <mat-icon>task_alt</mat-icon>
+            <span>Tarefas</span>
+          </div>
+          <mat-select [(ngModel)]="settings.visibilitySettings.tasks" (selectionChange)="updateSettings()">
+            <mat-option value="public">Público</mat-option>
+            <mat-option value="team">Equipe</mat-option>
+            <mat-option value="private">Privado</mat-option>
+          </mat-select>
+        </div>
+
+        <div class="visibility-setting">
+          <div class="vis-label">
+            <mat-icon>person</mat-icon>
+            <span>Perfil</span>
+          </div>
+          <mat-select [(ngModel)]="settings.visibilitySettings.profile" (selectionChange)="updateSettings()">
+            <mat-option value="public">Público</mat-option>
+            <mat-option value="private">Privado</mat-option>
+          </mat-select>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="access-logs-card">
+      <mat-card-header><mat-card-title>Histórico de Acesso aos Dados</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let log of accessLogs" class="log-item">
+          <mat-icon>{{getActionIcon(log.action)}}</mat-icon>
+          <div class="log-details">
+            <div class="log-title">{{log.action | uppercase}}: {{log.resource}}</div>
+            <div class="log-meta">
+              <span>{{formatDate(log.timestamp)}}</span>
+              <span *ngIf="log.ipAddress">• IP: {{log.ipAddress}}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="danger-zone-card">
+      <mat-card-header><mat-card-title><mat-icon>warning</mat-icon> Zona de Perigo</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <div class="danger-actions">
+          <div class="action-item">
+            <div>
+              <div class="action-title">Exportar Seus Dados</div>
+              <div class="action-description">Baixe uma cópia de todos os seus dados</div>
+            </div>
+            <button mat-stroked-button color="primary" (click)="exportData()" [disabled]="loading">
+              <mat-icon>download</mat-icon>
+              Exportar
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="action-item">
+            <div>
+              <div class="action-title">Excluir Conta</div>
+              <div class="action-description">Excluir permanentemente sua conta e todos os dados</div>
+            </div>
+            <button mat-stroked-button color="warn" (click)="deleteAccount()">
+              <mat-icon>delete_forever</mat-icon>
+              Excluir Conta
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
