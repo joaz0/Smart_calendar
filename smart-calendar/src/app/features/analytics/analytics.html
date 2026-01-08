@@ -1,0 +1,260 @@
+<div class="analytics-container">
+  <div class="analytics-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>pie_chart</mat-icon>
+        Analytics & Insights
+      </h1>
+      <p class="subtitle">Análise detalhada do seu tempo e produtividade</p>
+    </div>
+    
+    <div class="header-actions">
+      <mat-form-field class="period-selector">
+        <mat-label>Período</mat-label>
+        <mat-select [(ngModel)]="selectedPeriod" (selectionChange)="onPeriodChange()">
+          <mat-option value="week">Última Semana</mat-option>
+          <mat-option value="month">Último Mês</mat-option>
+          <mat-option value="year">Último Ano</mat-option>
+          <mat-option value="custom">Personalizado</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="custom-date-range" *ngIf="selectedPeriod === 'custom'">
+        <mat-form-field>
+          <mat-label>Data Início</mat-label>
+          <input matInput [matDatepicker]="pickerStart" [(ngModel)]="customStartDate" (dateChange)="onCustomDateChange()">
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Data Fim</mat-label>
+          <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="customEndDate" (dateChange)="onCustomDateChange()">
+          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEnd></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="exportData()" [disabled]="!analytics">
+        <mat-icon>download</mat-icon>
+        Exportar
+      </button>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p>Carregando analytics...</p>
+  </div>
+
+  <div class="analytics-content" *ngIf="!loading && analytics">
+    <div class="metrics-grid">
+      <mat-card class="metric-card">
+        <div class="metric-icon">
+          <mat-icon>schedule</mat-icon>
+        </div>
+        <div class="metric-info">
+          <h3>{{ formatHours(analytics.totalHours) }}</h3>
+          <p>Total de Horas</p>
+        </div>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <div class="metric-icon" [style.color]="getProductivityColor(analytics.productivity.score)">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+        <div class="metric-info">
+          <h3 [style.color]="getProductivityColor(analytics.productivity.score)">
+            {{ analytics.productivity.score }}%
+          </h3>
+          <p>Score de Produtividade</p>
+        </div>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <div class="metric-icon">
+          <mat-icon>center_focus_strong</mat-icon>
+        </div>
+        <div class="metric-info">
+          <h3>{{ formatHours(analytics.productivity.focusHours) }}</h3>
+          <p>Horas de Foco</p>
+        </div>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <div class="metric-icon">
+          <mat-icon>task_alt</mat-icon>
+        </div>
+        <div class="metric-info">
+          <h3>{{ analytics.productivity.completedTasks }}</h3>
+          <p>Tarefas Completas</p>
+        </div>
+      </mat-card>
+    </div>
+
+    <mat-tab-group class="analytics-tabs">
+      <mat-tab label="Distribuição de Tempo">
+        <div class="tab-content">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Como você gasta seu tempo</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="time-breakdown" *ngIf="analytics.breakdown">
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">
+                      <span class="color-dot" style="background: #FF6384;"></span>
+                      Reuniões
+                    </span>
+                    <span class="breakdown-value">{{ formatHours(analytics.breakdown.meetings) }}</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill" [style.width.%]="(analytics.breakdown.meetings / analytics.totalHours) * 100" style="background: #FF6384;"></div>
+                  </div>
+                </div>
+
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">
+                      <span class="color-dot" style="background: #36A2EB;"></span>
+                      Tempo de Foco
+                    </span>
+                    <span class="breakdown-value">{{ formatHours(analytics.breakdown.focusTime) }}</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill" [style.width.%]="(analytics.breakdown.focusTime / analytics.totalHours) * 100" style="background: #36A2EB;"></div>
+                  </div>
+                </div>
+
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">
+                      <span class="color-dot" style="background: #FFCE56;"></span>
+                      Pausas
+                    </span>
+                    <span class="breakdown-value">{{ formatHours(analytics.breakdown.breaks) }}</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill" [style.width.%]="(analytics.breakdown.breaks / analytics.totalHours) * 100" style="background: #FFCE56;"></div>
+                  </div>
+                </div>
+
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">
+                      <span class="color-dot" style="background: #4BC0C0;"></span>
+                      Tempo Pessoal
+                    </span>
+                    <span class="breakdown-value">{{ formatHours(analytics.breakdown.personal) }}</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill" [style.width.%]="(analytics.breakdown.personal / analytics.totalHours) * 100" style="background: #4BC0C0;"></div>
+                  </div>
+                </div>
+
+                <div class="breakdown-item">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">
+                      <span class="color-dot" style="background: #9966FF;"></span>
+                      Outros
+                    </span>
+                    <span class="breakdown-value">{{ formatHours(analytics.breakdown.other) }}</span>
+                  </div>
+                  <div class="breakdown-bar">
+                    <div class="bar-fill" [style.width.%]="(analytics.breakdown.other / analytics.totalHours) * 100" style="background: #9966FF;"></div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Tendências">
+        <div class="tab-content">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Tendências de Produtividade</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="trends-list">
+                <div *ngFor="let trend of analytics.trends" class="trend-item">
+                  <div class="trend-category">
+                    <mat-icon [style.color]="getTrendColor(trend.direction)">
+                      {{ getTrendIcon(trend.direction) }}
+                    </mat-icon>
+                    <span>{{ trend.category }}</span>
+                  </div>
+                  <div class="trend-change" [style.color]="getTrendColor(trend.direction)">
+                    {{ trend.change > 0 ? '+' : '' }}{{ trend.change }}%
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Insights">
+        <div class="tab-content">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Insights Personalizados</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="insights-list">
+                <div *ngFor="let insight of analytics.insights; let i = index" class="insight-item">
+                  <mat-icon>lightbulb</mat-icon>
+                  <p>{{ insight }}</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Eficiência">
+        <div class="tab-content">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Métricas de Eficiência</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="efficiency-metrics">
+                <div class="efficiency-item">
+                  <h4>Eficiência Geral</h4>
+                  <div class="circular-progress">
+                    <div class="progress-value">{{ analytics.productivity.efficiency }}%</div>
+                  </div>
+                </div>
+
+                <div class="efficiency-item">
+                  <h4>Distrações</h4>
+                  <div class="distraction-count">
+                    <mat-icon>notifications_off</mat-icon>
+                    <span>{{ analytics.productivity.distractions }}</span>
+                  </div>
+                </div>
+
+                <div class="efficiency-item">
+                  <h4>Taxa de Conclusão</h4>
+                  <div class="completion-rate">
+                    <span>{{ analytics.productivity.completedTasks }}</span>
+                    <small>tarefas concluídas</small>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div class="no-data" *ngIf="!loading && !analytics">
+    <mat-icon>analytics</mat-icon>
+    <h3>Nenhum dado disponível</h3>
+    <p>Comece a registrar eventos e tarefas para ver suas análises</p>
+  </div>
+</div>

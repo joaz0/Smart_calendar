@@ -1,46 +1,165 @@
 <div class="habit-dashboard">
-  <div class="header">
-    <h2>📈 Rastreador de Hábitos</h2>
-    <button class="btn-primary" (click)="openCreateDialog()">+ Novo Hábito</button>
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>repeat</mat-icon>
+        Rastreador de Hábitos
+      </h1>
+      <p class="subtitle">Construa hábitos positivos e acompanhe seu progresso</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon>
+      Novo Hábito
+    </button>
   </div>
 
-  <div class="habits-grid">
-    @for (habit of habits; track habit.id) {
-      <div class="habit-card" [style.border-left-color]="habit.color">
-        <div class="habit-header">
-          <span class="habit-icon">{{habit.icon}}</span>
-          <h3>{{habit.name}}</h3>
-        </div>
-        
-        <div class="streak-info">
-          <div class="streak-badge">
-            <span class="streak-number">{{habit.currentStreak}}</span>
-            <span class="streak-label">dias</span>
-          </div>
-          <div class="consistency">
-            <div class="progress-bar">
-              <div class="progress-fill" [style.width.%]="habit.consistencyRate"></div>
-            </div>
-            <span>{{habit.consistencyRate}}% consistência</span>
-          </div>
-        </div>
-
-        <div class="habit-calendar">
-          @for (day of getLast7Days(); track day) {
-            <div class="day-cell" 
-                 [class.completed]="isCompleted(habit.id, day)"
-                 (click)="toggleDay(habit.id, day)">
-              <span class="day-label">{{getDayLabel(day)}}</span>
-            </div>
-          }
-        </div>
-
-        <div class="habit-actions">
-          <button (click)="viewStats(habit.id)">📊 Stats</button>
-          <button (click)="editHabit(habit.id)">✏️</button>
-          <button (click)="deleteHabit(habit.id)">🗑️</button>
-        </div>
+  <div class="summary-cards" *ngIf="habits.length > 0">
+    <mat-card class="summary-card">
+      <div class="summary-icon">
+        <mat-icon>trending_up</mat-icon>
       </div>
-    }
+      <div class="summary-info">
+        <h3>{{ habits.length }}</h3>
+        <p>Hábitos Ativos</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="summary-icon">
+        <mat-icon [style.color]="getStreakColor(habits[0]?.streak || 0)">
+          {{ getStreakIcon(habits[0]?.streak || 0) }}
+        </mat-icon>
+      </div>
+      <div class="summary-info">
+        <h3>{{ habits[0]?.streak || 0 }}</h3>
+        <p>Melhor Sequência</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="summary-icon">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <div class="summary-info">
+        <h3>{{ getTotalCompletions() }}</h3>
+        <p>Total Completo</p>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="habits-container" *ngIf="!loading">
+    <div class="no-habits" *ngIf="habits.length === 0">
+      <mat-icon>repeat</mat-icon>
+      <h3>Nenhum hábito criado</h3>
+      <p>Comece criando seu primeiro hábito!</p>
+      <button mat-raised-button color="primary" (click)="openCreateDialog()">
+        <mat-icon>add</mat-icon>
+        Criar Primeiro Hábito
+      </button>
+    </div>
+
+    <div class="habits-grid" *ngIf="habits.length > 0">
+      <mat-card *ngFor="let habit of habits; trackBy: trackByHabitId" 
+                class="habit-card"
+                [style.border-left]="'4px solid ' + habit.color">
+        <mat-card-header>
+          <div class="habit-icon-wrapper" [style.background]="habit.color + '20'">
+            <mat-icon [style.color]="habit.color">{{ habit.icon }}</mat-icon>
+          </div>
+          <div class="habit-header-content">
+            <mat-card-title>{{ habit.title }}</mat-card-title>
+            <mat-card-subtitle *ngIf="habit.description">
+              {{ habit.description }}
+            </mat-card-subtitle>
+          </div>
+          <div class="habit-actions">
+            <button mat-icon-button (click)="viewStats(habit.id)" matTooltip="Ver estatísticas">
+              <mat-icon>analytics</mat-icon>
+            </button>
+            <button mat-icon-button (click)="editHabit(habit.id)" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteHabit(habit.id)" matTooltip="Excluir">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="streak-section">
+            <div class="streak-badge" [style.background]="getStreakColor(habit.streak) + '20'">
+              <mat-icon [style.color]="getStreakColor(habit.streak)">
+                {{ getStreakIcon(habit.streak) }}
+              </mat-icon>
+              <div class="streak-info">
+                <span class="streak-number" [style.color]="getStreakColor(habit.streak)">
+                  {{ habit.streak }}
+                </span>
+                <span class="streak-label">dias</span>
+              </div>
+            </div>
+
+            <div class="best-streak" *ngIf="habit.bestStreak > habit.streak">
+              <small>Melhor: {{ habit.bestStreak }} dias</small>
+            </div>
+          </div>
+
+          <div class="completion-calendar">
+            <div class="calendar-days">
+              <div *ngFor="let day of getLast7Days()" 
+                   class="day-cell"
+                   [class.completed]="isCompleted(habit, day)"
+                   [class.today]="isToday(day)"
+                   [matTooltip]="getDayLabel(day) + ' ' + getDayNumber(day)"
+                   (click)="toggleDay(habit, day)">
+                <span class="day-label">{{ getDayLabel(day).substring(0, 1) }}</span>
+                <div class="day-indicator">
+                  <mat-icon *ngIf="isCompleted(habit, day)">check_circle</mat-icon>
+                  <div *ngIf="!isCompleted(habit, day)" class="empty-circle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="habit-stats" *ngIf="getStats(habit.id) as stats">
+            <div class="stat-item">
+              <span class="stat-label">Última semana</span>
+              <mat-progress-bar mode="determinate" 
+                               [value]="(stats.last7Days / 7) * 100"
+                               [color]="'primary'">
+              </mat-progress-bar>
+              <span class="stat-value">{{ stats.last7Days }}/7</span>
+            </div>
+
+            <div class="stat-item">
+              <span class="stat-label">Taxa de conclusão</span>
+              <mat-progress-bar mode="determinate" 
+                               [value]="stats.completionRate"
+                               [color]="stats.completionRate >= 70 ? 'primary' : 'warn'">
+              </mat-progress-bar>
+              <span class="stat-value">{{ stats.completionRate }}%</span>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set>
+            <mat-chip [style.background]="habit.color + '20'" [style.color]="habit.color">
+              <mat-icon>{{ getCategoryIcon(habit.category) }}</mat-icon>
+              {{ habit.category }}
+            </mat-chip>
+            <mat-chip>
+              <mat-icon>event_repeat</mat-icon>
+              {{ habit.frequency }}
+            </mat-chip>
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p>Carregando hábitos...</p>
   </div>
 </div>

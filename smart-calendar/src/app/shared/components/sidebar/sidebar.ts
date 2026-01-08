@@ -360,6 +360,19 @@ export class SidebarComponent implements OnInit {
     return notification.id;
   }
 
+  trackBySearchResult(index: number, result: any): string {
+    return result.id || `${result.type}-${index}`;
+  }
+
+  selectSearchResult(result: any): void {
+    if (result.type === 'event') {
+      this.router.navigate(['/app/calendar'], { queryParams: { eventId: result.id } });
+    } else if (result.type === 'task') {
+      this.router.navigate(['/app/tasks'], { queryParams: { taskId: result.id } });
+    }
+    this.clearSearch();
+  }
+
   openNotification(notification: any) {
     notification.read = true;
     const routes: Record<string, string> = {
@@ -401,18 +414,5 @@ export class SidebarComponent implements OnInit {
       localStorage.removeItem(STORAGE_KEYS.SIDEBAR_STATE);
       this.router.navigate(['/auth']);
     }
-  }
-
-  selectSearchResult(result: any) {
-    if (result.type === 'event') {
-      this.router.navigate(['/app/calendar'], { queryParams: { eventId: result.id } });
-    } else if (result.type === 'task') {
-      this.router.navigate(['/app/tasks'], { queryParams: { taskId: result.id } });
-    }
-    this.clearSearch();
-  }
-
-  trackBySearchResult(index: number, result: any): string {
-    return result.id;
   }
 }
