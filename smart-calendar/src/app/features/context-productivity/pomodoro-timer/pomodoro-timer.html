@@ -1,0 +1,191 @@
+<div class="pomodoro-container">
+  <div class="header">
+    <h2>
+      <mat-icon>timer</mat-icon>
+      Pomodoro Timer
+    </h2>
+    <div class="session-counter">
+      <mat-chip [style.background-color]="'#E91E63'" style="color: white;">
+        <mat-icon>check_circle</mat-icon>
+        {{sessionsCompleted}} / {{settings?.sessionsBeforeLongBreak || 4}}
+      </mat-chip>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading" class="content">
+    <div *ngIf="stats" class="stats-row">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #FCE4EC;">
+            <mat-icon style="color: #E91E63;">event_available</mat-icon>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{stats.todaySessions}}</div>
+            <div class="stat-label">Hoje</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #E3F2FD;">
+            <mat-icon style="color: #2196F3;">schedule</mat-icon>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{getTotalHours(stats.totalWorkTime)}}h</div>
+            <div class="stat-label">Total</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #E8F5E9;">
+            <mat-icon style="color: #4CAF50;">done_all</mat-icon>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{stats.completedSessions}}</div>
+            <div class="stat-label">Completos</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #FFF3E0;">
+            <mat-icon style="color: #FF9800;">local_fire_department</mat-icon>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{stats.currentStreak}}</div>
+            <div class="stat-label">Sequência</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-card class="timer-card">
+      <mat-card-content>
+        <div *ngIf="!isActive" class="start-section">
+          <div class="task-input">
+            <label>Tarefa (opcional):</label>
+            <input type="text" [(ngModel)]="taskTitle" placeholder="O que você vai trabalhar?">
+          </div>
+
+          <div class="start-buttons">
+            <button mat-raised-button color="primary" class="start-btn" (click)="startWork()">
+              <mat-icon>play_arrow</mat-icon>
+              Iniciar Pomodoro ({{settings?.workDuration || 25}} min)
+            </button>
+            <button mat-button (click)="startBreak()">
+              <mat-icon>coffee</mat-icon>
+              Iniciar Pausa
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="isActive && currentSession" class="active-section">
+          <div class="session-type">
+            <mat-chip [style.background-color]="getSessionTypeColor(currentSession.type)" style="color: white; font-size: 1rem;">
+              {{getSessionTypeLabel(currentSession.type)}}
+            </mat-chip>
+            <div *ngIf="currentSession.taskTitle" class="task-title">
+              <mat-icon>task_alt</mat-icon>
+              {{currentSession.taskTitle}}
+            </div>
+          </div>
+
+          <div class="timer-display">
+            <div class="circular-timer">
+              <svg width="280" height="280" viewBox="0 0 280 280">
+                <circle cx="140" cy="140" r="130" 
+                        stroke="#e0e0e0" 
+                        stroke-width="16" 
+                        fill="none"/>
+                <circle cx="140" cy="140" r="130"
+                        [attr.stroke]="getSessionTypeColor(currentSession.type)"
+                        stroke-width="16"
+                        fill="none"
+                        stroke-linecap="round"
+                        [style.stroke-dasharray]="817"
+                        [style.stroke-dashoffset]="progressOffset"
+                        transform="rotate(-90 140 140)"/>
+              </svg>
+              <div class="timer-content">
+                <div class="time">{{timeRemaining}}</div>
+                <div class="percentage">{{getProgressPercentage()}}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button mat-raised-button color="accent" (click)="complete()">
+              <mat-icon>check</mat-icon>
+              Concluir
+            </button>
+            <button mat-button color="warn" (click)="interrupt()">
+              <mat-icon>stop</mat-icon>
+              Interromper
+            </button>
+          </div>
+        </div>
+
+        <mat-divider *ngIf="settings"></mat-divider>
+
+        <div *ngIf="settings && !isActive" class="settings-section">
+          <h3>
+            <mat-icon>settings</mat-icon>
+            Configurações
+          </h3>
+          <div class="toggle-list">
+            <mat-slide-toggle [(ngModel)]="settings.autoStartBreaks" (change)="updateAutoSettings()" color="primary">
+              Iniciar pausas automaticamente
+            </mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="settings.autoStartPomodoros" (change)="updateAutoSettings()" color="primary">
+              Iniciar pomodoros automaticamente
+            </mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="settings.soundEnabled" (change)="updateAutoSettings()" color="primary">
+              Som de conclusão
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="history-card" *ngIf="recentSessions.length > 0">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>history</mat-icon>
+          Histórico Recente
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="sessions-list">
+          <div *ngFor="let session of recentSessions.slice(0, 8)" class="session-item">
+            <mat-chip [style.background-color]="getSessionTypeColor(session.type)" style="color: white;">
+              {{getSessionTypeLabel(session.type)}}
+            </mat-chip>
+            <div class="session-details">
+              <span class="time">
+                <mat-icon>schedule</mat-icon>
+                {{formatDate(session.startTime)}}
+              </span>
+              <span *ngIf="session.taskTitle" class="task">
+                <mat-icon>task_alt</mat-icon>
+                {{session.taskTitle}}
+              </span>
+              <span class="status">
+                <mat-icon *ngIf="session.completed">check_circle</mat-icon>
+                <mat-icon *ngIf="session.interrupted">cancel</mat-icon>
+                {{session.completed ? 'Concluído' : session.interrupted ? 'Interrompido' : 'Em andamento'}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

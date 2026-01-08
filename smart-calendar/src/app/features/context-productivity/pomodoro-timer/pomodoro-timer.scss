@@ -1,6 +1,6 @@
-.focus-mode-container {
+.pomodoro-container {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 
   .header {
@@ -23,12 +23,14 @@
       }
     }
 
-    mat-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: white;
-      font-weight: 500;
+    .session-counter {
+      mat-chip {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        font-size: 1rem;
+      }
     }
   }
 
@@ -40,7 +42,7 @@
 
   .stats-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
 
@@ -82,83 +84,53 @@
     }
   }
 
-  .main-card {
+  .timer-card {
     margin-bottom: 2rem;
 
     mat-card-content {
       padding: 2rem;
     }
 
-    .setup-section {
-      .duration-selector {
+    .start-section {
+      .task-input {
         margin-bottom: 2rem;
 
-        h3 {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 1rem;
-          color: var(--text-primary, #333);
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: var(--text-secondary, #666);
+          font-weight: 500;
         }
 
-        .duration-chips {
-          display: flex;
-          gap: 0.75rem;
-          flex-wrap: wrap;
+        input {
+          width: 100%;
+          padding: 0.75rem;
+          border: 2px solid #e0e0e0;
+          border-radius: 8px;
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
 
-          mat-chip {
-            cursor: pointer;
-            transition: all 0.3s ease;
-
-            &:hover {
-              background-color: #f0f0f0;
-            }
-
-            &.selected {
-              background-color: #6A1B9A;
-              color: white;
-            }
+          &:focus {
+            outline: none;
+            border-color: #6A1B9A;
           }
         }
       }
 
-      mat-divider {
-        margin: 2rem 0;
-      }
+      .start-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
 
-      .block-settings {
-        margin-bottom: 2rem;
-
-        h3 {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 1rem;
-          color: var(--text-primary, #333);
+        .start-btn {
+          flex: 1;
+          padding: 1rem 2rem;
+          font-size: 1.1rem;
         }
 
-        .toggle-list {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-
-          mat-slide-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-
-            mat-icon {
-              margin-right: 0.5rem;
-            }
-          }
+        button {
+          min-width: 150px;
         }
-      }
-
-      .activate-btn {
-        width: 100%;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        margin-top: 1rem;
       }
     }
 
@@ -168,13 +140,31 @@
       align-items: center;
       text-align: center;
 
+      .session-type {
+        margin-bottom: 2rem;
+
+        mat-chip {
+          font-weight: 500;
+        }
+
+        .task-title {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-top: 1rem;
+          font-size: 1.1rem;
+          color: var(--text-primary, #333);
+        }
+      }
+
       .timer-display {
         margin: 2rem 0;
 
         .circular-timer {
           position: relative;
-          width: 240px;
-          height: 240px;
+          width: 280px;
+          height: 280px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -190,53 +180,17 @@
             z-index: 1;
 
             .time {
-              font-size: 3rem;
-              font-weight: 600;
+              font-size: 4rem;
+              font-weight: 700;
               color: var(--text-primary, #333);
               font-variant-numeric: tabular-nums;
             }
 
             .percentage {
-              font-size: 1.25rem;
+              font-size: 1.5rem;
               color: var(--text-secondary, #666);
               margin-top: 0.5rem;
             }
-          }
-        }
-      }
-
-      .session-info {
-        margin: 1.5rem 0;
-
-        mat-chip-set {
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-        }
-
-        mat-chip {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-      }
-
-      .session-stats {
-        display: flex;
-        gap: 2rem;
-        margin: 1.5rem 0;
-
-        .stat-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: var(--text-secondary, #666);
-
-          mat-icon {
-            font-size: 1.25rem;
-            width: 1.25rem;
-            height: 1.25rem;
           }
         }
       }
@@ -245,17 +199,35 @@
         display: flex;
         gap: 1rem;
         margin-top: 2rem;
-        flex-wrap: wrap;
-        justify-content: center;
 
         button {
-          min-width: 120px;
+          min-width: 140px;
         }
+      }
+    }
+
+    mat-divider {
+      margin: 2rem 0;
+    }
+
+    .settings-section {
+      h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary, #333);
+      }
+
+      .toggle-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
       }
     }
   }
 
-  .recent-sessions {
+  .history-card {
     mat-card-header {
       padding: 1rem;
       background: var(--background-secondary, #f5f5f5);
@@ -279,27 +251,22 @@
       .session-item {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 1rem;
         padding: 1rem;
         background: var(--background-secondary, #f5f5f5);
         border-radius: 8px;
-        transition: background 0.3s ease;
 
-        &:hover {
-          background: var(--background-hover, #eeeeee);
-        }
-
-        .session-date {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: var(--text-primary, #333);
-          font-weight: 500;
+        mat-chip {
+          min-width: 120px;
+          justify-content: center;
         }
 
         .session-details {
           display: flex;
           gap: 1.5rem;
+          flex: 1;
+          align-items: center;
+          flex-wrap: wrap;
 
           span {
             display: flex;
@@ -314,6 +281,11 @@
               height: 1rem;
             }
           }
+
+          .task {
+            font-weight: 500;
+            color: var(--text-primary, #333);
+          }
         }
       }
     }
@@ -326,29 +298,45 @@
       grid-template-columns: repeat(2, 1fr);
     }
 
-    .main-card .active-section {
-      .session-stats {
+    .timer-card {
+      .start-section .start-buttons {
         flex-direction: column;
-        gap: 1rem;
-      }
-
-      .action-buttons {
-        flex-direction: column;
-        width: 100%;
 
         button {
           width: 100%;
         }
       }
+
+      .active-section {
+        .timer-display .circular-timer {
+          width: 240px;
+          height: 240px;
+
+          .timer-content .time {
+            font-size: 3rem;
+          }
+        }
+
+        .action-buttons {
+          flex-direction: column;
+          width: 100%;
+
+          button {
+            width: 100%;
+          }
+        }
+      }
     }
 
-    .recent-sessions .sessions-list .session-item {
+    .history-card .sessions-list .session-item {
       flex-direction: column;
-      gap: 1rem;
       align-items: flex-start;
+      gap: 0.75rem;
 
       .session-details {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
       }
     }
   }
