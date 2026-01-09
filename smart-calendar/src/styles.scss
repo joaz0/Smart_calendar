@@ -1,30 +1,9 @@
 // ============================================
 // IMPORTS DO ANGULAR MATERIAL (Angular 18)
 // ============================================
-@use '@angular/material' as mat;
-@use 'sass:map';
 
-// Inclua os estilos base do Material
-@include mat.core();
-
-// ============================================
-// DEFINA AS CORES DO TEMA
-// ============================================
-$my-primary: mat.define-palette(mat.$indigo-palette);
-$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-$my-warn: mat.define-palette(mat.$red-palette);
-
-// Crie o tema
-$my-theme: mat.define-light-theme((
-  color: (
-    primary: $my-primary,
-    accent: $my-accent,
-    warn: $my-warn,
-  )
-));
-
-// Inclua o tema
-@include mat.all-component-colors($my-theme);
+// Importe um tema pronto do Angular Material
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 // ============================================
 // SEUS ESTILOS CUSTOMIZADOS
