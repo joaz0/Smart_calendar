@@ -2,27 +2,29 @@
 // IMPORTS DO ANGULAR MATERIAL (Angular 18)
 // ============================================
 @use '@angular/material' as mat;
+@use 'sass:map';
 
-// Inclua os estilos base (fontes, etc)
+// Inclua os estilos base do Material
 @include mat.core();
 
 // ============================================
-// DEFINA O TEMA MATERIAL 3 (Angular 18+)
+// DEFINA AS CORES DO TEMA
 // ============================================
-$primary-color: #2196f3;
-$accent-color: #ff4081;
-$warn-color: #f44336;
+$my-primary: mat.define-palette(mat.$indigo-palette);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$my-warn: mat.define-palette(mat.$red-palette);
 
-$light-theme: mat.define-light-theme((
+// Crie o tema
+$my-theme: mat.define-light-theme((
   color: (
-    primary: mat.define-palette(mat.$blue-palette),
-    accent: mat.define-palette(mat.$pink-palette, A200, A100, A400),
-    warn: mat.define-palette(mat.$red-palette),
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
   )
 ));
 
-// Aplique o tema em todos os componentes
-@include mat.all-component-colors($light-theme);
+// Inclua o tema
+@include mat.all-component-colors($my-theme);
 
 // ============================================
 // SEUS ESTILOS CUSTOMIZADOS
