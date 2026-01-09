@@ -1,19 +1,19 @@
 // Design System - Modern Variables
 :root {
-  // Primary Colors
-  --primary-50: #EAE6FF;
-  --primary-100: #C3B8FF;
-  --primary-200: #9D8AFF;
-  --primary-300: #775CFF;
-  --primary-400: #512EFF;
-  --primary-500: #2A00FF;
-  --primary-600: #2300D1;
-  --primary-700: #1A0095;
-  --primary-800: #140075;
-  --primary-900: #0C0047;
-  --primary-950: #04001A;
+  // Primary Colors - Purple Theme
+  --primary-50: #faf5ff;
+  --primary-100: #f3e8ff;
+  --primary-200: #e9d5ff;
+  --primary-300: #d8b4fe;
+  --primary-400: #c084fc;
+  --primary-500: #a855f7;
+  --primary-600: #9333ea;
+  --primary-700: #7e22ce;
+  --primary-800: #6b21a8;
+  --primary-900: #581c87;
+  --primary-950: #3f0f5c;
 
-  // Accent Colors
+  // Accent Colors - Pink/Magenta
   --accent-50: #fdf4ff;
   --accent-100: #fae8ff;
   --accent-200: #f5d0fe;
@@ -53,10 +53,10 @@
   --info-600: #2563eb;
 
   // Gradients
-  --gradient-primary: linear-gradient(135deg, #2A00FF 0%, #512EFF 100%);
-  --gradient-accent: linear-gradient(135deg, #775CFF 0%, #2A00FF 100%);
-  --gradient-dark: linear-gradient(135deg, #0C0047 0%, #1A0095 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(42,0,255,0.1) 0%, rgba(42,0,255,0.05) 100%);
+  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  --gradient-accent: linear-gradient(135deg, #d8b4fe 0%, #7c3aed 100%);
+  --gradient-dark: linear-gradient(135deg, #3f0f5c 0%, #581c87 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(124,58,237,0.05) 100%);
 
   // Shadows - Enhanced for dark theme
   --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
@@ -64,8 +64,8 @@
   --shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.5), 0 4px 8px -4px rgba(0, 0, 0, 0.4);
   --shadow-xl: 0 20px 30px -8px rgba(0, 0, 0, 0.6), 0 8px 12px -6px rgba(0, 0, 0, 0.5);
   --shadow-2xl: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(42, 0, 255, 0.1);
-  --shadow-glow: 0 0 20px rgba(42, 0, 255, 0.3), 0 0 40px rgba(42, 0, 255, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(124, 58, 237, 0.1);
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.1);
 
   // Responsive Spacing Scale
   --space-1: clamp(0.2rem, 0.5vw, 0.25rem);
