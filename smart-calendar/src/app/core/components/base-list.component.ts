@@ -45,8 +45,8 @@ export abstract class BaseListComponent<T> extends BaseComponent implements OnIn
 
   displayedColumns: string[] = [];
 
-  constructor(componentName: string = 'BaseListComponent') {
-    super(componentName);
+  constructor() {
+    super();
   }
 
   protected initialize(): void {

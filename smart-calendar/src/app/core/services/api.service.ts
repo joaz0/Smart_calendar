@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, retry, timeout } from 'rxjs/operators';
+import { catchError, retry, timeout, finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { logger } from '../utils/logger';
 
@@ -76,41 +76,33 @@ export class ApiService {
 
     this.isLoading$.next(true);
 
-    const request$ =
-      method === 'GET'
-        ? this.http.get<ApiResponse<T>>(url, httpOptions)
-        : method === 'POST'
-        ? this.http.post<ApiResponse<T>>(url, body, httpOptions)
-        : method === 'PUT'
-        ? this.http.put<ApiResponse<T>>(url, body, httpOptions)
-        : method === 'PATCH'
-        ? this.http.patch<ApiResponse<T>>(url, body, httpOptions)
-        : method === 'DELETE'
-        ? this.http.delete<ApiResponse<T>>(url, httpOptions)
-        : throwError(() => new Error('Método HTTP desconhecido'));
+    let request$: Observable<ApiResponse<T>>;
+    
+    switch (method) {
+      case 'GET':
+        request$ = this.http.get<ApiResponse<T>>(url, httpOptions) as Observable<ApiResponse<T>>;
+        break;
+      case 'POST':
+        request$ = this.http.post<ApiResponse<T>>(url, body, httpOptions) as Observable<ApiResponse<T>>;
+        break;
+      case 'PUT':
+        request$ = this.http.put<ApiResponse<T>>(url, body, httpOptions) as Observable<ApiResponse<T>>;
+        break;
+      case 'PATCH':
+        request$ = this.http.patch<ApiResponse<T>>(url, body, httpOptions) as Observable<ApiResponse<T>>;
+        break;
+      case 'DELETE':
+        request$ = this.http.delete<ApiResponse<T>>(url, httpOptions) as Observable<ApiResponse<T>>;
+        break;
+      default:
+        request$ = throwError(() => new Error('Método HTTP desconhecido'));
+    }
 
     return request$.pipe(
       timeout(30000),
       retry({ count: 1, delay: 1000 }),
       catchError((error) => this.handleError(error, method, endpoint)),
-      (obs) =>
-        new Observable((subscriber) => {
-          const sub = obs.subscribe({
-            next: (value) => {
-              this.isLoading$.next(false);
-              subscriber.next(value);
-            },
-            error: (err) => {
-              this.isLoading$.next(false);
-              subscriber.error(err);
-            },
-            complete: () => {
-              this.isLoading$.next(false);
-              subscriber.complete();
-            },
-          });
-          return () => sub.unsubscribe();
-        })
+      finalize(() => this.isLoading$.next(false))
     );
   }
 

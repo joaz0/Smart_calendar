@@ -19,8 +19,8 @@ export abstract class BaseService {
   public error$ = this.errorSubject$.asObservable();
   public destroy$ = this.destroySubject$.asObservable();
 
-  constructor(serviceName: string = 'BaseService') {
-    this.logger = new Logger(serviceName);
+  constructor() {
+    this.logger = new Logger(this.constructor.name);
   }
 
   /**
@@ -34,7 +34,7 @@ export abstract class BaseService {
    * Emite um erro
    */
   protected setError(error: any): void {
-    this.logger.error('Erro no serviço', error);
+    this.logger.error('Erro no serviço', error as Record<string, any>);
     this.errorSubject$.next(error);
   }
 
@@ -60,7 +60,7 @@ export abstract class BaseService {
       return result;
     } catch (error) {
       this.setError(error);
-      this.logger.error(`${operationName} falhou`, error);
+      this.logger.error(`${operationName} falhou`, error as Record<string, any>);
       throw error;
     } finally {
       this.setLoading(false);

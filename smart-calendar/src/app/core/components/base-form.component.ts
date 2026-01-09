@@ -40,8 +40,8 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
   isSubmitting = false;
   serverError: string | null = null;
 
-  constructor(protected formBuilder: FormBuilder, componentName: string = 'BaseFormComponent') {
-    super(componentName);
+  constructor(protected formBuilder: FormBuilder) {
+    super();
   }
 
   protected initialize(): void {

@@ -24,8 +24,8 @@ export abstract class EntityService<T extends Entity> extends BaseService {
   protected entitiesSubject$ = new BehaviorSubject<T[]>([]);
   public entities$ = this.entitiesSubject$.asObservable();
 
-  constructor(protected apiService: ApiService, serviceName: string, apiEndpoint: string) {
-    super(serviceName);
+  constructor(protected apiService: ApiService, apiEndpoint: string) {
+    super();
     this.apiEndpoint = apiEndpoint;
   }
 

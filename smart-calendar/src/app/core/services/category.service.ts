@@ -12,7 +12,7 @@ export class CategoryService extends EntityService<Category> {
   private logger = new Logger('CategoryService');
 
   constructor(private categoryApiService: CategoryApiService) {
-    super('CategoryService');
+    super(categoryApiService as any, '/api/categories');
   }
 
   /**

@@ -1,30 +1,33 @@
+import { environment } from '../../../environments/environment';
+
 /**
  * Logger simples para o frontend
  */
 export class Logger {
-  private isDev = !this.isProduction();
+  private isDev = !environment.production;
+  private context: string;
 
-  private isProduction(): boolean {
-    return process.env['NODE_ENV'] === 'production';
+  constructor(context: string = 'App') {
+    this.context = context;
   }
 
-  info(message: string, context?: Record<string, any>): void {
+  info(message: string, data?: Record<string, any>): void {
     if (this.isDev) {
-      console.log(`[INFO] ${message}`, context || '');
+      console.log(`[INFO][${this.context}] ${message}`, data || '');
     }
   }
 
-  warn(message: string, context?: Record<string, any>): void {
-    console.warn(`[WARN] ${message}`, context || '');
+  warn(message: string, data?: Record<string, any>): void {
+    console.warn(`[WARN][${this.context}] ${message}`, data || '');
   }
 
-  error(message: string, context?: Record<string, any>): void {
-    console.error(`[ERROR] ${message}`, context || '');
+  error(message: string, data?: Record<string, any>): void {
+    console.error(`[ERROR][${this.context}] ${message}`, data || '');
   }
 
-  debug(message: string, context?: Record<string, any>): void {
+  debug(message: string, data?: Record<string, any>): void {
     if (this.isDev) {
-      console.debug(`[DEBUG] ${message}`, context || '');
+      console.debug(`[DEBUG][${this.context}] ${message}`, data || '');
     }
   }
 }

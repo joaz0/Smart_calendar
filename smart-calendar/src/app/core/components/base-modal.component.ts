@@ -13,10 +13,9 @@ import { BaseComponent } from './base.component';
 export abstract class BaseModalComponent<T = any> extends BaseComponent {
   constructor(
     public dialogRef: MatDialogRef<BaseModalComponent<T>>,
-    @Inject(MAT_DIALOG_DATA) public data: T,
-    componentName: string = 'BaseModalComponent'
+    @Inject(MAT_DIALOG_DATA) public data: T
   ) {
-    super(componentName);
+    super();
   }
 
   /**

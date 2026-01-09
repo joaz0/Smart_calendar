@@ -15,8 +15,8 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
   protected logger: Logger;
   protected destroy$ = new Subject<void>();
 
-  constructor(componentName: string = 'BaseComponent') {
-    this.logger = new Logger(componentName);
+  constructor() {
+    this.logger = new Logger(this.constructor.name);
   }
 
   ngOnInit(): void {

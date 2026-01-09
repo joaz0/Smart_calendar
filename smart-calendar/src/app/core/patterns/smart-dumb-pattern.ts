@@ -1,6 +1,10 @@
 // Padrão de Componente Smart (Container/Presenter)
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BaseComponent } from '../../core/components/base.component';
+import { ListColumn, ListAction } from '../components/base-list.component';
+import { EventService } from '../services/event.service';
 
 /**
  * CONTAINER COMPONENT (Smart Component)
@@ -10,10 +14,12 @@ import { BaseComponent } from '../../core/components/base.component';
  */
 @Component({
   selector: 'app-events-container',
+  standalone: true,
+  imports: [CommonModule, EventsListComponent],
   template: `
     <app-events-list
       [items]="events$ | async"
-      [loading]="loading$ | async"
+      [loading]="loading"
       [columns]="columns"
       [actions]="actions"
       (pageChange)="onPageChange($event)"
@@ -25,13 +31,15 @@ import { BaseComponent } from '../../core/components/base.component';
 })
 export class EventsContainerComponent extends BaseComponent implements OnInit {
   // Observables (dados do serviço)
-  events$ = this.eventService.entities$;
-  loading$ = this.eventService.loading$;
+  get events$() {
+    return this.eventService.events$;
+  }
+  loading = false;
 
   // Configuração para o componente apresentador
   columns = [
     { key: 'title', label: 'Título', sortable: true },
-    { key: 'date', label: 'Data', type: 'date' },
+    { key: 'startDate', label: 'Data', type: 'date' },
     { key: 'description', label: 'Descrição' },
   ];
 
@@ -46,23 +54,30 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   ];
 
   constructor(private eventService: EventService) {
-    super('EventsContainerComponent');
+    super();
   }
 
   protected initialize(): void {
-    // Carregar eventos ao inicializar
-    this.eventService.getAll().pipe(this.takeUntil()).subscribe();
+    // Events are already loaded in the EventService constructor
   }
 
   onPageChange(event: { page: number; pageSize: number }): void {
-    this.eventService.getAll(event.page, event.pageSize).pipe(this.takeUntil()).subscribe();
+    this.loading = true;
+    this.eventService.getAllEvents(event.page, event.pageSize).pipe(this.takeUntil()).subscribe({
+      complete: () => this.loading = false
+    });
   }
 
   onSearch(query: string): void {
+    this.loading = true;
     if (query) {
-      this.eventService.search(query).pipe(this.takeUntil()).subscribe();
+      this.eventService.searchEvents(query).pipe(this.takeUntil()).subscribe({
+        complete: () => this.loading = false
+      });
     } else {
-      this.eventService.getAll().pipe(this.takeUntil()).subscribe();
+      this.eventService.getAllEvents().pipe(this.takeUntil()).subscribe({
+        complete: () => this.loading = false
+      });
     }
   }
 
@@ -76,7 +91,10 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
 
   private deleteEvent(event: any): void {
     // Confirmar e deletar
-    this.eventService.delete(event.id).pipe(this.takeUntil()).subscribe();
+    this.loading = true;
+    this.eventService.deleteEvent(event.id).pipe(this.takeUntil()).subscribe({
+      complete: () => this.loading = false
+    });
   }
 }
 
@@ -89,6 +107,8 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
  */
 @Component({
   selector: 'app-events-list',
+  standalone: true,
+  imports: [CommonModule, MatProgressSpinnerModule],
   template: `
     <div class="list-container">
       <div class="list-header">
