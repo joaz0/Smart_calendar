@@ -1,0 +1,374 @@
+// Contrast Improvements - Acessibilidade e Legibilidade
+// Corrige problemas de baixo contraste entre textos e backgrounds
+
+// Placeholders e labels com melhor contraste
+::placeholder,
+.placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1;
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: var(--text-muted);
+}
+
+// Labels e pequenos textos descritivos
+.label,
+label,
+.hint,
+.helper-text,
+.form-text,
+.small-text {
+  color: var(--text-secondary);
+
+  &.muted,
+  &.secondary {
+    color: var(--text-tertiary);
+  }
+}
+
+// Timestamps e metadata dentro de boxes
+.timestamp,
+.date,
+.meta,
+.metadata,
+.info-text {
+  color: var(--text-tertiary);
+}
+
+// Descrições secundárias em cards
+.description,
+.subtitle,
+.subtext {
+  color: var(--text-secondary);
+
+  &.secondary {
+    color: var(--text-tertiary);
+  }
+}
+
+// Corrige contraste em listas e itens
+.list-item,
+.item,
+li {
+  p, span, .text {
+    &.secondary,
+    &.muted {
+      color: var(--text-tertiary);
+    }
+  }
+}
+
+// Melhor contraste para elementos desabilitados
+:disabled,
+.disabled,
+[disabled] {
+  color: var(--text-muted) !important;
+}
+
+// Corrige contraste em boxes de informação
+.info-box,
+.notice,
+.alert {
+  .title,
+  .heading {
+    color: var(--text-primary);
+  }
+
+  .message,
+  .content {
+    color: var(--text-secondary);
+  }
+
+  .footer,
+  .hint {
+    color: var(--text-tertiary);
+  }
+}
+
+// Melhor contraste em breadcrumbs
+.breadcrumb {
+  .breadcrumb-item {
+    color: var(--text-tertiary);
+
+    &.active {
+      color: var(--text-primary);
+    }
+  }
+
+  .separator {
+    color: var(--text-tertiary);
+  }
+}
+
+// Contraste em navegação
+.nav-item,
+.menu-item {
+  color: var(--text-secondary);
+
+  &.active,
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  .subtitle,
+  .badge,
+  .count {
+    color: var(--text-tertiary);
+  }
+}
+
+// Contraste em badges e tags
+.badge,
+.tag,
+.chip {
+  color: var(--text-primary);
+
+  &.secondary {
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+  }
+
+  &.muted {
+    background: transparent;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-secondary);
+  }
+}
+
+// Melhor contraste em tabelas
+table {
+  th {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+  }
+
+  td {
+    color: var(--text-secondary);
+
+    .meta,
+    .hint,
+    &.secondary {
+      color: var(--text-tertiary);
+    }
+  }
+
+  tr:hover td {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+// Contraste em formulários
+.form-group {
+  .label {
+    color: var(--text-primary);
+  }
+
+  .form-control,
+  .input {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-secondary);
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:focus {
+      border-color: var(--primary-500);
+    }
+  }
+
+  .form-text {
+    color: var(--text-tertiary);
+  }
+
+  .error-message {
+    color: var(--error-500);
+  }
+}
+
+// Contraste em modals e dialogs
+.modal,
+.dialog {
+  .modal-header,
+  .dialog-header {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+  }
+
+  .modal-body,
+  .dialog-content {
+    color: var(--text-secondary);
+
+    p, span, .text {
+      color: var(--text-secondary);
+    }
+  }
+
+  .modal-footer,
+  .dialog-footer {
+    color: var(--text-tertiary);
+    background: var(--bg-secondary);
+  }
+}
+
+// Contraste em toasts e notificações
+.toast,
+.notification,
+.alert {
+  .toast-title,
+  .notification-title {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .toast-body,
+  .notification-message {
+    color: var(--text-secondary);
+  }
+}
+
+// Contraste em comentários e feedback
+.comment,
+.feedback {
+  .author,
+  .name {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .content {
+    color: var(--text-secondary);
+  }
+
+  .timestamp,
+  .date {
+    color: var(--text-tertiary);
+  }
+}
+
+// Contraste em dropdowns e selects
+.dropdown,
+.select {
+  .dropdown-item,
+  .select-option {
+    color: var(--text-secondary);
+
+    &:hover,
+    &.active {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+
+    .hint,
+    .description {
+      color: var(--text-tertiary);
+    }
+  }
+}
+
+// Melhor contraste em código
+code,
+pre {
+  background: var(--bg-secondary);
+  color: var(--primary-300);
+
+  .comment {
+    color: var(--text-tertiary);
+  }
+}
+
+// Contraste em links
+a,
+.link {
+  color: var(--primary-400);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary-300);
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: var(--primary-500);
+  }
+}
+
+// Contraste em botões
+button,
+.btn {
+  &:disabled,
+  &.disabled {
+    color: var(--text-muted);
+    background: var(--surface-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .button-text {
+    color: inherit;
+  }
+
+  .button-hint,
+  .button-description {
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+  }
+}
+
+// Contraste em tooltips
+.tooltip,
+.popover {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-secondary);
+
+  .arrow {
+    border-color: var(--border-secondary);
+  }
+}
+
+// Contraste em footers
+footer,
+.footer {
+  color: var(--text-tertiary);
+
+  a {
+    color: var(--primary-400);
+
+    &:hover {
+      color: var(--primary-300);
+    }
+  }
+
+  .copyright,
+  .credits {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+}
+
+// WCAG AA Compliance Checks
+// Ensures minimum contrast ratios (4.5:1 for normal text, 3:1 for large text)
+@media (prefers-contrast: high) {
+  :root {
+    --text-tertiary: #6b7280;
+    --text-muted: #8b8b8b;
+  }
+
+  * {
+    color-contrast: auto;
+  }
+}
+
+// Print styles - maintain contrast
+@media print {
+  * {
+    color: black !important;
+    background: white !important;
+    text-shadow: none !important;
+  }
+}

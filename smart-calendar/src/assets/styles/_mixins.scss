@@ -142,7 +142,7 @@
   }
 
   &::placeholder {
-    color: var(--text-tertiary);
+    color: var(--text-muted);
   }
 
   &:focus {
@@ -159,7 +159,7 @@
 
   &:disabled {
     background: var(--bg-tertiary);
-    color: var(--text-tertiary);
+    color: var(--text-muted);
     cursor: not-allowed;
     opacity: 0.6;
   }
@@ -452,7 +452,7 @@
   background: rgba(255, 255, 255, 0.1);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  
+
   &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
@@ -462,7 +462,7 @@
 @mixin touch-target {
   min-height: var(--touch-target-min);
   min-width: var(--touch-target-min);
-  
+
   @media (pointer: coarse) {
     min-height: var(--touch-target-comfortable);
     min-width: var(--touch-target-comfortable);

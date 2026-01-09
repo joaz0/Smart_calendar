@@ -1,6 +1,6 @@
-# 📅 Agenda Rápido - Smart Calendar System
+# 📅 Smart Calendar - Sistema de Agenda Inteligente
 
-> Sistema completo de agenda inteligente com IA, colaboração em equipe e foco em produtividade e bem-estar.
+> Sistema completo de agenda com IA, colaboração em equipe e foco em produtividade e bem-estar.
 
 [![Angular](https://img.shields.io/badge/Angular-18-red)](https://angular.io/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
@@ -10,44 +10,53 @@
 
 ---
 
-## 🌟 Destaques
+## 🎯 Quick Start (5 minutos)
 
-- 🤖 **Assistente IA Integrado** - Sugestões inteligentes, agendamento automático e análise de produtividade
-- 👥 **Colaboração em Tempo Real** - Compartilhamento de calendários, delegação de tarefas e enquetes de agendamento
-- 🎯 **Foco e Produtividade** - Blocos de contexto, modo foco, rastreamento de hábitos
-- 💚 **Bem-Estar Digital** - Detector de burnout, lembretes de pausas ativas, proteção de tempo pessoal
-- 🔒 **Privacidade Avançada** - Camuflagem de eventos, múltiplos calendários, modo off-grid
-- 📊 **Visualizações Avançadas** - Timeline de projetos, mapa de relacionamentos, analytics de tempo
-- 🌐 **Integrações Completas** - Google Calendar, mapas, videoconferências, apps de saúde
-- 📱 **100% Responsivo** - Otimizado para mobile, tablet e desktop com suporte PWA
+### Pré-requisitos
+- Node.js 20+
+- PostgreSQL 15+
+- npm ou yarn
+
+### Iniciar Backend
+
+```bash
+cd smart-calendar/backend
+npm install
+npm run dev
+```
+
+Backend: http://localhost:3000
+
+### Iniciar Frontend (outro terminal)
+
+```bash
+cd smart-calendar
+npm install
+npm start
+```
+
+Frontend: http://localhost:4200
 
 ---
 
-## 📋 Índice
+## 📚 Documentação
 
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias](#️-tecnologias)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Instalação](#-instalação)
-- [Configuração](#️-configuração)
-- [Desenvolvimento](#-desenvolvimento)
-- [Deploy](#-deploy)
-- [API Documentation](#-api-documentation)
-- [Arquitetura](#-arquitetura)
-- [Testes](#-testes)
-- [Contribuição](#-contribuição)
-- [Licença](#-licença)
+| Documento | Descrição | Para |
+|-----------|-----------|------|
+| [smart-calendar/DOCUMENTATION.md](./smart-calendar/DOCUMENTATION.md) | Padrões, arquitetura e patterns frontend | Desenvolvedores Frontend |
+| [smart-calendar/backend/BACKEND_DOCUMENTATION.md](./smart-calendar/backend/BACKEND_DOCUMENTATION.md) | API, endpoints e padrões backend | Desenvolvedores Backend |
+| [.github/copilot-instructions.md](./.github/copilot-instructions.md) | Instruções para agentes de código | Contribuidores |
 
 ---
 
-## 🚀 Funcionalidades
+## 🌟 Principais Features
 
-### 🎨 Frontend (Angular 18)
-
-#### Calendário Principal
-- ✅ Visualizações múltiplas (Mês, Semana, Dia, Agenda)
-- ✅ Drag & Drop para eventos
-- ✅ Eventos recorrentes com padrões complexos
+- 🤖 **IA Integrada** - Sugestões inteligentes e agendamento automático
+- 👥 **Colaboração** - Calendários compartilhados e delegação de tarefas
+- 🎯 **Produtividade** - Modo foco, blocos de contexto, rastreamento de hábitos
+- 💚 **Bem-Estar** - Detector de burnout, pausas ativas, proteção de tempo pessoal
+- 🔒 **Privacidade** - Camuflagem de eventos, múltiplos calendários
+- 📱 **Responsivo** - Mobile, tablet, desktop com suporte PWA
 - ✅ Categorização com cores personalizadas
 - ✅ Busca semântica inteligente
 - ✅ Filtros avançados

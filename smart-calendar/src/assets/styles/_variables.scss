@@ -153,14 +153,8 @@
   --bg-tertiary: #2c1872;
   --text-primary: #FFFFFF;
   --text-secondary: #e4e4e7;
-  --text-tertiary: #a1a1aa;
-  --border-primary: #3f3f46;
-  --border-secondary: #52525b;
-  --surface-primary: rgba(63, 63, 70, 0.5);
-  --surface-secondary: rgba(82, 82, 91, 0.3);
-  --surface-glass: rgba(255, 255, 255, 0.05);
-  color-scheme: dark;
-}
+  --text-tertiary: #7c8294;
+  --text-muted: #9da3af;
 
 // High Contrast Mode
 @media (prefers-contrast: high) {
@@ -196,6 +190,8 @@ $accent-border-hover: var(--primary-600);
 
 $text-primary: var(--text-primary);
 $text-secondary: var(--text-secondary);
+$text-tertiary: var(--text-tertiary);
+$text-muted: var(--text-muted);
 $text-light: var(--text-primary);
 $text-shadow: var(--primary-200);
 

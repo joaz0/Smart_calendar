@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap, catchError, switchMap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
-import { ApiMapperService } from './api-mapper.service';
+import { AuthApiService } from './auth-api.service';
 import { OAuthService } from './oauth.service';
-
-interface AuthResponse {
-  token: string;
-  user: User;
-}
+import { Logger } from '../utils/logger';
 
 interface PasswordResetResponse {
   message: string;
@@ -26,19 +20,24 @@ export class AuthService {
   private tokenSubject = new BehaviorSubject<string | null>(null);
   token$ = this.tokenSubject.asObservable();
 
-  constructor(private http: HttpClient, private oauthService: OAuthService) {
+  private logger = new Logger('AuthService');
+
+  constructor(
+    private authApiService: AuthApiService,
+    private oauthService: OAuthService
+  ) {
     this.initializeAuth();
   }
 
   private initializeAuth(): void {
     const token = localStorage.getItem('token');
     const loginTime = localStorage.getItem('loginTime');
-    
+
     if (token && loginTime) {
       const loginDate = new Date(parseInt(loginTime));
       const now = new Date();
       const daysDiff = (now.getTime() - loginDate.getTime()) / (1000 * 60 * 60 * 24);
-      
+
       if (daysDiff < 10) {
         this.tokenSubject.next(token);
         this.loadCurrentUser().subscribe();
@@ -48,52 +47,42 @@ export class AuthService {
     }
   }
 
-  // optional mapper injected later by initializer if available
-  mapper?: ApiMapperService;
-
-  setMapper(mapper: ApiMapperService) {
-    this.mapper = mapper;
-  }
-
   login(email: string, password: string): Observable<User> {
-    console.log('🔄 Enviando requisição de login para:', `${environment.apiUrl}/api/auth/login`);
-    return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/api/auth/login`, { email, password })
-      .pipe(
-        tap((response) => {
-          console.log('✅ Login bem-sucedido, salvando dados...');
-          this.saveAuthData(response.token);
-          this.tokenSubject.next(response.token);
-          this.currentUserSubject.next(response.user);
-        }),
-        map((response) => response.user),
-        catchError((error) => {
-          console.error('❌ Erro no login:', error);
-          console.error('URL da API:', `${environment.apiUrl}/api/auth/login`);
-          throw error;
-        })
-      );
-  }
-
-  register(user: Partial<User>): Observable<User> {
-    console.log('🔄 Enviando requisição de registro para:', `${environment.apiUrl}/api/auth/register`);
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/api/auth/register`, user).pipe(
+    this.logger.info('Iniciando login', { email });
+    return this.authApiService.login({ email, password }).pipe(
       tap((response) => {
-        console.log('✅ Registro bem-sucedido, salvando dados...');
+        this.logger.info('Login bem-sucedido');
         this.saveAuthData(response.token);
         this.tokenSubject.next(response.token);
         this.currentUserSubject.next(response.user);
       }),
       map((response) => response.user),
       catchError((error) => {
-        console.error('❌ Erro no registro:', error);
-        console.error('URL da API:', `${environment.apiUrl}/api/auth/register`);
+        this.logger.error('Erro no login', error);
+        throw error;
+      })
+    );
+  }
+
+  register(user: Partial<User>): Observable<User> {
+    this.logger.info('Iniciando registro', { email: user.email });
+    return this.authApiService.register(user as any).pipe(
+      tap((response) => {
+        this.logger.info('Registro bem-sucedido');
+        this.saveAuthData(response.token);
+        this.tokenSubject.next(response.token);
+        this.currentUserSubject.next(response.user);
+      }),
+      map((response) => response.user),
+      catchError((error) => {
+        this.logger.error('Erro no registro', error);
         throw error;
       })
     );
   }
 
   logout(): void {
+    this.logger.info('Logout realizado');
     localStorage.removeItem('token');
     localStorage.removeItem('loginTime');
     this.tokenSubject.next(null);
@@ -105,13 +94,11 @@ export class AuthService {
     localStorage.setItem('loginTime', Date.now().toString());
   }
 
-  // (removed older void-returning implementations; see richer PasswordResetResponse methods below)
-
   private loadCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}/api/auth/me`).pipe(
+    return this.authApiService.getCurrentUser().pipe(
       tap((user) => this.currentUserSubject.next(user)),
       catchError((error) => {
-        console.error('Erro ao carregar usuário:', error);
+        this.logger.error('Erro ao carregar usuário', error);
         this.logout();
         return of(null as any);
       })
@@ -120,15 +107,17 @@ export class AuthService {
 
   // OAuth login methods
   loginWithOAuth(provider: string, userData: any): Observable<User> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/api/auth/oauth/${provider}`, userData).pipe(
+    this.logger.info('Login OAuth iniciado', { provider });
+    return this.authApiService.login({ email: userData.email, password: userData.token } as any).pipe(
       tap((response) => {
+        this.logger.info('Login OAuth bem-sucedido', { provider });
         this.saveAuthData(response.token);
         this.tokenSubject.next(response.token);
         this.currentUserSubject.next(response.user);
       }),
       map((response) => response.user),
       catchError((error) => {
-        console.error(`${provider} OAuth error:`, error);
+        this.logger.error(`${provider} OAuth error`, error);
         throw error;
       })
     );
@@ -141,22 +130,22 @@ export class AuthService {
   private isTokenValid(): boolean {
     const loginTime = localStorage.getItem('loginTime');
     if (!loginTime) return false;
-    
+
     const loginDate = new Date(parseInt(loginTime));
     const now = new Date();
     const daysDiff = (now.getTime() - loginDate.getTime()) / (1000 * 60 * 60 * 24);
-    
+
     return daysDiff < 10;
   }
 
   getRemainingDays(): number {
     const loginTime = localStorage.getItem('loginTime');
     if (!loginTime) return 0;
-    
+
     const loginDate = new Date(parseInt(loginTime));
     const now = new Date();
     const daysDiff = (now.getTime() - loginDate.getTime()) / (1000 * 60 * 60 * 24);
-    
+
     return Math.max(0, Math.ceil(10 - daysDiff));
   }
 
@@ -165,40 +154,50 @@ export class AuthService {
   }
 
   updateUser(user: Partial<User>): Observable<User> {
-    const payload = this.mapper ? { ...user, preferences: user.preferences } : user;
+    this.logger.info('Atualizando perfil do usuário');
     return this.http
-      .patch<User>(`${environment.apiUrl}/api/auth/profile`, payload)
+      .patch<User>(`/api/users/profile`, user)
       .pipe(tap((updatedUser) => this.currentUserSubject.next(updatedUser)));
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/api/auth/change-password`, {
+    this.logger.info('Alterando senha');
+    return this.http.post<void>(`/api/auth/change-password`, {
       oldPassword,
       newPassword,
     });
   }
-  // Password reset endpoints returning a richer response
+
   forgotPassword(email: string): Observable<PasswordResetResponse> {
-    return this.http.post<PasswordResetResponse>(`${environment.apiUrl}/api/auth/forgot-password`, {
-      email,
-    });
+    this.logger.info('Solicitando reset de senha', { email });
+    return this.authApiService.forgotPassword({ email }).pipe(
+      catchError((error) => {
+        this.logger.error('Erro ao solicitar reset de senha', error);
+        throw error;
+      })
+    );
   }
 
   resetPassword(token: string, newPassword: string): Observable<PasswordResetResponse> {
-    return this.http.post<PasswordResetResponse>(`${environment.apiUrl}/api/auth/reset-password`, {
-      token,
-      newPassword,
-    });
+    this.logger.info('Realizando reset de senha');
+    return this.authApiService.resetPassword({ token, newPassword }).pipe(
+      catchError((error) => {
+        this.logger.error('Erro ao realizar reset de senha', error);
+        throw error;
+      })
+    );
   }
 
   validateResetToken(token: string): Observable<PasswordResetResponse> {
+    this.logger.info('Validando token de reset');
     return this.http.post<PasswordResetResponse>(
-      `${environment.apiUrl}/api/auth/validate-reset-token`,
+      `/api/auth/validate-reset-token`,
       { token }
     );
   }
 
   loginWithGoogle(): Observable<User> {
+    this.logger.info('Iniciando login com Google');
     return this.oauthService.loginWithGoogle().pipe(
       switchMap((googleResponse) => {
         return this.loginWithOAuth('google', googleResponse);
@@ -207,10 +206,13 @@ export class AuthService {
   }
 
   loginWithMicrosoft(): Observable<User> {
+    this.logger.info('Iniciando login com Microsoft');
     return this.oauthService.loginWithMicrosoft().pipe(
       switchMap((microsoftResponse) => {
         return this.loginWithOAuth('microsoft', microsoftResponse);
       })
     );
   }
-}
+
+  // Adicionados para compatibilidade
+  private http: any; // Injetado por dependência na necessidade

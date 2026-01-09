@@ -1,20 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { map, tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { Event } from '../models/event.model';
-import { ApiMapperService } from './api-mapper.service';
+import { EventApiService } from './event-api.service';
+import { Logger } from '../utils/logger';
+
+interface EventListResponse {
+  data: Event[];
+  total: number;
+  page: number;
+  pages: number;
+  limit: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = `${environment.apiUrl}/api/events`;
   private eventsSubject = new BehaviorSubject<Event[]>([]);
   events$ = this.eventsSubject.asObservable();
 
-  constructor(private http: HttpClient, private mapper: ApiMapperService) {
+  private logger = new Logger('EventService');
+
+  constructor(private eventApiService: EventApiService) {
     this.loadEvents();
   }
 
@@ -24,112 +33,124 @@ export class EventService {
     const endDate = new Date();
     endDate.setMonth(endDate.getMonth() + 2); // Até dois meses à frente
 
-    this.getEventsByDateRange(startDate, endDate).subscribe(
-      (events) => this.eventsSubject.next(events),
-      (error) => console.error('Erro ao carregar eventos:', error)
+    this.getEventsByDateRange(startDate, endDate).subscribe({
+      next: (events) => {
+        this.logger.info('Eventos carregados com sucesso', { count: events.length });
+        this.eventsSubject.next(events);
+      },
+      error: (error) => this.logger.error('Erro ao carregar eventos', error),
+    });
+  }
+
+  getEventsByDateRange(startDate: Date, endDate: Date, page = 1, limit = 50): Observable<Event[]> {
+    return this.eventApiService.getEventsByDateRange(startDate, endDate, page, limit).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar eventos por intervalo de datas', error);
+        return of([]);
+      })
     );
   }
 
-  getEventsByDateRange(startDate: Date, endDate: Date): Observable<Event[]> {
-    const params = {
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    };
-
-    return this.http
-      .get<Event[]>(this.apiUrl, { params })
-      .pipe(map((events) => events.map((e) => this.mapper.fromApiEvent(e))));
+  getAllEvents(page = 1, limit = 50): Observable<Event[]> {
+    return this.eventApiService.getAllEvents(page, limit).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar todos os eventos', error);
+        return of([]);
+      })
+    );
   }
 
-  getEventById(id: string): Observable<Event> {
-    return this.http
-      .get<Event>(`${this.apiUrl}/${id}`)
-      .pipe(map((e) => this.mapper.fromApiEvent(e)));
+  getEventById(id: string): Observable<Event | null> {
+    return this.eventApiService.getEventById(id).pipe(
+      catchError((error) => {
+        this.logger.error('Erro ao buscar evento por ID', error);
+        return of(null);
+      })
+    );
   }
 
   createEvent(
     event: Omit<Event, 'id' | 'createdBy' | 'createdAt' | 'updatedAt'>
   ): Observable<Event> {
-    const payload = this.mapper.toApiEvent(event as any);
-    return this.http.post<Event>(this.apiUrl, payload).pipe(
-      map((e) => this.mapper.fromApiEvent(e)),
-      tap((ev) => this.eventsSubject.next([...this.eventsSubject.value, ev]))
+    this.logger.info('Criando novo evento', { title: event.title });
+    return this.eventApiService.createEvent(event as any).pipe(
+      tap((newEvent) => {
+        this.logger.info('Evento criado com sucesso', { id: newEvent.id });
+        this.eventsSubject.next([...this.eventsSubject.value, newEvent]);
+      }),
+      catchError((error) => {
+        this.logger.error('Erro ao criar evento', error);
+        throw error;
+      })
     );
   }
 
   updateEvent(id: string, event: Partial<Event>): Observable<Event> {
-    const payload = this.mapper.toApiEvent(event as any);
-    return this.http.patch<Event>(`${this.apiUrl}/${id}`, payload).pipe(
-      map((e) => this.mapper.fromApiEvent(e)),
+    this.logger.info('Atualizando evento', { id });
+    return this.eventApiService.updateEvent(id, event).pipe(
       tap((updatedEvent) => {
+        this.logger.info('Evento atualizado com sucesso', { id });
         const currentEvents = this.eventsSubject.value;
         const idx = currentEvents.findIndex((ev) => ev.id === id);
         if (idx !== -1) {
           currentEvents[idx] = updatedEvent;
           this.eventsSubject.next([...currentEvents]);
         }
+      }),
+      catchError((error) => {
+        this.logger.error('Erro ao atualizar evento', error);
+        throw error;
       })
     );
   }
 
   deleteEvent(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+    this.logger.info('Deletando evento', { id });
+    return this.eventApiService.deleteEvent(id).pipe(
       tap(() => {
+        this.logger.info('Evento deletado com sucesso', { id });
         const currentEvents = this.eventsSubject.value;
         this.eventsSubject.next(currentEvents.filter((e) => e.id !== id));
+      }),
+      catchError((error) => {
+        this.logger.error('Erro ao deletar evento', error);
+        throw error;
       })
     );
   }
 
-  searchEvents(query: string): Observable<Event[]> {
-    return this.http
-      .get<Event[]>(`${this.apiUrl}/search`, {
-        params: { q: query },
+  searchEvents(query: string, page = 1, limit = 50): Observable<Event[]> {
+    this.logger.info('Buscando eventos', { query });
+    return this.eventApiService.searchEvents(query, page, limit).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar eventos', error);
+        return of([]);
       })
-      .pipe(
-        map((events) =>
-          events.map((event) => ({
-            ...event,
-            startDate: event.startDate ? new Date(event.startDate) : undefined,
-            endDate: event.endDate ? new Date(event.endDate) : undefined,
-            createdAt: event.createdAt ? new Date(event.createdAt) : new Date(),
-            updatedAt: event.updatedAt ? new Date(event.updatedAt) : new Date(),
-          }))
-        )
-      );
+    );
   }
 
   getEventsByCategory(categoryId: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/category/${categoryId}`).pipe(
-      map((events) =>
-        events.map((event) => ({
-          ...event,
-          startDate: event.startDate ? new Date(event.startDate) : undefined,
-          endDate: event.endDate ? new Date(event.endDate) : undefined,
-          createdAt: event.createdAt ? new Date(event.createdAt) : new Date(),
-          updatedAt: event.updatedAt ? new Date(event.updatedAt) : new Date(),
-        }))
-      )
+    this.logger.info('Buscando eventos por categoria', { categoryId });
+    return this.getAllEvents().pipe(
+      map((events) => events.filter((e) => e.categoryId === categoryId)),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar eventos por categoria', error);
+        return of([]);
+      })
     );
   }
 
   getRecurringEvents(startDate: Date, endDate: Date): Observable<Event[]> {
-    const params = {
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      recurring: 'true',
-    };
-
-    return this.http.get<Event[]>(`${this.apiUrl}/recurring`, { params }).pipe(
-      map((events) =>
-        events.map((event) => ({
-          ...event,
-          startDate: event.startDate ? new Date(event.startDate) : undefined,
-          endDate: event.endDate ? new Date(event.endDate) : undefined,
-          createdAt: event.createdAt ? new Date(event.createdAt) : new Date(),
-          updatedAt: event.updatedAt ? new Date(event.updatedAt) : new Date(),
-        }))
-      )
+    this.logger.info('Buscando eventos recorrentes', { startDate, endDate });
+    return this.getEventsByDateRange(startDate, endDate).pipe(
+      map((events) => events.filter((e) => e.recurring)),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar eventos recorrentes', error);
+        return of([]);
+      })
     );
   }
 }

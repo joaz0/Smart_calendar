@@ -1,77 +1,142 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { map, tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { Task } from '../models/task.model';
-import { ApiMapperService } from './api-mapper.service';
+import { TaskApiService } from './task-api.service';
+import { Logger } from '../utils/logger';
+
+interface TaskListResponse {
+  data: Task[];
+  total: number;
+  page: number;
+  pages: number;
+  limit: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private apiUrl = `${environment.apiUrl}/api/tasks`;
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasksSubject.asObservable();
 
-  constructor(private http: HttpClient, private mapper: ApiMapperService) {
+  private logger = new Logger('TaskService');
+
+  constructor(private taskApiService: TaskApiService) {
     this.loadTasks();
   }
 
   private loadTasks() {
-    this.getAllTasks().subscribe(
-      (tasks) => this.tasksSubject.next(tasks),
-      (error) => console.error('Erro ao carregar tarefas:', error)
+    this.getAllTasks().subscribe({
+      next: (tasks) => {
+        this.logger.info('Tarefas carregadas com sucesso', { count: tasks.length });
+        this.tasksSubject.next(tasks);
+      },
+      error: (error) => this.logger.error('Erro ao carregar tarefas', error),
+    });
+  }
+
+  getAllTasks(page = 1, limit = 50): Observable<Task[]> {
+    return this.taskApiService.getAllTasks(page, limit).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar todas as tarefas', error);
+        return of([]);
+      })
     );
   }
 
-  getAllTasks(): Observable<Task[]> {
-    return this.http
-      .get<any[]>(this.apiUrl)
-      .pipe(map((tasks) => tasks.map((t) => this.mapper.fromApiTask(t))));
+  getTaskById(id: string): Observable<Task | null> {
+    return this.taskApiService.getTaskById(id).pipe(
+      catchError((error) => {
+        this.logger.error('Erro ao buscar tarefa por ID', error);
+        return of(null);
+      })
+    );
   }
 
-  getTaskById(id: string): Observable<Task> {
-    return this.http
-      .get<any>(`${this.apiUrl}/${id}`)
-      .pipe(map((t) => this.mapper.fromApiTask(t)));
+  getTasksByStatus(
+    status: 'pending' | 'in_progress' | 'completed',
+    page = 1,
+    limit = 50
+  ): Observable<Task[]> {
+    return this.taskApiService.getTasksByStatus(status, page, limit).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar tarefas por status', error);
+        return of([]);
+      })
+    );
   }
 
   createTask(task: Omit<Task, 'id' | 'created_at' | 'updated_at'>): Observable<Task> {
-    const payload = this.mapper.toApiTask(task as any);
-    return this.http.post<any>(this.apiUrl, payload).pipe(
-      map((t) => this.mapper.fromApiTask(t)),
-      tap((newTask) => this.tasksSubject.next([...this.tasksSubject.value, newTask]))
+    this.logger.info('Criando nova tarefa', { title: task.title });
+    return this.taskApiService.createTask(task as any).pipe(
+      tap((newTask) => {
+        this.logger.info('Tarefa criada com sucesso', { id: newTask.id });
+        this.tasksSubject.next([...this.tasksSubject.value, newTask]);
+      }),
+      catchError((error) => {
+        this.logger.error('Erro ao criar tarefa', error);
+        throw error;
+      })
     );
   }
 
   updateTask(id: string, task: Partial<Task>): Observable<Task> {
-    const payload = this.mapper.toApiTask(task as any);
-    return this.http.put<any>(`${this.apiUrl}/${id}`, payload).pipe(
-      map((t) => this.mapper.fromApiTask(t)),
+    this.logger.info('Atualizando tarefa', { id });
+    return this.taskApiService.updateTask(id, task).pipe(
       tap((updatedTask) => {
+        this.logger.info('Tarefa atualizada com sucesso', { id });
         const currentTasks = this.tasksSubject.value;
         const idx = currentTasks.findIndex((t) => t.id === id);
         if (idx !== -1) {
           currentTasks[idx] = updatedTask;
           this.tasksSubject.next([...currentTasks]);
         }
+      }),
+      catchError((error) => {
+        this.logger.error('Erro ao atualizar tarefa', error);
+        throw error;
       })
     );
   }
 
   deleteTask(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+    this.logger.info('Deletando tarefa', { id });
+    return this.taskApiService.deleteTask(id).pipe(
       tap(() => {
+        this.logger.info('Tarefa deletada com sucesso', { id });
         const currentTasks = this.tasksSubject.value;
         this.tasksSubject.next(currentTasks.filter((t) => t.id !== id));
+      }),
+      catchError((error) => {
+        this.logger.error('Erro ao deletar tarefa', error);
+        throw error;
       })
     );
   }
 
-  searchTasks(query: string): Observable<Task[]> {
-    return this.http
-      .get<any[]>(`${this.apiUrl}/search`, { params: { q: query } })
-      .pipe(map((tasks) => tasks.map((t) => this.mapper.fromApiTask(t))));
+  searchTasks(query: string, page = 1, limit = 50): Observable<Task[]> {
+    this.logger.info('Buscando tarefas', { query });
+    return this.taskApiService.searchTasks(query, page, limit).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar tarefas', error);
+        return of([]);
+      })
+    );
+  }
+
+  getTasksByPriority(priority: 'low' | 'medium' | 'high'): Observable<Task[]> {
+    this.logger.info('Buscando tarefas por prioridade', { priority });
+    return this.getAllTasks().pipe(
+      map((tasks) => tasks.filter((t) => t.priority === priority)),
+      catchError((error) => {
+        this.logger.error('Erro ao buscar tarefas por prioridade', error);
+        return of([]);
+      })
+    );
   }
 }

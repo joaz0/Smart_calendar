@@ -19,15 +19,17 @@ export const routes: Routes = [
   // ========== ROTAS PÚBLICAS ==========
   {
     path: 'auth',
-    component: AuthLayout
+    component: AuthLayout,
   },
   {
     path: 'auth/callback/google',
-    loadComponent: () => import('./features/auth/callback/callback.component').then(m => m.AuthCallbackComponent)
+    loadComponent: () =>
+      import('./features/auth/callback/callback.component').then((m) => m.AuthCallbackComponent),
   },
   {
     path: 'auth/callback/microsoft',
-    loadComponent: () => import('./features/auth/callback/callback.component').then(m => m.AuthCallbackComponent)
+    loadComponent: () =>
+      import('./features/auth/callback/callback.component').then((m) => m.AuthCallbackComponent),
   },
 
   // ========== ROTAS PROTEGIDAS ==========
@@ -38,11 +40,12 @@ export const routes: Routes = [
     children: [
       // Redirect padrão
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      
+
       // Dashboard
       {
         path: 'dashboard',
-        loadComponent: () => import('./features/dashboard/dashboard').then(m => m.DashboardComponent)
+        loadComponent: () =>
+          import('./features/dashboard/dashboard').then((m) => m.DashboardComponent),
       },
 
       // ========== NÍVEL PUBLIC ==========
@@ -61,7 +64,7 @@ export const routes: Routes = [
       },
       {
         path: 'events',
-        loadComponent: () => import('./features/events/events').then(m => m.EventsComponent)
+        loadComponent: () => import('./features/events/events').then((m) => m.EventsComponent),
       },
       {
         path: 'collaboration',
@@ -79,7 +82,17 @@ export const routes: Routes = [
       // ========== NÍVEL PRIVATE ==========
       {
         path: 'tasks',
-        loadComponent: () => import('./features/tasks/tasks').then(m => m.TasksComponent)
+        loadComponent: () => import('./features/tasks/tasks').then((m) => m.TasksComponent),
+      },
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('./features/categories/categories.module').then((m) => m.CategoriesModule),
+        canActivate: [privacyGuard],
+        data: {
+          privacyLevel: PrivacyLevel.PRIVATE,
+          context: PrivacyContext.PERSONAL_INSIGHTS,
+        },
       },
       {
         path: 'productivity',
@@ -108,13 +121,15 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        loadComponent: () => import('./features/settings/settings').then(m => m.SettingsComponent)
+        loadComponent: () =>
+          import('./features/settings/settings').then((m) => m.SettingsComponent),
       },
 
       // ========== NÍVEL CONFIDENTIAL ==========
       {
         path: 'ai-assistant',
-        loadComponent: () => import('./features/ai-assistant/ai-assistant').then(m => m.AiAssistantComponent)
+        loadComponent: () =>
+          import('./features/ai-assistant/ai-assistant').then((m) => m.AiAssistantComponent),
       },
       {
         path: 'wellness',
