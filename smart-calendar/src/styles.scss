@@ -1,60 +1,27 @@
 // ============================================
 // IMPORTS DO ANGULAR MATERIAL (Angular 18)
 // ============================================
-@use 'sass:map';
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
-// Inclua os estilos core (fontes, etc)
+// Inclua os estilos base (fontes, etc)
 @include mat.core();
 
 // ============================================
-// DEFINA SUA PALETA DE CORES
+// DEFINA O TEMA MATERIAL 3 (Angular 18+)
 // ============================================
-$smart-calendar-primary-palette: (
-  50: #e3f2fd,
-  100: #bbdefb,
-  200: #90caf9,
-  300: #64b5f6,
-  400: #42a5f5,
-  500: #2196f3,
-  600: #1e88e5,
-  700: #1976d2,
-  800: #1565c0,
-  900: #0d47a1,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-  )
-);
+$primary-color: #2196f3;
+$accent-color: #ff4081;
+$warn-color: #f44336;
 
-// ============================================
-// CRIE OS TEMAS
-// ============================================
-$smart-calendar-primary: mat.define-palette($smart-calendar-primary-palette, 500);
-$smart-calendar-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-$smart-calendar-warn: mat.define-palette(mat.$red-palette);
-
-// Defina o tema
-$smart-calendar-theme: mat.define-light-theme((
-  color: (
-    primary: $smart-calendar-primary,
-    accent: $smart-calendar-accent,
-    warn: $smart-calendar-warn,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
+$light-theme: mat.m3-light-theme((
+  primary: $primary-color,
+  accent: $accent-color,
+  warn: $warn-color,
 ));
 
 // Aplique o tema em todos os componentes
-@include mat.all-component-themes($smart-calendar-theme);
+@include mat.all-component-colors($light-theme);
 
 // ============================================
 // SEUS ESTILOS CUSTOMIZADOS
