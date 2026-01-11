@@ -57,14 +57,14 @@
 }
 
 .app-logo {
-  width: clamp(120px, 30vw, 200px);
+  width: 60px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .auth-subtitle {
-  color: #6b7280;
+  color: #6937ea8f;
   margin: 0;
   font-size: clamp(var(--font-size-sm), 3vw, var(--font-size-base));
   font-weight: var(--font-normal);
