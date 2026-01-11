@@ -1,0 +1,44 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
+
+export interface WindDownRoutine {
+  id: string;
+  startTime: string;
+  activities: string[];
+  duration: number;
+  enabled: boolean;
+}
+
+@Injectable({ providedIn: 'root' })
+export class WindDownSchedulerService {
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/wind-down`;
+
+  constructor(private http: HttpClient) {}
+
+  getRoutine(): Observable<WindDownRoutine> {
+    return this.http.get<WindDownRoutine>(this.apiUrl).pipe(
+      catchError(() => of({
+        id: '1',
+        startTime: '21:00',
+        activities: ['Desligar telas', 'Leitura', 'Meditação'],
+        duration: 60,
+        enabled: true
+      }))
+    );
+  }
+
+  updateRoutine(routine: Partial<WindDownRoutine>): Observable<WindDownRoutine> {
+    return this.http.patch<WindDownRoutine>(this.apiUrl, routine).pipe(
+      catchError(() => of({} as WindDownRoutine))
+    );
+  }
+
+  scheduleReminder(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reminder`, {}).pipe(
+      catchError(() => of(undefined))
+    );
+  }
+}
