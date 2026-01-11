@@ -48,7 +48,7 @@ export class TaskService {
   }
 
   getTaskById(id: string): Observable<Task | null> {
-    return this.taskApiService.getTaskById(id).pipe(
+    return this.taskApiService.getTaskById(Number(id)).pipe(
       catchError((error) => {
         this.logger.error('Erro ao buscar tarefa por ID', error);
         return of(null);
@@ -86,7 +86,11 @@ export class TaskService {
 
   updateTask(id: string, task: Partial<Task>): Observable<Task> {
     this.logger.info('Atualizando tarefa', { id });
-    return this.taskApiService.updateTask(id, task).pipe(
+    const updateRequest: any = {
+      ...task,
+      dueDate: task.dueDate instanceof Date ? task.dueDate.toISOString() : task.dueDate,
+    };
+    return this.taskApiService.updateTask(Number(id), updateRequest).pipe(
       tap((updatedTask) => {
         this.logger.info('Tarefa atualizada com sucesso', { id });
         const currentTasks = this.tasksSubject.value;
@@ -105,7 +109,7 @@ export class TaskService {
 
   deleteTask(id: string): Observable<void> {
     this.logger.info('Deletando tarefa', { id });
-    return this.taskApiService.deleteTask(id).pipe(
+    return this.taskApiService.deleteTask(Number(id)).pipe(
       tap(() => {
         this.logger.info('Tarefa deletada com sucesso', { id });
         const currentTasks = this.tasksSubject.value;

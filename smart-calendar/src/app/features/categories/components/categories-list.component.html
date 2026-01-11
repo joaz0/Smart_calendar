@@ -10,31 +10,31 @@
     <table mat-table [dataSource]="items" class="categories-table">
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell>Nome</th>
-        <td mat-cell>{{ row.name }}</td>
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th mat-header-cell>Descrição</th>
-        <td mat-cell>{{ row.description }}</td>
+        <th mat-header-cell *matHeaderCellDef>Descrição</th>
+        <td mat-cell *matCellDef="let row">{{ row.description }}</td>
       </ng-container>
 
       <ng-container matColumnDef="color">
-        <th mat-header-cell>Cor</th>
-        <td mat-cell>
+        <th mat-header-cell *matHeaderCellDef>Cor</th>
+        <td mat-cell *matCellDef="let row">
           <span class="color-badge" [style.background-color]="row.color"></span>
           {{ row.color }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
-        <th mat-header-cell>Criada em</th>
-        <td mat-cell>{{ row.createdAt | date:'dd/MM/yyyy' }}</td>
+        <th mat-header-cell *matHeaderCellDef>Criada em</th>
+        <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd/MM/yyyy' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell>Ações</th>
-        <td mat-cell>
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let row">
           <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>

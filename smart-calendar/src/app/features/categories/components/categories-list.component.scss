@@ -1,5 +1,5 @@
-@use '@/assets/styles/variables' as vars;
-@use '@/assets/styles/mixins' as mixins;
+@use '../../../../assets/styles/variables' as vars;
+@use '../../../../assets/styles/mixins' as mixins;
 
 .categories-container {
   padding: var(--space-6);
@@ -48,7 +48,7 @@
   }
 
   tr:hover {
-    background: var(--gray-700 / 0.5);
+    background: rgba(55, 65, 81, 0.5);
   }
 }
 

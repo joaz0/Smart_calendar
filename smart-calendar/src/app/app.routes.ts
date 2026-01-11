@@ -87,7 +87,7 @@ export const routes: Routes = [
       {
         path: 'categories',
         loadChildren: () =>
-          import('./features/categories/categories.module').then((m) => m.CategoriesModule),
+          import('./features/categories/categories.routes').then((m) => m.categoriesRoutes),
         canActivate: [privacyGuard],
         data: {
           privacyLevel: PrivacyLevel.PRIVATE,

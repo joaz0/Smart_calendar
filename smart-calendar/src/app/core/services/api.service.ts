@@ -80,19 +80,19 @@ export class ApiService {
     
     switch (method) {
       case 'GET':
-        request$ = this.http.get<ApiResponse<T>>(url, httpOptions) as Observable<ApiResponse<T>>;
+        request$ = this.http.get<ApiResponse<T>>(url, httpOptions);
         break;
       case 'POST':
-        request$ = this.http.post<ApiResponse<T>>(url, body, httpOptions) as Observable<ApiResponse<T>>;
+        request$ = this.http.post<ApiResponse<T>>(url, body, httpOptions);
         break;
       case 'PUT':
-        request$ = this.http.put<ApiResponse<T>>(url, body, httpOptions) as Observable<ApiResponse<T>>;
+        request$ = this.http.put<ApiResponse<T>>(url, body, httpOptions);
         break;
       case 'PATCH':
-        request$ = this.http.patch<ApiResponse<T>>(url, body, httpOptions) as Observable<ApiResponse<T>>;
+        request$ = this.http.patch<ApiResponse<T>>(url, body, httpOptions);
         break;
       case 'DELETE':
-        request$ = this.http.delete<ApiResponse<T>>(url, httpOptions) as Observable<ApiResponse<T>>;
+        request$ = this.http.delete<ApiResponse<T>>(url, httpOptions);
         break;
       default:
         request$ = throwError(() => new Error('Método HTTP desconhecido'));
@@ -109,7 +109,7 @@ export class ApiService {
   /**
    * Configurar headers HTTP
    */
-  private getHttpOptions(options: any): any {
+  private getHttpOptions(options: any): { headers: HttpHeaders } {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',

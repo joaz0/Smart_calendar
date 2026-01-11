@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BaseListComponent } from '@core/components/base-list.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Category, CategoryService } from '../services/category.service';
-import * as Converters from '@core/converters/converters';
 
 export interface ListColumn {
   key: string;
@@ -17,6 +17,12 @@ export interface ListColumn {
   sortable?: boolean;
   formatter?: (value: any, row?: any) => string;
   width?: string;
+}
+
+export interface ListAction {
+  icon: string;
+  label: string;
+  handler: (row: any) => void;
 }
 
 @Component({
@@ -35,12 +41,32 @@ export interface ListColumn {
     MatProgressSpinnerModule,
   ],
 })
-export class CategoriesListComponent extends BaseListComponent<Category> {
-  constructor(private categoryService: CategoryService) {
-    super('CategoriesListComponent');
+export class CategoriesListComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
+  items: Category[] = [];
+  loading = false;
+  currentPage = 0;
+  pageSize = 10;
+  totalItems = 0;
+  pageSizeOptions = [5, 10, 20, 50];
+  
+  columns: ListColumn[] = [];
+  actions: ListAction[] = [];
+  displayedColumns: string[] = [];
+
+  constructor(private categoryService: CategoryService) {}
+
+  ngOnInit(): void {
+    this.initialize();
   }
 
-  protected initialize(): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private initialize(): void {
     this.columns = [
       {
         key: 'name',
@@ -51,7 +77,7 @@ export class CategoriesListComponent extends BaseListComponent<Category> {
       {
         key: 'description',
         label: 'Descrição',
-        formatter: (value) => Converters.truncate(value || '', 50),
+        formatter: (value) => this.truncate(value || '', 50),
       },
       {
         key: 'color',
@@ -62,9 +88,11 @@ export class CategoriesListComponent extends BaseListComponent<Category> {
         key: 'createdAt',
         label: 'Criada em',
         sortable: true,
-        formatter: (value) => Converters.formatDate(value, 'dd/MM/yyyy'),
+        formatter: (value) => this.formatDate(value),
       },
     ];
+
+    this.displayedColumns = [...this.columns.map(col => col.key), 'actions'];
 
     this.actions = [
       {
@@ -82,28 +110,57 @@ export class CategoriesListComponent extends BaseListComponent<Category> {
     this.loadData();
   }
 
-  protected loadData(): void {
+  loadData(): void {
+    this.loading = true;
     this.categoryService
-      .getAll(this.currentPage, this.pageSize)
-      .pipe(this.takeUntil())
-      .subscribe((response: any) => {
-        this.items = response.data;
-        this.totalItems = response.total;
+      .getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (categories) => {
+          this.items = categories;
+          this.totalItems = categories.length;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+        }
       });
   }
 
-  onEdit(category: Category) {
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadData();
+  }
+
+  onEdit(category: Category): void {
     console.log('Editar:', category);
   }
 
-  onDelete(category: Category) {
+  onDelete(category: Category): void {
     if (confirm(`Deletar "${category.name}"?`)) {
       this.categoryService
-        .delete(category.id)
-        .pipe(this.takeUntil())
+        .deleteCategory(category.id)
+        .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
           this.loadData();
         });
     }
+  }
+
+  getCellValue(row: any, column: ListColumn): string {
+    const value = row[column.key];
+    return column.formatter ? column.formatter(value, row) : value;
+  }
+
+  private truncate(text: string, maxLength: number): string {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  }
+
+  private formatDate(date: Date | string): string {
+    if (!date) return '-';
+    const d = new Date(date);
+    return d.toLocaleDateString('pt-BR');
   }
 }

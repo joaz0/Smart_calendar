@@ -3,6 +3,21 @@ import { validationResult } from 'express-validator';
 import { handleError, createErrors } from '../utils/error-handler';
 import { logger } from '../utils/logger';
 
+export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
+  const start = Date.now();
+  
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    logger.info(`${req.method} ${req.path}`, {
+      statusCode: res.statusCode,
+      duration: `${duration}ms`,
+      ip: req.ip,
+    });
+  });
+  
+  next();
+};
+
 export const validationErrorHandler = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

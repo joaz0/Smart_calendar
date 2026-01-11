@@ -32,7 +32,7 @@ export class CategoryApiService {
   /**
    * Obter todas as categorias
    */
-  getAllCategories(page = 1, limit = 50): Observable<CategoryListResponse> {
+  getAllCategories(page = 1, limit = 50): Observable<ApiResponse<CategoryListResponse>> {
     const params = {
       params: {
         page: page.toString(),
@@ -47,34 +47,34 @@ export class CategoryApiService {
    * Obter categoria por ID
    */
   getCategoryById(id: number): Observable<ApiResponse<Category>> {
-    return this.apiService.get<ApiResponse<Category>>(`${this.endpoint}/${id}`);
+    return this.apiService.get<Category>(`${this.endpoint}/${id}`);
   }
 
   /**
    * Criar nova categoria
    */
   createCategory(request: CreateCategoryRequest): Observable<ApiResponse<Category>> {
-    return this.apiService.post<ApiResponse<Category>>(this.endpoint, request);
+    return this.apiService.post<Category>(this.endpoint, request);
   }
 
   /**
    * Atualizar categoria
    */
   updateCategory(id: number, request: UpdateCategoryRequest): Observable<ApiResponse<Category>> {
-    return this.apiService.put<ApiResponse<Category>>(`${this.endpoint}/${id}`, request);
+    return this.apiService.put<Category>(`${this.endpoint}/${id}`, request);
   }
 
   /**
    * Deletar categoria
    */
   deleteCategory(id: number): Observable<ApiResponse<void>> {
-    return this.apiService.delete<ApiResponse<void>>(`${this.endpoint}/${id}`);
+    return this.apiService.delete<void>(`${this.endpoint}/${id}`);
   }
 
   /**
    * Buscar categorias por nome
    */
-  searchCategories(query: string, page = 1, limit = 50): Observable<CategoryListResponse> {
+  searchCategories(query: string, page = 1, limit = 50): Observable<ApiResponse<CategoryListResponse>> {
     const params = {
       params: {
         q: query,

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap, catchError, switchMap } from 'rxjs/operators';
 import { User } from '../models/user.model';
@@ -23,6 +24,7 @@ export class AuthService {
   private logger = new Logger('AuthService');
 
   constructor(
+    private http: HttpClient,
     private authApiService: AuthApiService,
     private oauthService: OAuthService
   ) {
@@ -213,6 +215,4 @@ export class AuthService {
       })
     );
   }
-
-  // Adicionados para compatibilidade
-  private http: any; // Injetado por dependência na necessidade
+}
