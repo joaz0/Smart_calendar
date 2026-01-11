@@ -101,6 +101,81 @@
   }
 }
 
+// Crystal Glass Effect Mixins
+@mixin crystal-glass {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%);
+  border: 2px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 
+    0 8px 32px rgba(91, 11, 220, 0.4),
+    0 0 60px rgba(91, 11, 220, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+}
+
+@mixin crystal-border {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+      rgba(91, 11, 220, 0.8) 0%,
+      rgba(139, 61, 255, 0.4) 50%,
+      rgba(91, 11, 220, 0.8) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@mixin crystal-shimmer {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: shimmerAnimation 6s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@mixin crystal-glow($intensity: 0.4) {
+  box-shadow: 
+    0 0 20px rgba(91, 11, 220, $intensity),
+    0 0 40px rgba(91, 11, 220, $intensity * 0.5),
+    0 0 60px rgba(91, 11, 220, $intensity * 0.3);
+}
+
+@keyframes shimmerAnimation {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
 @mixin danger-button {
   @include button-base;
   background: var(--error-500);

@@ -16,27 +16,43 @@
   @include flex-between;
   width: 100%;
   padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(91, 11, 220, 0.8) 100%);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-bottom: 2px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
   min-height: 64px;
   position: sticky;
   top: 0;
   z-index: 900;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 12px rgba(91, 11, 220, 0.3),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
 
-  @media (prefers-color-scheme: dark) {
-    background: rgba(17, 24, 39, 0.8);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(91, 11, 220, 0.8) 0%,
+      rgba(139, 61, 255, 0.6) 50%,
+      rgba(91, 11, 220, 0.8) 100%
+    );
+    box-shadow: 0 0 10px rgba(91, 11, 220, 0.5);
   }
 
   &.scrolled {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.95);
-
-    @media (prefers-color-scheme: dark) {
-      background: rgba(17, 24, 39, 0.95);
-    }
+    box-shadow: 
+      0 4px 20px rgba(91, 11, 220, 0.5),
+      0 0 40px rgba(91, 11, 220, 0.2),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(91, 11, 220, 0.85) 100%);
   }
 
   @media (max-width: 991px) {
@@ -158,9 +174,9 @@
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    border: none;
+    border: 1px solid transparent;
     background: transparent;
-    color: #6b7280;
+    color: #e4e4e7;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -168,23 +184,24 @@
     transition: all 0.2s ease;
     position: relative;
 
-    @media (prefers-color-scheme: dark) {
-      color: #9ca3af;
-    }
-
     mat-icon {
       font-size: 1.25rem;
       width: 20px;
       height: 20px;
+      transition: all 0.3s ease;
     }
 
     &:hover {
-      background: rgba(0, 0, 0, 0.04);
-      color: #374151;
+      background: linear-gradient(135deg, rgba(91, 11, 220, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+      backdrop-filter: blur(10px);
+      color: #ffffff;
+      border-color: rgba(91, 11, 220, 0.5);
+      box-shadow: 
+        0 0 15px rgba(91, 11, 220, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
 
-      @media (prefers-color-scheme: dark) {
-        background: rgba(255, 255, 255, 0.06);
-        color: #e5e7eb;
+      mat-icon {
+        filter: drop-shadow(0 0 6px rgba(139, 61, 255, 0.6));
       }
     }
 
@@ -250,23 +267,14 @@
     border-radius: 20px;
     background: transparent;
     border: 1px solid transparent;
-    color: #1f2937;
+    color: #ffffff;
     cursor: pointer;
     transition: all 0.2s ease;
     min-height: 40px;
 
-    @media (prefers-color-scheme: dark) {
-      color: #f9fafb;
-    }
-
     &:hover {
-      background: rgba(0, 0, 0, 0.04);
-      border-color: rgba(0, 0, 0, 0.08);
-
-      @media (prefers-color-scheme: dark) {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 255, 255, 0.08);
-      }
+      background: rgba(91, 11, 220, 0.2);
+      border-color: rgba(91, 11, 220, 0.5);
     }
 
     &:active {
@@ -277,7 +285,7 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #5b0bdc 0%, #000000 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -287,7 +295,7 @@
       flex-shrink: 0;
       position: relative;
       transition: transform 0.2s ease;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+      box-shadow: 0 2px 8px rgba(91, 11, 220, 0.5);
 
       img {
         width: 100%;
@@ -329,30 +337,22 @@
       .user-name {
         font-size: 0.875rem;
         font-weight: 600;
-        color: #1f2937;
+        color: #ffffff;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 120px;
         line-height: 1.2;
-
-        @media (prefers-color-scheme: dark) {
-          color: #f9fafb;
-        }
       }
 
       .user-role {
         font-size: 0.75rem;
-        color: #6b7280;
+        color: #c0b3db;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 120px;
         line-height: 1.2;
-
-        @media (prefers-color-scheme: dark) {
-          color: #9ca3af;
-        }
       }
     }
 

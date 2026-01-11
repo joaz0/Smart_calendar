@@ -53,10 +53,10 @@
   --info-600: #2563eb;
 
   // Gradients
-  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-  --gradient-accent: linear-gradient(135deg, #d8b4fe 0%, #7c3aed 100%);
-  --gradient-dark: linear-gradient(135deg, #3f0f5c 0%, #581c87 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(124,58,237,0.05) 100%);
+  --gradient-primary: linear-gradient(135deg, #5b0bdc 0%, #000000 100%);
+  --gradient-accent: linear-gradient(135deg, #5b0bdc 0%, #2d0570 100%);
+  --gradient-dark: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(91,11,220,0.15) 0%, rgba(0,0,0,0.8) 100%);
 
   // Shadows - Enhanced for dark theme
   --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
@@ -148,12 +148,12 @@
 
 // Dark Theme (Default and Only)
 :root {
-  --bg-primary: #10052e;
-  --bg-secondary: #1f0f50;
-  --bg-tertiary: #2c1872;
+  --bg-primary: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  --bg-secondary: linear-gradient(135deg, #0a0014 0%, #3d0894 100%);
+  --bg-tertiary: linear-gradient(135deg, #5b0bdc 0%, #1a0033 100%);
   --text-primary: #FFFFFF;
   --text-secondary: #e4e4e7;
-  --text-tertiary: #7c8294;
+  --text-tertiary: #c0b3db;
   --text-muted: #9da3af;
 }
 

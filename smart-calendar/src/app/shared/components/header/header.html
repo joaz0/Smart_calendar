@@ -1,120 +1,128 @@
-<header class="app-header">
+<header class="app-header" [class.scrolled]="isScrolled">
   <!-- Left Section -->
   <div class="header-left">
-    <button mat-icon-button 
-            class="sidebar-toggle"
+    <button class="sidebar-toggle"
             (click)="onToggleSidebar()"
             [attr.aria-label]="sidebarOpen ? 'Fechar sidebar' : 'Abrir sidebar'">
-      <mat-icon>{{ sidebarOpen ? 'menu_open' : 'menu' }}</mat-icon>
+      <mat-icon>menu</mat-icon>
     </button>
 
-    <div class="breadcrumb" *ngIf="breadcrumbs.length > 0">
-      <span *ngFor="let crumb of breadcrumbs; let last = last">
-        <a [routerLink]="crumb.route || crumb.url" *ngIf="!last">{{ crumb.label }}</a>
-        <span *ngIf="last" class="current-page">{{ crumb.label }}</span>
-        <mat-icon *ngIf="!last" class="breadcrumb-separator">chevron_right</mat-icon>
-      </span>
-    </div>
+    <a routerLink="/" class="header-logo">
+      <img src="assets/images/logo.svg" alt="SmartCalendar" *ngIf="logoUrl">
+      <span class="logo-text">SmartCalendar</span>
+    </a>
+
+    <nav class="breadcrumb" *ngIf="breadcrumbs.length > 0">
+      <a *ngFor="let crumb of breadcrumbs; let last = last"
+         [routerLink]="crumb.route || crumb.url"
+         class="breadcrumb-item"
+         [class.current]="last">
+        <mat-icon *ngIf="crumb.icon">{{ crumb.icon }}</mat-icon>
+        <span>{{ crumb.label }}</span>
+      </a>
+      <span class="breadcrumb-separator" *ngIf="!last">/</span>
+    </nav>
   </div>
 
   <!-- Center Section -->
   <div class="header-center">
-    <!-- Search Bar -->
-    <div class="search-container" *ngIf="showSearch">
-      <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Buscar eventos, tarefas...</mat-label>
-        <input matInput 
-               type="text"
-               #searchInput
-               (input)="onSearch(searchInput.value)"
-               placeholder="Buscar eventos, tarefas..."
-               class="search-input">
-        <mat-icon matPrefix>search</mat-icon>
-      </mat-form-field>
-    </div>
+    <app-search-bar *ngIf="showSearch"></app-search-bar>
   </div>
 
   <!-- Right Section -->
   <div class="header-right">
-    <!-- Theme Toggle -->
-    <button mat-icon-button 
-            (click)="onToggleTheme()"
-            matTooltip="Alternar tema"
-            class="theme-toggle">
-      <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
-    </button>
+    <!-- Action Buttons -->
+    <div class="header-actions">
+      <button class="header-btn theme-toggle"
+              (click)="onToggleTheme()"
+              [attr.aria-label]="isDarkTheme ? 'Mudar para modo claro' : 'Mudar para modo escuro'">
+        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
 
-    <!-- Notifications -->
-    <button mat-icon-button 
-            [matBadge]="unreadCount() > 0 ? unreadCount() : null"
-            matBadgeColor="warn"
-            matBadgeSize="small"
-            (click)="showNotificationsPanel = !showNotificationsPanel"
-            matTooltip="Notificações"
-            class="notifications-btn">
-      <mat-icon>notifications</mat-icon>
-    </button>
+      <button class="header-btn notifications-btn"
+              [matMenuTriggerFor]="notificationsMenu"
+              [attr.aria-label]="'Notificações' + (unreadCount() > 0 ? ': ' + unreadCount() + ' não lidas' : '')">
+        <mat-icon>notifications</mat-icon>
+        <span class="notification-badge" *ngIf="unreadCount() > 0">{{ unreadCount() }}</span>
+      </button>
+    </div>
 
-    <!-- Quick Actions -->
-    <button mat-icon-button 
-            [matMenuTriggerFor]="quickActionsMenu"
-            matTooltip="Ações rápidas"
-            class="quick-actions-btn">
-      <mat-icon>add_circle</mat-icon>
-    </button>
+    <!-- Divider -->
+    <div class="divider"></div>
 
     <!-- User Menu -->
-    <button mat-icon-button 
-            [matMenuTriggerFor]="userMenu"
-            matTooltip="Perfil"
-            class="user-menu-btn">
-      <mat-icon>person</mat-icon>
+    <button class="user-menu-btn" [matMenuTriggerFor]="userMenu">
+      <div class="user-avatar">
+        <img [src]="user.avatar" *ngIf="user.avatar" [alt]="user.name">
+        <span *ngIf="!user.avatar">{{ user.initials }}</span>
+        <span class="user-status" [class]="user.status"></span>
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ user.name }}</span>
+        <span class="user-role">{{ user.role }}</span>
+      </div>
+      <mat-icon>expand_more</mat-icon>
     </button>
   </div>
-
-  <!-- Quick Actions Menu -->
-  <mat-menu #quickActionsMenu="matMenu">
-    <button mat-menu-item (click)="createEvent()">
-      <mat-icon>event</mat-icon>
-      <span>Novo Evento</span>
-    </button>
-    <button mat-menu-item (click)="createTask()">
-      <mat-icon>task_alt</mat-icon>
-      <span>Nova Tarefa</span>
-    </button>
-    <button mat-menu-item (click)="createReminder()">
-      <mat-icon>alarm</mat-icon>
-      <span>Novo Lembrete</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="importCalendar()">
-      <mat-icon>file_upload</mat-icon>
-      <span>Importar Calendário</span>
-    </button>
-  </mat-menu>
-
-  <!-- User Menu -->
-  <mat-menu #userMenu="matMenu">
-    <button mat-menu-item (click)="onOpenProfile()">
-      <mat-icon>account_circle</mat-icon>
-      <span>Meu Perfil</span>
-    </button>
-    
-    <button mat-menu-item (click)="onOpenSettings()">
-      <mat-icon>settings</mat-icon>
-      <span>Configurações</span>
-    </button>
-    
-    <button mat-menu-item>
-      <mat-icon>help_outline</mat-icon>
-      <span>Ajuda</span>
-    </button>
-    
-    <mat-divider></mat-divider>
-    
-    <button mat-menu-item (click)="onLogout()" class="logout-item">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Sair</span>
-    </button>
-  </mat-menu>
 </header>
+
+<!-- User Menu -->
+<mat-menu #userMenu="matMenu" class="user-menu">
+  <div class="user-menu-header">
+    <div class="user-avatar-large">{{ user.initials }}</div>
+    <div class="user-details">
+      <strong>{{ user.name }}</strong>
+      <small>{{ user.email }}</small>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="onOpenProfile()">
+    <mat-icon>person</mat-icon>
+    <span>Meu Perfil</span>
+  </button>
+  <button mat-menu-item (click)="onOpenSettings()">
+    <mat-icon>settings</mat-icon>
+    <span>Configurações</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>help_outline</mat-icon>
+    <span>Ajuda</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="onLogout()">
+    <mat-icon>logout</mat-icon>
+    <span>Sair</span>
+  </button>
+</mat-menu>
+
+<!-- Notifications Menu -->
+<mat-menu #notificationsMenu="matMenu" class="notifications-panel">
+  <div class="notifications-header">
+    <strong>Notificações</strong>
+    <button mat-icon-button (click)="markAllAsRead()" *ngIf="unreadCount() > 0">
+      <mat-icon>done_all</mat-icon>
+    </button>
+  </div>
+  <div class="notifications-list">
+    <div *ngFor="let notification of notifications | slice:0:5"
+         class="notification-item"
+         [class.unread]="!notification.read"
+         (click)="openNotification(notification)">
+      <mat-icon [class]="'notification-icon ' + notification.type">
+        {{ getNotificationIcon(notification.type) }}
+      </mat-icon>
+      <div class="notification-content">
+        <span class="notification-title">{{ notification.title }}</span>
+        <span class="notification-message">{{ notification.message }}</span>
+        <span class="notification-time">{{ notification.timestamp | date:'short' }}</span>
+      </div>
+    </div>
+    <div class="notifications-empty" *ngIf="!notifications || notifications.length === 0">
+      <mat-icon>notifications_none</mat-icon>
+      <p>Nenhuma notificação</p>
+    </div>
+  </div>
+  <div class="notifications-footer">
+    <button mat-button (click)="viewAllNotifications()">Ver todas</button>
+  </div>
+</mat-menu>

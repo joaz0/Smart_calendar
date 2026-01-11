@@ -34,7 +34,8 @@ body {
   font-size: var(--font-size-base);
   line-height: var(--leading-normal);
   color: var(--text-primary);
-  background: var(--bg-primary);
+  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background-attachment: fixed;
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
@@ -96,19 +97,19 @@ svg {
 
 // Focus styles
 :focus-visible {
-  outline: 2px solid var(--primary-500);
+  outline: 2px solid #5b0bdc;
   outline-offset: 2px;
 }
 
 // Selection styles
 ::selection {
-  background: var(--primary-200);
-  color: var(--primary-900);
+  background: #5b0bdc;
+  color: #ffffff;
 }
 
 ::-moz-selection {
-  background: var(--primary-200);
-  color: var(--primary-900);
+  background: #5b0bdc;
+  color: #ffffff;
 }
 
 // Global scrollbar
@@ -138,7 +139,7 @@ p {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: var(--primary-600);
+  background: #5b0bdc;
   color: white;
   padding: 8px;
   text-decoration: none;
