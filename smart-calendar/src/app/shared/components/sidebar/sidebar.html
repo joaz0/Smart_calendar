@@ -19,7 +19,7 @@
     <div class="nav-section">
       <div class="section-label">Principal</div>
 
-      <a routerLink="/dashboard"
+      <a routerLink="/dashboard.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Dashboard' : ''"
@@ -28,7 +28,7 @@
         <span class="nav-text">Dashboard</span>
       </a>
 
-      <a routerLink="/calendar"
+      <a routerLink="/calendar.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Calendário' : ''"
@@ -40,7 +40,7 @@
 
       <!-- Item Tarefas -->
       <a class="nav-item"
-         routerLink="/app/tasks"
+         routerLink="/app/tasks.html"
          routerLinkActive="active"
          [matTooltip]="!isOpen ? 'Tarefas' : ''"
          matTooltipPosition="right">
@@ -54,7 +54,7 @@
     <div class="nav-section">
       <div class="section-label">Organização</div>
 
-      <a routerLink="/projects"
+      <a routerLink="/projects.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Projetos' : ''"
@@ -63,7 +63,7 @@
         <span class="nav-text">Projetos</span>
       </a>
 
-      <a routerLink="/tags"
+      <a routerLink="/tags.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Tags' : ''"
@@ -72,7 +72,7 @@
         <span class="nav-text">Tags</span>
       </a>
 
-      <a routerLink="/categories"
+      <a routerLink="/categories.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Categorias' : ''"
@@ -86,7 +86,7 @@
     <div class="nav-section">
       <div class="section-label">Insights</div>
 
-      <a routerLink="/analytics"
+      <a routerLink="/analytics.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Análises' : ''"
@@ -95,7 +95,7 @@
         <span class="nav-text">Análises</span>
       </a>
 
-      <a routerLink="/reports"
+      <a routerLink="/reports.html"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Relatórios' : ''"
@@ -108,7 +108,8 @@
 
   <!-- Footer (opcional) -->
   <div class="sidebar-footer" *ngIf="isOpen">
-    <a routerLink="/settings"
+    <a routerLink="/settings.html"
+       routerLinkActive="active"
        class="footer-item"
        [matTooltip]="!isOpen ? 'Configurações' : ''"
        matTooltipPosition="right">
