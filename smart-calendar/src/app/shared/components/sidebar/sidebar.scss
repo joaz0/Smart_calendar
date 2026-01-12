@@ -224,29 +224,14 @@
     padding: 1rem 0.75rem;
 
     @include custom-scrollbar(4px, transparent, rgba(102, 126, 234, 0.4));
-    @include scrollbar-thumb($scrollbar-bg);
-    @include scrollbar-track($scrollbar-bg);
+    @include scrollbar-thumb(rgba(102, 126, 234, 0.4), rgba(102, 126, 234, 0.8));
+    @include scrollbar-track(transparent);
+    @include scrollbar-hover();
 
-    @include scrollbar-thumb-hover($scrollbar-bg);
-    @include scrollbar-track-hover($scrollbar-bg);
-
-    @include scrollbar-thumb-active($scrollbar-bg);
-    @include scrollbar-track-active($scrollbar-bg);
-
-    @include scrollbar-thumb-focus($scrollbar-bg);
-    @include scrollbar-track-focus($scrollbar-bg);
-
-    @include scrollbar-thumb-focus-visible($scrollbar-bg);
-    @include scrollbar-track-focus-visible($scrollbar-bg);
-
-    @include scrollbar-thumb-focus-visible-hover($scrollbar-bg);
-    @include scrollbar-track-focus-visible-hover($scrollbar-bg);
-
-    @include scrollbar-thumb-focus-visible-active($scrollbar-bg);
-    @include scrollbar-track-focus-visible-active($scrollbar-bg);
-
-    @include scrollbar-thumb-focus-visible-hover-active($scrollbar-bg);
-    @include scrollbar-track-focus-visible-hover-active($scrollbar-bg);
+    @media (prefers-color-scheme: dark) {
+      @include custom-scrollbar(4px, transparent, rgba(255, 255, 255, 0.1));
+      @include scrollbar-thumb(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+    }
 
     // Nav section
     .nav-section {
