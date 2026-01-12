@@ -186,6 +186,12 @@
       backdrop-filter: blur(10px);
       outline: none;
       user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      outline-offset: 2px;
+      position: relative;
+      z-index: 1;
+
 
       &:hover {
         background: rgba(91, 11, 220, 0.2);
@@ -198,6 +204,18 @@
     }
   }
 
+  // Sidebar body
+  .sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.75rem;
+  }
+
+
+
+
+
   // Navigation
   .sidebar-nav {
     flex: 1;
@@ -206,6 +224,29 @@
     padding: 1rem 0.75rem;
 
     @include custom-scrollbar(4px, transparent, rgba(102, 126, 234, 0.4));
+    @include scrollbar-thumb($scrollbar-bg);
+    @include scrollbar-track($scrollbar-bg);
+
+    @include scrollbar-thumb-hover($scrollbar-bg);
+    @include scrollbar-track-hover($scrollbar-bg);
+
+    @include scrollbar-thumb-active($scrollbar-bg);
+    @include scrollbar-track-active($scrollbar-bg);
+
+    @include scrollbar-thumb-focus($scrollbar-bg);
+    @include scrollbar-track-focus($scrollbar-bg);
+
+    @include scrollbar-thumb-focus-visible($scrollbar-bg);
+    @include scrollbar-track-focus-visible($scrollbar-bg);
+
+    @include scrollbar-thumb-focus-visible-hover($scrollbar-bg);
+    @include scrollbar-track-focus-visible-hover($scrollbar-bg);
+
+    @include scrollbar-thumb-focus-visible-active($scrollbar-bg);
+    @include scrollbar-track-focus-visible-active($scrollbar-bg);
+
+    @include scrollbar-thumb-focus-visible-hover-active($scrollbar-bg);
+    @include scrollbar-track-focus-visible-hover-active($scrollbar-bg);
 
     // Nav section
     .nav-section {
@@ -472,7 +513,7 @@
       }
     }
   }
-}
+
 
 // Overlay
 .sidebar-overlay {
