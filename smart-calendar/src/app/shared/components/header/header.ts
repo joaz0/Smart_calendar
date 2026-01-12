@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
+import { SearchBar } from '../search-bar/search-bar';
 
 interface User {
   id?: string;
@@ -73,7 +74,8 @@ interface Breadcrumb {
     MatDividerModule,
     MatRippleModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    SearchBar
   ],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
@@ -93,6 +95,7 @@ export class Header implements OnInit, OnDestroy {
   @Input() showBreadcrumbs = true;
   @Input() showUserMenu = true;
   @Input() sticky = true;
+  @Input() logoUrl: string = '';
 
   // Dados
   @Input() notifications: Notification[] = [];
@@ -265,9 +268,21 @@ export class Header implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  markAllAsRead(): void {
+    this.markAllNotificationsRead();
+  }
+
   clearAllNotifications(): void {
     this.notifications = [];
     this.cdr.markForCheck();
+  }
+
+  openNotification(notification: Notification): void {
+    this.onNotificationClick(notification);
+  }
+
+  viewAllNotifications(): void {
+    this.router.navigate(['/app/notifications']);
   }
 
   onSearch(query: string): void {

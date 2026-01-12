@@ -12,15 +12,16 @@
       <span class="logo-text">SmartCalendar</span>
     </a>
 
-    <nav class="breadcrumb" *ngIf="breadcrumbs.length > 0">
-      <a *ngFor="let crumb of breadcrumbs; let last = last"
-         [routerLink]="crumb.route || crumb.url"
-         class="breadcrumb-item"
-         [class.current]="last">
-        <mat-icon *ngIf="crumb.icon">{{ crumb.icon }}</mat-icon>
-        <span>{{ crumb.label }}</span>
-      </a>
-      <span class="breadcrumb-separator" *ngIf="!last">/</span>
+    <nav class="breadcrumb" *ngIf="breadcrumbs && breadcrumbs.length > 0">
+      <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+        <a [routerLink]="crumb.route || crumb.url"
+           class="breadcrumb-item"
+           [class.current]="last">
+          <mat-icon *ngIf="crumb.icon">{{ crumb.icon }}</mat-icon>
+          <span>{{ crumb.label }}</span>
+        </a>
+        <span class="breadcrumb-separator" *ngIf="!last">/</span>
+      </ng-container>
     </nav>
   </div>
 
@@ -54,7 +55,7 @@
     <button class="user-menu-btn" [matMenuTriggerFor]="userMenu">
       <div class="user-avatar">
         <img [src]="user.avatar" *ngIf="user.avatar" [alt]="user.name">
-        <span *ngIf="!user.avatar">{{ user.initials }}</span>
+        <span *ngIf="!user.avatar">{{ getUserInitials() }}</span>
         <span class="user-status" [class]="user.status"></span>
       </div>
       <div class="user-info">
@@ -69,7 +70,7 @@
 <!-- User Menu -->
 <mat-menu #userMenu="matMenu" class="user-menu">
   <div class="user-menu-header">
-    <div class="user-avatar-large">{{ user.initials }}</div>
+    <div class="user-avatar-large">{{ getUserInitials() }}</div>
     <div class="user-details">
       <strong>{{ user.name }}</strong>
       <small>{{ user.email }}</small>
