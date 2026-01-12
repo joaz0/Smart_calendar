@@ -2,9 +2,7 @@
   <!-- Header -->
   <div class="sidebar-header">
     <a routerLink="/" class="brand">
-      <div class="brand-icon">
-        <mat-icon>calendar_today</mat-icon>
-      </div>
+      <img [src]="logoUrl" alt="SmartCalendar" *ngIf="logoUrl">
       <span class="brand-text">SmartCalendar</span>
     </a>
     <button class="toggle-btn"
@@ -20,8 +18,8 @@
     <!-- Seção: Principal -->
     <div class="nav-section">
       <div class="section-label">Principal</div>
-      
-      <a routerLink="/dashboard" 
+
+      <a routerLink="/dashboard"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Dashboard' : ''"
@@ -29,8 +27,8 @@
         <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
-      
-      <a routerLink="/calendar" 
+
+      <a routerLink="/calendar"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Calendário' : ''"
@@ -39,9 +37,9 @@
         <span class="nav-text">Calendário</span>
         <span class="nav-badge" *ngIf="stats.todayEvents > 0">{{ stats.todayEvents }}</span>
       </a>
-      
+
       <!-- Item Tarefas -->
-      <a class="nav-item" 
+      <a class="nav-item"
          routerLink="/app/tasks"
          routerLinkActive="active"
          [matTooltip]="!isOpen ? 'Tarefas' : ''"
@@ -55,8 +53,8 @@
     <!-- Seção: Organização -->
     <div class="nav-section">
       <div class="section-label">Organização</div>
-      
-      <a routerLink="/projects" 
+
+      <a routerLink="/projects"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Projetos' : ''"
@@ -64,8 +62,8 @@
         <span class="nav-icon"><mat-icon>folder</mat-icon></span>
         <span class="nav-text">Projetos</span>
       </a>
-      
-      <a routerLink="/tags" 
+
+      <a routerLink="/tags"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Tags' : ''"
@@ -73,8 +71,8 @@
         <span class="nav-icon"><mat-icon>label</mat-icon></span>
         <span class="nav-text">Tags</span>
       </a>
-      
-      <a routerLink="/categories" 
+
+      <a routerLink="/categories"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Categorias' : ''"
@@ -87,8 +85,8 @@
     <!-- Seção: Insights -->
     <div class="nav-section">
       <div class="section-label">Insights</div>
-      
-      <a routerLink="/analytics" 
+
+      <a routerLink="/analytics"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Análises' : ''"
@@ -96,8 +94,8 @@
         <span class="nav-icon"><mat-icon>analytics</mat-icon></span>
         <span class="nav-text">Análises</span>
       </a>
-      
-      <a routerLink="/reports" 
+
+      <a routerLink="/reports"
          routerLinkActive="active"
          class="nav-item"
          [matTooltip]="!isOpen ? 'Relatórios' : ''"
@@ -110,7 +108,7 @@
 
   <!-- Footer (opcional) -->
   <div class="sidebar-footer" *ngIf="isOpen">
-    <a routerLink="/settings" 
+    <a routerLink="/settings"
        class="footer-item"
        [matTooltip]="!isOpen ? 'Configurações' : ''"
        matTooltipPosition="right">
@@ -121,7 +119,7 @@
 </aside>
 
 <!-- Overlay para mobile -->
-<div class="sidebar-overlay" 
-     [class.active]="!isOpen" 
+<div class="sidebar-overlay"
+     [class.active]="!isOpen"
      (click)="onToggleSidebar()">
 </div>

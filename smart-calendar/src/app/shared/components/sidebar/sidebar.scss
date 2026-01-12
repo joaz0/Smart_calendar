@@ -40,7 +40,7 @@
   border-right: 2px solid transparent;
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  box-shadow: 
+  box-shadow:
     4px 0 24px rgba(91, 11, 220, 0.4),
     0 0 60px rgba(91, 11, 220, 0.2),
     inset -1px 0 2px rgba(255, 255, 255, 0.1);
@@ -60,7 +60,7 @@
     right: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(180deg, 
+    background: linear-gradient(180deg,
       rgba(91, 11, 220, 0.8) 0%,
       rgba(139, 61, 255, 0.6) 50%,
       rgba(91, 11, 220, 0.8) 100%
@@ -75,7 +75,7 @@
     right: -5%;
     width: 20%;
     height: 200%;
-    background: linear-gradient(180deg, 
+    background: linear-gradient(180deg,
       transparent,
       rgba(255, 255, 255, 0.03),
       transparent
@@ -88,7 +88,7 @@
   @media (max-width: 991px) {
     transform: translateX(-100%);
     box-shadow: none;
-    
+
     &.open {
       transform: translateX(0);
       box-shadow: 8px 0 32px rgba(0, 0, 0, 0.12);
@@ -121,7 +121,6 @@
 
   // Header
   .sidebar-header {
-    padding: 1.25rem 1rem;
     border-bottom: 1px solid rgba(91, 11, 220, 0.3);
     display: flex;
     align-items: center;
@@ -137,23 +136,22 @@
       color: inherit;
       flex: 1;
       min-width: 0;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+      flex-wrap: wrap;
+      min-width: 0;
 
-      .brand-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #5b0bdc 0%, #000000 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.125rem;
-        flex-shrink: 0;
-        transition: transform 0.2s ease;
-        box-shadow: 0 2px 8px rgba(91, 11, 220, 0.5);
+      @media (prefers-color-scheme: dark) {
+        background: rgba(255, 255, 255, 0.06);
+        color: #e5e7eb;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+      }
 
-        &:hover {
-          transform: scale(1.05);
+      &:hover {
+        background: rgba(91, 11, 220, 0.2);
+        transform: scale(1.05);
         }
       }
 
@@ -182,12 +180,12 @@
       justify-content: center;
       transition: all 0.2s ease;
       flex-shrink: 0;
-
-      mat-icon {
-        font-size: 1.25rem;
-        width: 20px;
-        height: 20px;
-      }
+      margin-right: 0.5rem;
+      font-size: 1.25rem;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      outline: none;
+      user-select: none;
 
       &:hover {
         background: rgba(91, 11, 220, 0.2);
@@ -206,7 +204,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem 0.75rem;
-    
+
     @include custom-scrollbar(4px, transparent, rgba(102, 126, 234, 0.4));
 
     // Nav section
@@ -324,7 +322,7 @@
         background: linear-gradient(135deg, rgba(91, 11, 220, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
         color: #ffffff;
         font-weight: 600;
-        box-shadow: 
+        box-shadow:
           inset 0 1px 1px rgba(255, 255, 255, 0.1),
           inset 0 -1px 1px rgba(91, 11, 220, 0.2),
           0 0 20px rgba(91, 11, 220, 0.2);
@@ -345,7 +343,7 @@
           height: 70%;
           background: linear-gradient(180deg, #8b3dff 0%, #5b0bdc 50%, #000000 100%);
           border-radius: 0 4px 4px 0;
-          box-shadow: 
+          box-shadow:
             0 0 10px rgba(139, 61, 255, 0.8),
             0 0 20px rgba(91, 11, 220, 0.4);
         }

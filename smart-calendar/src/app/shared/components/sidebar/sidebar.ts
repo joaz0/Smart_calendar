@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { Subject, takeUntil, filter } from 'rxjs';
 
+
 const MOBILE_BREAKPOINT = 768;
 const STORAGE_KEYS = {
   SIDEBAR_STATE: 'sidebarState',
@@ -36,12 +37,12 @@ interface UserStats {
   selector: 'app-sidebar',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatIconModule, 
-    MatButtonModule, 
-    MatMenuModule, 
-    MatTooltipModule, 
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTooltipModule,
     MatDividerModule
   ],
   templateUrl: './sidebar.html',
@@ -62,6 +63,7 @@ export class SidebarComponent implements OnInit {
     email: 'user@example.com',
     avatar: null
   };
+  @Input() logoUrl: string = 'assets/images/logo.svg';
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() searchQuery = new EventEmitter<string>();
 
@@ -174,7 +176,7 @@ export class SidebarComponent implements OnInit {
     this.filteredNavItems = this.navItems;
     this.updateBadges();
     this.subscribeToRouteChanges();
-    
+
     const savedState = localStorage.getItem(STORAGE_KEYS.SIDEBAR_STATE);
     if (savedState) {
       this.isOpen = JSON.parse(savedState);
@@ -210,10 +212,10 @@ export class SidebarComponent implements OnInit {
   updateBadges() {
     const calendarItem = this.navItems.find(item => item.route === '/app/calendar');
     const tasksItem = this.navItems.find(item => item.route === '/app/tasks');
-    
+
     if (calendarItem) calendarItem.badge = this.stats.todayEvents;
     if (tasksItem) tasksItem.badge = this.stats.pendingTasks;
-    
+
     this.invalidateCache();
     this.cdr.markForCheck();
   }
@@ -222,7 +224,7 @@ export class SidebarComponent implements OnInit {
     this.isOpen = !this.isOpen;
     localStorage.setItem(STORAGE_KEYS.SIDEBAR_STATE, JSON.stringify(this.isOpen));
     this.toggleSidebar.emit();
-    
+
     if (!this.isOpen) {
       this.clearSearch();
     }
@@ -235,13 +237,13 @@ export class SidebarComponent implements OnInit {
     }
 
     const term = this.searchTerm.toLowerCase();
-    this.filteredNavItems = this.navItems.filter(item => 
+    this.filteredNavItems = this.navItems.filter(item =>
       item.label.toLowerCase().includes(term) ||
-      (item.children && item.children.some(child => 
+      (item.children && item.children.some(child =>
         child.label.toLowerCase().includes(term)
       ))
     );
-    
+
     this.searchQuery.emit(this.searchTerm);
   }
 
@@ -258,7 +260,7 @@ export class SidebarComponent implements OnInit {
 
   navigateTo(route: string) {
     this.router.navigate([route]);
-    
+
     if (window.innerWidth < MOBILE_BREAKPOINT) {
       this.isOpen = false;
       this.toggleSidebar.emit();
@@ -280,23 +282,23 @@ export class SidebarComponent implements OnInit {
 
   getFocusLevel(): string {
     if (this.cachedFocusLevel) return this.cachedFocusLevel;
-    
+
     const focus = this.stats.weeklyFocus;
     if (focus >= 80) this.cachedFocusLevel = 'Alto';
     else if (focus >= 60) this.cachedFocusLevel = 'Médio';
     else this.cachedFocusLevel = 'Baixo';
-    
+
     return this.cachedFocusLevel;
   }
 
   getFocusColor(): string {
     if (this.cachedFocusColor) return this.cachedFocusColor;
-    
+
     const focus = this.stats.weeklyFocus;
     if (focus >= 80) this.cachedFocusColor = '#4CAF50';
     else if (focus >= 60) this.cachedFocusColor = '#FF9800';
     else this.cachedFocusColor = '#F44336';
-    
+
     return this.cachedFocusColor;
   }
 
@@ -347,7 +349,7 @@ export class SidebarComponent implements OnInit {
         read: false
       },
       {
-        id: '2', 
+        id: '2',
         type: 'task',
         title: 'Tarefa vencendo hoje',
         timestamp: new Date(),
