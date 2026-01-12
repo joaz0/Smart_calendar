@@ -27,7 +27,7 @@
   top: 0;
   z-index: 900;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(91, 11, 220, 0.3),
     inset 0 -1px 1px rgba(255, 255, 255, 0.1);
   position: relative;
@@ -39,7 +39,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, 
+    background: linear-gradient(90deg,
       rgba(91, 11, 220, 0.8) 0%,
       rgba(139, 61, 255, 0.6) 50%,
       rgba(91, 11, 220, 0.8) 100%
@@ -48,7 +48,7 @@
   }
 
   &.scrolled {
-    box-shadow: 
+    box-shadow:
       0 4px 20px rgba(91, 11, 220, 0.5),
       0 0 40px rgba(91, 11, 220, 0.2),
       inset 0 -1px 1px rgba(255, 255, 255, 0.15);
@@ -65,11 +65,7 @@
   }
 }
 
-// --- Left Section ---
-.header-left {
-  @include flex-center;
-  gap: 0.75rem;
-  flex-shrink: 0;
+
 
   .sidebar-toggle {
     @include ghost-button;
@@ -196,7 +192,7 @@
       backdrop-filter: blur(10px);
       color: #ffffff;
       border-color: rgba(91, 11, 220, 0.5);
-      box-shadow: 
+      box-shadow:
         0 0 15px rgba(91, 11, 220, 0.4),
         inset 0 1px 1px rgba(255, 255, 255, 0.1);
 
@@ -459,7 +455,7 @@
 @media (max-width: 991px) {
   .app-header .header-right {
     gap: 0.375rem;
-    
+
     .header-actions .header-btn:not(.notifications-btn) {
       display: none;
     }
