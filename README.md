@@ -200,7 +200,7 @@ Docker                - Containerização (opcional)
 ## 📁 Estrutura do Projeto
 
 ```
-agenda-rapido/
+smart-calendar/
 ├── 📂 backend/                    # API Node.js + Express
 │   ├── 📂 src/
 │   │   ├── 📂 config/            # Configurações (DB, JWT)
@@ -288,8 +288,8 @@ Git
 ### 1. Clone o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/agenda-rapido.git
-cd agenda-rapido
+git clone https://github.com/seu-usuario/smart-calendar.git
+cd smart-calendar
 ```
 
 ### 2. Instale as Dependências
@@ -314,11 +314,11 @@ cd ..
 
 ```bash
 # Crie o banco de dados PostgreSQL
-createdb agenda_rapido
+createdb smart_calendar
 
 # Ou via SQL
 psql -U postgres
-CREATE DATABASE agenda_rapido;
+CREATE DATABASE smart_calendar;
 \q
 ```
 
@@ -332,8 +332,15 @@ cp .env.example .env
 
 Edite o arquivo `.env`:
 ```env
-# Database
-DATABASE_URL=postgresql://usuario:senha@localhost:5432/agenda_rapido
+# Database (Local Development)
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/smart_calendar
+
+# OU use variáveis separadas:
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=smart_calendar
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
 
 # JWT
 JWT_SECRET=seu-segredo-super-secreto-aqui-min-32-caracteres
@@ -407,10 +414,8 @@ A aplicação estará disponível em `http://localhost:4200`
 ```bash
 npm start              # Inicia em modo desenvolvimento
 npm run build          # Build de produção
-npm run build:dev      # Build de desenvolvimento
+npm run watch          # Build em modo watch
 npm test               # Roda testes
-npm run lint           # Verifica código
-npm run format         # Formata código
 ```
 
 #### Backend
@@ -469,7 +474,7 @@ npm run lint           # Verifica código
 2. **Deploy no Netlify**
    - Conecte repositório
    - Build command: `ng build --configuration=production`
-   - Publish directory: `dist/agenda-rapido/browser`
+   - Publish directory: `dist/smart-calendar/browser`
 
 3. **Configure Variáveis**
    ```
@@ -510,7 +515,7 @@ npm run lint           # Verifica código
 ### Base URL
 ```
 Development: http://localhost:3000/api
-Production: https://api.agenda-rapido.com/api
+Production: https://api.smart-calendar.com/api
 ```
 
 ### Autenticação
@@ -736,8 +741,8 @@ Contribuições são bem-vindas! Por favor, siga estas diretrizes:
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/seu-usuario/agenda-rapido.git
-cd agenda-rapido
+git clone https://github.com/seu-usuario/smart-calendar.git
+cd smart-calendar
 git checkout -b feature/nova-funcionalidade
 ```
 
@@ -784,7 +789,7 @@ Abra um PR com:
 
 ## 🐛 Reportar Bugs
 
-Encontrou um bug? Abra uma [issue](https://github.com/seu-usuario/agenda-rapido/issues) com:
+Encontrou um bug? Abra uma [issue](https://github.com/seu-usuario/smart-calendar/issues) com:
 - Descrição clara do problema
 - Passos para reproduzir
 - Comportamento esperado vs atual
@@ -822,7 +827,7 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 ```
 MIT License
 
-Copyright (c) 2025 Agenda Rápido
+Copyright (c) 2025 Smart Calendar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -843,22 +848,22 @@ Desenvolvido com ❤️ por [Joaz Rodrigues](https://github.com/joaz0)
 - [Material Design](https://material.angular.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Node.js Community](https://nodejs.org/)
-- Todos os [contribuidores](https://github.com/seu-usuario/agenda-rapido/graphs/contributors)
+- Todos os [contribuidores](https://github.com/seu-usuario/smart-calendar/graphs/contributors)
 
 ---
 
 ## 📞 Contato
 
-- Website: [https://agenda-rapido.com](https://agenda-rapido.com)
-- Email: contato@agenda-rapido.com
-- Twitter: [@AgendaRapido](https://twitter.com/AgendaRapido)
-- Discord: [Comunidade Agenda Rápido](https://discord.gg/agenda-rapido)
+- Website: [https://smart-calendar.com](https://smart-calendar.com)
+- Email: contato@smart-calendar.com
+- Twitter: [@SmartCalendar](https://twitter.com/SmartCalendar)
+- Discord: [Comunidade Smart Calendar](https://discord.gg/smart-calendar)
 
 ---
 
 <div align="center">
 
-**[⬆ Voltar ao topo](#-agenda-rápido---smart-calendar-system)**
+**[⬆ Voltar ao topo](#-smart-calendar---sistema-de-agenda-inteligente)**
 
 Feito com ❤️ usando Angular + Node.js
 
