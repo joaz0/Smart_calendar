@@ -2,8 +2,7 @@
 
   <!-- Header da Sidebar -->
   <header class="sidebar-header">
-    <a routerLink="/" class="brand" [attr.aria-label]="'Ir para o início - ' + brandName">
-      <img src="../../assets/images/logo.png" alt="Logo Smart Calendar" />
+    <a routerLink="/" class="brand" aria-label="Ir para o início - SmartCalendar">
       <span class="brand-text">SmartCalendar</span>
     </a>
 
@@ -171,8 +170,7 @@
              matTooltipPosition="right"
              aria-label="Notas">
             <span class="nav-icon"><mat-icon>note</mat-icon></span>
-            <span class="nav-text">Notas</span>
-            <span class="nav-badge" *ngIf="stats.pendingNotes > 0" aria-label="{{stats.pendingNotes}} notas pendentes">{{ stats.pendingNotes }}</span>
+            <span class="nav-text">Notas</span><span class="nav-badge" *ngIf="stats.pendingNotes > 0" aria-label="{{stats.pendingNotes}} notas pendentes">{{ stats.pendingNotes }}</span>
           </a>
         </li>
         <li role="listitem">
