@@ -2,40 +2,46 @@
 
 > Sistema completo de agenda com IA, colaboração em equipe e foco em produtividade e bem-estar.
 
-[![Angular](https://img.shields.io/badge/Angular-18-red)](https://angular.io/)
+[![Angular](https://img.shields.io/badge/Angular-18.2-red)](https://angular.io/)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue)](https://www.postgresql.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-blue)](https://www.typescriptlang.org/)
+[![PWA](https://img.shields.io/badge/PWA-Ready-purple)](https://web.dev/progressive-web-apps/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 
-## 🎯 Quick Start (5 minutos)
+## 🎯 Quick Start (3 minutos)
 
 ### Pré-requisitos
-- Node.js 20+
-- PostgreSQL 15+
-- npm ou yarn
-
-### Iniciar Backend
-
 ```bash
-cd smart-calendar/backend
-npm install
-npm run dev
+Node.js >= 20.0.0
+PostgreSQL >= 15.0
+npm >= 10.0.0
 ```
 
-Backend: http://localhost:3000
-
-### Iniciar Frontend (outro terminal)
+### Setup Rápido
 
 ```bash
+# Clone e instale
+git clone https://github.com/joaz0/smart-calendar.git
 cd smart-calendar
+
+# Backend
+cd smart-calendar/backend
+npm install
+cp .env.example .env
+npm run migrate
+npm run dev &
+
+# Frontend
+cd ..
 npm install
 npm start
 ```
 
-Frontend: http://localhost:4200
+✅ Backend: http://localhost:3000  
+✅ Frontend: http://localhost:4200
 
 ---
 
@@ -43,23 +49,31 @@ Frontend: http://localhost:4200
 
 | Documento | Descrição | Para |
 |-----------|-----------|------|
-| [smart-calendar/DOCUMENTATION.md](./smart-calendar/DOCUMENTATION.md) | Padrões, arquitetura e patterns frontend | Desenvolvedores Frontend |
-| [smart-calendar/backend/BACKEND_DOCUMENTATION.md](./smart-calendar/backend/BACKEND_DOCUMENTATION.md) | API, endpoints e padrões backend | Desenvolvedores Backend |
-| [.github/copilot-instructions.md](./.github/copilot-instructions.md) | Instruções para agentes de código | Contribuidores |
+| [DOCUMENTATION.md](./smart-calendar/DOCUMENTATION.md) | Padrões, arquitetura e patterns frontend | Desenvolvedores Frontend |
+| [BACKEND_DOCUMENTATION.md](./smart-calendar/backend/BACKEND_DOCUMENTATION.md) | API, endpoints e padrões backend | Desenvolvedores Backend |
+| [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) | Sistema de design e tokens | Designers/Frontend |
+| [ACCESSIBILITY_CHECKLIST.md](./ACCESSIBILITY_CHECKLIST.md) | Checklist WCAG 2.1 AA | QA/Acessibilidade |
+| [copilot-instructions.md](./.github/copilot-instructions.md) | Instruções para agentes de código | Contribuidores |
 
 ---
 
 ## 🌟 Principais Features
 
-- 🤖 **IA Integrada** - Sugestões inteligentes e agendamento automático
-- 👥 **Colaboração** - Calendários compartilhados e delegação de tarefas
-- 🎯 **Produtividade** - Modo foco, blocos de contexto, rastreamento de hábitos
-- 💚 **Bem-Estar** - Detector de burnout, pausas ativas, proteção de tempo pessoal
-- 🔒 **Privacidade** - Camuflagem de eventos, múltiplos calendários
-- 📱 **Responsivo** - Mobile, tablet, desktop com suporte PWA
-- ✅ Categorização com cores personalizadas
-- ✅ Busca semântica inteligente
-- ✅ Filtros avançados
+### Core
+- 🤖 **IA Integrada** - Assistente inteligente, sugestões contextuais, agendamento automático
+- 👥 **Colaboração** - Calendários compartilhados, delegação, enquetes de agendamento
+- 🎯 **Produtividade** - Modo foco, blocos de contexto, templates, rastreamento de hábitos
+- 💚 **Bem-Estar** - Detector de burnout, pausas ativas, integração com apps de saúde
+- 🔒 **Privacidade** - Camuflagem de eventos, modo off-grid, criptografia E2E
+- 📱 **PWA** - Instalável, offline-first, notificações push, sincronização em background
+
+### Interface
+- ✨ Design glass morphism com gradiente roxo/preto
+- 🎨 Tema claro/escuro automático
+- ♿ WCAG 2.1 AA compliant
+- 📐 Responsivo (mobile-first)
+- ⌨️ Atalhos de teclado
+- 🎭 Animações suaves
 
 #### Inteligência Artificial
 - 🤖 Assistente de agendamento inteligente
@@ -128,71 +142,71 @@ Frontend: http://localhost:4200
 ### ⚙️ Backend (Node.js + PostgreSQL)
 
 #### API REST
-- ✅ Endpoints RESTful completos
-- ✅ Autenticação JWT com refresh tokens
-- ✅ Autorização baseada em roles
-- ✅ Rate limiting e throttling
-- ✅ Validação robusta de dados
-- ✅ Paginação e ordenação
+- ✅ 20+ endpoints RESTful organizados
+- ✅ JWT com refresh tokens e RSA keys
+- ✅ Rate limiting (100 req/15min)
+- ✅ Validação com Joi
+- ✅ Paginação e filtros avançados
 
 #### Banco de Dados
-- 💾 PostgreSQL 15+ com otimizações
-- 💾 15+ tabelas relacionais
-- 💾 Índices otimizados
-- 💾 Triggers automáticos
+- 💾 PostgreSQL 15+ otimizado
+- 💾 15+ tabelas com relacionamentos
+- 💾 Índices compostos
+- 💾 Triggers e procedures
 - 💾 Migrations versionadas
-- 💾 Backup automatizado
 
 #### Segurança
-- 🔐 Bcrypt para senhas
-- 🔐 Headers de segurança (Helmet)
-- 🔐 CORS configurável
-- 🔐 Sanitização de inputs
-- 🔐 Proteção contra SQL Injection
-- 🔐 Logs de auditoria
+- 🔐 Bcrypt (10 rounds)
+- 🔐 Helmet + CORS
+- 🔐 SQL injection protection
+- 🔐 XSS sanitization
+- 🔐 Audit logs
 
-#### Serviços Avançados
-- 🚀 Sistema de notificações
-- 🚀 Processamento de eventos recorrentes
-- 🚀 Análise de produtividade
-- 🚀 Geração de insights com IA
-- 🚀 Sincronização externa
-- 🚀 Webhooks configuráveis
+#### Serviços
+- 🚀 Notificações em tempo real
+- 🚀 Eventos recorrentes (RRULE)
+- 🚀 Analytics de produtividade
+- 🚀 IA insights
+- 🚀 Webhooks
+- 🚀 Background jobs
 
 ---
 
-## 🛠️ Tecnologias
+## 🛠️ Stack Tecnológico
 
-### Frontend Stack
-```
-Angular 18.2+          - Framework principal
-Angular Material 18    - Componentes UI
-RxJS 7+               - Programação reativa
-TypeScript 5.5+       - Linguagem tipada
-SCSS                  - Estilos avançados
-Chart.js              - Gráficos e visualizações
-date-fns              - Manipulação de datas
-```
-
-### Backend Stack
-```
-Node.js 20+           - Runtime JavaScript
-Express 4.18+         - Framework web
-PostgreSQL 15+        - Banco de dados
-TypeScript 5.5+       - Linguagem tipada
-JWT                   - Autenticação
-Bcrypt                - Hash de senhas
-Helmet                - Segurança HTTP
+### Frontend
+```typescript
+Angular 18.2          // Framework
+Angular Material 18   // UI Components
+RxJS 7+              // Reactive Programming
+TypeScript 5.5+      // Type Safety
+SCSS + Tokens        // Design System
+Chart.js             // Visualizações
+date-fns             // Datas
+Workbox              // Service Worker
 ```
 
-### DevOps & Tools
+### Backend
+```typescript
+Node.js 20+          // Runtime
+Express 4.18+        // Web Framework
+PostgreSQL 15+       // Database
+TypeScript 5.5+      // Type Safety
+JWT + RSA            // Auth
+Bcrypt               // Hashing
+Helmet               // Security
+Joi                  // Validation
 ```
-Git                   - Controle de versão
-npm/pnpm              - Gerenciador de pacotes
-ESLint                - Linter
-Prettier              - Formatação de código
-Jest                  - Testes unitários
-Docker                - Containerização (opcional)
+
+### DevOps
+```bash
+Git                  # Version Control
+npm/pnpm             # Package Manager
+ESLint + Prettier    # Code Quality
+Jest                 # Testing
+Render.com           # Backend Deploy
+Netlify              # Frontend Deploy
+Docker               # Containerization
 ```
 
 ---
@@ -800,23 +814,33 @@ Encontrou um bug? Abra uma [issue](https://github.com/seu-usuario/smart-calendar
 
 ## 💡 Roadmap
 
-### v1.1 (Q1 2025)
-- [ ] Suporte a múltiplos idiomas (i18n)
-- [ ] Notificações push web
-- [ ] Modo offline completo
-- [ ] Importação de calendários (ICS)
+### v2.0 (Atual) ✅
+- [x] PWA com service worker
+- [x] Modo offline completo
+- [x] Design system renovado
+- [x] Integrações (Google Calendar, Health, Video)
+- [x] Sistema de privacidade avançado
+- [x] WCAG 2.1 AA compliance
 
-### v1.2 (Q2 2025)
-- [ ] App mobile nativo (React Native)
-- [ ] Assistente de voz
-- [ ] Integração com Notion
-- [ ] API pública com rate limiting
+### v2.1 (Q1 2025)
+- [ ] i18n (PT, EN, ES)
+- [ ] Importação/Exportação ICS
+- [ ] Temas customizáveis
+- [ ] Comandos de voz
+- [ ] Widget desktop
 
-### v2.0 (Q3 2025)
+### v2.2 (Q2 2025)
+- [ ] App mobile nativo
+- [ ] Integração Notion/Todoist
+- [ ] API pública v1
+- [ ] Marketplace de plugins
+
+### v3.0 (Q3 2025)
 - [ ] Workspaces corporativos
-- [ ] Permissões avançadas
-- [ ] Analytics para empresas
-- [ ] White-label customizável
+- [ ] SSO (SAML, OAuth)
+- [ ] Analytics empresariais
+- [ ] White-label
+- [ ] On-premise deployment
 
 ---
 
@@ -836,9 +860,12 @@ in the Software without restriction...
 
 ---
 
-## 👥 Time
+## 👥 Autor
 
-Desenvolvido com ❤️ por [Joaz Rodrigues](https://github.com/joaz0)
+**Joaz Rodrigues**  
+🔗 [GitHub](https://github.com/joaz0) | [LinkedIn](https://linkedin.com/in/joaz-rodrigues)
+
+Desenvolvido com ❤️ e ☕
 
 ---
 
@@ -852,12 +879,12 @@ Desenvolvido com ❤️ por [Joaz Rodrigues](https://github.com/joaz0)
 
 ---
 
-## 📞 Contato
+## 📞 Suporte
 
-- Website: [https://smart-calendar.com](https://smart-calendar.com)
-- Email: contato@smart-calendar.com
-- Twitter: [@SmartCalendar](https://twitter.com/SmartCalendar)
-- Discord: [Comunidade Smart Calendar](https://discord.gg/smart-calendar)
+- 🐛 [Issues](https://github.com/joaz0/smart-calendar/issues)
+- 💬 [Discussions](https://github.com/joaz0/smart-calendar/discussions)
+- 📧 Email: joaz.rodrigues@example.com
+- 📖 [Wiki](https://github.com/joaz0/smart-calendar/wiki)
 
 ---
 
