@@ -16,24 +16,28 @@ O design foi completamente reimaginado com foco em **simplicidade, clareza e efi
 
 ## 🎨 Sistema de Cores
 
-### Light Mode
+### Dark Mode (Padrão)
 ```scss
-Background: #fafafc → #ffffff (gradiente sutil)
-Text Primary: #1f2937
-Text Secondary: #6b7280
-Text Tertiary: #9ca3af
-Border: rgba(0, 0, 0, 0.08)
-Accent: #667eea → #764ba2 (gradiente)
+Background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%)
+Primary: #5b0bdc
+Accent: #8b3dff
+Text Primary: rgba(255, 255, 255, 0.95)
+Text Secondary: rgba(255, 255, 255, 0.7)
+Text Tertiary: rgba(255, 255, 255, 0.5)
+Border: rgba(91, 11, 220, 0.3)
+Surface Glass: rgba(255, 255, 255, 0.05)
 ```
 
-### Dark Mode  
+### Light Mode
 ```scss
-Background: #111827 → #1f2937
-Text Primary: #f9fafb
-Text Secondary: #9ca3af
-Text Tertiary: #6b7280
-Border: rgba(255, 255, 255, 0.08)
-Accent: #667eea → #764ba2
+Background: #ffffff
+Primary: #5b0bdc
+Accent: #8b3dff
+Text Primary: rgba(0, 0, 0, 0.87)
+Text Secondary: rgba(0, 0, 0, 0.6)
+Text Tertiary: rgba(0, 0, 0, 0.38)
+Border: rgba(0, 0, 0, 0.12)
+Surface Glass: rgba(0, 0, 0, 0.02)
 ```
 
 ---
