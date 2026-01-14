@@ -2,9 +2,7 @@
 @import '../../../assets/styles/_mixins';
 
 .ai-assistant {
-  padding: clamp(1rem, 3vw, 2rem);
-  max-width: 1200px;
-  margin: 0 auto;
+  @include container;
   height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
@@ -40,6 +38,10 @@
     .header-actions {
       @include flex-center;
       gap: 0.75rem;
+
+      button {
+        @include btn-primary;
+      }
     }
   }
 

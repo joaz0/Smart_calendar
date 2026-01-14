@@ -1,53 +1,110 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, BehaviorSubject, interval } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { calculateBurnoutScore, calculateWellnessScore } from '../../../utils/wellness-calculations';
 
-export interface BurnoutRisk {
-  level: 'low' | 'moderate' | 'high' | 'critical';
+export interface BurnoutData {
   score: number;
-  factors: string[];
+  level: 'low' | 'medium' | 'high' | 'critical';
+  factors: {
+    workHours: number;
+    breaks: number;
+    stress: number;
+    sleep: number;
+  };
   recommendations: string[];
 }
 
-@Injectable({ providedIn: 'root' })
+export interface WellnessMetrics {
+  score: number;
+  sleepHours: number;
+  stressLevel: number;
+  energyLevel: number;
+  exerciseMinutes: number;
+  breaksTaken: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class BurnoutDetectorService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/burnout`;
+  private burnoutDataSubject = new BehaviorSubject<BurnoutData | null>(null);
+  burnoutData$ = this.burnoutDataSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.startMonitoring();
+  }
+
+  private startMonitoring(): void {
+    interval(3600000).subscribe(() => this.checkBurnout());
+  }
+
+  checkBurnout(): Observable<BurnoutData> {
+    return this.http.get<any>(`${environment.apiUrl}/wellness/burnout`).pipe(
+      map(data => {
+        const score = calculateBurnoutScore(
+          data.workHours || 0,
+          data.breaks || 0,
+          data.stress || 5,
+          data.sleep || 7
+        );
+        
+        const burnoutData: BurnoutData = {
+          score,
+          level: this.getBurnoutLevel(score),
+          factors: data,
+          recommendations: this.getRecommendations(score)
+        };
+        
+        this.burnoutDataSubject.next(burnoutData);
+        return burnoutData;
+      })
+    );
+  }
+
+  private getBurnoutLevel(score: number): 'low' | 'medium' | 'high' | 'critical' {
+    if (score < 25) return 'low';
+    if (score < 50) return 'medium';
+    if (score < 75) return 'high';
+    return 'critical';
+  }
+
+  private getRecommendations(score: number): string[] {
+    if (score < 25) return ['Continue mantendo um bom equilíbrio'];
+    if (score < 50) return ['Considere fazer mais pausas', 'Tente dormir mais'];
+    if (score < 75) return ['Reduza sua carga de trabalho', 'Agende tempo para descanso'];
+    return ['Procure ajuda profissional', 'Tire alguns dias de folga', 'Reavalie suas prioridades'];
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class WellnessTrackingService {
+  private metricsSubject = new BehaviorSubject<WellnessMetrics | null>(null);
+  metrics$ = this.metricsSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  assessRisk(): Observable<BurnoutRisk> {
-    return this.http.get<BurnoutRisk>(`${this.apiUrl}/assess`).pipe(
-      catchError(() => of({
-        level: 'moderate',
-        score: 55,
-        factors: [
-          'Trabalho >50h/semana',
-          'Poucas pausas',
-          'Reuniões excessivas'
-        ],
-        recommendations: [
-          'Reduza carga de trabalho gradualmente',
-          'Agende dias de descanso',
-          'Delegue tarefas quando possível'
-        ]
-      }))
-    );
+  trackMetrics(metrics: Partial<WellnessMetrics>): Observable<WellnessMetrics> {
+    return this.http.post<WellnessMetrics>(`${environment.apiUrl}/wellness/metrics`, metrics);
   }
 
-  getEarlyWarnings(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/warnings`).pipe(
-      catchError(() => of([
-        'Você trabalhou >10h em 3 dos últimos 5 dias',
-        'Zero dias de folga nas últimas 2 semanas'
-      ]))
-    );
+  getMetrics(startDate: Date, endDate: Date): Observable<WellnessMetrics[]> {
+    return this.http.get<WellnessMetrics[]>(`${environment.apiUrl}/wellness/metrics`, {
+      params: { start: startDate.toISOString(), end: endDate.toISOString() }
+    });
   }
 
-  schedulePrevention(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/prevention`, {}).pipe(
-      catchError(() => of(undefined))
+  calculateScore(metrics: WellnessMetrics): number {
+    return calculateWellnessScore(
+      metrics.sleepHours,
+      metrics.stressLevel,
+      metrics.energyLevel,
+      metrics.exerciseMinutes,
+      metrics.breaksTaken
     );
   }
 }

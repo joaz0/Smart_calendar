@@ -7,7 +7,7 @@ export function calculateBurnoutScore(
   const workScore = Math.min((workHours / 12) * 30, 30);
   const breakScore = Math.max(30 - (breaksTaken * 5), 0);
   const stressScore = (stressLevel / 10) * 25;
-  const sleepScore = Math.max(15 - (sleepHours / 8) * 15, 0);
+  const sleepScore = Math.max(15 - ((sleepHours / 8) * 15), 0);
   
   return Math.min(Math.round(workScore + breakScore + stressScore + sleepScore), 100);
 }
@@ -25,7 +25,7 @@ export function calculateWellnessScore(
   const exerciseScore = Math.min((exerciseMinutes / 30) * 20, 20);
   const breakScore = Math.min(breaksTaken * 3, 15);
   
-  return Math.round(sleepScore + stressScore + energyScore + exerciseScore + breakScore);
+  return Math.min(Math.round(sleepScore + stressScore + energyScore + exerciseScore + breakScore), 100);
 }
 
 export function getStressLevel(score: number): 'low' | 'medium' | 'high' {
@@ -56,5 +56,21 @@ export function suggestBreakDuration(workMinutes: number): number {
   if (workMinutes < 60) return 5;
   if (workMinutes < 120) return 10;
   if (workMinutes < 240) return 15;
-  return 20;
+  if (workMinutes < 360) return 20;
+  return 30;
+}
+
+export function calculateProductivityScore(
+  tasksCompleted: number,
+  tasksTotal: number,
+  focusHours: number,
+  distractions: number
+): number {
+  if (tasksTotal === 0) return 0;
+  
+  const completionRate = (tasksCompleted / tasksTotal) * 40;
+  const focusScore = Math.min((focusHours / 8) * 40, 40);
+  const distractionPenalty = Math.min(distractions * 2, 20);
+  
+  return Math.max(0, Math.min(Math.round(completionRate + focusScore - distractionPenalty), 100));
 }

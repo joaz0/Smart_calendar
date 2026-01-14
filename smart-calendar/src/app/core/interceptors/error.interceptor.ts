@@ -1,18 +1,57 @@
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({ providedIn: 'root' })
 export class ErrorInterceptor implements HttpInterceptor {
+  constructor(private snackBar: MatSnackBar) {}
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError((err) => {
-        // simple passthrough for now
-        return throwError(() => err);
+      retry({ count: 1, delay: 1000 }),
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = 'Erro desconhecido';
+        
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `Erro: ${error.error.message}`;
+        } else {
+          switch (error.status) {
+            case 400:
+              errorMessage = error.error?.message || 'Requisição inválida';
+              break;
+            case 401:
+              errorMessage = 'Sessão expirada. Faça login novamente.';
+              break;
+            case 403:
+              errorMessage = 'Acesso negado';
+              break;
+            case 404:
+              errorMessage = 'Recurso não encontrado';
+              break;
+            case 409:
+              errorMessage = error.error?.message || 'Conflito de dados';
+              break;
+            case 500:
+              errorMessage = 'Erro no servidor. Tente novamente.';
+              break;
+            default:
+              errorMessage = error.error?.message || `Erro ${error.status}`;
+          }
+        }
+        
+        this.snackBar.open(errorMessage, 'Fechar', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          panelClass: ['error-snackbar']
+        });
+        
+        return throwError(() => error);
       })
     );
   }
 }
 
-export const errorInterceptor = new ErrorInterceptor();
+export const errorInterceptor = new ErrorInterceptor(null as any);

@@ -1,10 +1,8 @@
 export interface TimeAnalytics {
-  userId: string;
-  period: { start: Date; end: Date };
   totalHours: number;
   breakdown: TimeBreakdown;
   productivity: ProductivityMetrics;
-  trends: TimeTrend[];
+  trends: TrendData[];
   insights: string[];
 }
 
@@ -17,15 +15,34 @@ export interface TimeBreakdown {
 }
 
 export interface ProductivityMetrics {
-  score: number; // 0-100
+  score: number;
   focusHours: number;
-  distractions: number;
   completedTasks: number;
-  efficiency: number; // 0-100
+  efficiency: number;
+  distractions: number;
 }
 
-export interface TimeTrend {
+export interface TrendData {
   category: string;
-  change: number; // percentage
+  change: number;
   direction: 'up' | 'down' | 'stable';
+}
+
+export interface ChartConfig {
+  type: 'line' | 'bar' | 'pie' | 'doughnut';
+  data: ChartData;
+  options?: any;
+}
+
+export interface ChartData {
+  labels: string[];
+  datasets: ChartDataset[];
+}
+
+export interface ChartDataset {
+  label: string;
+  data: number[];
+  backgroundColor?: string | string[];
+  borderColor?: string | string[];
+  borderWidth?: number;
 }

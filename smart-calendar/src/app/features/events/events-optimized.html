@@ -1,0 +1,113 @@
+<main class="container" role="main">
+  <header class="flex-between mb-4">
+    <div>
+      <h1 class="flex gap-2">
+        <mat-icon aria-hidden="true">event</mat-icon>
+        <span>Eventos</span>
+      </h1>
+      <p class="text-secondary">Gerencie seus eventos e compromissos</p>
+    </div>
+    <button 
+      class="btn-primary" 
+      (click)="createEvent()"
+      aria-label="Criar novo evento"
+      type="button">
+      <mat-icon aria-hidden="true">add</mat-icon>
+      <span>Novo Evento</span>
+    </button>
+  </header>
+
+  <app-glass-card class="mb-4" ariaLabel="Filtros de busca">
+    <form role="search" (submit)="$event.preventDefault()">
+      <div class="flex gap-4">
+        <label class="sr-only" for="search-events">Buscar eventos</label>
+        <input 
+          id="search-events"
+          class="input-glow flex-1" 
+          [(ngModel)]="searchTerm" 
+          (input)="onSearch()" 
+          placeholder="Buscar eventos..."
+          type="search"
+          name="search"
+          autocomplete="off">
+        <div class="flex gap-2" role="group" aria-label="Filtros de período">
+          <button 
+            *ngFor="let filter of filters; trackBy: trackByFilter" 
+            class="badge-info" 
+            [class.badge-success]="selectedFilter === filter.value"
+            (click)="onFilterChange(filter.value)"
+            type="button"
+            [attr.aria-pressed]="selectedFilter === filter.value"
+            [attr.aria-label]="'Filtrar por ' + filter.label">
+            {{ filter.label }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </app-glass-card>
+
+  <div *ngIf="isLoading" class="text-center p-6 animate-pulse" role="status" aria-live="polite">
+    <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
+    <p>Carregando eventos...</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredEvents.length === 0" class="text-center p-6" role="status">
+    <mat-icon style="font-size: 4rem;" aria-hidden="true">event_available</mat-icon>
+    <h2>Nenhum evento encontrado</h2>
+    <button class="btn-primary" (click)="createEvent()" type="button">
+      Criar Primeiro Evento
+    </button>
+  </div>
+
+  <section 
+    *ngIf="!isLoading && filteredEvents.length > 0" 
+    aria-label="Lista de eventos"
+    aria-live="polite">
+    <div class="grid-responsive">
+      <app-glass-card 
+        *ngFor="let event of filteredEvents; trackBy: trackByEvent" 
+        [hoverable]="true"
+        [ariaLabel]="'Evento: ' + event.title">
+        <div class="flex-between mb-4">
+          <h3 class="font-bold">{{ event.title }}</h3>
+          <button 
+            mat-icon-button 
+            [matMenuTriggerFor]="menu"
+            [attr.aria-label]="'Opções para ' + event.title"
+            type="button">
+            <mat-icon aria-hidden="true">more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editEvent(event)" type="button">
+              <mat-icon aria-hidden="true">edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="deleteEvent(event)" type="button">
+              <mat-icon aria-hidden="true">delete</mat-icon>
+              <span>Excluir</span>
+            </button>
+          </mat-menu>
+        </div>
+        
+        <div class="flex-col gap-2">
+          <div class="flex gap-2 text-secondary">
+            <mat-icon aria-hidden="true">schedule</mat-icon>
+            <time [attr.datetime]="event.startDate | date:'yyyy-MM-ddTHH:mm'">
+              {{ formatDateTime(event.startDate) }}
+            </time>
+          </div>
+          <div class="flex gap-2 text-secondary" *ngIf="event.location">
+            <mat-icon aria-hidden="true">location_on</mat-icon>
+            <span>{{ event.location }}</span>
+          </div>
+          <p class="text-secondary" *ngIf="event.description">{{ event.description }}</p>
+        </div>
+        
+        <div footer class="flex-between">
+          <span class="badge-info" role="status">{{ getCategoryLabel(event.category) }}</span>
+          <span class="badge-success" role="status">{{ getStatusLabel(getEventStatus(event)) }}</span>
+        </div>
+      </app-glass-card>
+    </div>
+  </section>
+</main>

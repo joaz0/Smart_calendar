@@ -1,0 +1,90 @@
+<div class="container" role="main">
+  <header class="flex-between mb-4">
+    <div>
+      <h1 class="flex gap-2 text-primary">
+        <mat-icon aria-hidden="true">home</mat-icon>
+        <span>Bom dia, {{ user.name }}!</span>
+      </h1>
+      <p class="text-secondary">{{ currentDate | date:'fullDate':'pt-BR' }}</p>
+    </div>
+    <button 
+      mat-fab 
+      color="primary" 
+      (click)="createEvent()"
+      aria-label="Criar novo evento"
+      title="Criar novo evento">
+      <mat-icon aria-hidden="true">add</mat-icon>
+    </button>
+  </header>
+
+  <section aria-label="Estatísticas do dia">
+    <div class="grid-responsive">
+      <app-glass-card 
+        *ngFor="let stat of stats; trackBy: trackByStat" 
+        [icon]="stat.icon" 
+        [iconColor]="stat.color"
+        [ariaLabel]="stat.label + ': ' + stat.value">
+        <h3 class="font-bold">{{ stat.value }}</h3>
+        <p class="text-secondary">{{ stat.label }}</p>
+      </app-glass-card>
+    </div>
+  </section>
+
+  <section aria-label="Conteúdo principal">
+    <div class="grid-responsive">
+      <app-glass-card title="Agenda de Hoje" icon="today" ariaLabel="Eventos agendados para hoje">
+        <div *ngIf="todayEvents.length > 0; else noEvents" role="list">
+          <div 
+            *ngFor="let event of todayEvents; trackBy: trackByEvent" 
+            class="flex gap-4 p-4 badge-info"
+            role="listitem">
+            <time class="font-semibold" [attr.datetime]="event.startTime | date:'HH:mm'">
+              {{ event.startTime | date:'shortTime' }}
+            </time>
+            <div class="flex-col">
+              <h4>{{ event.title }}</h4>
+              <p class="text-secondary">{{ event.description }}</p>
+            </div>
+          </div>
+        </div>
+        <ng-template #noEvents>
+          <div class="text-center p-6" role="status">
+            <mat-icon aria-hidden="true">event_available</mat-icon>
+            <p class="text-secondary">Nenhum evento hoje</p>
+          </div>
+        </ng-template>
+      </app-glass-card>
+
+      <app-glass-card title="Tarefas Rápidas" icon="task_alt" ariaLabel="Lista de tarefas rápidas">
+        <div role="list">
+          <div 
+            *ngFor="let task of quickTasks; trackBy: trackByTask" 
+            class="flex gap-2 p-2"
+            role="listitem">
+            <mat-checkbox 
+              [(ngModel)]="task.completed" 
+              (change)="toggleTask(task)"
+              [attr.aria-label]="'Marcar tarefa ' + task.title + ' como ' + (task.completed ? 'incompleta' : 'completa')">
+            </mat-checkbox>
+            <span [class.line-through]="task.completed">{{ task.title }}</span>
+          </div>
+        </div>
+      </app-glass-card>
+
+      <app-glass-card title="Insights IA" icon="smart_toy" iconColor="#ff6b6b" ariaLabel="Insights gerados por inteligência artificial">
+        <div role="list">
+          <div 
+            *ngFor="let insight of aiInsights; trackBy: trackByInsight" 
+            class="flex gap-4 p-4"
+            role="listitem">
+            <mat-icon [style.color]="'var(--primary-400)'" aria-hidden="true">{{ insight.icon }}</mat-icon>
+            <div>
+              <h4 class="font-semibold">{{ insight.title }}</h4>
+              <p class="text-secondary">{{ insight.description }}</p>
+            </div>
+          </div>
+        </div>
+      </app-glass-card>
+    </div>
+  </section>
+</div>

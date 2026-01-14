@@ -37,28 +37,44 @@ export function generateBackupFilename(prefix: string = 'backup'): string {
 }
 
 export function encryptData(data: string, key: string): string {
-  // Simple XOR encryption (for demo - use proper encryption in production)
-  let encrypted = '';
-  for (let i = 0; i < data.length; i++) {
-    encrypted += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+  if (!data || !key) return '';
+  
+  try {
+    let encrypted = '';
+    for (let i = 0; i < data.length; i++) {
+      encrypted += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    }
+    return btoa(encrypted);
+  } catch (error) {
+    console.error('Encryption error:', error);
+    return '';
   }
-  return btoa(encrypted);
 }
 
 export function decryptData(encrypted: string, key: string): string {
-  const data = atob(encrypted);
-  let decrypted = '';
-  for (let i = 0; i < data.length; i++) {
-    decrypted += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+  if (!encrypted || !key) return '';
+  
+  try {
+    const data = atob(encrypted);
+    let decrypted = '';
+    for (let i = 0; i < data.length; i++) {
+      decrypted += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    }
+    return decrypted;
+  } catch (error) {
+    console.error('Decryption error:', error);
+    return '';
   }
-  return decrypted;
 }
 
 export function sanitizeInput(input: string): string {
+  if (!input) return '';
+  
   return input
-    .replace(/[<>]/g, '')
+    .replace(/[<>"']/g, '')
     .replace(/javascript:/gi, '')
     .replace(/on\w+=/gi, '')
+    .replace(/data:/gi, '')
     .trim();
 }
 

@@ -3,16 +3,25 @@ export function requestNotificationPermission(): Promise<NotificationPermission>
     return Promise.reject('Notifications not supported');
   }
   
+  if (Notification.permission === 'granted') {
+    return Promise.resolve('granted');
+  }
+  
   return Notification.requestPermission();
 }
 
-export function showNotification(title: string, options?: NotificationOptions): void {
-  if (Notification.permission === 'granted') {
-    new Notification(title, {
+export function showNotification(title: string, options?: NotificationOptions): Notification | null {
+  if (!canSendNotification()) return null;
+  
+  try {
+    return new Notification(title, {
       icon: '/assets/images/Logo_light.png',
       badge: '/assets/images/Logo_light.png',
       ...options
     });
+  } catch (error) {
+    console.error('Notification error:', error);
+    return null;
   }
 }
 
@@ -24,11 +33,11 @@ export function scheduleNotification(
   const now = new Date();
   const delay = date.getTime() - now.getTime();
   
-  if (delay <= 0) return null;
+  if (delay <= 0 || !canSendNotification()) return null;
   
   return window.setTimeout(() => {
     showNotification(title, options);
-  }, delay);
+  }, Math.min(delay, 2147483647));
 }
 
 export function formatNotificationTime(date: Date): string {

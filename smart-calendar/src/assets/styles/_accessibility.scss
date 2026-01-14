@@ -1,0 +1,74 @@
+// Classe para screen readers
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Skip to main content
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-500);
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  z-index: 100;
+
+  &:focus {
+    top: 0;
+  }
+}
+
+// Focus visible para todos os elementos interativos
+a, button, input, select, textarea, [tabindex]:not([tabindex="-1"]) {
+  &:focus-visible {
+    outline: 3px solid var(--primary-400);
+    outline-offset: 2px;
+  }
+}
+
+// Remover outline para mouse clicks
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  * {
+    border-color: currentColor !important;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Print styles
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}

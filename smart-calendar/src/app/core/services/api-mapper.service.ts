@@ -8,18 +8,31 @@ import { Task } from '../models/task.model';
 export class ApiMapperService {
   // Events: front <-> back
   toApiEvent(event: Partial<CalendarEvent>): any {
-    // map front camelCase names to backend snake_case
-    const payload: any = { ...event };
-    if (payload.startDate) payload.start_time = new Date(payload.startDate).toISOString();
-    if (payload.endDate) payload.end_time = new Date(payload.endDate).toISOString();
-    if (payload.allDay !== undefined) payload.is_all_day = payload.allDay;
-    // keep color/url/category mapping
-    if (payload.color) payload.color = payload.color;
-    if (payload.url) payload.url = payload.url;
-    // remove camelCase fields to avoid duplication
-    delete payload.startDate;
-    delete payload.endDate;
-    delete payload.allDay;
+    const payload: any = {
+      title: event.title,
+      description: event.description,
+      location: event.location,
+      url: event.url,
+      color: event.color,
+      is_all_day: event.allDay ?? false
+    };
+    
+    if (event.startDate) {
+      payload.start_time = event.startDate instanceof Date 
+        ? event.startDate.toISOString() 
+        : event.startDate;
+    }
+    
+    if (event.endDate) {
+      payload.end_time = event.endDate instanceof Date 
+        ? event.endDate.toISOString() 
+        : event.endDate;
+    }
+    
+    if (event.category) {
+      payload.category_id = typeof event.category === 'object' ? event.category.id : event.category;
+    }
+    
     return payload;
   }
 
@@ -46,12 +59,28 @@ export class ApiMapperService {
 
   // Tasks mapping
   toApiTask(task: Partial<Task>): any {
-    const p: any = { ...task };
-    if (p.dueDate) p.due_date = new Date(p.dueDate).toISOString();
-    if (p.completed !== undefined) p.is_completed = !!p.completed;
-    delete p.dueDate;
-    delete p.completed;
-    return p;
+    const payload: any = {
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      status: task.status
+    };
+    
+    if (task.dueDate) {
+      payload.due_date = task.dueDate instanceof Date 
+        ? task.dueDate.toISOString() 
+        : task.dueDate;
+    }
+    
+    if (task.completed !== undefined) {
+      payload.is_completed = !!task.completed;
+    }
+    
+    if (task.category) {
+      payload.category_id = task.category;
+    }
+    
+    return payload;
   }
 
   fromApiTask(api: any): Task {

@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject, fromEvent, merge, of } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { LoadingService } from './core/services/loading.service';
-import { NotificationService } from './core/services/notification.service';
+import { NotificationService, Notification } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
 import { ApiMapperInitService } from './core/services/api-mapper-init.service';
 import { environment } from '../environments/environment';
@@ -19,6 +20,17 @@ import { LoadingSpinner } from './shared/components/loading-spinner/loading-spin
   styleUrls: ['./app.scss'],
   standalone: true,
   imports: [CommonModule, RouterOutlet, MatProgressSpinnerModule, MatIconModule, MatButtonModule, LoadingSpinner],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translateY(-100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'translateY(-100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -26,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading$ = new BehaviorSubject<boolean>(false);
   isDarkTheme = false;
   isGlobalLoading = false;
-  toastNotifications: any[] = [];
+  toastNotifications: Notification[] = [];
   showPwaUpdate = false;
   isOnline = true;
 
@@ -43,10 +55,54 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadingService.isLoading$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((isLoading) => this.isLoading$.next(isLoading));
+      .subscribe((isLoading) => {
+        this.isLoading$.next(isLoading);
+        this.isGlobalLoading = isLoading;
+      });
+
+    this.themeService.isDarkMode
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isDark => this.isDarkTheme = isDark);
+
+    this.notificationService.notifications
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(notifications => {
+        this.toastNotifications = notifications.filter(n => !n.read).slice(0, 3);
+      });
 
     this.themeService.initializeTheme();
     this.notificationService.initializeNotifications();
+    this.setupOnlineDetection();
+    this.checkForPwaUpdate();
+  }
+
+  private setupOnlineDetection() {
+    if (typeof window === 'undefined') return;
+    
+    merge(
+      of(navigator.onLine),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      fromEvent(window, 'offline').pipe(map(() => false))
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isOnline => this.isOnline = isOnline);
+  }
+
+  private checkForPwaUpdate() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                this.showPwaUpdate = true;
+              }
+            });
+          }
+        });
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -69,7 +125,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   dismissNotification(id: string): void {
-    this.toastNotifications = this.toastNotifications.filter(n => n.id !== id);
+    this.notificationService.markAsRead(id);
   }
 
   dismissPwaUpdate(): void {
