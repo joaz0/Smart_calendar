@@ -42,6 +42,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+[data-theme='light'] body {
+  background: linear-gradient(135deg, #ffffff 0%, #DAC8F7 100%);
+  color: var(--text-primary);
+}
+
 // Estilo para o Material
 .mat-mdc-form-field {
   width: 100%;
