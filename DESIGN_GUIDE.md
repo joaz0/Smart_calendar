@@ -30,14 +30,14 @@ Surface Glass: rgba(255, 255, 255, 0.05)
 
 ### Light Mode
 ```scss
-Background: #ffffff
+Background: linear-gradient(135deg, #ffffff 0%, #DAC8F7 100%)
 Primary: #5b0bdc
 Accent: #8b3dff
 Text Primary: rgba(0, 0, 0, 0.87)
 Text Secondary: rgba(0, 0, 0, 0.6)
 Text Tertiary: rgba(0, 0, 0, 0.38)
-Border: rgba(0, 0, 0, 0.12)
-Surface Glass: rgba(0, 0, 0, 0.02)
+Border: rgba(91, 11, 220, 0.2)
+Surface Glass: rgba(91, 11, 220, 0.05)
 ```
 
 ---
