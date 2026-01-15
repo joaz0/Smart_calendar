@@ -7,14 +7,15 @@ import {
 export class AgendaRapidoApi implements ICredentialType {
   name = 'agendaRapidoApi';
   displayName = 'AgendaRapido API';
-  documentationUrl = 'https://agendarapido.com/api-docs';
+  documentationUrl = 'https://github.com/joaz0/smart-calendar';
   properties: INodeProperties[] = [
     {
       displayName: 'API URL',
       name: 'apiUrl',
       type: 'string',
-      default: 'https://your-backend-url.onrender.com',
+      default: 'http://localhost:3000',
       required: true,
+      description: 'Base URL do backend Smart Calendar',
     },
     {
       displayName: 'Email',
@@ -35,19 +36,24 @@ export class AgendaRapidoApi implements ICredentialType {
     },
   ];
 
-  authenticate: IAuthenticateGeneric = {
-    type: 'generic',
-    properties: {
-      headers: {
-        Authorization: '={{$credentials.token}}',
-      },
-    },
-  };
+  async authenticate(credentials: any): Promise<any> {
+    const { apiUrl, email, password } = credentials;
+    const response = await fetch(`${apiUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    return { token: `Bearer ${data.token}` };
+  }
 
   test = {
     request: {
       baseURL: '={{$credentials.apiUrl}}',
       url: '/api/auth/me',
+      headers: {
+        Authorization: '={{$credentials.token}}',
+      },
     },
   };
 }
