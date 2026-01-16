@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './priority-indicator.scss'
 })
 export class PriorityIndicator {
-  @Input() priority: string = 'medium';
-  @Input() size: string = 'medium';
+  @Input() priority = 'medium';
+  @Input() size = 'medium';
 }

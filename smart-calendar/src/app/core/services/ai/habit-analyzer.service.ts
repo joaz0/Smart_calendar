@@ -36,7 +36,7 @@ export class HabitAnalyzerService {
 
   constructor(private http: HttpClient) {}
 
-  analyzeHabits(userId: string, period: number = 30): Observable<HabitInsight[]> {
+  analyzeHabits(userId: string, period = 30): Observable<HabitInsight[]> {
     return this.http.get<HabitInsight[]>(`${this.apiUrl}/analyze/${userId}?days=${period}`).pipe(
       catchError(() => of(this.getMockInsights()))
     );

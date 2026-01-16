@@ -55,18 +55,18 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
   @ViewChild('customColorInput') customColorInput?: ElementRef<HTMLInputElement>;
   @ViewChild('paletteContainer') paletteContainer?: ElementRef<HTMLDivElement>;
 
-  @Input() selectedColor: string = '#3B82F6';
-  @Input() disabled: boolean = false;
-  @Input() allowCustom: boolean = true;
-  @Input() allowTransparent: boolean = false;
-  @Input() showRecentColors: boolean = true;
-  @Input() maxRecentColors: number = 8;
+  @Input() selectedColor = '#3B82F6';
+  @Input() disabled = false;
+  @Input() allowCustom = true;
+  @Input() allowTransparent = false;
+  @Input() showRecentColors = true;
+  @Input() maxRecentColors = 8;
   @Output() colorSelected = new EventEmitter<string>();
   @Output() colorChanged = new EventEmitter<string>();
 
   isPickerOpen = false;
-  customColor: string = '';
-  customColorText: string = '';
+  customColor = '';
+  customColorText = '';
   recentColors: string[] = [];
 
   // Paletas de cores organizadas
@@ -112,7 +112,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
   // ControlValueAccessor
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
-  private isDisabled: boolean = false;
+  private isDisabled = false;
   private destroy$ = new Subject<void>();
 
   constructor(

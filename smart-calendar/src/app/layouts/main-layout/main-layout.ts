@@ -161,7 +161,7 @@ export class MainLayout implements OnInit, OnDestroy {
 
   setActive(view: string) {
     this.currentActive = view;
-    const routes: { [key: string]: string } = {
+    const routes: Record<string, string> = {
       calendar: '/app/calendar',
       tasks: '/app/tasks',
       ai: '/app/ai-assistant',
@@ -174,7 +174,7 @@ export class MainLayout implements OnInit, OnDestroy {
   }
 
   private updateActiveTabFromRoute(url: string) {
-    const routeMap: { [key: string]: string } = {
+    const routeMap: Record<string, string> = {
       '/app/calendar': 'calendar',
       '/app/tasks': 'tasks', 
       '/app/ai-assistant': 'ai',

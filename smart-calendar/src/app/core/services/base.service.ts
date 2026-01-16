@@ -1,5 +1,5 @@
 // Base Service com padrões reutilizáveis
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Logger } from '../utils/logger';
 
@@ -8,7 +8,7 @@ import { Logger } from '../utils/logger';
  * Fornece padrões comuns: loading, error, logging
  */
 @Injectable()
-export abstract class BaseService {
+export abstract class BaseService implements OnDestroy {
   protected logger: Logger;
 
   private loadingSubject$ = new BehaviorSubject<boolean>(false);
@@ -50,7 +50,7 @@ export abstract class BaseService {
    */
   protected async handleAsyncOperation<T>(
     operation: () => Promise<T>,
-    operationName: string = 'Operação'
+    operationName = 'Operação'
   ): Promise<T> {
     try {
       this.setLoading(true);

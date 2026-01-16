@@ -13,7 +13,7 @@
       <input matInput 
              formControlName="title" 
              placeholder="Digite o título da tarefa"
-             autofocus>
+            >
       <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
         Título é obrigatório
       </mat-error>

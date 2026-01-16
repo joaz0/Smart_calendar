@@ -7,7 +7,7 @@ export interface SemanticSearchResult {
   matchedTerms: string[];
   context: string;
   date?: Date;
-  metadata: { [key: string]: any };
+  metadata: Record<string, any>;
 }
 
 export interface SearchQuery {

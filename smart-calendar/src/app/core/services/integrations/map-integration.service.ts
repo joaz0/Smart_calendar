@@ -82,7 +82,7 @@ export class MapIntegrationService {
     );
   }
 
-  findNearby(location: { lat: number; lng: number }, type: string, radius: number = 1000): Observable<NearbyPlace[]> {
+  findNearby(location: { lat: number; lng: number }, type: string, radius = 1000): Observable<NearbyPlace[]> {
     return this.http.post<NearbyPlace[]>(`${this.apiUrl}/nearby`, { location, type, radius }).pipe(
       catchError(() => of(this.getMockNearbyPlaces()))
     );
@@ -94,7 +94,7 @@ export class MapIntegrationService {
     );
   }
 
-  getMapUrl(location: Location, zoom: number = 15): string {
+  getMapUrl(location: Location, zoom = 15): string {
     if (location.coordinates) {
       return `https://www.google.com/maps/@${location.coordinates.lat},${location.coordinates.lng},${zoom}z`;
     }

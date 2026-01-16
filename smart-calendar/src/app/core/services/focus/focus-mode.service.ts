@@ -196,7 +196,7 @@ export class FocusModeService {
     );
   }
 
-  getSessions(limit: number = 10): Observable<FocusSession[]> {
+  getSessions(limit = 10): Observable<FocusSession[]> {
     return this.http.get<FocusSession[]>(`${this.apiUrl}/sessions?limit=${limit}`).pipe(
       catchError(() => of(this.getMockSessions()))
     );

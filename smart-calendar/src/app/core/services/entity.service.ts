@@ -32,7 +32,7 @@ export abstract class EntityService<T extends Entity> extends BaseService {
   /**
    * Busca todas as entidades
    */
-  getAll(page: number = 1, limit: number = 20): Observable<T[]> {
+  getAll(page = 1, limit = 20): Observable<T[]> {
     return this.apiService
       .get<{ data: T[] }>(`${this.apiEndpoint}?page=${page}&limit=${limit}`)
       .pipe(

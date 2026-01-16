@@ -66,7 +66,7 @@ export class AiSummaryService {
     );
   }
 
-  summarizeText(text: string, maxLength: number = 200): Observable<string> {
+  summarizeText(text: string, maxLength = 200): Observable<string> {
     return this.http.post<{ summary: string }>(`${this.apiUrl}/text`, { text, maxLength }).pipe(
       catchError(() => of({ summary: text.substring(0, maxLength) + '...' }))
     ).pipe(

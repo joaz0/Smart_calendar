@@ -22,13 +22,13 @@ import { CalendarEvent } from '../../../core/models/event.model';
 export class EventForm implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
-  @Input() isEditMode: boolean = false;
+  @Input() isEditMode = false;
   @Input() eventData: CalendarEvent | null = null;
   @Output() cancel = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<CalendarEvent>();
   eventForm: FormGroup;
-  activeTab: string = 'details';
-  showAISuggestions: boolean = true;
+  activeTab = 'details';
+  showAISuggestions = true;
 
   constructor(private fb: FormBuilder) {
     this.eventForm = this.createForm();

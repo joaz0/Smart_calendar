@@ -229,7 +229,7 @@ export class PomodoroService {
     );
   }
 
-  getSessions(limit: number = 20): Observable<PomodoroSession[]> {
+  getSessions(limit = 20): Observable<PomodoroSession[]> {
     return this.http.get<PomodoroSession[]>(`${this.apiUrl}/sessions?limit=${limit}`).pipe(
       catchError(() => of(this.getMockSessions()))
     );

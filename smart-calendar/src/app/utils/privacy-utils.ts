@@ -30,7 +30,7 @@ export function anonymizeData<T extends object>(data: T, fields: string[]): T {
   return anonymized;
 }
 
-export function generateBackupFilename(prefix: string = 'backup'): string {
+export function generateBackupFilename(prefix = 'backup'): string {
   const date = new Date();
   const timestamp = date.toISOString().replace(/[:.]/g, '-').split('T')[0];
   return `${prefix}_${timestamp}.json`;

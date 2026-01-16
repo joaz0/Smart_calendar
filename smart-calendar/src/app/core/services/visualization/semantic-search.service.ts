@@ -20,7 +20,7 @@ export interface SearchFacet {
 
 export interface SemanticQuery {
   query: string;
-  filters?: { [key: string]: any };
+  filters?: Record<string, any>;
   limit?: number;
   offset?: number;
 }

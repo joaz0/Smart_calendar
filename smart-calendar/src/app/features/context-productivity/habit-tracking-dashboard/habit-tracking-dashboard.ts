@@ -33,7 +33,7 @@ export class HabitTrackingDashboard implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
   habits: Habit[] = [];
-  habitStats: Map<string, HabitStats> = new Map();
+  habitStats = new Map<string, HabitStats>();
   loading = false;
   selectedPeriod: 'week' | 'month' | 'all' = 'week';
 

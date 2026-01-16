@@ -32,7 +32,7 @@ export class StressMonitorService {
     );
   }
 
-  getHistory(days: number = 7): Observable<StressLevel[]> {
+  getHistory(days = 7): Observable<StressLevel[]> {
     return this.http.get<StressLevel[]>(`${this.apiUrl}/history`, { params: { days: days.toString() } }).pipe(
       catchError(() => of([]))
     );

@@ -12,7 +12,7 @@ import { TaskItem } from '../task-item/task-item';
 export class TaskList {
   // Lista de tarefas; preenchida por um service em runtime
   tasks: any[] = [];
-  filterText: string = '';
+  filterText = '';
 
   @Output() create = new EventEmitter<void>();
 

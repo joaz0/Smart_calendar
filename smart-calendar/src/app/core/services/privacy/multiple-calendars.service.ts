@@ -13,7 +13,7 @@ export interface Calendar {
   owner: string;
   shared: boolean;
   sharedWith?: string[];
-  permissions?: { [userId: string]: 'view' | 'edit' | 'admin' };
+  permissions?: Record<string, 'view' | 'edit' | 'admin'>;
   defaultVisibility: boolean;
 }
 

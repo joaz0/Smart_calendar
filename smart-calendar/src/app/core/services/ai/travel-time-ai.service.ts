@@ -38,7 +38,7 @@ export class TravelTimeAiService {
 
   constructor(private http: HttpClient) {}
 
-  estimateTravelTime(origin: string, destination: string, mode: string = 'driving', departureTime?: Date): Observable<TravelEstimate> {
+  estimateTravelTime(origin: string, destination: string, mode = 'driving', departureTime?: Date): Observable<TravelEstimate> {
     return this.http.post<TravelEstimate>(`${this.apiUrl}/estimate`, {
       origin,
       destination,

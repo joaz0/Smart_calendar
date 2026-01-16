@@ -53,15 +53,15 @@ export function extractDomainFromEmail(email: string): string {
   return parts.length === 2 ? parts[1] : '';
 }
 
-export function buildQueryString(params: { [key: string]: any }): string {
+export function buildQueryString(params: Record<string, any>): string {
   return Object.entries(params)
     .filter(([_, value]) => value !== undefined && value !== null)
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&');
 }
 
-export function parseQueryString(queryString: string): { [key: string]: string } {
-  const params: { [key: string]: string } = {};
+export function parseQueryString(queryString: string): Record<string, string> {
+  const params: Record<string, string> = {};
   
   queryString.replace(/^\?/, '').split('&').forEach(param => {
     const [key, value] = param.split('=');

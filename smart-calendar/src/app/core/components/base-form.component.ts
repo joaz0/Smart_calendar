@@ -24,7 +24,7 @@ export interface FormField {
   cols?: number;
   rows?: number;
   hint?: string;
-  errorMessages?: { [key: string]: string };
+  errorMessages?: Record<string, string>;
 }
 
 /**
@@ -52,7 +52,7 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
    * Constrói o formulário
    */
   buildForm(): void {
-    const formConfig: { [key: string]: any } = {};
+    const formConfig: Record<string, any> = {};
 
     this.formFields.forEach((field) => {
       const validators = [];
@@ -178,7 +178,7 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
   /**
    * Preenche o formulário com dados
    */
-  populateForm(data: { [key: string]: any }): void {
+  populateForm(data: Record<string, any>): void {
     this.form.patchValue(data);
   }
 

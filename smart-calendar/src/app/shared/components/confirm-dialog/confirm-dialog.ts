@@ -54,13 +54,13 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   @ViewChild('confirmationInput') confirmationInput?: ElementRef<HTMLInputElement>;
 
   // Configurações básicas
-  @Input() visible: boolean = false;
-  @Input() title: string = 'Confirmação';
-  @Input() message: string = 'Tem certeza que deseja continuar?';
-  @Input() details: string = '';
-  @Input() confirmText: string = 'Confirmar';
-  @Input() cancelText: string = 'Cancelar';
-  @Input() showCancelButton: boolean = true;
+  @Input() visible = false;
+  @Input() title = 'Confirmação';
+  @Input() message = 'Tem certeza que deseja continuar?';
+  @Input() details = '';
+  @Input() confirmText = 'Confirmar';
+  @Input() cancelText = 'Cancelar';
+  @Input() showCancelButton = true;
 
   // Tipos e estilos
   @Input() type: 'default' | 'destructive' | 'warning' | 'danger' | 'success' | 'info' = 'default';
@@ -70,15 +70,15 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
 
   // Funcionalidades avançadas
   @Input() additionalInfo: string[] = [];
-  @Input() requireConfirmation: boolean = false;
-  @Input() confirmationText: string = 'CONFIRMAR';
+  @Input() requireConfirmation = false;
+  @Input() confirmationText = 'CONFIRMAR';
   @Input() checkboxOptions: CheckboxOption[] = [];
-  @Input() loading: boolean = false;
-  @Input() showProgress: boolean = false;
-  @Input() progress: number = 0;
-  @Input() autoClose: boolean = true;
-  @Input() autoCloseDelay: number = 0;
-  @Input() preventBackdropClose: boolean = false;
+  @Input() loading = false;
+  @Input() showProgress = false;
+  @Input() progress = 0;
+  @Input() autoClose = true;
+  @Input() autoCloseDelay = 0;
+  @Input() preventBackdropClose = false;
 
   // Eventos
   @Output() confirm = new EventEmitter<{
@@ -91,9 +91,9 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
 
   // Estados internos
   isProcessing = false;
-  userConfirmation: string = '';
-  showConfirmationError: boolean = false;
-  countdown: number = 0;
+  userConfirmation = '';
+  showConfirmationError = false;
+  countdown = 0;
   private countdownInterval?: number;
   private autoCloseTimeout?: number;
 

@@ -12,7 +12,7 @@ export interface EventTemplate {
   category: string;
   defaultLocation?: string;
   defaultAttendees?: string[];
-  customFields?: { [key: string]: any };
+  customFields?: Record<string, any>;
 }
 
 @Injectable({

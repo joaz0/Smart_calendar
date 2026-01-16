@@ -35,7 +35,7 @@ export function getContrastColor(hex: string): string {
   return brightness > 128 ? '#000000' : '#FFFFFF';
 }
 
-export function generateColorPalette(baseColor: string, count: number = 5): string[] {
+export function generateColorPalette(baseColor: string, count = 5): string[] {
   const colors: string[] = [baseColor];
   
   for (let i = 1; i < count; i++) {
@@ -47,7 +47,7 @@ export function generateColorPalette(baseColor: string, count: number = 5): stri
 }
 
 export function getCategoryColor(category: string): string {
-  const colors: { [key: string]: string } = {
+  const colors: Record<string, string> = {
     work: '#3B82F6',
     personal: '#10B981',
     health: '#EF4444',

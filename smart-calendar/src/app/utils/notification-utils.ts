@@ -53,7 +53,7 @@ export function formatNotificationTime(date: Date): string {
 }
 
 export function getNotificationIcon(type: string): string {
-  const icons: { [key: string]: string } = {
+  const icons: Record<string, string> = {
     event: '📅',
     task: '✅',
     reminder: '⏰',

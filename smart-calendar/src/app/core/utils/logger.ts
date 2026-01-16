@@ -7,7 +7,7 @@ export class Logger {
   private isDev = !environment.production;
   private context: string;
 
-  constructor(context: string = 'App') {
+  constructor(context = 'App') {
     this.context = context;
   }
 

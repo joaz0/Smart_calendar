@@ -28,7 +28,7 @@ export class WellnessAnalyticsService {
     );
   }
 
-  getTrends(days: number = 30): Observable<any[]> {
+  getTrends(days = 30): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/trends`, { params: { days: days.toString() } }).pipe(
       catchError(() => of([]))
     );

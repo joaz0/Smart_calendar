@@ -20,8 +20,8 @@ export function extractIntent(text: string): string {
   return 'unknown';
 }
 
-export function extractEntities(text: string): { [key: string]: any } {
-  const entities: { [key: string]: any } = {};
+export function extractEntities(text: string): Record<string, any> {
+  const entities: Record<string, any> = {};
   
   // Extract dates
   const datePatterns = [
@@ -50,7 +50,7 @@ export function extractEntities(text: string): { [key: string]: any } {
   return entities;
 }
 
-export function calculateConfidence(intent: string, entities: { [key: string]: any }): number {
+export function calculateConfidence(intent: string, entities: Record<string, any>): number {
   let confidence = 0.5;
   
   if (intent !== 'unknown') confidence += 0.3;

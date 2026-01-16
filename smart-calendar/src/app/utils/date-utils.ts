@@ -1,4 +1,4 @@
-export function formatDate(date: Date, format: string = 'YYYY-MM-DD'): string {
+export function formatDate(date: Date, format = 'YYYY-MM-DD'): string {
   const d = new Date(date);
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -53,7 +53,7 @@ export function getTimeAgo(date: Date): string {
   return formatDate(date, 'DD/MM/YYYY');
 }
 
-export function isWorkingHours(date: Date, start: string = '09:00', end: string = '18:00'): boolean {
+export function isWorkingHours(date: Date, start = '09:00', end = '18:00'): boolean {
   const dayOfWeek = date.getDay();
   if (dayOfWeek === 0 || dayOfWeek === 6) return false;
   

@@ -29,7 +29,7 @@ export interface ParsedTask {
 export interface NLPIntent {
   intent: 'create_event' | 'create_task' | 'search' | 'update' | 'delete' | 'query';
   confidence: number;
-  entities: { [key: string]: any };
+  entities: Record<string, any>;
 }
 
 @Injectable({

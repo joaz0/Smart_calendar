@@ -4,12 +4,12 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'dateFormat'
 })
 export class DateFormatPipe implements PipeTransform {
-  transform(value: Date | string, format: string = 'medium'): string {
+  transform(_value: Date | string, format = 'medium'): string {
     if (!value) return '';
 
     const date = new Date(value);
     
-    const formats: { [key: string]: string } = {
+    const formats: Record<string, string> = {
       // Data completa
       'full': date.toLocaleDateString('pt-BR', { 
         weekday: 'long', 

@@ -95,7 +95,7 @@ export class Header implements OnInit, OnDestroy {
   @Input() showBreadcrumbs = true;
   @Input() showUserMenu = true;
   @Input() sticky = true;
-  @Input() logoUrl: string = '';
+  @Input() logoUrl = '';
 
   // Dados
   @Input() notifications: Notification[] = [];

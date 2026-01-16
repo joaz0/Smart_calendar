@@ -54,7 +54,7 @@ export class ContextSwitchingService {
     );
   }
 
-  getSwitchHistory(limit: number = 20): Observable<ContextSwitch[]> {
+  getSwitchHistory(limit = 20): Observable<ContextSwitch[]> {
     return this.http.get<ContextSwitch[]>(`${this.apiUrl}/history`, { params: { limit: limit.toString() } }).pipe(
       catchError(() => of([]))
     );

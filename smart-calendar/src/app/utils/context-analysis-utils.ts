@@ -7,9 +7,9 @@ export interface ContextPattern {
 }
 
 export function analyzeContextPatterns(
-  events: Array<{ title: string; startDate: Date; endDate: Date; category?: string }>
+  events: { title: string; startDate: Date; endDate: Date; category?: string }[]
 ): ContextPattern[] {
-  const patterns: { [key: string]: ContextPattern } = {};
+  const patterns: Record<string, ContextPattern> = {};
   
   events.forEach(event => {
     const key = event.category || 'uncategorized';
@@ -74,7 +74,7 @@ export function calculateContextSwitchCost(
   previousContext: string,
   nextContext: string
 ): number {
-  const switchCosts: { [key: string]: { [key: string]: number } } = {
+  const switchCosts: Record<string, Record<string, number>> = {
     'work': { 'personal': 15, 'meeting': 5, 'break': 10 },
     'personal': { 'work': 15, 'meeting': 10, 'break': 5 },
     'meeting': { 'work': 5, 'personal': 10, 'break': 5 },
@@ -85,12 +85,12 @@ export function calculateContextSwitchCost(
 }
 
 export function suggestOptimalSchedule(
-  tasks: Array<{ title: string; duration: number; context: string }>,
+  tasks: { title: string; duration: number; context: string }[],
   patterns: ContextPattern[]
-): Array<{ task: any; startTime: Date }> {
-  const schedule: Array<{ task: any; startTime: Date }> = [];
+): { task: any; startTime: Date }[] {
+  const schedule: { task: any; startTime: Date }[] = [];
   const now = new Date();
-  let currentTime = new Date(now);
+  const currentTime = new Date(now);
   
   tasks.sort((a, b) => {
     const aPattern = patterns.find(p => p.type === a.context);

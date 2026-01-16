@@ -2,7 +2,7 @@ export function generateShareLink(pollId: string, baseUrl: string = window.locat
   return `${baseUrl}/polls/${pollId}`;
 }
 
-export function calculateBestTimeSlot(votes: { [slotId: string]: string[] }): string | null {
+export function calculateBestTimeSlot(votes: Record<string, string[]>): string | null {
   let maxVotes = 0;
   let bestSlot: string | null = null;
   
@@ -17,11 +17,11 @@ export function calculateBestTimeSlot(votes: { [slotId: string]: string[] }): st
 }
 
 export function getAvailabilityOverlap(
-  schedules: Array<{ start: Date; end: Date }>
-): Array<{ start: Date; end: Date }> {
+  schedules: { start: Date; end: Date }[]
+): { start: Date; end: Date }[] {
   if (schedules.length === 0) return [];
   
-  const overlaps: Array<{ start: Date; end: Date }> = [];
+  const overlaps: { start: Date; end: Date }[] = [];
   const sorted = schedules.sort((a, b) => a.start.getTime() - b.start.getTime());
   
   let currentStart = sorted[0].start;

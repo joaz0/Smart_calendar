@@ -67,7 +67,7 @@ export class ContextPredictionService {
   }
 
   private getMockPrediction(context: UserContext): ContextPrediction {
-    const predictions: { [key: string]: ContextPrediction } = {
+    const predictions: Record<string, ContextPrediction> = {
       morning: {
         context: 'Sessão de foco profundo',
         probability: 0.85,
@@ -98,7 +98,7 @@ export class ContextPredictionService {
   }
 
   private getMockSuggestions(context: UserContext): ContextualSuggestion[] {
-    const suggestions: { [key: string]: ContextualSuggestion[] } = {
+    const suggestions: Record<string, ContextualSuggestion[]> = {
       morning: [
         {
           type: 'focus',

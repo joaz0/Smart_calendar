@@ -22,7 +22,7 @@ export class Converters {
   /**
    * Formata valor monetário
    */
-  static formatCurrency(value: number, locale: string = 'pt-BR'): string {
+  static formatCurrency(value: number, locale = 'pt-BR'): string {
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: 'BRL',
@@ -134,7 +134,7 @@ export class Converters {
   /**
    * Formata data para exibição
    */
-  static formatDate(date: Date | string, locale: string = 'pt-BR'): string {
+  static formatDate(date: Date | string, locale = 'pt-BR'): string {
     const d = typeof date === 'string' ? new Date(date) : date;
     return d.toLocaleDateString(locale);
   }
@@ -142,7 +142,7 @@ export class Converters {
   /**
    * Formata data e hora para exibição
    */
-  static formatDateTime(date: Date | string, locale: string = 'pt-BR'): string {
+  static formatDateTime(date: Date | string, locale = 'pt-BR'): string {
     const d = typeof date === 'string' ? new Date(date) : date;
     return d.toLocaleString(locale);
   }
@@ -183,7 +183,7 @@ export class Converters {
   /**
    * Formata número com separador de milhares
    */
-  static formatNumber(value: number, locale: string = 'pt-BR'): string {
+  static formatNumber(value: number, locale = 'pt-BR'): string {
     return value.toLocaleString(locale);
   }
 
@@ -204,11 +204,11 @@ export class Converters {
   /**
    * Converte objeto aninhado em flat object (para forms)
    */
-  static flattenObject(obj: any, prefix: string = ''): any {
+  static flattenObject(obj: any, prefix = ''): any {
     const flattened: any = {};
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (objObject.prototype.hasOwnProperty.call(key)) {
         const value = obj[key];
         const newKey = prefix ? `${prefix}.${key}` : key;
 
@@ -230,7 +230,7 @@ export class Converters {
     const result: any = {};
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (objObject.prototype.hasOwnProperty.call(key)) {
         const keys = key.split('.');
         let current = result;
 

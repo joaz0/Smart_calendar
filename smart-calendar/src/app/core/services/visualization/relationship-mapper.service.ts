@@ -39,7 +39,7 @@ export class RelationshipMapperService {
 
   constructor(private http: HttpClient) {}
 
-  getRelationshipGraph(focusNodeId?: string, depth: number = 2): Observable<RelationshipGraph> {
+  getRelationshipGraph(focusNodeId?: string, depth = 2): Observable<RelationshipGraph> {
     return this.http.post<RelationshipGraph>(`${this.apiUrl}/graph`, { focusNodeId, depth }).pipe(
       catchError(() => of(this.getMockRelationshipGraph()))
     );

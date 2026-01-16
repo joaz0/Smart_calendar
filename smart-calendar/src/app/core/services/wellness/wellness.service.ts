@@ -42,7 +42,7 @@ export class WellnessService {
     );
   }
 
-  getBreakPatterns(days: number = 7): Observable<BreakPattern[]> {
+  getBreakPatterns(days = 7): Observable<BreakPattern[]> {
     return this.http.get<BreakPattern[]>(`${this.apiUrl}/breaks?days=${days}`).pipe(
       catchError(() => of(this.getMockBreakPatterns()))
     );

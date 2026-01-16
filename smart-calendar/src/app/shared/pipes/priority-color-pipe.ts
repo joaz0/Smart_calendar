@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PriorityColorPipe implements PipeTransform {
   transform(priority: string): string {
-    const colors: { [key: string]: string } = {
+    const colors: Record<string, string> = {
       'high': '#ef4444',    // Vermelho
       'medium': '#f59e0b',  // Amarelo/Laranja
       'low': '#10b981',     // Verde

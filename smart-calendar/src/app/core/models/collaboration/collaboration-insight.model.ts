@@ -5,7 +5,7 @@ export interface CollaborationInsight {
   totalMeetings: number;
   averageMeetingDuration: number;
   topCollaborators: Collaborator[];
-  meetingsByType: { [key: string]: number };
+  meetingsByType: Record<string, number>;
   productiveHours: number;
   collaborationScore: number; // 0-100
   recommendations: string[];

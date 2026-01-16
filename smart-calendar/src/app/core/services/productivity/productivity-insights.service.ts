@@ -72,7 +72,7 @@ export class ProductivityInsightsService {
     );
   }
 
-  getWorkPatterns(days: number = 30): Observable<ProductivityPattern[]> {
+  getWorkPatterns(days = 30): Observable<ProductivityPattern[]> {
     const params = new HttpParams().set('days', days.toString());
     return this.http.get<any>(`${this.apiUrl}/patterns`, { params }).pipe(
       map(response => response.patterns || []),

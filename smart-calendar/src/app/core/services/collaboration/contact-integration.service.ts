@@ -16,7 +16,7 @@ export class ContactIntegrationService {
     );
   }
 
-  getRecentContacts(limit: number = 10): Observable<any[]> {
+  getRecentContacts(limit = 10): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/recent`, { params: { limit: limit.toString() } }).pipe(
       catchError(() => of([]))
     );

@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './quick-links-manager.scss',
 })
 export class QuickLinksManager {
-  links: Array<{ title: string; url: string }> = [];
+  links: { title: string; url: string }[] = [];
 
   constructor() {
     // placeholder data

@@ -51,7 +51,7 @@ export class FocusModeService {
     );
   }
 
-  getFocusHistory(limit: number = 10): Observable<FocusSession[]> {
+  getFocusHistory(limit = 10): Observable<FocusSession[]> {
     return this.http.get<FocusSession[]>(`${this.apiUrl}/history`, { params: { limit: limit.toString() } }).pipe(
       catchError(() => of([]))
     );

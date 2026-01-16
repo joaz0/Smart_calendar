@@ -151,7 +151,7 @@ export class CustomValidators {
    */
   static asyncAvailable(
     checkFunction: (value: string) => Observable<boolean>,
-    debounceTime: number = 500
+    debounceTime = 500
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       if (!control.value) {

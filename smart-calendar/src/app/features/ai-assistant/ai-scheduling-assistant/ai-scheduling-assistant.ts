@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./ai-scheduling-assistant.scss'],
 })
 export class AiSchedulingAssistant {
-  suggestions: Array<{ time: string; reason: string }> = [];
+  suggestions: { time: string; reason: string }[] = [];
 
   constructor() {
     // exemplo estático para evitar erros de template durante build

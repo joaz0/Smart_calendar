@@ -33,8 +33,8 @@ export class EventTemplateLibrary implements OnInit, OnDestroy {
   
   templates: EventTemplate[] = [];
   filteredTemplates: EventTemplate[] = [];
-  selectedCategory: string = 'all';
-  searchTerm: string = '';
+  selectedCategory = 'all';
+  searchTerm = '';
   
   categories = [
     { value: 'all', label: 'Todos' },

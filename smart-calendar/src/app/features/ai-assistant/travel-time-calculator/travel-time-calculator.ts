@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./travel-time-calculator.scss'],
 })
 export class TravelTimeCalculator {
-  from: string = '';
-  to: string = '';
+  from = '';
+  to = '';
   result: any | null = null;
 
   calculate(): void {

@@ -8,7 +8,7 @@ export interface SchedulingPoll {
   id: string;
   title: string;
   proposedDates: Date[];
-  votes: { [date: string]: string[] };
+  votes: Record<string, string[]>;
   status: 'open' | 'closed';
 }
 

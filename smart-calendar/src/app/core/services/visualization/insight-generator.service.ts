@@ -45,13 +45,13 @@ export class InsightGeneratorService {
     );
   }
 
-  detectTrends(metric: string, period: number = 30): Observable<TrendInsight[]> {
+  detectTrends(metric: string, period = 30): Observable<TrendInsight[]> {
     return this.http.post<TrendInsight[]>(`${this.apiUrl}/trends`, { metric, period }).pipe(
       catchError(() => of(this.getMockTrends(metric)))
     );
   }
 
-  detectAnomalies(metrics: string[], threshold: number = 0.8): Observable<AnomalyInsight[]> {
+  detectAnomalies(metrics: string[], threshold = 0.8): Observable<AnomalyInsight[]> {
     return this.http.post<AnomalyInsight[]>(`${this.apiUrl}/anomalies`, { metrics, threshold }).pipe(
       catchError(() => of([]))
     );
@@ -63,7 +63,7 @@ export class InsightGeneratorService {
     );
   }
 
-  getPredictiveInsights(horizon: number = 7): Observable<Insight[]> {
+  getPredictiveInsights(horizon = 7): Observable<Insight[]> {
     return this.http.post<Insight[]>(`${this.apiUrl}/predictive`, { horizon }).pipe(
       catchError(() => of(this.getMockPredictiveInsights()))
     );

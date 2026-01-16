@@ -45,7 +45,7 @@ export class EnergyViewService {
     );
   }
 
-  getEnergyPatterns(days: number = 30): Observable<EnergyPattern[]> {
+  getEnergyPatterns(days = 30): Observable<EnergyPattern[]> {
     return this.http.post<EnergyPattern[]>(`${this.apiUrl}/patterns`, { days }).pipe(
       catchError(() => of(this.getMockEnergyPatterns()))
     );

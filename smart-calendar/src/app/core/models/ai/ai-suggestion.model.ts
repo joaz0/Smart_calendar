@@ -7,7 +7,7 @@ export interface AiSuggestion {
   source?: 'model' | 'user' | 'integration' | string;
   createdAt?: string; // ISO date
   // optional actions that can be applied by the UI
-  actions?: Array<{ type: string; payload?: any }>;
+  actions?: { type: string; payload?: any }[];
 }
 
 export default AiSuggestion;

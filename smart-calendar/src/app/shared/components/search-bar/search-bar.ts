@@ -9,7 +9,7 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef, OnChanges
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -68,21 +68,21 @@ interface QuickAction {
   styleUrls: ['./search-bar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBar implements OnInit, OnDestroy {
+export class SearchBar implements OnInit, OnDestroy, OnChanges {
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
   @ViewChild('resultsContainer') resultsContainer?: ElementRef<HTMLDivElement>;
 
   // Configurações
-  @Input() placeholder: string = 'Buscar...';
-  @Input() debounceTime: number = 300;
-  @Input() minSearchLength: number = 2;
-  @Input() maxResults: number = 50;
-  @Input() showRecentSearches: boolean = true;
-  @Input() showQuickActions: boolean = true;
-  @Input() groupResults: boolean = true;
-  @Input() highlightTerms: boolean = true;
-  @Input() autoFocus: boolean = false;
-  @Input() clearOnSelect: boolean = false;
+  @Input() placeholder = 'Buscar...';
+  @Input() debounceTime = 300;
+  @Input() minSearchLength = 2;
+  @Input() maxResults = 50;
+  @Input() showRecentSearches = true;
+  @Input() showQuickActions = true;
+  @Input() groupResults = true;
+  @Input() highlightTerms = true;
+  @Input() autoFocus = false;
+  @Input() clearOnSelect = false;
 
   // Dados
   @Input() results: SearchResult[] = [];
@@ -90,8 +90,8 @@ export class SearchBar implements OnInit, OnDestroy {
   @Input() recentSearches: string[] = [];
 
   // Estados
-  @Input() isSearching: boolean = false;
-  @Input() disabled: boolean = false;
+  @Input() isSearching = false;
+  @Input() disabled = false;
 
   // Eventos
   @Output() searchQuery = new EventEmitter<string>();
@@ -102,13 +102,13 @@ export class SearchBar implements OnInit, OnDestroy {
   @Output() focusChanged = new EventEmitter<boolean>();
 
   // Estados internos
-  searchTerm: string = '';
-  showResults: boolean = false;
+  searchTerm = '';
+  showResults = false;
   groupedResults: SearchGroup[] = [];
   searchResults: SearchResult[] = [];
-  selectedIndex: number = -1;
-  highlightedIndex: number = -1;
-  highlightedGroupIndex: number = -1;
+  selectedIndex = -1;
+  highlightedIndex = -1;
+  highlightedGroupIndex = -1;
 
   private searchSubject$ = new Subject<string>();
   private destroy$ = new Subject<void>();

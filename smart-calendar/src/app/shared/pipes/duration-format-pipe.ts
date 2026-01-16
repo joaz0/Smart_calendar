@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class DurationFormatPipe implements PipeTransform {
-  transform(minutes: number, format: string = 'short'): string {
+  transform(minutes: number, format = 'short'): string {
     // Sua implementação aqui
     if (!minutes && minutes !== 0) return '';
 

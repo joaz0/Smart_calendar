@@ -108,7 +108,7 @@ export class DigitalInheritanceService {
     );
   }
 
-  getActivityHistory(limit: number = 10): Observable<ActivityCheck[]> {
+  getActivityHistory(limit = 10): Observable<ActivityCheck[]> {
     return this.http.get<ActivityCheck[]>(`${this.apiUrl}/activity`, { params: { limit: limit.toString() } }).pipe(
       catchError(() => of(this.getMockActivityHistory()))
     );

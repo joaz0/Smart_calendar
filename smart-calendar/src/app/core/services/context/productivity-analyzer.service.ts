@@ -43,7 +43,7 @@ export class ProductivityAnalyzerService {
     );
   }
 
-  getTrends(days: number = 30): Observable<ProductivityTrend[]> {
+  getTrends(days = 30): Observable<ProductivityTrend[]> {
     return this.http.get<ProductivityTrend[]>(`${this.apiUrl}/trends`, { params: { days: days.toString() } }).pipe(
       catchError(() => of([
         { metric: 'score', trend: 'up', changePercent: 15, period: 'last_week' },

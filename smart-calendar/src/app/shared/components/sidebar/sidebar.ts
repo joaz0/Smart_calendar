@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -50,9 +50,9 @@ interface UserStats {
   styleUrls: ['./sidebar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarComponent implements OnInit {
-  @Input() isOpen: boolean = true;
-  @Input() currentActive: string = 'calendar';
+export class SidebarComponent implements OnInit, OnDestroy {
+  @Input() isOpen = true;
+  @Input() currentActive = 'calendar';
   @Input() stats: UserStats = {
     todayEvents: 0,
     pendingTasks: 0,
@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit {
     email: 'user@example.com',
     avatar: null
   };
-  @Input() logoUrl: string = 'assets/images/logo.svg';
+  @Input() logoUrl = 'assets/images/logo.svg';
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() searchQuery = new EventEmitter<string>();
 
@@ -72,11 +72,11 @@ export class SidebarComponent implements OnInit {
     return !this.isOpen;
   }
 
-  searchTerm: string = '';
-  notifications: number = 3;
+  searchTerm = '';
+  notifications = 3;
   filteredNavItems: NavItem[] = [];
   searchResults: any[] = [];
-  hasUnreadNotifications: boolean = true;
+  hasUnreadNotifications = true;
   recentNotifications: any[] = [];
 
   private destroy$ = new Subject<void>();

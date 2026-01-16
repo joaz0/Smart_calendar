@@ -11,7 +11,7 @@ export interface ChartDataset {
 }
 
 export function prepareTimeSeriesData(
-  data: Array<{ date: Date; value: number }>,
+  data: { date: Date; value: number }[],
   groupBy: 'day' | 'week' | 'month' = 'day'
 ): ChartData {
   const grouped = groupDataByPeriod(data, groupBy);
@@ -28,10 +28,10 @@ export function prepareTimeSeriesData(
 }
 
 export function groupDataByPeriod(
-  data: Array<{ date: Date; value: number }>,
+  data: { date: Date; value: number }[],
   period: 'day' | 'week' | 'month'
-): { [key: string]: number } {
-  const grouped: { [key: string]: number } = {};
+): Record<string, number> {
+  const grouped: Record<string, number> = {};
   
   data.forEach(item => {
     const key = formatPeriodKey(item.date, period);
@@ -46,11 +46,14 @@ export function formatPeriodKey(date: Date, period: 'day' | 'week' | 'month'): s
   
   switch (period) {
     case 'day':
+      {
       return `${d.getDate()}/${d.getMonth() + 1}`;
     case 'week':
+      {
       const weekNum = getWeekNumber(d);
       return `Sem ${weekNum}`;
     case 'month':
+      {
       const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
       return months[d.getMonth()];
   }

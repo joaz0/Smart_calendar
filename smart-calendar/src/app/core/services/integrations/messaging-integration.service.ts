@@ -61,7 +61,7 @@ export class MessagingIntegrationService {
     );
   }
 
-  getRecentMessages(platform?: string, limit: number = 50): Observable<Message[]> {
+  getRecentMessages(platform?: string, limit = 50): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}/messages`, { 
       params: { platform: platform || '', limit: limit.toString() } 
     }).pipe(
@@ -93,7 +93,7 @@ export class MessagingIntegrationService {
     );
   }
 
-  sendFromTemplate(templateId: string, variables: { [key: string]: string }, recipients: string[]): Observable<{ sent: number; failed: number }> {
+  sendFromTemplate(templateId: string, variables: Record<string, string>, recipients: string[]): Observable<{ sent: number; failed: number }> {
     return this.http.post<any>(`${this.apiUrl}/templates/${templateId}/send`, { variables, recipients }).pipe(
       catchError(() => of({ sent: recipients.length, failed: 0 }))
     );

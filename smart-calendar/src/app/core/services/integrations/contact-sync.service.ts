@@ -94,7 +94,7 @@ export class ContactSyncService {
     );
   }
 
-  getFrequentContacts(limit: number = 10): Observable<Contact[]> {
+  getFrequentContacts(limit = 10): Observable<Contact[]> {
     return this.http.get<Contact[]>(`${this.apiUrl}/frequent`, { params: { limit: limit.toString() } }).pipe(
       catchError(() => of(this.getMockContacts().slice(0, limit)))
     );
