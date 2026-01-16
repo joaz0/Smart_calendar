@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntityService } from './entity.service';
 import { Category } from '../models/category.model';
 import { CategoryApiService } from './category-api.service';
@@ -9,10 +9,16 @@ import { Logger } from '../utils/logger';
   providedIn: 'root',
 })
 export class CategoryService extends EntityService<Category> {
+  private categoryApiService: CategoryApiService;
+
   private logger = new Logger('CategoryService');
 
-  constructor(private categoryApiService: CategoryApiService) {
+  constructor() {
+    const categoryApiService = inject(CategoryApiService);
+
     super(categoryApiService as any, '/api/categories');
+    this.categoryApiService = categoryApiService;
+
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -53,11 +53,13 @@ export interface CollaborationStats {
   providedIn: 'root'
 })
 export class CollaborationService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration`;
   private teamMembersSubject = new BehaviorSubject<TeamMember[]>([]);
   public teamMembers$ = this.teamMembersSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadTeamMembers();
   }
 

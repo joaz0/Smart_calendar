@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,6 +20,8 @@ import { CalendarEvent } from '../../../core/models/event.model';
   styleUrls: ['./event-form.scss'],
 })
 export class EventForm implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+
   private destroy$ = new Subject<void>();
   
   @Input() isEditMode = false;
@@ -30,7 +32,7 @@ export class EventForm implements OnInit, OnDestroy {
   activeTab = 'details';
   showAISuggestions = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.eventForm = this.createForm();
   }
 

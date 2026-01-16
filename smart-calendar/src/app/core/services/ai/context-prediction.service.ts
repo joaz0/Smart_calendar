@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -31,9 +31,9 @@ export interface ContextualSuggestion {
   providedIn: 'root'
 })
 export class ContextPredictionService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/context`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/context`;
 
   predictNextContext(currentContext: UserContext): Observable<ContextPrediction> {
     return this.http.post<ContextPrediction>(`${this.apiUrl}/predict`, currentContext).pipe(

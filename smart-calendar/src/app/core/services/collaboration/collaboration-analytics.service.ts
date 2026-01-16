@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,9 +13,9 @@ export interface CollaborationMetrics {
 
 @Injectable({ providedIn: 'root' })
 export class CollaborationAnalyticsService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/analytics`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/analytics`;
 
   getMetrics(period: { start: Date; end: Date }): Observable<CollaborationMetrics> {
     return this.http.post<CollaborationMetrics>(this.apiUrl, period).pipe(

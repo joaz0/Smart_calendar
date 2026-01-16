@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -44,9 +44,9 @@ export interface ActivityCheck {
   providedIn: 'root'
 })
 export class DigitalInheritanceService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/privacy/inheritance`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/privacy/inheritance`;
 
   getInheritancePlan(): Observable<InheritancePlan> {
     return this.http.get<InheritancePlan>(`${this.apiUrl}/plan`).pipe(

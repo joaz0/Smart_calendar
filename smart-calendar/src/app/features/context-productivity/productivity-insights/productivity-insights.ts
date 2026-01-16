@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,13 +28,13 @@ import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsig
   styleUrl: './productivity-insights.scss'
 })
 export class ProductivityInsights implements OnInit, OnDestroy {
+  private productivityService = inject(ProductivityInsightsService);
+
   private destroy$ = new Subject<void>();
   
   metricsData: ProductivityMetricsData | null = null;
   loading = false;
   selectedPeriod: 'week' | 'month' | 'quarter' = 'week';
-
-  constructor(private productivityService: ProductivityInsightsService) {}
 
   ngOnInit() {
     this.loadInsights();

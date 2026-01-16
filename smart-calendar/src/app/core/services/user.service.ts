@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -32,11 +32,11 @@ export interface UserStats {
   providedIn: 'root'
 })
 export class UserService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl}/users`;
   private preferencesSubject = new BehaviorSubject<UserPreferences>({});
   preferences$ = this.preferencesSubject.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   getUserProfile(): Observable<UserProfile> {
     return this.http.get<UserProfile>(`${this.apiUrl}/profile`);

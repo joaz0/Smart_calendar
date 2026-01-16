@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -28,9 +28,9 @@ export interface BackupMetadata {
   providedIn: 'root'
 })
 export class BackupService {
-  private readonly BACKUP_VERSION = '1.0.0';
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private readonly BACKUP_VERSION = '1.0.0';
 
   createBackup(): Observable<BackupData> {
     return this.http.get<BackupData>(`${environment.apiUrl}/api/backup/create`).pipe(

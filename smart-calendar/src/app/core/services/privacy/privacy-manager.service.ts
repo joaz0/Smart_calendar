@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -25,10 +25,12 @@ export enum PrivacyContext {
   providedIn: 'root'
 })
 export class PrivacyManagerService {
+  private http = inject(HttpClient);
+
   private privacySettingsSubject = new BehaviorSubject<any>(null);
   privacySettings$ = this.privacySettingsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadPrivacySettings();
   }
 
@@ -61,11 +63,11 @@ export class PrivacyManagerService {
   providedIn: 'root'
 })
 export class EncryptionService {
+  private http = inject(HttpClient);
+
   isDataEncrypted(context: PrivacyContext): Observable<boolean> {
     return this.http.get<boolean>(`${environment.apiUrl}/privacy/encryption/${context}`);
   }
-
-  constructor(private http: HttpClient) {}
 }
 
 @Injectable({

@@ -1,14 +1,4 @@
-import {
-  Component,
-  forwardRef,
-  HostListener,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import { Component, forwardRef, HostListener, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, inject } from '@angular/core';
 
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,6 +39,9 @@ interface Category {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private elementRef = inject(ElementRef);
+
   @ViewChild('categoryInput') categoryInput?: ElementRef<HTMLInputElement>;
   @ViewChild('dropdownContent') dropdownContent?: ElementRef<HTMLDivElement>;
 
@@ -154,11 +147,6 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   disabled = false;
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.loadCategories();

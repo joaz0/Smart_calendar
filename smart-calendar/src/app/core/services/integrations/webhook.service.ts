@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -24,7 +24,8 @@ export type WebhookEvent =
   providedIn: 'root'
 })
 export class WebhookService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   createWebhook(url: string, events: WebhookEvent[]): Observable<Webhook> {
     return this.http.post<Webhook>(`${environment.apiUrl}/webhooks`, { url, events });

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -31,6 +31,8 @@ import { AIAssistantService, ChatMessage, AISuggestion } from '../../core/servic
   styleUrls: ['./ai-assistant.scss']
 })
 export class AiAssistantComponent implements OnInit, OnDestroy, AfterViewChecked {
+  private aiService = inject(AIAssistantService);
+
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
   
   private destroy$ = new Subject<void>();
@@ -48,8 +50,6 @@ export class AiAssistantComponent implements OnInit, OnDestroy, AfterViewChecked
     { id: 'tasks', label: 'Priorizar Tarefas', icon: 'task_alt' },
     { id: 'focus', label: 'Ativar Foco', icon: 'center_focus_strong' }
   ];
-
-  constructor(private aiService: AIAssistantService) {}
 
   ngOnInit() {
     this.aiService.messages$

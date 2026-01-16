@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -36,9 +36,9 @@ export interface TreemapData {
   providedIn: 'root'
 })
 export class DataVisualizationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/visualization`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/visualization`;
 
   getProductivityChart(period: { start: Date; end: Date }): Observable<ChartData> {
     return this.http.post<ChartData>(`${this.apiUrl}/productivity`, period).pipe(

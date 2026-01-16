@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -50,9 +50,9 @@ export interface CriticalPath {
   providedIn: 'root'
 })
 export class ProjectTimelineService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/projects`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/projects`;
 
   getProjectTimeline(projectId: string): Observable<ProjectTimeline> {
     return this.http.get<ProjectTimeline>(`${this.apiUrl}/${projectId}/timeline`).pipe(

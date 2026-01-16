@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -27,11 +27,13 @@ export interface EventTemplate {
   providedIn: 'root'
 })
 export class EventTemplateService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/event-templates`;
   private templatesSubject = new BehaviorSubject<EventTemplate[]>([]);
   public templates$ = this.templatesSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadTemplates();
   }
 

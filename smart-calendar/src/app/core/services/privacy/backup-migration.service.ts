@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -32,9 +32,9 @@ export interface ExportFormat {
   providedIn: 'root'
 })
 export class BackupMigrationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/privacy/backup`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/privacy/backup`;
 
   createBackup(type: 'full' | 'incremental' = 'full', location: 'local' | 'cloud' = 'cloud'): Observable<Backup> {
     return this.http.post<Backup>(`${this.apiUrl}/create`, { type, location }).pipe(

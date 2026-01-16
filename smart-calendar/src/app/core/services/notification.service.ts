@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -18,11 +18,13 @@ export interface Notification {
   providedIn: 'root'
 })
 export class NotificationService {
+  private snackBar = inject(MatSnackBar);
+
   notifications = signal<Notification[]>([]);
   notifications$: Observable<Notification[]>;
   unreadCount = signal(0);
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor() {
     this.notifications$ = toObservable(this.notifications);
   }
 

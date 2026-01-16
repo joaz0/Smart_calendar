@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -14,7 +14,8 @@ export interface MeetingLink {
   providedIn: 'root'
 })
 export class VideoConferenceService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   // Zoom
   connectZoom(): void {

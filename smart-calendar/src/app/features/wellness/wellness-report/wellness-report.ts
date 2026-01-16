@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,14 +16,14 @@ import { WellnessService, WellnessMetrics, BreakPattern, WellnessRecommendation 
   styleUrl: './wellness-report.scss'
 })
 export class WellnessReport implements OnInit, OnDestroy {
+  private wellnessService = inject(WellnessService);
+
   private destroy$ = new Subject<void>();
   
   metrics: WellnessMetrics | null = null;
   breakPatterns: BreakPattern[] = [];
   recommendations: WellnessRecommendation[] = [];
   loading = false;
-
-  constructor(private wellnessService: WellnessService) {}
 
   ngOnInit() {
     this.loadData();

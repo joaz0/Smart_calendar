@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -42,6 +42,8 @@ export interface ListAction {
   ],
 })
 export class CategoriesListComponent implements OnInit, OnDestroy {
+  private categoryService = inject(CategoryService);
+
   private destroy$ = new Subject<void>();
   
   items: Category[] = [];
@@ -54,8 +56,6 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   columns: ListColumn[] = [];
   actions: ListAction[] = [];
   displayedColumns: string[] = [];
-
-  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
     this.initialize();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -18,11 +18,11 @@ export interface FocusSession {
   providedIn: 'root'
 })
 export class FocusModeService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/context/focus`;
   private focusModeActive = new BehaviorSubject<boolean>(false);
   focusModeActive$ = this.focusModeActive.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   startFocusSession(task: string, duration: number): Observable<FocusSession> {
     this.focusModeActive.next(true);

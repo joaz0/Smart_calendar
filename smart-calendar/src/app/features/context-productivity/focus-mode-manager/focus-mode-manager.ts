@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -28,6 +28,8 @@ import { FocusModeService, FocusSession, FocusStats } from '../../../core/servic
   styleUrl: './focus-mode-manager.scss'
 })
 export class FocusModeManager implements OnInit, OnDestroy {
+  private focusModeService = inject(FocusModeService);
+
   private destroy$ = new Subject<void>();
   
   isActive = false;
@@ -45,8 +47,6 @@ export class FocusModeManager implements OnInit, OnDestroy {
   stats: FocusStats | null = null;
   recentSessions: FocusSession[] = [];
   loading = false;
-
-  constructor(private focusModeService: FocusModeService) {}
 
   ngOnInit() {
     this.focusModeService.isActive$

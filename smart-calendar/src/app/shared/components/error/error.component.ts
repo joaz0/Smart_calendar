@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -30,7 +30,8 @@ import { Router } from '@angular/router';
   `]
 })
 export class ErrorComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
+
 
   goHome() {
     this.router.navigate(['/app/dashboard']);

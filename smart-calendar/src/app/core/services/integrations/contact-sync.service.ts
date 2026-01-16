@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -28,9 +28,9 @@ export interface ContactGroup {
   providedIn: 'root'
 })
 export class ContactSyncService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/contacts`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/contacts`;
 
   syncContacts(provider: 'google' | 'outlook' | 'icloud'): Observable<{ synced: number; updated: number; errors: number }> {
     return this.http.post<any>(`${this.apiUrl}/sync`, { provider }).pipe(

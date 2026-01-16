@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,14 +29,14 @@ import { Habit, HabitStats } from '../../../core/models/context/habit.model';
   styleUrl: './habit-tracking-dashboard.scss'
 })
 export class HabitTrackingDashboard implements OnInit, OnDestroy {
+  private habitService = inject(HabitTrackerService);
+
   private destroy$ = new Subject<void>();
   
   habits: Habit[] = [];
   habitStats = new Map<string, HabitStats>();
   loading = false;
   selectedPeriod: 'week' | 'month' | 'all' = 'week';
-
-  constructor(private habitService: HabitTrackerService) {}
 
   ngOnInit() {
     this.loadHabits();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -33,9 +33,9 @@ export interface MessageTemplate {
   providedIn: 'root'
 })
 export class MessagingIntegrationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/messaging`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/messaging`;
 
   connectPlatform(platform: 'slack' | 'teams' | 'whatsapp' | 'telegram'): Observable<{ success: boolean; message: string }> {
     return this.http.post<any>(`${this.apiUrl}/connect`, { platform }).pipe(

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -24,10 +24,10 @@ export interface AISuggestion {
   providedIn: 'root'
 })
 export class AIAssistantService {
+  private http = inject(HttpClient);
+
   private messagesSubject = new BehaviorSubject<ChatMessage[]>([]);
   messages$ = this.messagesSubject.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   sendMessage(message: string): Observable<ChatMessage> {
     const userMessage: ChatMessage = {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -45,6 +45,8 @@ export interface FocusStats {
   providedIn: 'root'
 })
 export class FocusModeService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/focus`;
   
   private isActiveSubject = new BehaviorSubject<boolean>(false);
@@ -59,7 +61,7 @@ export class FocusModeService {
   
   private timerSubscription: any;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadSettings();
   }
 

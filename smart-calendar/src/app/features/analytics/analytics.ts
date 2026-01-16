@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -46,6 +46,8 @@ interface ChartData {
   styleUrls: ['./analytics.scss']
 })
 export class AnalyticsComponent implements OnInit, OnDestroy {
+  private timeAnalyticsService = inject(TimeAnalyticsService);
+
   private destroy$ = new Subject<void>();
   
   analytics: TimeAnalytics | null = null;
@@ -57,8 +59,6 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   timeBreakdownChart: ChartData | null = null;
   productivityTrendChart: ChartData | null = null;
   weeklyComparisonChart: ChartData | null = null;
-
-  constructor(private timeAnalyticsService: TimeAnalyticsService) {}
 
   ngOnInit() {
     this.loadAnalytics();

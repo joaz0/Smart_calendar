@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,9 +13,9 @@ export interface TeamMember {
 
 @Injectable({ providedIn: 'root' })
 export class TeamCalendarService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/team`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/team`;
 
   getTeamAvailability(teamId: string, date: Date): Observable<TeamMember[]> {
     return this.http.post<TeamMember[]>(`${this.apiUrl}/availability`, { teamId, date }).pipe(

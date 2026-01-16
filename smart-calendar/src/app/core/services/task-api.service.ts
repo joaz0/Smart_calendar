@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiService, ApiResponse } from './api.service';
@@ -28,10 +28,10 @@ interface TaskListResponse {
   providedIn: 'root',
 })
 export class TaskApiService {
+  private apiService = inject(ApiService);
+
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasksSubject.asObservable();
-
-  constructor(private apiService: ApiService) {}
 
   /**
    * Obter todas as tarefas

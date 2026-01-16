@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
@@ -14,9 +14,10 @@ import { Logger } from '../utils/logger';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private logger = new Logger('AuthInterceptor');
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(private authService: AuthService, private router: Router) {}
+  private logger = new Logger('AuthInterceptor');
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Obter token do localStorage

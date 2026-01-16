@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +30,8 @@ import { CollaborationService, TeamMember, SharedEvent, TaskDelegation, Collabor
   styleUrl: './collaboration-dashboard.scss'
 })
 export class CollaborationDashboard implements OnInit, OnDestroy {
+  private collaborationService = inject(CollaborationService);
+
   private destroy$ = new Subject<void>();
 
   teamMembers: TeamMember[] = [];
@@ -37,8 +39,6 @@ export class CollaborationDashboard implements OnInit, OnDestroy {
   delegations: TaskDelegation[] = [];
   stats: CollaborationStats | null = null;
   loading = false;
-
-  constructor(private collaborationService: CollaborationService) {}
 
   ngOnInit() {
     this.loadDashboardData();

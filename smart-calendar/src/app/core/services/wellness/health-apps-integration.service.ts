@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -6,9 +6,9 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class HealthAppsIntegrationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/health-apps`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/health-apps`;
 
   connectApp(appName: string): Observable<{ success: boolean }> {
     return this.http.post<any>(`${this.apiUrl}/connect`, { appName }).pipe(

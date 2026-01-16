@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,9 +34,9 @@ export interface TrafficPrediction {
   providedIn: 'root'
 })
 export class TravelTimeAiService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/travel`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/travel`;
 
   estimateTravelTime(origin: string, destination: string, mode = 'driving', departureTime?: Date): Observable<TravelEstimate> {
     return this.http.post<TravelEstimate>(`${this.apiUrl}/estimate`, {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -33,6 +33,9 @@ import { TaskService } from '../../core/services/task.service';
   styleUrls: ['./tasks.scss']
 })
 export class TasksComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private taskService = inject(TaskService);
+
   private destroy$ = new Subject<void>();
   
   tasks: any[] = [];
@@ -55,11 +58,6 @@ export class TasksComponent implements OnInit, OnDestroy {
     { value: 'medium', label: 'Média' },
     { value: 'low', label: 'Baixa' }
   ];
-  
-  constructor(
-    private router: Router,
-    private taskService: TaskService
-  ) {}
   
   ngOnInit() {
     this.loadTasks();

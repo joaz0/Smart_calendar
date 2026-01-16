@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
 
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil, catchError } from 'rxjs/operators';
@@ -27,6 +27,15 @@ import { NotificationService } from '../../core/services/notification.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainLayout implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private taskService = inject(TaskService);
+  private eventService = inject(EventService);
+  private themeService = inject(ThemeService);
+  private notificationService = inject(NotificationService);
+  private cdr = inject(ChangeDetectorRef);
+
   private destroy$ = new Subject<void>();
   private timeInterval: any;
   currentActive = 'calendar';
@@ -58,17 +67,6 @@ export class MainLayout implements OnInit, OnDestroy {
 
   notificationsSignal = signal(0);
   isOnlineSignal = signal(true);
-
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private userService: UserService,
-    private taskService: TaskService,
-    private eventService: EventService,
-    private themeService: ThemeService,
-    private notificationService: NotificationService,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit() {
     this.timeInterval = setInterval(() => {

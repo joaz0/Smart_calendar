@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -7,7 +7,8 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class GoogleCalendarService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   authorize(): void {
     const params = new URLSearchParams({

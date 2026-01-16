@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -37,7 +37,8 @@ export interface TrendData {
   providedIn: 'root'
 })
 export class TimeAnalyticsService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   getTimeAnalytics(startDate: Date, endDate: Date): Observable<TimeAnalytics> {
     return this.http.get<TimeAnalytics>(`${environment.apiUrl}/analytics/time`, {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,9 +34,9 @@ export interface HealthInsight {
   providedIn: 'root'
 })
 export class HealthPlatformsService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/health`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/health`;
 
   connectPlatform(platform: 'fitbit' | 'apple_health' | 'google_fit' | 'samsung_health'): Observable<{ success: boolean; message: string }> {
     return this.http.post<any>(`${this.apiUrl}/connect`, { platform }).pipe(

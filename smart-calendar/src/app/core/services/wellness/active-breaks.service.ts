@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, interval } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,9 +13,9 @@ export interface BreakActivity {
 
 @Injectable({ providedIn: 'root' })
 export class ActiveBreaksService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/breaks`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/breaks`;
 
   getBreakSuggestions(): Observable<BreakActivity[]> {
     return this.http.get<BreakActivity[]>(`${this.apiUrl}/suggestions`).pipe(

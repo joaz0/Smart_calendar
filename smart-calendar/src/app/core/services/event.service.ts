@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -18,12 +18,14 @@ interface EventListResponse {
   providedIn: 'root',
 })
 export class EventService {
+  private eventApiService = inject(EventApiService);
+
   private eventsSubject = new BehaviorSubject<Event[]>([]);
   events$ = this.eventsSubject.asObservable();
 
   private logger = new Logger('EventService');
 
-  constructor(private eventApiService: EventApiService) {
+  constructor() {
     this.loadEvents();
   }
 

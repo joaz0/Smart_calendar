@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -19,6 +19,11 @@ import { TaskService } from '../../core/services/task.service';
   styleUrls: ['./dashboard.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private userService = inject(UserService);
+  private eventService = inject(EventService);
+  private taskService = inject(TaskService);
+
   private destroy$ = new Subject<void>();
   
   user: any = { name: 'Usuário' };
@@ -45,13 +50,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       description: 'Sua produtividade aumentou 15% esta semana.'
     }
   ];
-  
-  constructor(
-    private router: Router,
-    private userService: UserService,
-    private eventService: EventService,
-    private taskService: TaskService
-  ) {}
   
   ngOnInit() {
     this.loadUserData();

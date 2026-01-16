@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,9 +14,9 @@ export interface SchedulingPoll {
 
 @Injectable({ providedIn: 'root' })
 export class SchedulingPollsService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/polls`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/polls`;
 
   createPoll(poll: Omit<SchedulingPoll, 'id' | 'votes' | 'status'>): Observable<SchedulingPoll> {
     return this.http.post<SchedulingPoll>(this.apiUrl, poll).pipe(

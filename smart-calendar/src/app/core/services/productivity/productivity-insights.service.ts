@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -49,9 +49,9 @@ export interface ProductivityMetricsData {
   providedIn: 'root'
 })
 export class ProductivityInsightsService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/productivity`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/productivity`;
 
   getProductivityInsights(startDate: Date, endDate: Date): Observable<ProductivityMetricsData> {
     const params = new HttpParams()

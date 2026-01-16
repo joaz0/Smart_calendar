@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -29,6 +29,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./settings.scss']
 })
 export class SettingsComponent implements OnInit {
+  private themeService = inject(ThemeService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   user: any = {
     name: 'Usuário',
     email: 'user@example.com',
@@ -48,12 +52,6 @@ export class SettingsComponent implements OnInit {
     },
     weekStart: 'monday'
   };
-  
-  constructor(
-    private themeService: ThemeService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
   
   ngOnInit() {
     this.loadUserData();

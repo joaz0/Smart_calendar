@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -32,6 +32,8 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
   styleUrls: ['./task-form.scss']
 })
 export class TaskForm {
+  private fb = inject(FormBuilder);
+
   taskForm: FormGroup;
   isEditMode = false;
   isSaving = false;
@@ -44,7 +46,7 @@ export class TaskForm {
   recurrencePattern = 'daily';
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.taskForm = this.fb.group({
       title: [''],
       description: [''],

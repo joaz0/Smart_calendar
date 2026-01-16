@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -26,9 +26,9 @@ export interface VideoCallSettings {
   providedIn: 'root'
 })
 export class VideoCallIntegrationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/video`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/video`;
 
   createMeeting(provider: string, settings: any): Observable<VideoCallLink> {
     return this.http.post<VideoCallLink>(`${this.apiUrl}/create`, { provider, settings }).pipe(

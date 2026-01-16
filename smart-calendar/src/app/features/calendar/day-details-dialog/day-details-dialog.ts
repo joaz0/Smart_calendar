@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Event as CalendarEvent } from '../../../core/models/event.model';
 import { Task } from '../../../core/models/task.model';
@@ -23,10 +23,9 @@ interface DialogData {
   styleUrls: ['./day-details-dialog.scss'],
 })
 export class DayDetailsDialogComponent {
-  constructor(
-    private dialogRef: MatDialogRef<DayDetailsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  private dialogRef = inject<MatDialogRef<DayDetailsDialogComponent>>(MatDialogRef);
+  data = inject<DialogData>(MAT_DIALOG_DATA);
+
 
   close() {
     this.dialogRef.close();

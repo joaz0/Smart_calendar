@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -33,11 +33,13 @@ export interface DataAccessLog {
   providedIn: 'root'
 })
 export class PrivacyService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/privacy`;
   private settingsSubject = new BehaviorSubject<PrivacySettings>(this.getDefaultSettings());
   public settings$ = this.settingsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadSettings();
   }
 

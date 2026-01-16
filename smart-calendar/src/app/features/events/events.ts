@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -31,6 +31,9 @@ import { EventService } from '../../core/services/event.service';
   styleUrls: ['./events.scss']
 })
 export class EventsComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private eventService = inject(EventService);
+
   private destroy$ = new Subject<void>();
   
   events: any[] = [];
@@ -45,11 +48,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     { value: 'week', label: 'Esta Semana' },
     { value: 'month', label: 'Este Mês' }
   ];
-  
-  constructor(
-    private router: Router,
-    private eventService: EventService
-  ) {}
   
   ngOnInit() {
     this.loadEvents();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, interval } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -12,9 +12,9 @@ export interface UserAvailability {
 
 @Injectable({ providedIn: 'root' })
 export class RealTimeAvailabilityService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/availability`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/availability`;
 
   getAvailability(userId: string): Observable<UserAvailability> {
     return this.http.get<UserAvailability>(`${this.apiUrl}/${userId}`).pipe(

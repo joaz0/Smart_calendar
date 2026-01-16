@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, timeout, finalize } from 'rxjs/operators';
@@ -22,10 +22,10 @@ export interface ApiResponse<T> {
   providedIn: 'root',
 })
 export class ApiService {
+  private http = inject(HttpClient);
+
   private apiUrl = environment.apiUrl;
   private isLoading$ = new BehaviorSubject(false);
-
-  constructor(private http: HttpClient) {}
 
   /**
    * GET request

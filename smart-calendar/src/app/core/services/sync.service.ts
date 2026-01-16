@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
@@ -22,6 +22,8 @@ export interface SyncData {
   providedIn: 'root'
 })
 export class SyncService {
+  private http = inject(HttpClient);
+
   private syncStatusSubject = new BehaviorSubject<SyncStatus>({
     lastSync: null,
     syncing: false,
@@ -32,7 +34,7 @@ export class SyncService {
   syncStatus$ = this.syncStatusSubject.asObservable();
   private autoSyncInterval = 5 * 60 * 1000; // 5 minutes
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.initializeAutoSync();
   }
 

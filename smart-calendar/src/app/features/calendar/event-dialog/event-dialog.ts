@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Event } from '../../../core/models/event.model';
@@ -42,6 +42,11 @@ interface DialogData {
   styleUrls: ['./event-dialog.scss'],
 })
 export class EventDialogComponent {
+  private dialogRef = inject<MatDialogRef<EventDialogComponent>>(MatDialogRef);
+  data = inject<DialogData>(MAT_DIALOG_DATA);
+  private fb = inject(FormBuilder);
+  private eventService = inject(EventService);
+
   eventForm: FormGroup;
   isEditing: boolean;
   isEditMode: boolean;
@@ -57,12 +62,9 @@ export class EventDialogComponent {
     { id: '2', name: 'Trabalho', color: '#4caf50' },
   ];
 
-  constructor(
-    private dialogRef: MatDialogRef<EventDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private fb: FormBuilder,
-    private eventService: EventService
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.isEditing = !!data.event;
     this.isEditMode = !!data.event;
     const ev: any = data.event as any;

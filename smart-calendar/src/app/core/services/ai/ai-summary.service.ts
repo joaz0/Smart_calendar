@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -38,9 +38,9 @@ export interface MeetingSummary {
   providedIn: 'root'
 })
 export class AiSummaryService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/summary`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/summary`;
 
   getDailySummary(date: Date): Observable<DailySummary> {
     return this.http.post<DailySummary>(`${this.apiUrl}/daily`, { date }).pipe(

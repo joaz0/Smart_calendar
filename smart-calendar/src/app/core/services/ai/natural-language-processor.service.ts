@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -36,9 +36,9 @@ export interface NLPIntent {
   providedIn: 'root'
 })
 export class NaturalLanguageProcessorService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/nlp`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/nlp`;
 
   parseEventFromText(text: string): Observable<ParsedEvent> {
     return this.http.post<ParsedEvent>(`${this.apiUrl}/parse-event`, { text }).pipe(

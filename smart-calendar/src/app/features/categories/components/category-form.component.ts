@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { BaseFormComponent, FormField } from '@core/components/base-form.component';
 import { CategoryService } from '../services/category.service';
@@ -10,7 +10,11 @@ import * as CustomValidators from '@core/validators/custom.validators';
   styleUrls: ['./category-form.component.scss'],
 })
 export class CategoryFormComponent extends BaseFormComponent {
-  constructor(fb: FormBuilder, private categoryService: CategoryService) {
+  private categoryService = inject(CategoryService);
+
+  constructor() {
+    const fb = inject(FormBuilder);
+
     super(fb, 'CategoryFormComponent');
   }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CategoryApiService } from '../../../core/services/category-api.service';
@@ -15,7 +15,8 @@ export interface Category {
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
-  constructor(private categoryApiService: CategoryApiService) {}
+  private categoryApiService = inject(CategoryApiService);
+
 
   getAll(): Observable<Category[]> {
     return this.categoryApiService.getAllCategories().pipe(

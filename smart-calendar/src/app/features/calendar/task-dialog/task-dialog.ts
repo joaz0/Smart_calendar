@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   FormBuilder,
@@ -45,15 +45,17 @@ interface DialogData {
   styleUrls: ['./task-dialog.scss'],
 })
 export class TaskDialogComponent {
+  private dialogRef = inject<MatDialogRef<TaskDialogComponent>>(MatDialogRef);
+  data = inject<DialogData>(MAT_DIALOG_DATA);
+  private fb = inject(FormBuilder);
+  private taskService = inject(TaskService);
+
   taskForm: FormGroup;
   isEditing: boolean;
 
-  constructor(
-    private dialogRef: MatDialogRef<TaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private fb: FormBuilder,
-    private taskService: TaskService
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.isEditing = !!data.task;
     this.taskForm = this.fb.group({
       title: [data.task?.title || '', [Validators.required]],

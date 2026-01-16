@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,9 +14,9 @@ export interface QuickLink {
 
 @Injectable({ providedIn: 'root' })
 export class QuickLinksService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/quick-links`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/quick-links`;
 
   getLinks(): Observable<QuickLink[]> {
     return this.http.get<QuickLink[]>(this.apiUrl).pipe(

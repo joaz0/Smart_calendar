@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { BehaviorSubject, Subject, fromEvent, merge, of } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
@@ -33,6 +33,11 @@ import { LoadingSpinner } from './shared/components/loading-spinner/loading-spin
   ]
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private loadingService = inject(LoadingService);
+  private notificationService = inject(NotificationService);
+  private themeService = inject(ThemeService);
+  private apiMapperInit = inject(ApiMapperInitService);
+
   private destroy$ = new Subject<void>();
   
   isLoading$ = new BehaviorSubject<boolean>(false);
@@ -44,13 +49,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   env = environment;
   currentRoute = '';
-
-  constructor(
-    private loadingService: LoadingService,
-    private notificationService: NotificationService,
-    private themeService: ThemeService,
-    private apiMapperInit: ApiMapperInitService
-  ) {}
 
   ngOnInit() {
     this.loadingService.isLoading$

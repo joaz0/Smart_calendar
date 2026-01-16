@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -42,6 +42,8 @@ export interface PomodoroStats {
   providedIn: 'root'
 })
 export class PomodoroService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/pomodoro`;
   
   private isActiveSubject = new BehaviorSubject<boolean>(false);
@@ -59,7 +61,7 @@ export class PomodoroService {
   private timerSubscription: any;
   private sessionCount = 0;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadSettings();
   }
 

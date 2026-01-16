@@ -1,16 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  signal,
-  computed,
-  HostListener
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, signal, computed, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -82,6 +70,9 @@ interface Breadcrumb {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Header implements OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+
   // Configurações básicas
   @Input() user: User = {
     name: 'Usuário',
@@ -128,11 +119,6 @@ export class Header implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private timeInterval?: number;
   private onlineSubscription?: any;
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private router: Router
-  ) {}
 
   ngOnInit(): void {
     this.updateTime();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -18,12 +18,14 @@ interface TaskListResponse {
   providedIn: 'root',
 })
 export class TaskService {
+  private taskApiService = inject(TaskApiService);
+
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasksSubject.asObservable();
 
   private logger = new Logger('TaskService');
 
-  constructor(private taskApiService: TaskApiService) {
+  constructor() {
     this.loadTasks();
   }
 

@@ -1,5 +1,5 @@
 // src/app/layouts/auth-layout/auth-layout.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { RouterModule, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -25,17 +25,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrls: ['./auth-layout.scss']
 })
 export class AuthLayout {
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
   isLoginMode = true;
   isForgotMode = false;
   authForm: FormGroup;
   isLoading = false;
   errorMessage = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService
-  ) {
+  constructor() {
     this.authForm = this.createForm();
   }
 

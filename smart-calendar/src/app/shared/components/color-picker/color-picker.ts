@@ -1,17 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  forwardRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef, HostListener, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, inject } from '@angular/core';
 
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -51,6 +38,9 @@ interface ColorPalette {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private elementRef = inject(ElementRef);
+
   @ViewChild('customColorInput') customColorInput?: ElementRef<HTMLInputElement>;
   @ViewChild('paletteContainer') paletteContainer?: ElementRef<HTMLDivElement>;
 
@@ -113,11 +103,6 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
   private onTouched: () => void = () => {};
   private isDisabled = false;
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.normalizeColor();

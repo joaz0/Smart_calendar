@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,9 +19,9 @@ export interface EventTemplate {
   providedIn: 'root'
 })
 export class EventTemplatesService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/context/templates`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/context/templates`;
 
   getAllTemplates(): Observable<EventTemplate[]> {
     return this.http.get<EventTemplate[]>(`${this.apiUrl}`).pipe(

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -23,9 +23,9 @@ export interface ContextSwitchAnalytics {
   providedIn: 'root'
 })
 export class ContextSwitchingService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/context/switching`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/context/switching`;
 
   recordSwitch(fromContext: string, toContext: string): Observable<ContextSwitch> {
     return this.http.post<ContextSwitch>(`${this.apiUrl}/record`, {

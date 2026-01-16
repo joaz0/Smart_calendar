@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,9 +13,9 @@ export interface WellnessScore {
 
 @Injectable({ providedIn: 'root' })
 export class WellnessAnalyticsService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/analytics`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/analytics`;
 
   getScore(): Observable<WellnessScore> {
     return this.http.get<WellnessScore>(`${this.apiUrl}/score`).pipe(

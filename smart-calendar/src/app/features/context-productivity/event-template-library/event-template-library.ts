@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -28,6 +28,9 @@ import { EventTemplateService, EventTemplate } from '../../../core/services/temp
   styleUrl: './event-template-library.scss'
 })
 export class EventTemplateLibrary implements OnInit, OnDestroy {
+  private templateService = inject(EventTemplateService);
+  private dialog = inject(MatDialog);
+
   private destroy$ = new Subject<void>();
   
   templates: EventTemplate[] = [];
@@ -44,11 +47,6 @@ export class EventTemplateLibrary implements OnInit, OnDestroy {
     { value: 'education', label: 'Educação' },
     { value: 'other', label: 'Outro' }
   ];
-
-  constructor(
-    private templateService: EventTemplateService,
-    private dialog: MatDialog
-  ) {}
 
   ngOnInit() {
     this.templateService.templates$

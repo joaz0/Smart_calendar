@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -9,11 +9,13 @@ import { Habit, HabitCompletion, HabitStats } from '../../models/context/habit.m
   providedIn: 'root'
 })
 export class HabitTrackerService {
+  private http = inject(HttpClient);
+
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/habits`;
   private habitsSubject = new BehaviorSubject<Habit[]>([]);
   public habits$ = this.habitsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadHabits();
   }
 

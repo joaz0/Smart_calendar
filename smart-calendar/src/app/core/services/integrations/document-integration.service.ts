@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -24,9 +24,9 @@ export interface DocumentSearchResult {
   providedIn: 'root'
 })
 export class DocumentIntegrationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/documents`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/documents`;
 
   listDocuments(provider?: string, folderId?: string): Observable<Document[]> {
     return this.http.get<Document[]>(`${this.apiUrl}`, { 

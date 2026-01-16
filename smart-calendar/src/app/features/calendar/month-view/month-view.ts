@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntil, map, startWith } from 'rxjs/operators';
@@ -32,6 +32,11 @@ import { MatChipsModule } from '@angular/material/chips';
   styleUrls: ['./month-view.scss'],
 })
 export class MonthView implements OnInit, OnDestroy {
+  private calendarService = inject(CalendarService);
+  private taskService = inject(TaskService);
+  private eventService = inject(EventService);
+  private dialog = inject(MatDialog);
+
   @Input() events: CalendarEvent[] = [];
   @Input() selectedDate: Date = new Date();
   @Output() dateSelected = new EventEmitter<Date>();
@@ -47,13 +52,6 @@ export class MonthView implements OnInit, OnDestroy {
   currentMonthName = '';
   private destroy$ = new Subject<void>();
   private readonly maxVisibleItems = 3;
-
-  constructor(
-    private calendarService: CalendarService,
-    private taskService: TaskService,
-    private eventService: EventService,
-    private dialog: MatDialog
-  ) {}
 
   ngOnInit() {
     this.generateCalendarDays();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -35,9 +35,9 @@ export interface AnomalyInsight {
   providedIn: 'root'
 })
 export class InsightGeneratorService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/insights`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/insights`;
 
   generateInsights(period: { start: Date; end: Date }, categories?: string[]): Observable<Insight[]> {
     return this.http.post<Insight[]>(`${this.apiUrl}/generate`, { period, categories }).pipe(

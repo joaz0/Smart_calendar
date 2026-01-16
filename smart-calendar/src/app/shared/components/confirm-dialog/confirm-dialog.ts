@@ -1,16 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  HostListener,
-  ViewChild,
-  ElementRef,
-  AfterViewInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, HostListener, ViewChild, ElementRef, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,6 +35,8 @@ interface CheckboxOption {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('dialogContainer') dialogContainer?: ElementRef<HTMLDivElement>;
   @ViewChild('confirmButton') confirmButton?: ElementRef<HTMLButtonElement>;
   @ViewChild('cancelButton') cancelButton?: ElementRef<HTMLButtonElement>;
@@ -95,8 +85,6 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   countdown = 0;
   private countdownInterval?: number;
   private autoCloseTimeout?: number;
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     if (this.visible) {

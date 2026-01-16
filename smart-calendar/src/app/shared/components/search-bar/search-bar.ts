@@ -1,16 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  HostListener,
-  ViewChild,
-  ElementRef,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef, OnChanges
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -69,6 +57,9 @@ interface QuickAction {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBar implements OnInit, OnDestroy, OnChanges {
+  private cdr = inject(ChangeDetectorRef);
+  private elementRef = inject(ElementRef);
+
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
   @ViewChild('resultsContainer') resultsContainer?: ElementRef<HTMLDivElement>;
 
@@ -113,11 +104,6 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
   private searchSubject$ = new Subject<string>();
   private destroy$ = new Subject<void>();
   private maxRecentSearches = 10;
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.setupSearchDebounce();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiService, ApiResponse } from './api.service';
@@ -29,10 +29,10 @@ interface EventListResponse {
   providedIn: 'root',
 })
 export class EventApiService {
+  private apiService = inject(ApiService);
+
   private eventsSubject = new BehaviorSubject<Event[]>([]);
   events$ = this.eventsSubject.asObservable();
-
-  constructor(private apiService: ApiService) {}
 
   /**
    * Obter eventos por intervalo de datas

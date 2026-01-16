@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap, catchError, switchMap } from 'rxjs/operators';
@@ -15,6 +15,10 @@ interface PasswordResetResponse {
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private authApiService = inject(AuthApiService);
+  private oauthService = inject(OAuthService);
+
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
@@ -23,11 +27,7 @@ export class AuthService {
 
   private logger = new Logger('AuthService');
 
-  constructor(
-    private http: HttpClient,
-    private authApiService: AuthApiService,
-    private oauthService: OAuthService
-  ) {
+  constructor() {
     this.initializeAuth();
   }
 

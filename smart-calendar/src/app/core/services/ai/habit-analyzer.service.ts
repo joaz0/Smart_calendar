@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -32,9 +32,9 @@ export interface HabitInsight {
   providedIn: 'root'
 })
 export class HabitAnalyzerService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/habits`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/ai/habits`;
 
   analyzeHabits(userId: string, period = 30): Observable<HabitInsight[]> {
     return this.http.get<HabitInsight[]>(`${this.apiUrl}/analyze/${userId}?days=${period}`).pipe(

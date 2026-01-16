@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,9 +15,9 @@ export interface TaskDelegation {
 
 @Injectable({ providedIn: 'root' })
 export class TaskDelegationService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/delegation`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration/delegation`;
 
   delegateTask(taskId: string, toUser: string): Observable<TaskDelegation> {
     return this.http.post<TaskDelegation>(this.apiUrl, { taskId, toUser }).pipe(

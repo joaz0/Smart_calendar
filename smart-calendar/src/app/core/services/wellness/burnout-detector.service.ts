@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -30,10 +30,12 @@ export interface WellnessMetrics {
   providedIn: 'root'
 })
 export class BurnoutDetectorService {
+  private http = inject(HttpClient);
+
   private burnoutDataSubject = new BehaviorSubject<BurnoutData | null>(null);
   burnoutData$ = this.burnoutDataSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.startMonitoring();
   }
 
@@ -83,10 +85,10 @@ export class BurnoutDetectorService {
   providedIn: 'root'
 })
 export class WellnessTrackingService {
+  private http = inject(HttpClient);
+
   private metricsSubject = new BehaviorSubject<WellnessMetrics | null>(null);
   metrics$ = this.metricsSubject.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   trackMetrics(metrics: Partial<WellnessMetrics>): Observable<WellnessMetrics> {
     return this.http.post<WellnessMetrics>(`${environment.apiUrl}/wellness/metrics`, metrics);

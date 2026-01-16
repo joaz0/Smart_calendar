@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService, ApiResponse } from './api.service';
 import { Category } from '../models/category.model';
@@ -25,9 +25,9 @@ interface CategoryListResponse {
   providedIn: 'root',
 })
 export class CategoryApiService {
-  private readonly endpoint = '/api/categories';
+  private apiService = inject(ApiService);
 
-  constructor(private apiService: ApiService) {}
+  private readonly endpoint = '/api/categories';
 
   /**
    * Obter todas as categorias

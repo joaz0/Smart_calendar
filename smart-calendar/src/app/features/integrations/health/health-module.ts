@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -63,9 +63,9 @@ import { HealthIntegrationService } from '../../../core/services/integrations/he
   `]
 })
 export class HealthHomeComponent implements OnInit {
-  status = { googleFit: false, appleHealth: false };
+  private healthService = inject(HealthIntegrationService);
 
-  constructor(private healthService: HealthIntegrationService) {}
+  status = { googleFit: false, appleHealth: false };
 
   ngOnInit() {
     this.healthService.getConnectionStatus().subscribe(

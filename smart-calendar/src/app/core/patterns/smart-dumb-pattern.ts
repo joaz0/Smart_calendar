@@ -1,5 +1,5 @@
 // Padrão de Componente Smart (Container/Presenter)
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BaseComponent } from '../../core/components/base.component';
@@ -30,6 +30,8 @@ import { EventService } from '../services/event.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsContainerComponent extends BaseComponent implements OnInit {
+  private eventService = inject(EventService);
+
   // Observables (dados do serviço)
   get events$() {
     return this.eventService.events$;
@@ -52,10 +54,6 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
       action: (item: any) => this.deleteEvent(item),
     },
   ];
-
-  constructor(private eventService: EventService) {
-    super();
-  }
 
   protected initialize(): void {
     // Events are already loaded in the EventService constructor

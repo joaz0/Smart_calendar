@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -12,9 +12,9 @@ export interface StressLevel {
 
 @Injectable({ providedIn: 'root' })
 export class StressMonitorService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/stress`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/stress`;
 
   getCurrentLevel(): Observable<StressLevel> {
     return this.http.get<StressLevel>(`${this.apiUrl}/current`).pipe(

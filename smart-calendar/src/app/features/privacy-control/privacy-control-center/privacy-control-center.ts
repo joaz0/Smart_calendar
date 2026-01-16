@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -29,13 +29,13 @@ import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/se
   styleUrl: './privacy-control-center.scss'
 })
 export class PrivacyControlCenter implements OnInit, OnDestroy {
+  private privacyService = inject(PrivacyService);
+
   private destroy$ = new Subject<void>();
   
   settings: PrivacySettings | null = null;
   accessLogs: DataAccessLog[] = [];
   loading = false;
-
-  constructor(private privacyService: PrivacyService) {}
 
   ngOnInit() {
     this.privacyService.settings$

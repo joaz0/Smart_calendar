@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -35,9 +35,9 @@ export interface SearchSuggestion {
   providedIn: 'root'
 })
 export class SemanticSearchService {
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/search`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/search`;
 
   search(query: SemanticQuery): Observable<{ results: SearchResult[]; facets: SearchFacet[]; total: number }> {
     return this.http.post<any>(`${this.apiUrl}/semantic`, query).pipe(

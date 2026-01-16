@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, inject } from '@angular/core';
 
 import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -50,6 +50,9 @@ interface UserStats {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() isOpen = true;
   @Input() currentActive = 'calendar';
   @Input() stats: UserStats = {
@@ -170,11 +173,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       route: '/app/settings.html',
     },
   ];
-
-  constructor(
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit() {
     this.filteredNavItems = this.navItems;
