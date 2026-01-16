@@ -275,7 +275,7 @@ export class Header implements OnInit, OnDestroy {
     this.searchQuery.emit(query);
   }
 
-  executeQuickAction(_action: QuickAction): void {
+  executeQuickAction(action: QuickAction): void {
     if (action.disabled) return;
 
     action.callback();
@@ -421,17 +421,17 @@ export class Header implements OnInit, OnDestroy {
 
   // Atalhos de teclado
   @HostListener('document:keydown', ['$event'])
-  handleKeyboardShortcuts(_event: KeyboardEvent): void {
+  handleKeyboardShortcuts(evt: KeyboardEvent): void {
     // Ctrl/Cmd + K para busca
-    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-      event.preventDefault();
+    if ((evt.ctrlKey || evt.metaKey) && evt.key === 'k') {
+      evt.preventDefault();
       const searchInput = document.querySelector<HTMLInputElement>('.search-input');
       searchInput?.focus();
     }
 
     // Ctrl/Cmd + / para atalhos
-    if ((event.ctrlKey || event.metaKey) && event.key === '/') {
-      event.preventDefault();
+    if ((evt.ctrlKey || evt.metaKey) && evt.key === '/') {
+      evt.preventDefault();
       // Abrir painel de atalhos
     }
   }

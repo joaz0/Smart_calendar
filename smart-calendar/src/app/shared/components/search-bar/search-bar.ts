@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -44,6 +45,8 @@ interface QuickAction {
   selector: 'app-search-bar',
   standalone: true,
   imports: [
+    CommonModule,
+    DatePipe,
     FormsModule,
     MatIconModule,
     MatButtonModule,
@@ -270,7 +273,7 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
     this.recentSearchSelected.emit(search);
   }
 
-  executeQuickAction(_action: QuickAction, event?: Event): void {
+  executeQuickAction(action: QuickAction, event?: Event): void {
     if (event) {
       event.stopPropagation();
     }
@@ -342,38 +345,38 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
     this.cdr.markForCheck();
   }
 
-  onKeyDown(_event: KeyboardEvent): void {
-    this.handleKeyboard(event);
+  onKeyDown(evt: KeyboardEvent): void {
+    this.handleKeyboard(evt);
   }
 
   // Navegação por teclado
   @HostListener('document:keydown', ['$event'])
-  handleKeyboard(_event: KeyboardEvent): void {
+  handleKeyboard(evt: KeyboardEvent): void {
     if (!this.showResults) return;
 
-    switch (event.key) {
+    switch (evt.key) {
       case 'Escape':
-        event.preventDefault();
+        evt.preventDefault();
         this.closeResults();
         break;
       case 'ArrowDown':
-        event.preventDefault();
+        evt.preventDefault();
         this.navigateDown();
         break;
       case 'ArrowUp':
-        event.preventDefault();
+        evt.preventDefault();
         this.navigateUp();
         break;
       case 'Enter':
-        event.preventDefault();
+        evt.preventDefault();
         this.selectHighlighted();
         break;
     }
   }
 
   @HostListener('document:click', ['$event'])
-  handleClickOutside(_event: Event): void {
-    const target = event.target as HTMLElement;
+  handleClickOutside(evt: Event): void {
+    const target = evt.target as HTMLElement;
     if (!this.elementRef.nativeElement.contains(target)) {
       this.closeResults();
     }

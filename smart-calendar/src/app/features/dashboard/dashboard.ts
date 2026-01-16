@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { EventService } from '../../core/services/event.service';
@@ -14,7 +15,7 @@ import { TaskService } from '../../core/services/task.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
+  imports: [CommonModule, DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })

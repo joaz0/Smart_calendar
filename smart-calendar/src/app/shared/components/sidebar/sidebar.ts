@@ -193,11 +193,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private subscribeToRouteChanges(): void {
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter(evt => evt instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
-      .subscribe((_event: NavigationEnd) => {
-        this.currentActive = event.url;
+      .subscribe((evt: NavigationEnd) => {
+        this.currentActive = evt.url;
         this.updateSubmenuStates();
         this.cdr.markForCheck();
       });

@@ -126,7 +126,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onPageChange(_event: PageEvent): void {
+  onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadData();

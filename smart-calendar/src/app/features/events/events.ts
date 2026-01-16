@@ -183,40 +183,40 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/app/calendar'], { queryParams: { action: 'create' } });
   }
   
-  editEvent(_event: any) {
+  editEvent(evt: any) {
     this.router.navigate(['/app/calendar'], { 
-      queryParams: { action: 'edit', eventId: event.id } 
+      queryParams: { action: 'edit', eventId: evt.id } 
     });
   }
   
-  deleteEvent(_event: any) {
-    if (confirm(`Tem certeza que deseja excluir o evento "${event.title}"?`)) {
-      this.eventService.deleteEvent(event.id)
+  deleteEvent(evt: any) {
+    if (confirm(`Tem certeza que deseja excluir o evento "${evt.title}"?`)) {
+      this.eventService.deleteEvent(evt.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.events = this.events.filter(e => e.id !== event.id);
+            this.events = this.events.filter(e => e.id !== evt.id);
             this.applyFilters();
           },
           error: () => {
             // Simular exclusão em caso de erro
-            this.events = this.events.filter(e => e.id !== event.id);
+            this.events = this.events.filter(e => e.id !== evt.id);
             this.applyFilters();
           }
         });
     }
   }
   
-  viewEvent(_event: any) {
+  viewEvent(evt: any) {
     this.router.navigate(['/app/calendar'], { 
-      queryParams: { eventId: event.id } 
+      queryParams: { eventId: evt.id } 
     });
   }
   
-  getEventStatus(_event: any): string {
+  getEventStatus(evt: any): string {
     const now = new Date();
-    if (event.endDate < now) return 'past';
-    if (event.startDate <= now && event.endDate >= now) return 'ongoing';
+    if (evt.endDate < now) return 'past';
+    if (evt.startDate <= now && evt.endDate >= now) return 'ongoing';
     return 'upcoming';
   }
   
