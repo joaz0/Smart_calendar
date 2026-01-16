@@ -31,9 +31,9 @@ export class DayDetailsDialogComponent {
     this.dialogRef.close();
   }
 
-  getEventTime(_event: CalendarEvent): string {
-    return event.startDate
-      ? new Date(event.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  getEventTime(evt: CalendarEvent): string {
+    return evt.startDate
+      ? new Date(evt.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       : '';
   }
 
@@ -59,8 +59,8 @@ export class DayDetailsDialogComponent {
     return task.id || index;
   }
 
-  openEvent(_event: CalendarEvent) {
-    this.dialogRef.close({ action: 'openEvent', event });
+  openEvent(evt: CalendarEvent) {
+    this.dialogRef.close({ action: 'openEvent', event: evt });
   }
 
   openTask(task: Task) {

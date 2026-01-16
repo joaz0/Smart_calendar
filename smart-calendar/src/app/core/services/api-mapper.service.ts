@@ -7,30 +7,30 @@ import { Task } from '../models/task.model';
 })
 export class ApiMapperService {
   // Events: front <-> back
-  toApiEvent(_event: Partial<CalendarEvent>): any {
+  toApiEvent(evt: Partial<CalendarEvent>): any {
     const payload: any = {
-      title: event.title,
-      description: event.description,
-      location: event.location,
-      url: event.url,
-      color: event.color,
-      is_all_day: event.allDay ?? false
+      title: evt.title,
+      description: evt.description,
+      location: evt.location,
+      url: evt.url,
+      color: evt.color,
+      is_all_day: evt.allDay ?? false
     };
     
-    if (event.startDate) {
-      payload.start_time = event.startDate instanceof Date 
-        ? event.startDate.toISOString() 
-        : event.startDate;
+    if (evt.startDate) {
+      payload.start_time = evt.startDate instanceof Date 
+        ? evt.startDate.toISOString() 
+        : evt.startDate;
     }
     
-    if (event.endDate) {
-      payload.end_time = event.endDate instanceof Date 
-        ? event.endDate.toISOString() 
-        : event.endDate;
+    if (evt.endDate) {
+      payload.end_time = evt.endDate instanceof Date 
+        ? evt.endDate.toISOString() 
+        : evt.endDate;
     }
     
-    if (event.category) {
-      payload.category_id = typeof event.category === 'object' ? event.category.id : event.category;
+    if (evt.category) {
+      payload.category_id = typeof evt.category === 'object' ? evt.category.id : evt.category;
     }
     
     return payload;

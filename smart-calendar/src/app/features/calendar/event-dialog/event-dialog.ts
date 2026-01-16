@@ -150,13 +150,13 @@ export class EventDialogComponent {
     this.eventForm.get('reminders')?.setValue(reminders);
   }
 
-  addAttendee(_event: any) {
-    const value = (event.value || '').trim();
+  addAttendee(evt: any) {
+    const value = (evt.value || '').trim();
     if (value) {
       this.attendees.push({email: value});
     }
-    if (event.input) {
-      event.input.value = '';
+    if (evt.input) {
+      evt.input.value = '';
     }
   }
 

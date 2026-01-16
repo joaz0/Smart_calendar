@@ -10,7 +10,7 @@ import { Task } from '../../../core/models/task.model';
 import { EventDialogComponent } from '../event-dialog/event-dialog';
 import { TaskDialogComponent } from '../task-dialog/task-dialog';
 import { DayDetailsDialogComponent } from '../day-details-dialog/day-details-dialog';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, SlicePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -27,7 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
 @Component({
   selector: 'app-month-view',
   standalone: true,
-  imports: [DatePipe, MatIconModule, MatButtonModule, MatListModule, MatTooltipModule],
+  imports: [CommonModule, DatePipe, SlicePipe, MatIconModule, MatButtonModule, MatListModule, MatTooltipModule],
   templateUrl: './month-view.html',
   styleUrls: ['./month-view.scss'],
 })
@@ -309,17 +309,17 @@ export class MonthView implements OnInit, OnDestroy {
     return [];
   }
 
-  getEventTooltip(_event: CalendarEvent): string {
-    return event.title || '';
+  getEventTooltip(evt: CalendarEvent): string {
+    return evt.title || '';
   }
 
   getTaskTooltip(task: Task): string {
     return task.title || '';
   }
 
-  openEvent(_event: CalendarEvent, mouseEvent: PointerEvent) {
+  openEvent(evt: CalendarEvent, mouseEvent: PointerEvent) {
     mouseEvent.stopPropagation();
-    this.openEventDialog(event);
+    this.openEventDialog(evt);
   }
 
   openTask(task: Task, mouseEvent: PointerEvent) {

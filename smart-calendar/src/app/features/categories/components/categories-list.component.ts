@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -31,6 +32,8 @@ export interface ListAction {
   styleUrls: ['./categories-list.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
+    DatePipe,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
