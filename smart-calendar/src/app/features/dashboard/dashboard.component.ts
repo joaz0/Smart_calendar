@@ -11,7 +11,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { EventService } from '../../core/services/event.service';
 import { TaskService } from '../../core/services/task.service';
-import { AnyObject } from '@core/models/common-interfaces.component';
 
 interface User {
   name: string;

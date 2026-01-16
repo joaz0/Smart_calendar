@@ -11,7 +11,6 @@ import { MatSelectModule } from '@angular/material/select.component';
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router.component';
-import { AnyObject } from '@core/models/common-interfaces.component';
 
 
 @Component({

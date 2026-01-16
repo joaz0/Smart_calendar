@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core.component';
 
 import { TaskItem } from '../task-item/task-item.component';
-import { AnyObject } from '@core/models/common-interfaces.component';
 
 
 @Component({
