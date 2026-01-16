@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators.component';
-import { environment } from '../../../../environments/environment.component';
+import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 
 export interface SearchResult {
@@ -11,7 +11,7 @@ export interface SearchResult {
   title: string;
   snippet: string;
   relevanceScore: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SearchFacet {

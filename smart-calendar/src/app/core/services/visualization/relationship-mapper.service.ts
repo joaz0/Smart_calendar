@@ -1,15 +1,15 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators.component';
-import { environment } from '../../../../environments/environment.component';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 
 export interface RelationshipNode {
   id: string;
   type: 'person' | 'event' | 'project' | 'task' | 'document';
   label: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface RelationshipEdge {
@@ -17,7 +17,7 @@ export interface RelationshipEdge {
   target: string;
   type: 'works_with' | 'attends' | 'owns' | 'depends_on' | 'related_to';
   strength: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface RelationshipGraph {
