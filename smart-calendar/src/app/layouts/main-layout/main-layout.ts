@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { filter, takeUntil, catchError } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
 import { Header } from '../../shared/components/header/header';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
 import { LoadingSpinner } from '../../shared/components/loading-spinner/loading-spinner';
@@ -25,6 +25,7 @@ import { NotificationService } from '../../core/services/notification.service';
   ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainLayout implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -66,7 +67,8 @@ export class MainLayout implements OnInit, OnDestroy {
     private taskService: TaskService,
     private eventService: EventService,
     private themeService: ThemeService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -98,7 +100,18 @@ export class MainLayout implements OnInit, OnDestroy {
 
   private loadUserData() {
     this.userService.getProfile()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(error => {
+          console.error('Erro ao carregar perfil:', error);
+          return of({
+            name: 'Usuário',
+            email: '',
+            avatar: null,
+            preferences: {}
+          } as UserProfile);
+        })
+      )
       .subscribe({
         next: (profile: UserProfile) => {
           this.user = {
@@ -107,22 +120,26 @@ export class MainLayout implements OnInit, OnDestroy {
             avatar: profile.avatar || '👤',
             preferences: profile.preferences || {}
           };
-        },
-        error: (error: any) => {
-          console.error('Erro ao carregar perfil:', error);
-          this.user = {
-            name: 'Usuário',
-            email: '',
-            avatar: '👤',
-            preferences: {}
-          };
+          this.currentUser = this.user;
+          this.cdr.markForCheck();
         }
       });
   }
 
   private loadStats() {
     this.userService.getStats()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(error => {
+          console.error('Erro ao carregar estatísticas:', error);
+          return of({
+            events_today: 0,
+            pending_tasks: 0,
+            completed_tasks: 0,
+            productivity_score: 0
+          } as UserStats);
+        })
+      )
       .subscribe({
         next: (stats: UserStats) => {
           this.stats = {
@@ -131,17 +148,9 @@ export class MainLayout implements OnInit, OnDestroy {
             completedTasks: stats.completed_tasks || 0,
             weeklyFocus: stats.productivity_score || 0
           };
+          this.userStats = this.stats;
           this.notificationsSignal.set(this.stats.pendingTasks);
-        },
-        error: (error: any) => {
-          console.error('Erro ao carregar estatísticas:', error);
-          this.stats = {
-            todayEvents: 0,
-            pendingTasks: 0,
-            completedTasks: 0,
-            weeklyFocus: 0
-          };
-          this.notificationsSignal.set(0);
+          this.cdr.markForCheck();
         }
       });
   }
