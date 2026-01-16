@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient, HttpParams } from '@angular/common/http.component';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { map, catchError } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface ProductivityPattern {

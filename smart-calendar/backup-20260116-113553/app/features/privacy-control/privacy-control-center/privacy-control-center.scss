@@ -1,0 +1,140 @@
+.privacy-control-center {
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .header h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 28px;
+  }
+
+  .content mat-card {
+    margin-bottom: 24px;
+
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+
+      .setting-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        mat-icon {
+          color: var(--primary-color);
+        }
+
+        .setting-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+
+        .setting-description {
+          font-size: 13px;
+          color: var(--text-secondary);
+        }
+      }
+    }
+
+    .visibility-setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+
+      .vis-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+
+        mat-icon {
+          color: var(--primary-color);
+        }
+      }
+
+      mat-select {
+        min-width: 150px;
+      }
+    }
+
+    .log-item {
+      display: flex;
+      gap: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 12px;
+
+      mat-icon {
+        color: var(--primary-color);
+      }
+
+      .log-details {
+        flex: 1;
+
+        .log-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+
+        .log-meta {
+          font-size: 12px;
+          color: var(--text-secondary);
+        }
+      }
+    }
+  }
+
+  .danger-zone-card {
+    border: 2px solid #F44336;
+
+    mat-card-title {
+      color: #F44336;
+    }
+
+    .danger-actions {
+      .action-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+
+        .action-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+
+        .action-description {
+          font-size: 13px;
+          color: var(--text-secondary);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .privacy-control-center {
+    padding: 16px;
+
+    .content .setting-item,
+    .content .visibility-setting,
+    .content .danger-actions .action-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
+}

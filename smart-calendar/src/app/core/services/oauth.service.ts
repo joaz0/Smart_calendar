@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core.component';
 import { Observable, from } from 'rxjs';
-import { oauthConfig } from '../../../environments/oauth.config';
+import { oauthConfig } from '../../../environments/oauth.config.component';
 
 
 declare global {
@@ -15,7 +15,9 @@ declare global {
 })
 export class OAuthService {
 
-  constructor() {}
+  constructor() {
+    // OAuth Service initialization
+  }
 
   initializeGoogleAuth(): Observable<any> {
     return from(this.loadGoogleScript().then(() => {

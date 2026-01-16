@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core.component';
 
 export type CalendarView = 'month' | 'week' | 'day';
 
@@ -13,7 +12,7 @@ export class CalendarService {
   private currentDateSubject = new BehaviorSubject<Date>(new Date());
   currentDate$ = this.currentDateSubject.asObservable();
 
-  constructor() {}
+  constructor() { // TODO: Implement }
 
   setView(view: CalendarView) {
     this.currentViewSubject.next(view);

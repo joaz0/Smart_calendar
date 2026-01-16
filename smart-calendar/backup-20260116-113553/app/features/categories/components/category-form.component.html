@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="category-form">
+
+  @if (serverError) {
+    <div class="error-banner">
+      {{ serverError }}
+    </div>
+  }
+
+  <div class="form-fields">
+    @for (field of formFields; track field) {
+      <mat-form-field class="form-field">
+        @if (field.type === 'text' || field.type === 'email' || field.type === 'password') {
+          <input
+            matInput
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder"
+            [type]="field.type"
+            class="form-input">
+        }
+        @if (field.type === 'textarea') {
+          <textarea
+            matInput
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder"
+            [rows]="field.rows"
+            class="form-textarea">
+          </textarea>
+        }
+        @if (field.type === 'select') {
+          <mat-select
+            [formControlName]="field.name"
+            class="form-select">
+            @for (option of field.options; track option) {
+              <mat-option [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            }
+          </mat-select>
+        }
+        @if (form.get(field.name)?.hasError('required')) {
+          <mat-error>
+            {{ field.errorMessages?.required || 'Campo obrigatório' }}
+          </mat-error>
+        }
+      </mat-form-field>
+    }
+  </div>
+
+  <div class="form-actions">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!form.valid || isSubmitting">
+      {{ isSubmitting ? 'Salvando...' : 'Salvar' }}
+    </button>
+    <button mat-button type="reset" (click)="resetForm()">
+      Limpar
+    </button>
+  </div>
+</form>

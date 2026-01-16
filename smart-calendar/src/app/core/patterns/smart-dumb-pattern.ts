@@ -1,10 +1,10 @@
-// Padrão de Componente Smart (Container/Presenter)
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core.component';
+import { CommonModule } from '@angular/common.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
 import { BaseComponent } from '../../core/components/base.component';
 import { ListColumn, ListAction } from '../components/base-list.component';
 import { EventService } from '../services/event.service';
+import { AnyObject } from '../models/common-interfaces.component';
 
 
 /**
@@ -47,12 +47,12 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   ];
 
   actions = [
-    { label: 'Editar', icon: 'edit', action: (item: any) => this.editEvent(item) },
+    { label: 'Editar', icon: 'edit', action: (item: AnyObject) => this.editEvent(item) },
     {
       label: 'Deletar',
       icon: 'delete',
       color: 'warn',
-      action: (item: any) => this.deleteEvent(item),
+      action: (item: AnyObject) => this.deleteEvent(item),
     },
   ];
 
@@ -60,9 +60,9 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
     // Events are already loaded in the EventService constructor
   }
 
-  onPageChange(_event: { page: number; pageSize: number }): void {
+  onPageChange(pageEvent: { page: number; pageSize: number }): void {
     this.loading = true;
-    this.eventService.getAllEvents(event.page, event.pageSize).pipe(this.takeUntil()).subscribe({
+    this.eventService.getAllEvents(pageEvent.page, pageEvent.pageSize).pipe(this.takeUntil()).subscribe({
       complete: () => this.loading = false
     });
   }
@@ -80,18 +80,21 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onAction(_action: { type: string; item: any }): void {
+  onAction(actionData: { type: string; item: AnyObject }): void {
     // Delegar para método apropriado
+    console.log('Action:', actionData);
   }
 
-  private editEvent(_event: any): void {
+  private editEvent(eventData: AnyObject): void {
     // Abrir modal/navegação para edição
+    console.log('Edit event:', eventData);
   }
 
-  private deleteEvent(_event: any): void {
+  private deleteEvent(eventData: AnyObject): void {
     // Confirmar e deletar
     this.loading = true;
-    this.eventService.deleteEvent(event.id).pipe(this.takeUntil()).subscribe({
+    const eventId = eventData['id'] as string;
+    this.eventService.deleteEvent(eventId).pipe(this.takeUntil()).subscribe({
       complete: () => this.loading = false
     });
   }
@@ -152,7 +155,7 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsListComponent {
-  @Input() items: any[] | null = null;
+  @Input() items: AnyObject[] | null = null;
   @Input() columns: ListColumn[] = [];
   @Input() actions: ListAction[] = [];
   @Input() loading = false;
@@ -160,15 +163,16 @@ export class EventsListComponent {
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
   @Output() search = new EventEmitter<string>();
 
-  onSearchChange(_event: any): void {
-    this.search.emit(event.target.value);
+  onSearchChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.search.emit(target.value);
   }
 
-  executeAction(_action: ListAction, item: any): void {
+  executeAction(action: ListAction, item: AnyObject): void {
     action.action(item);
   }
 
-  getColumnValue(item: any, column: ListColumn): any {
+  getColumnValue(item: AnyObject, column: ListColumn): unknown {
     return item[column.key];
   }
 }

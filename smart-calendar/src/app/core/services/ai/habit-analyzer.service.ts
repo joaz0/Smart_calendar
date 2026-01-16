@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface Habit {
@@ -50,7 +50,7 @@ export class HabitAnalyzerService {
   }
 
   predictSuccess(habit: Partial<Habit>): Observable<{ probability: number; factors: string[] }> {
-    return this.http.post<any>(`${this.apiUrl}/predict`, habit).pipe(
+    return this.http.post<{ probability: number; factors: string[] }>(`${this.apiUrl}/predict`, habit).pipe(
       catchError(() => of({ probability: 0.75, factors: ['Horário consistente', 'Motivação clara', 'Suporte social'] }))
     );
   }

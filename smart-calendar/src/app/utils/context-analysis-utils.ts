@@ -6,6 +6,12 @@ export interface ContextPattern {
   duration: number;
 }
 
+export interface Task {
+  title: string;
+  duration: number;
+  context: string;
+}
+
 export function analyzeContextPatterns(
   events: { title: string; startDate: Date; endDate: Date; category?: string }[]
 ): ContextPattern[] {
@@ -85,10 +91,10 @@ export function calculateContextSwitchCost(
 }
 
 export function suggestOptimalSchedule(
-  tasks: { title: string; duration: number; context: string }[],
+  tasks: Task[],
   patterns: ContextPattern[]
-): { task: any; startTime: Date }[] {
-  const schedule: { task: any; startTime: Date }[] = [];
+): { task: Task; startTime: Date }[] {
+  const schedule: { task: Task; startTime: Date }[] = [];
   const now = new Date();
   const currentTime = new Date(now);
   

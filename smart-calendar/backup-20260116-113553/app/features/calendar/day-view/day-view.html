@@ -1,0 +1,358 @@
+<div class="day-view" role="main" aria-label="Visualização diária do calendário">
+  <div class="day-header">
+    <div class="day-navigation">
+      <button mat-icon-button
+        (click)="previousDay()"
+        aria-label="Dia anterior"
+        [attr.aria-describedby]="'current-day'">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <div class="day-info" id="current-day">
+        <h2 class="day-title">{{ currentDate | date:'fullDate' }}</h2>
+        @if (isToday(currentDate)) {
+          <span class="day-subtitle">Hoje</span>
+        }
+        @if (isTomorrow(currentDate)) {
+          <span class="day-subtitle">Amanhã</span>
+        }
+        @if (isYesterday(currentDate)) {
+          <span class="day-subtitle">Ontem</span>
+        }
+      </div>
+
+      <button mat-icon-button
+        (click)="nextDay()"
+        aria-label="Próximo dia"
+        [attr.aria-describedby]="'current-day'">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <div class="day-actions">
+      <button mat-button (click)="goToToday()" class="today-btn">
+        <mat-icon>today</mat-icon>
+        <span>Hoje</span>
+      </button>
+
+      <button mat-raised-button
+        color="primary"
+        (click)="addEvent()"
+        class="add-event-btn">
+        <mat-icon>add</mat-icon>
+        <span>Novo Evento</span>
+      </button>
+
+      <button mat-icon-button
+        [matMenuTriggerFor]="dayMenu"
+        aria-label="Opções do dia">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #dayMenu="matMenu">
+        <button mat-menu-item (click)="addTask()">
+          <mat-icon>add_task</mat-icon>
+          <span>Nova Tarefa</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="toggleTimeFormat()">
+          <mat-icon>schedule</mat-icon>
+          <span>Formato {{ is24Hour ? '12h' : '24h' }}</span>
+        </button>
+        <button mat-menu-item (click)="toggleWeatherInfo()">
+          <mat-icon>{{ showWeather ? 'visibility_off' : 'wb_sunny' }}</mat-icon>
+          <span>{{ showWeather ? 'Ocultar' : 'Mostrar' }} clima</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="exportDay()">
+          <mat-icon>download</mat-icon>
+          <span>Exportar dia</span>
+        </button>
+        <button mat-menu-item (click)="printDay()">
+          <mat-icon>print</mat-icon>
+          <span>Imprimir</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <!-- Weather Info -->
+  @if (showWeather && weatherData) {
+    <div class="weather-info">
+      <div class="weather-current">
+        <mat-icon class="weather-icon">{{ getWeatherIcon(weatherData.condition) }}</mat-icon>
+        <span class="temperature">{{ weatherData.temperature }}°C</span>
+        <span class="condition">{{ weatherData.condition }}</span>
+      </div>
+      <div class="weather-details">
+        <span class="humidity">Umidade: {{ weatherData.humidity }}%</span>
+        <span class="wind">Vento: {{ weatherData.windSpeed }} km/h</span>
+      </div>
+    </div>
+  }
+
+  <!-- All Day Events -->
+  @if (allDayEvents.length > 0) {
+    <div class="all-day-section">
+      <div class="all-day-header">
+        <h3>Eventos de dia inteiro</h3>
+        <span class="events-count">({{ allDayEvents.length }})</span>
+      </div>
+      <div class="all-day-events">
+        @for (event of allDayEvents; track trackByEvent($index, event)) {
+          <div
+            class="all-day-event"
+            [style.background-color]="event.color || '#6d3bf7'"
+            [attr.title]="getEventTooltip(event)"
+            (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
+            <div class="event-content">
+              <span class="event-title">{{ event.title }}</span>
+              <div class="event-meta">
+                @if (event.location) {
+                  <mat-icon>location_on</mat-icon>
+                }
+                @if (event.recurrence) {
+                  <mat-icon>repeat</mat-icon>
+                }
+                @if (event.url) {
+                  <mat-icon>link</mat-icon>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Time Grid -->
+  <div class="time-grid-container">
+    <div class="time-grid" role="grid" aria-label="Grade de horários do dia">
+      <div class="time-column">
+        @for (hour of timeSlots; track trackByHour($index, hour)) {
+          <div
+            class="time-slot"
+            [class.current-hour]="isCurrentHour(hour) && isToday(currentDate)">
+            <span class="time-label">{{ formatHour(hour) }}</span>
+            @if (!is24Hour) {
+              <span class="time-period">{{ getTimePeriod(hour) }}</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="events-column">
+        @for (hour of timeSlots; track trackByHour($index, hour)) {
+          <div
+            class="hour-slot"
+            [class.current-hour]="isCurrentHour(hour) && isToday(currentDate)"
+            [class.business-hours]="isBusinessHour(hour)"
+            [class.break-time]="isBreakTime(hour)"
+            (click)="createEventAt(hour)" (keydown.enter)="createEventAt(hour)" (keydown.space)="createEventAt(hour)" tabindex="0" role="button"
+            [attr.aria-label]="'Criar evento às ' + formatHour(hour)">
+            <!-- Current Time Indicator -->
+            @if (isCurrentHour(hour) && isToday(currentDate)) {
+              <div
+                class="current-time-indicator"
+                [style.top.%]="getCurrentTimePosition()">
+                <div class="time-dot"></div>
+                <div class="time-line"></div>
+                <span class="current-time-label">{{ getCurrentTime() }}</span>
+              </div>
+            }
+            <!-- Events in this hour -->
+            @for (event of getEventsForHour(hour); track trackByEvent($index, event)) {
+              <div
+                class="day-event"
+                [style.background-color]="event.color || '#6d3bf7'"
+                [style.height.px]="getEventHeight(event)"
+                [style.top.px]="getEventTop(event)"
+                [class.conflicting]="hasTimeConflict(event)"
+                [class.past-event]="isPastEvent(event)"
+                [class.current-event]="isCurrentEvent(event)"
+                [attr.title]="getEventTooltip(event)"
+                (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button"
+                (dblclick)="editEvent(event)"
+                draggable="true"
+                (dragstart)="onEventDragStart(event, $event)">
+                <div class="event-content">
+                  <div class="event-header">
+                    <span class="event-time">
+                      {{ event.startDate | date:(is24Hour ? 'HH:mm' : 'h:mm a') }} -
+                      {{ event.endDate | date:(is24Hour ? 'HH:mm' : 'h:mm a') }}
+                    </span>
+                    <div class="event-duration">
+                      ({{ getEventDuration(event) }})
+                    </div>
+                  </div>
+                  <h4 class="event-title">{{ event.title }}</h4>
+                  @if (event.location || event.description) {
+                    <div class="event-details">
+                      @if (event.location) {
+                        <div class="event-location">
+                          <mat-icon>location_on</mat-icon>
+                          <span>{{ event.location }}</span>
+                        </div>
+                      }
+                      @if (event.description) {
+                        <div class="event-description">
+                          {{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...' : '' }}
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (event.participants && event.participants.length > 0) {
+                    <div class="event-participants">
+                      <mat-icon>people</mat-icon>
+                      <span>{{ event.participants.length }} participante{{ event.participants.length !== 1 ? 's' : '' }}</span>
+                    </div>
+                  }
+                </div>
+                <div class="event-actions">
+                  <button mat-icon-button
+                    (click)="quickEditEvent(event, $event)"
+                    aria-label="Edição rápida">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button
+                    (click)="deleteEvent(event, $event)"
+                    aria-label="Excluir evento">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                <!-- Resize Handles -->
+                <div class="resize-handle top"
+                (mousedown)="startResize(event, 'start', $event)"></div>
+                <div class="resize-handle bottom"
+                (mousedown)="startResize(event, 'end', $event)"></div>
+              </div>
+            }
+            <!-- Time Slot Overlay for Creating Events -->
+            <div class="time-slot-overlay"
+              (mouseenter)="showCreateHint(hour)"
+              (mouseleave)="hideCreateHint()">
+              @if (showHint && hintHour === hour) {
+                <div class="create-hint">
+                  <mat-icon>add</mat-icon>
+                  <span>Clique para criar evento</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  @if (dayTasks.length > 0) {
+    <div class="tasks-section">
+      <div class="tasks-header">
+        <h3>Tarefas do dia</h3>
+        <span class="tasks-progress">
+          {{ getCompletedTasksCount() }}/{{ dayTasks.length }} concluídas
+        </span>
+      </div>
+      <div class="tasks-list">
+        @for (task of dayTasks; track trackByTask($index, task)) {
+          <div
+            class="task-item"
+            [class.completed]="task.completed"
+            [class.overdue]="isTaskOverdue(task)"
+            [class.high-priority]="task.priority === 'high'">
+            <mat-checkbox [(ngModel)]="task.completed"
+              (change)="toggleTaskCompletion(task)"
+              [color]="'primary'">
+            </mat-checkbox>
+            <div class="task-content">
+              <h4 class="task-title" [class.completed]="task.completed">
+                {{ task.title }}
+              </h4>
+              <div class="task-meta">
+                @if (task.dueDate) {
+                  <span class="task-time">
+                    <mat-icon>schedule</mat-icon>
+                    {{ task.dueDate | date:(is24Hour ? 'HH:mm' : 'h:mm a') }}
+                  </span>
+                }
+                <span class="task-priority" [class]="'priority-' + task.priority">
+                  <mat-icon>flag</mat-icon>
+                  {{ getPriorityLabel(task.priority) }}
+                </span>
+              </div>
+            </div>
+            <div class="task-actions">
+              <button mat-icon-button
+                (click)="editTask(task)"
+                aria-label="Editar tarefa">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Day Summary -->
+  <div class="day-summary">
+    <div class="summary-stats">
+      <div class="stat-card">
+        <mat-icon>event</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ getTotalEvents() }}</span>
+          <span class="stat-label">Eventos</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <mat-icon>schedule</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ getTotalScheduledHours() }}h</span>
+          <span class="stat-label">Agendadas</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <mat-icon>task_alt</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ getCompletedTasksCount() }}/{{ dayTasks.length }}</span>
+          <span class="stat-label">Tarefas</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <mat-icon>free_breakfast</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ getFreeTimeHours() }}h</span>
+          <span class="stat-label">Livres</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  @if (isEmpty()) {
+    <div class="empty-day">
+      <app-empty-state
+        type="calendar"
+        title="Dia livre!"
+        description="Nenhum evento ou tarefa agendado para hoje"
+        [primaryAction]="{ text: 'Adicionar Evento', icon: 'add' }"
+        [secondaryAction]="{ text: 'Adicionar Tarefa', icon: 'add_task' }"
+        (primaryActionClick)="addEvent()"
+        (secondaryActionClick)="addTask()">
+      </app-empty-state>
+    </div>
+  }
+
+  <!-- Loading Overlay -->
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <app-loading-spinner
+        message="Carregando eventos do dia..."
+        [showLogo]="true">
+      </app-loading-spinner>
+    </div>
+  }
+</div>

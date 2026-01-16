@@ -1,0 +1,69 @@
+.burnout-dashboard {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+
+  .risk-card {
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+
+    &.risk-low { background: #e8f5e9; border-left: 4px solid #4CAF50; }
+    &.risk-medium { background: #fff3e0; border-left: 4px solid #FF9800; }
+    &.risk-high { background: #ffebee; border-left: 4px solid #f44336; }
+
+    .risk-score {
+      text-align: center;
+      margin-bottom: 2rem;
+
+      .score-circle {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 1rem;
+
+        svg {
+          transform: rotate(-90deg);
+          circle { transition: stroke-dashoffset 1s; }
+        }
+
+        .score-text {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 2rem;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .factors, .recommendations {
+      margin: 1.5rem 0;
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          padding: 0.75rem;
+          background: white;
+          margin-bottom: 0.5rem;
+          border-radius: 6px;
+          border-left: 3px solid #2196F3;
+        }
+      }
+    }
+  }
+
+  .btn-analyze {
+    width: 100%;
+    padding: 1rem;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+}

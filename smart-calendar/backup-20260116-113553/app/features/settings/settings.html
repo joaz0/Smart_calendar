@@ -1,0 +1,166 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>
+      <mat-icon>settings</mat-icon>
+      Configurações
+    </h1>
+    <p>Gerencie suas preferências e configurações da conta</p>
+  </div>
+
+  <div class="settings-content">
+    <!-- Profile Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Perfil</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="profile-info">
+          <div class="avatar-section">
+            <div class="avatar">
+              {{ user.name?.charAt(0) || 'U' }}
+            </div>
+            <button mat-button (click)="updateProfile()">Alterar Perfil</button>
+          </div>
+          <div class="profile-details">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome</mat-label>
+              <input matInput [(ngModel)]="user.name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput [(ngModel)]="user.email" type="email">
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="updateProfile()">
+              Salvar Alterações
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Preferences Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Preferências</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="preferences">
+          <div class="preference-item">
+            <span>Tema Escuro</span>
+            <mat-slide-toggle 
+              [(ngModel)]="settings.darkMode" 
+              (change)="toggleDarkMode()">
+            </mat-slide-toggle>
+          </div>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Idioma</mat-label>
+            <mat-select [(value)]="settings.language">
+              <mat-option value="pt-BR">Português (Brasil)</mat-option>
+              <mat-option value="en-US">English (US)</mat-option>
+              <mat-option value="es-ES">Español</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Fuso Horário</mat-label>
+            <mat-select [(value)]="settings.timezone">
+              <mat-option value="America/Sao_Paulo">São Paulo (UTC-3)</mat-option>
+              <mat-option value="America/New_York">New York (UTC-5)</mat-option>
+              <mat-option value="Europe/London">London (UTC+0)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Notifications Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Notificações</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="notifications">
+          <div class="notification-item">
+            <span>Notificações Gerais</span>
+            <mat-slide-toggle [(ngModel)]="settings.notifications"></mat-slide-toggle>
+          </div>
+          <div class="notification-item">
+            <span>Notificações por Email</span>
+            <mat-slide-toggle [(ngModel)]="settings.emailNotifications"></mat-slide-toggle>
+          </div>
+          <div class="notification-item">
+            <span>Sons de Notificação</span>
+            <mat-slide-toggle [(ngModel)]="settings.soundNotifications"></mat-slide-toggle>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Calendar Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Calendário</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="calendar-settings">
+          <mat-form-field appearance="outline">
+            <mat-label>Início da Semana</mat-label>
+            <mat-select [(value)]="settings.weekStart">
+              <mat-option value="sunday">Domingo</mat-option>
+              <mat-option value="monday">Segunda-feira</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Horário de Trabalho - Início</mat-label>
+            <input matInput type="time" [(ngModel)]="settings.workingHours.start">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Horário de Trabalho - Fim</mat-label>
+            <input matInput type="time" [(ngModel)]="settings.workingHours.end">
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Security Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Segurança</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="security-options">
+          <button mat-raised-button (click)="changePassword()">
+            <mat-icon>lock</mat-icon>
+            Alterar Senha
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Data Section -->
+    <mat-card class="settings-section">
+      <mat-card-header>
+        <mat-card-title>Dados</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="data-options">
+          <button mat-raised-button (click)="exportData()">
+            <mat-icon>download</mat-icon>
+            Exportar Dados
+          </button>
+          <button mat-raised-button (click)="saveSettings()">
+            <mat-icon>save</mat-icon>
+            Salvar Configurações
+          </button>
+          <button mat-raised-button color="warn" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Sair
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

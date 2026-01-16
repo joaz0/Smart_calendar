@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router.component';
 import { CategoriesComponent } from './categories.component';
 
 export const categoriesRoutes: Routes = [

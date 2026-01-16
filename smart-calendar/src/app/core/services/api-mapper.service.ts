@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core.component';
 import { Event as CalendarEvent } from '../models/event.model';
 import { Task } from '../models/task.model';
 

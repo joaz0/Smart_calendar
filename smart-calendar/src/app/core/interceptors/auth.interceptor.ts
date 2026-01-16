@@ -4,13 +4,13 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
-} from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+} from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core.component';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators.component';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { Logger } from '../utils/logger';
+import { Router } from '@angular/router.component';
+import { Logger } from '../utils/logger.component';
 
 
 @Injectable()

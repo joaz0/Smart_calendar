@@ -1,0 +1,151 @@
+<div class="events-container">
+  <!-- Header Section -->
+  <div class="events-header">
+    <div class="title-section">
+      <h1>
+        <mat-icon>event</mat-icon>
+        Eventos
+      </h1>
+      <p>Gerencie seus eventos e compromissos</p>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="createEvent()">
+        <mat-icon>add</mat-icon>
+        Novo Evento
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <mat-card class="filters-card">
+    <div class="filters-content">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar eventos</mat-label>
+        <input matInput
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+          placeholder="Digite o nome, descrição ou local...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <div class="filter-chips">
+        <mat-chip-listbox>
+          @for (filter of filters; track filter) {
+            <mat-chip-option
+              [selected]="selectedFilter === filter.value"
+              (click)="onFilterChange(filter.value)">
+              {{ filter.label }}
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Events List -->
+  <div class="events-content">
+    @if (isLoading) {
+      <div class="loading-state">
+        <mat-icon>hourglass_empty</mat-icon>
+        <p>Carregando eventos...</p>
+      </div>
+    }
+
+    @if (!isLoading && filteredEvents.length === 0) {
+      <div class="empty-state">
+        <mat-icon>event_available</mat-icon>
+        <h3>Nenhum evento encontrado</h3>
+        <p>Não há eventos que correspondam aos filtros selecionados.</p>
+        <button mat-raised-button color="primary" (click)="createEvent()">
+          <mat-icon>add</mat-icon>
+          Criar Primeiro Evento
+        </button>
+      </div>
+    }
+
+    @if (!isLoading && filteredEvents.length > 0) {
+      <div class="events-grid">
+        @for (event of filteredEvents; track event) {
+          <mat-card class="event-card">
+            <mat-card-header>
+              <div class="event-header-content">
+                <div class="event-status-indicator"
+                  [style.background-color]="getStatusColor(getEventStatus(event))">
+                </div>
+                <div class="event-title-section">
+                  <mat-card-title>{{ event.title }}</mat-card-title>
+                  <mat-card-subtitle>
+                    <mat-chip class="status-chip"
+                      [style.background-color]="getStatusColor(getEventStatus(event))">
+                      {{ getStatusLabel(getEventStatus(event)) }}
+                    </mat-chip>
+                  </mat-card-subtitle>
+                </div>
+              </div>
+              <button mat-icon-button [matMenuTriggerFor]="eventMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #eventMenu="matMenu">
+                <button mat-menu-item (click)="viewEvent(event)">
+                  <mat-icon>visibility</mat-icon>
+                  <span>Visualizar</span>
+                </button>
+                <button mat-menu-item (click)="editEvent(event)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item (click)="deleteEvent(event)" class="delete-option">
+                  <mat-icon>delete</mat-icon>
+                  <span>Excluir</span>
+                </button>
+              </mat-menu>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="event-details">
+                <div class="event-time">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ formatDateTime(event.startDate) }}</span>
+                  @if (event.endDate) {
+                    <span> - {{ formatTime(event.endDate) }}</span>
+                  }
+                </div>
+                @if (event.location) {
+                  <div class="event-location">
+                    <mat-icon>location_on</mat-icon>
+                    <span>{{ event.location }}</span>
+                  </div>
+                }
+                @if (event.description) {
+                  <div class="event-description">
+                    <p>{{ event.description }}</p>
+                  </div>
+                }
+                <div class="event-category">
+                  <mat-chip [style.background-color]="event.color">
+                    {{ getCategoryLabel(event.category) }}
+                  </mat-chip>
+                </div>
+                @if (event.attendees && event.attendees.length > 0) {
+                  <div class="event-attendees">
+                    <mat-icon>people</mat-icon>
+                    <span>{{ event.attendees.length }} participante(s)</span>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button (click)="viewEvent(event)">
+                <mat-icon>visibility</mat-icon>
+                Ver Detalhes
+              </button>
+              <button mat-button (click)="editEvent(event)">
+                <mat-icon>edit</mat-icon>
+                Editar
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    }
+  </div>
+</div>

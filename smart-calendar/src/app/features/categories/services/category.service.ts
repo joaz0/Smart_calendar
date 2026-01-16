@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core.component';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs/operators.component';
 import { CategoryApiService } from '../../../core/services/category-api.service';
 
 export interface Category {

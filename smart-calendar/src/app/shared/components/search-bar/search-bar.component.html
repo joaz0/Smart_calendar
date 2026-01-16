@@ -1,0 +1,137 @@
+<div class="search-bar-container">
+  <div class="search-input-wrapper">
+    <mat-icon class="search-icon">search</mat-icon>
+
+    <input class="search-input"
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchInput()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keydown)="onKeyDown($event)"
+      [placeholder]="placeholder"
+      #searchInput>
+
+    @if (searchTerm) {
+      <button class="clear-btn"
+        (click)="clearSearch()"
+        matTooltip="Limpar busca">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </div>
+
+  <!-- Search Results Dropdown -->
+  @if (showResults && (searchResults.length > 0 || isSearching)) {
+    <div class="search-results"
+      [@slideInOut]>
+      <!-- Loading -->
+      @if (isSearching) {
+        <div class="search-loading">
+          <mat-spinner diameter="20"></mat-spinner>
+          <span>Buscando...</span>
+        </div>
+      }
+      <!-- Results -->
+      @if (!isSearching && searchResults.length > 0) {
+        <div class="results-list">
+          @for (group of groupedResults; track group) {
+            <div class="result-group">
+              <div class="group-header">
+                <mat-icon class="group-icon">{{ group.icon }}</mat-icon>
+                <span class="group-title">{{ group.title }}</span>
+                <span class="group-count">({{ group.items.length }})</span>
+              </div>
+              <div class="group-items">
+                @for (item of group.items; track item; let i = $index) {
+                  <div class="result-item"
+                    [class.highlighted]="i === selectedIndex"
+                    (click)="selectResult(item)" (keydown.enter)="selectResult(item)" (keydown.space)="selectResult(item)" tabindex="0" role="button"
+                    (mouseenter)="highlightResult(i)">
+                    <div class="result-icon">
+                      <mat-icon [style.color]="item.color || '#666'">{{ item.icon }}</mat-icon>
+                    </div>
+                    <div class="result-content">
+                      <div class="result-title" [innerHTML]="highlightSearchTerm(item.title)"></div>
+                      @if (item.subtitle) {
+                        <div class="result-subtitle">
+                          {{ item.subtitle }}
+                        </div>
+                      }
+                      @if (item.date) {
+                        <div class="result-meta">
+                          <mat-icon class="meta-icon">schedule</mat-icon>
+                          {{ item.date | date:'shortDate' }}
+                        </div>
+                      }
+                    </div>
+                    <div class="result-actions">
+                      @if (item.quickAction) {
+                        <button mat-icon-button
+                          (click)="quickAction(item, $event)"
+                          [matTooltip]="item.quickAction.tooltip">
+                          <mat-icon>{{ item.quickAction.icon }}</mat-icon>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+      <!-- No Results -->
+      @if (!isSearching && searchResults.length === 0 && searchTerm) {
+        <div class="no-results">
+          <mat-icon class="no-results-icon">search_off</mat-icon>
+          <p>Nenhum resultado encontrado para "{{ searchTerm }}"</p>
+          <button mat-button color="primary" (click)="createFromSearch()">
+            <mat-icon>add</mat-icon>
+            Criar "{{ searchTerm }}"
+          </button>
+        </div>
+      }
+      <!-- Quick Actions -->
+      @if (showQuickActions && !searchTerm) {
+        <div class="quick-actions">
+          @for (action of quickActions; track action) {
+            <div class="quick-action"
+              (click)="executeQuickAction(action)" (keydown.enter)="executeQuickAction(action)" (keydown.space)="executeQuickAction(action)" tabindex="0" role="button">
+              <mat-icon class="action-icon">{{ action.icon }}</mat-icon>
+              <span class="action-label">{{ action.label }}</span>
+            </div>
+          }
+        </div>
+      }
+      <!-- Recent Searches -->
+      @if (showRecentSearches && recentSearches.length > 0 && !searchTerm) {
+        <div class="recent-searches">
+          <div class="section-header">
+            <span>Buscas Recentes</span>
+            <button mat-button (click)="clearRecentSearches()">Limpar</button>
+          </div>
+          @for (recent of recentSearches; track recent) {
+            <div class="recent-item"
+              (click)="selectRecentSearch(recent)" (keydown.enter)="selectRecentSearch(recent)" (keydown.space)="selectRecentSearch(recent)" tabindex="0" role="button">
+              <mat-icon class="recent-icon">history</mat-icon>
+              <span class="recent-text">{{ recent }}</span>
+              <button mat-icon-button
+                (click)="removeRecentSearch(recent, $event)"
+                class="remove-recent">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Search Backdrop -->
+  @if (showResults) {
+    <div class="search-backdrop"
+      (click)="closeResults()" (keydown.enter)="closeResults()" (keydown.space)="closeResults()" tabindex="0" role="button">
+    </div>
+  }
+</div>

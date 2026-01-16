@@ -1,13 +1,13 @@
 // src/app/layouts/auth-layout/auth-layout.component.ts
-import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core.component';
 
-import { RouterModule, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router.component';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms.component';
 import { AuthService } from '../../core/services/auth.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field.component';
+import { MatInputModule } from '@angular/material/input.component';
+import { MatButtonModule } from '@angular/material/button.component';
+import { MatCheckboxModule } from '@angular/material/checkbox.component';
 
 
 @Component({
@@ -142,7 +142,7 @@ export class AuthLayoutComponent {
     this.isLoading = true;
     this.authService.loginWithGoogle().subscribe({
       next: () => this.router.navigate(['/app/calendar']),
-      error: (_error: any) => {
+      error: () => {
         this.errorMessage = 'Erro no login com Google';
         this.isLoading = false;
       },
@@ -154,7 +154,7 @@ export class AuthLayoutComponent {
     this.isLoading = true;
     this.authService.loginWithMicrosoft().subscribe({
       next: () => this.router.navigate(['/app/calendar']),
-      error: (_error: any) => {
+      error: () => {
         this.errorMessage = 'Erro no login com Microsoft';
         this.isLoading = false;
       },

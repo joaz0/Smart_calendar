@@ -1,8 +1,8 @@
 // Base Component com padrões reutilizáveis
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core.component';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Logger } from '../utils/logger';
+import { takeUntil } from 'rxjs/operators.component';
+import { Logger } from '../utils/logger.component';
 
 
 /**

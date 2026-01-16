@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, fromEvent, merge, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable } from '@angular/core.component';
+import { BehaviorSubject, merge, of, fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators.component';
 
 
 export interface OfflineAction {
   id: string;
   type: 'create' | 'update' | 'delete';
   entity: 'event' | 'task' | 'category';
-  data: any;
+  data: Record<string, unknown>;
   timestamp: Date;
 }
 
@@ -44,7 +44,7 @@ export class OfflineService {
     }
   }
 
-  addPendingAction(_action: Omit<OfflineAction, 'id' | 'timestamp'>): void {
+  addPendingAction(action: Omit<OfflineAction, 'id' | 'timestamp'>): void {
     const newAction: OfflineAction = {
       ...action,
       id: Date.now().toString(),
@@ -70,7 +70,7 @@ export class OfflineService {
   }
 
   // Cache management
-  cacheData(key: string, data: any): void {
+  cacheData(key: string, data: Record<string, unknown>): void {
     localStorage.setItem(`cache_${key}`, JSON.stringify({
       data,
       timestamp: Date.now()

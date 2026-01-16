@@ -1,0 +1,62 @@
+<div class="category-picker">
+  <div class="category-list" role="listbox" aria-label="Seletor de categorias">
+    @for (category of categories; track trackByCategory($index, category)) {
+      <div
+        class="category-item"
+        [class.selected]="selectedCategory?.id === category.id"
+        role="option"
+        [attr.aria-selected]="selectedCategory?.id === category.id"
+        (click)="selectCategory(category)"
+        (keydown.enter)="selectCategory(category)"
+        (keydown.space)="selectCategory(category)"
+        tabindex="0">
+        <div class="category-color" [style.background-color]="category.color"></div>
+        <div class="category-info">
+          <span class="category-name">{{ category.name }}</span>
+          @if (category.description) {
+            <span class="category-description">
+              {{ category.description }}
+            </span>
+          }
+        </div>
+        @if (selectedCategory?.id === category.id) {
+          <mat-icon class="selected-icon">
+            check_circle
+          </mat-icon>
+        }
+      </div>
+    }
+  </div>
+
+  @if (allowCreate) {
+    <mat-divider></mat-divider>
+  }
+
+  @if (allowCreate) {
+    <div class="create-category">
+      <button mat-stroked-button
+        (click)="openCreateDialog()"
+        class="create-btn"
+        aria-label="Criar nova categoria">
+        <mat-icon>add</mat-icon>
+        Nova Categoria
+      </button>
+    </div>
+  }
+
+  @if (categories.length === 0) {
+    <div class="no-categories">
+      <mat-icon>category</mat-icon>
+      <p>Nenhuma categoria disponível</p>
+      @if (allowCreate) {
+        <button mat-raised-button
+          color="primary"
+          (click)="openCreateDialog()"
+          >
+          <mat-icon>add</mat-icon>
+          Criar Primeira Categoria
+        </button>
+      }
+    </div>
+  }
+</div>

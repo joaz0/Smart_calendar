@@ -1,12 +1,12 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.component';
 
 
 export interface N8nWebhook {
   url: string;
-  data: any;
+  data: Record<string, unknown>;
 }
 
 export interface N8nWorkflow {
@@ -22,12 +22,12 @@ export class N8nService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/n8n`;
 
-  triggerWebhook(webhook: N8nWebhook): Observable<any> {
-    return this.http.post(`${this.apiUrl}/webhook`, webhook);
+  triggerWebhook(webhook: N8nWebhook): Observable<Record<string, unknown>> {
+    return this.http.post<Record<string, unknown>>(`${this.apiUrl}/webhook`, webhook);
   }
 
-  executeWorkflow(workflowId: string, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/workflow/${workflowId}/execute`, data);
+  executeWorkflow(workflowId: string, data: Record<string, unknown>): Observable<Record<string, unknown>> {
+    return this.http.post<Record<string, unknown>>(`${this.apiUrl}/workflow/${workflowId}/execute`, data);
   }
 
   getWorkflows(): Observable<N8nWorkflow[]> {

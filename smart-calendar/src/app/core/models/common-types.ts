@@ -6,12 +6,12 @@ export interface AIContext {
   eventId?: string;
   taskId?: string;
   timestamp?: Date;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface AITrainingData {
-  input: any;
-  output: any;
+  input: unknown;
+  output: unknown;
   metadata?: AIMetadata;
 }
 
@@ -19,14 +19,14 @@ export interface NLPParameters {
   intent?: string;
   entities?: Record<string, unknown>;
   confidence?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SemanticSearchMetadata {
   score?: number;
   highlights?: string[];
   context?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface TimeAnalyticsData {

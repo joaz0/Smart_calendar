@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output, Input } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output, Input } from '@angular/core.component';
 
 @Directive({
   selector: '[appDragDrop]',
@@ -10,21 +10,21 @@ export class DragDropDirective {
   @Input() acceptedTypes: string[] = [];
 
   @HostListener('dragover', ['$event'])
-  onDragOver(_event: DragEvent): void {
+  onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  onDragLeave(_event: DragEvent): void {
+  onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(false);
   }
 
   @HostListener('drop', ['$event'])
-  onDrop(_event: DragEvent): void {
+  onDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(false);
@@ -38,8 +38,7 @@ export class DragDropDirective {
   }
 
   private validateFiles(files: FileList): boolean {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+    for (const file of Array.from(files)) {
       const fileType = file.type;
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
 

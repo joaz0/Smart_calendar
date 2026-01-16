@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
 
 import { BehaviorSubject, Subject, fromEvent, merge, of } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { takeUntil, map } from 'rxjs/operators.component';
+import { trigger, transition, style, animate } from '@angular/animations.component';
 import { LoadingService } from './core/services/loading.service';
 import { NotificationService, Notification } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
 import { ApiMapperInitService } from './core/services/api-mapper-init.service';
-import { environment } from '../environments/environment';
-import { RouterOutlet } from '@angular/router';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { LoadingSpinner } from './shared/components/loading-spinner/loading-spinner';
+import { environment } from '../environments/environment.component';
+import { RouterOutlet } from '@angular/router.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
+import { MatIconModule } from '@angular/material/icon.component';
+import { MatButtonModule } from '@angular/material/button.component';
+import { LoadingSpinner } from './shared/components/loading-spinner/loading-spinner.component';
 
 
 @Component({

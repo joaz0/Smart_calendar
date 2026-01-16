@@ -1,0 +1,128 @@
+.habit-dashboard {
+  padding: 2rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h2 { margin: 0; }
+  }
+
+  .habits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .habit-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    .habit-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      .habit-icon { font-size: 1.5rem; }
+      h3 { margin: 0; font-size: 1.1rem; }
+    }
+
+    .streak-info {
+      margin-bottom: 1rem;
+
+      .streak-badge {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+
+        .streak-number { font-size: 2rem; font-weight: bold; }
+        .streak-label { font-size: 0.8rem; }
+      }
+
+      .consistency {
+        margin-top: 0.5rem;
+
+        .progress-bar {
+          height: 8px;
+          background: #e0e0e0;
+          border-radius: 4px;
+          overflow: hidden;
+          margin-bottom: 0.25rem;
+
+          .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.3s;
+          }
+        }
+
+        span { font-size: 0.85rem; color: #666; }
+      }
+    }
+
+    .habit-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      .day-cell {
+        aspect-ratio: 1;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover { border-color: #999; }
+
+        &.completed {
+          background: #4CAF50;
+          border-color: #4CAF50;
+          color: white;
+
+          &::after {
+            content: '✓';
+            font-size: 1.2rem;
+          }
+        }
+
+        .day-label {
+          font-size: 0.7rem;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .habit-actions {
+      display: flex;
+      gap: 0.5rem;
+
+      button {
+        flex: 1;
+        padding: 0.5rem;
+        border: none;
+        background: #f5f5f5;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover { background: #e0e0e0; }
+      }
+    }
+  }
+}

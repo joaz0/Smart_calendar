@@ -1,5 +1,5 @@
 import { Observable, throwError, timer } from 'rxjs';
-import { mergeMap, retryWhen } from 'rxjs/operators';
+import { mergeMap, retryWhen } from 'rxjs/operators.component';
 
 export interface RetryConfig {
   maxRetries?: number;
@@ -7,7 +7,7 @@ export interface RetryConfig {
   backoffMultiplier?: number;
 }
 
-export function retryWithBackoff<T>(_config: RetryConfig = {}) {
+export function retryWithBackoff<T>(config: RetryConfig = {}) {
   const { maxRetries = 3, delay = 1000, backoffMultiplier = 2 } = config;
 
   return (source: Observable<T>) =>

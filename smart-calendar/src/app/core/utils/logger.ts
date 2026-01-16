@@ -1,35 +1,17 @@
-import { environment } from '../../../environments/environment';
-
-/**
- * Logger simples para o frontend
- */
 export class Logger {
-  private isDev = !environment.production;
-  private context: string;
-
-  constructor(context = 'App') {
-    this.context = context;
+  static log(message: string, ...data: unknown[]): void {
+    console.log(`[LOG] ${message}`, ...data);
   }
 
-  info(message: string, data?: Record<string, any>): void {
-    if (this.isDev) {
-      console.log(`[INFO][${this.context}] ${message}`, data || '');
-    }
+  static info(message: string, ...data: unknown[]): void {
+    console.info(`[INFO] ${message}`, ...data);
   }
 
-  warn(message: string, data?: Record<string, any>): void {
-    console.warn(`[WARN][${this.context}] ${message}`, data || '');
+  static warn(message: string, ...data: unknown[]): void {
+    console.warn(`[WARN] ${message}`, ...data);
   }
 
-  error(message: string, data?: Record<string, any>): void {
-    console.error(`[ERROR][${this.context}] ${message}`, data || '');
-  }
-
-  debug(message: string, data?: Record<string, any>): void {
-    if (this.isDev) {
-      console.debug(`[DEBUG][${this.context}] ${message}`, data || '');
-    }
+  static error(message: string, ...data: unknown[]): void {
+    console.error(`[ERROR] ${message}`, ...data);
   }
 }
-
-export const logger = new Logger();

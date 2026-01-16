@@ -1,0 +1,170 @@
+<div class="event-dialog">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>{{ isEditMode ? 'Editar Evento' : 'Novo Evento' }}</h2>
+    <button mat-icon-button mat-dialog-close aria-label="Fechar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <form [formGroup]="eventForm" class="event-form">
+      <!-- Title -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título do Evento</mat-label>
+        <input matInput formControlName="title" placeholder="Digite o título do evento">
+        @if (eventForm.get('title')?.hasError('required')) {
+          <mat-error>
+            Título é obrigatório
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Description -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput
+          formControlName="description"
+          rows="3"
+          placeholder="Adicione uma descrição (opcional)">
+        </textarea>
+      </mat-form-field>
+
+      <!-- Date and Time -->
+      <div class="datetime-row">
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>Data</mat-label>
+          <input matInput
+            [matDatepicker]="datePicker"
+            formControlName="date"
+            readonly>
+          <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="time-field">
+          <mat-label>Início</mat-label>
+          <input matInput
+            type="time"
+            formControlName="startTime">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="time-field">
+          <mat-label>Fim</mat-label>
+          <input matInput
+            type="time"
+            formControlName="endTime">
+        </mat-form-field>
+      </div>
+
+      <!-- All Day Toggle -->
+      <mat-checkbox formControlName="allDay" class="all-day-checkbox">
+        Evento de dia inteiro
+      </mat-checkbox>
+
+      <!-- Location -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Local</mat-label>
+        <input matInput
+          formControlName="location"
+          placeholder="Adicione um local (opcional)">
+        <mat-icon matSuffix>place</mat-icon>
+      </mat-form-field>
+
+      <!-- Category -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoryId">
+          @for (category of categories; track category) {
+            <mat-option [value]="category.id">
+              <div class="category-option">
+                <span class="category-color" [style.background-color]="category.color"></span>
+                {{ category.name }}
+              </div>
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Attendees -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Participantes</mat-label>
+        <mat-chip-grid #chipGrid>
+          @for (attendee of attendees; track attendee) {
+            <mat-chip-row
+              (removed)="removeAttendee(attendee)">
+              {{ attendee.email }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        </mat-chip-grid>
+        <input matInput
+          [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="addAttendee($event)"
+          placeholder="Digite o email e pressione Enter">
+      </mat-form-field>
+
+      <!-- Reminder -->
+      <div class="reminder-section">
+        <mat-checkbox [(ngModel)]="hasReminder" [ngModelOptions]="{standalone: true}">
+          Adicionar lembrete
+        </mat-checkbox>
+
+        @if (hasReminder) {
+          <mat-form-field appearance="outline" class="reminder-field">
+            <mat-label>Lembrar</mat-label>
+            <mat-select [(ngModel)]="reminderTime" [ngModelOptions]="{standalone: true}">
+              <mat-option value="5">5 minutos antes</mat-option>
+              <mat-option value="15">15 minutos antes</mat-option>
+              <mat-option value="30">30 minutos antes</mat-option>
+              <mat-option value="60">1 hora antes</mat-option>
+              <mat-option value="1440">1 dia antes</mat-option>
+            </mat-select>
+          </mat-form-field>
+        }
+      </div>
+
+      <!-- Recurrence -->
+      <div class="recurrence-section">
+        <mat-checkbox [(ngModel)]="isRecurring" [ngModelOptions]="{standalone: true}">
+          Repetir evento
+        </mat-checkbox>
+
+        @if (isRecurring) {
+          <app-recurrence-settings
+            [(recurrenceRule)]="recurrenceRule">
+          </app-recurrence-settings>
+        }
+      </div>
+
+      <!-- Privacy -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Privacidade</mat-label>
+        <mat-select formControlName="privacy">
+          <mat-option value="public">Público</mat-option>
+          <mat-option value="private">Privado</mat-option>
+          <mat-option value="confidential">Confidencial</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    @if (isEditMode) {
+      <button mat-button
+        color="warn"
+        (click)="deleteEvent()">
+        Excluir
+      </button>
+    }
+    <button mat-raised-button
+      color="primary"
+      (click)="saveEvent()"
+      [disabled]="eventForm.invalid || isSaving">
+      {{ isSaving ? 'Salvando...' : (isEditMode ? 'Salvar' : 'Criar') }}
+    </button>
+  </mat-dialog-actions>
+</div>

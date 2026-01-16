@@ -1,18 +1,17 @@
-import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core.component';
 
-import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { filter, takeUntil, catchError } from 'rxjs/operators';
+import { RouterModule, Router, NavigationEnd } from '@angular/router.component';
+import { filter, takeUntil, catchError } from 'rxjs/operators.component';
 import { Subject, of } from 'rxjs';
-import { Header } from '../../shared/components/header/header';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
-import { LoadingSpinner } from '../../shared/components/loading-spinner/loading-spinner';
+import { Header } from '../../shared/components/header/header.component';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { LoadingSpinner } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService, UserProfile, UserStats } from '../../core/services/user.service';
 import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { AnyObject } from '@core/models/common-interfaces';
 
 
 @Component({
@@ -39,24 +38,29 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   private destroy$ = new Subject<void>();
-  private timeInterval: any;
+  private timeInterval: number | undefined;
   currentActive = 'calendar';
   currentDate = new Date();
   currentTime = new Date();
   sidebarOpen = true;
   isLoading = false;
   isMobile = false;
-  userStats: any = {};
-  currentUser: any = {
+  userStats: UserStats = {
+    events_today: 0,
+    pending_tasks: 0,
+    completed_tasks: 0,
+    productivity_score: 0
+  };
+  currentUser: UserProfile = {
     name: 'Carregando...',
     email: '',
-    avatar: '👤',
+    avatar: null,
     preferences: {}
   };
-  user: any = {
+  user: UserProfile = {
     name: 'Carregando...',
     email: '',
-    avatar: '👤',
+    avatar: null,
     preferences: {}
   };
 
@@ -80,7 +84,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         filter((evt) => evt instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
-      .subscribe((evt: any) => {
+      .subscribe((evt: NavigationEnd) => {
         this.updateActiveTabFromRoute(evt.url);
       });
 
@@ -172,7 +176,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateActiveTabFromRoute(_url: string) {
+  private updateActiveTabFromRoute(url: string) {
     const routeMap: Record<string, string> = {
       '/app/calendar': 'calendar',
       '/app/tasks': 'tasks', 

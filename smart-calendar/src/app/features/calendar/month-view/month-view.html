@@ -20,7 +20,7 @@
             [class.today]="day.isToday"
             [class.selected]="day.isSelected"
             [class.has-events]="day.events.length > 0"
-            (click)="selectDate(day.date)">
+            (click)=" tabindex="0" (keyup.enter)="selectDate(day.date)">
             <!-- Day Number -->
             <div class="day-number">
               {{ day.date.getDate() }}
@@ -32,7 +32,7 @@
                   <div class="event-item"
                     [style.background-color]="$any(event).category?.color"
                     [class.all-day]="$any(event).allDay"
-                    (click)="onEventClick($any(event), $event)" (keydown.enter)="onEventClick($any(event), $event)" (keydown.space)="onEventClick($any(event), $event)" tabindex="0" role="button"
+                    (click)=" tabindex="0" (keyup.enter)="onEventClick($any(event), $event)" (keydown.enter)="onEventClick($any(event), $event)" (keydown.space)="onEventClick($any(event), $event)" tabindex="0" role="button"
                     [matTooltip]="getEventTooltip($any(event))">
                     <div class="event-content">
                       @if (!$any(event).allDay) {
@@ -47,7 +47,7 @@
                 <!-- More Events Indicator -->
                 @if (day.events.length > maxEventsPerDay) {
                   <div class="more-events"
-                    (click)="showMoreEvents(day, $event)" (keydown.enter)="showMoreEvents(day, $event)" (keydown.space)="showMoreEvents(day, $event)" tabindex="0" role="button">
+                    (click)=" tabindex="0" (keyup.enter)="showMoreEvents(day, $event)" (keydown.enter)="showMoreEvents(day, $event)" (keydown.space)="showMoreEvents(day, $event)" tabindex="0" role="button">
                     +{{ day.events.length - maxEventsPerDay }} mais
                   </div>
                 }
@@ -56,7 +56,7 @@
             <!-- Add Event Button -->
             @if (day.isCurrentMonth) {
               <button class="add-event-btn"
-                (click)="createEventOnDate(day.date, $event)"
+                (click)=" tabindex="0" (keyup.enter)="createEventOnDate(day.date, $event)"
                 matTooltip="Adicionar evento">
                 <mat-icon>add</mat-icon>
               </button>
@@ -70,11 +70,11 @@
   <!-- Mini Calendar Navigation -->
   @if (showMiniNav) {
     <div class="mini-nav">
-      <button mat-icon-button (click)="previousMonth()">
+      <button mat-icon-button (click)=" tabindex="0" (keyup.enter)="previousMonth()">
         <mat-icon>chevron_left</mat-icon>
       </button>
       <span class="current-month">{{ currentMonthName }}</span>
-      <button mat-icon-button (click)="nextMonth()">
+      <button mat-icon-button (click)=" tabindex="0" (keyup.enter)="nextMonth()">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>

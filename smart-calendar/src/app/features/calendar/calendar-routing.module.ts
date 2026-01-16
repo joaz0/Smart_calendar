@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MonthView } from './month-view/month-view';
+import { NgModule } from '@angular/core.component';
+import { RouterModule, Routes } from '@angular/router.component';
+import { MonthView } from './month-view/month-view.component';
 
 const routes: Routes = [
   {

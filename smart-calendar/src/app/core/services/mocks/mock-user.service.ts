@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core.component';
 import { Observable, of, delay } from 'rxjs';
 import { UserProfile, UserStats } from '../user.service';
 

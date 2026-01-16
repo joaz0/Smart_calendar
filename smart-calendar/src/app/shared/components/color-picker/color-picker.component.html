@@ -1,0 +1,65 @@
+<div class="color-picker" role="radiogroup" aria-label="Seletor de cores">
+  <div class="color-grid">
+    @for (palette of palettes; track trackByPalette($index, palette)) {
+      <button
+        type="button"
+        class="color-option"
+        [class.selected]="selectedColor === palette.colors[0]"
+        [style.background-color]="palette.colors[0]"
+        [attr.aria-label]="palette.name"
+        [attr.aria-checked]="selectedColor === palette.colors[0]"
+        role="radio"
+        (click)="selectColor(palette.colors[0])"
+        (keydown.enter)="selectColor(palette.colors[0])"
+        (keydown.space)="selectColor(palette.colors[0])">
+        @if (selectedColor === palette.colors[0]) {
+          <mat-icon class="check-icon">check</mat-icon>
+        }
+      </button>
+    }
+  </div>
+
+  @if (allowCustom) {
+    <div class="custom-color-section">
+      <mat-divider></mat-divider>
+      <div class="custom-color-input">
+        <mat-form-field appearance="outline">
+          <mat-label>Cor personalizada</mat-label>
+          <input matInput
+            type="color"
+            [(ngModel)]="customColor"
+            (ngModelChange)="onCustomColorChange($event)"
+            aria-label="Seletor de cor personalizada">
+        </mat-form-field>
+        <button mat-icon-button
+          (click)="selectColor(customColor)"
+          [disabled]="!customColor"
+          aria-label="Aplicar cor personalizada">
+          <mat-icon>check</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (recentColors.length > 0) {
+    <div class="recent-colors">
+      <mat-divider></mat-divider>
+      <h4>Cores recentes</h4>
+      <div class="recent-colors-grid">
+        @for (color of recentColors; track trackByColor($index, color)) {
+          <button
+            type="button"
+            class="color-option recent"
+            [class.selected]="selectedColor === color"
+            [style.background-color]="color"
+            [attr.aria-label]="'Cor recente: ' + color"
+            (click)="selectColor(color)">
+            @if (selectedColor === color) {
+              <mat-icon class="check-icon">check</mat-icon>
+            }
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

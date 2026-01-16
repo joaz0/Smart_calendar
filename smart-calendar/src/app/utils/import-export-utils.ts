@@ -1,10 +1,22 @@
+// Interfaces específicas para este arquivo
+type CsvData = Record<string, string | number | boolean | null>;
+
+interface ICalEvent {
+  id: string;
+  startDate: Date;
+  endDate: Date;
+  title: string;
+  description?: string;
+  location?: string;
+}
+
 export function exportToJSON<T>(data: T, filename: string): void {
   const json = JSON.stringify(data, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   downloadFile(blob, filename);
 }
 
-export function exportToCSV(data: any[], filename: string): void {
+export function exportToCSV(data: CsvData[], filename: string): void {
   if (data.length === 0) return;
   
   const headers = Object.keys(data[0]);
@@ -25,7 +37,7 @@ export function exportToCSV(data: any[], filename: string): void {
   downloadFile(blob, filename);
 }
 
-export function exportToICalendar(events: any[], filename: string): void {
+export function exportToICalendar(events: ICalEvent[], filename: string): void {
   const icalLines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -79,7 +91,7 @@ export function importFromJSON<T>(file: File): Promise<T> {
       try {
         const data = JSON.parse(e.target?.result as string);
         resolve(data);
-      } catch (error) {
+      } catch {
         reject(new Error('Invalid JSON file'));
       }
     };
@@ -89,7 +101,7 @@ export function importFromJSON<T>(file: File): Promise<T> {
   });
 }
 
-export function importFromCSV(file: File): Promise<any[]> {
+export function importFromCSV(file: File): Promise<CsvData[]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     
@@ -101,7 +113,7 @@ export function importFromCSV(file: File): Promise<any[]> {
         
         const data = lines.slice(1).map(line => {
           const values = line.split(',');
-          const obj: any = {};
+          const obj: CsvData = {};
           headers.forEach((header, index) => {
             obj[header.trim()] = values[index]?.trim();
           });
@@ -109,7 +121,7 @@ export function importFromCSV(file: File): Promise<any[]> {
         });
         
         resolve(data);
-      } catch (error) {
+      } catch {
         reject(new Error('Invalid CSV file'));
       }
     };

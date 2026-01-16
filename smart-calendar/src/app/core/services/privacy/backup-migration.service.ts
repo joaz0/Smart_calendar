@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface Backup {
@@ -50,7 +50,7 @@ export class BackupMigrationService {
   }
 
   restoreBackup(backupId: string): Observable<{ success: boolean; itemsRestored: number }> {
-    return this.http.post<any>(`${this.apiUrl}/restore/${backupId}`, {}).pipe(
+    return this.http.post<{ success: boolean; itemsRestored: number }>(`${this.apiUrl}/restore/${backupId}`, {}).pipe(
       catchError(() => of({ success: false, itemsRestored: 0 }))
     );
   }
@@ -81,7 +81,7 @@ export class BackupMigrationService {
     formData.append('file', file);
     formData.append('format', format);
     
-    return this.http.post<any>(`${this.apiUrl}/import`, formData).pipe(
+    return this.http.post<{ imported: number; errors: number }>(`${this.apiUrl}/import`, formData).pipe(
       catchError(() => of({ imported: 0, errors: 0 }))
     );
   }
@@ -93,7 +93,7 @@ export class BackupMigrationService {
   }
 
   executeMigration(planId: string): Observable<{ status: string; progress: number }> {
-    return this.http.post<any>(`${this.apiUrl}/migrate/execute/${planId}`, {}).pipe(
+    return this.http.post<{ status: string; progress: number }>(`${this.apiUrl}/migrate/execute/${planId}`, {}).pipe(
       catchError(() => of({ status: 'failed', progress: 0 }))
     );
   }

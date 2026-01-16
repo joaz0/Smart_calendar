@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MainLayout } from './main-layout';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing.component';
+import { MainLayout } from './main-layout.component';
+import { Router } from '@angular/router.component';
 
 describe('MainLayout', () => {
   let component: MainLayout;

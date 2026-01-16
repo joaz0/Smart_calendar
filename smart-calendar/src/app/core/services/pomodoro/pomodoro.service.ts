@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, BehaviorSubject, interval, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError, tap } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface PomodoroSession {
@@ -59,7 +59,7 @@ export class PomodoroService {
   public sessionsCompleted$ = this.sessionsCompletedSubject.asObservable();
   public settings$ = this.settingsSubject.asObservable();
   
-  private timerSubscription: any;
+  private timerSubscription: ReturnType<typeof setInterval> | null = null;
   private sessionCount = 0;
 
   constructor() {
@@ -121,10 +121,10 @@ export class PomodoroService {
     return this.startSession(type);
   }
 
-  completeSession(): Observable<PomodoroSession> {
+  completeSession(): Observable<PomodoroSession | null> {
     const session = this.currentSessionSubject.value;
     if (!session) {
-      return of(null as any);
+      return of(null);
     }
 
     this.stopTimer();
@@ -161,10 +161,10 @@ export class PomodoroService {
     );
   }
 
-  interruptSession(): Observable<PomodoroSession> {
+  interruptSession(): Observable<PomodoroSession | null> {
     const session = this.currentSessionSubject.value;
     if (!session) {
-      return of(null as any);
+      return of(null);
     }
 
     this.stopTimer();

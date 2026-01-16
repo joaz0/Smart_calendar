@@ -1,0 +1,225 @@
+<div class="focus-mode-container">
+  <div class="header">
+    <h2>
+      <mat-icon>center_focus_strong</mat-icon>
+      Modo Foco
+    </h2>
+    <mat-chip [style.background-color]="isActive ? '#4CAF50' : '#9E9E9E'">
+      <mat-icon>{{isActive ? 'play_circle' : 'stop_circle'}}</mat-icon>
+      {{isActive ? 'Ativo' : 'Inativo'}}
+    </mat-chip>
+  </div>
+
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+
+  @if (!loading) {
+    <div class="content">
+      @if (stats) {
+        <div class="stats-row">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #E3F2FD;">
+                <mat-icon style="color: #2196F3;">timer</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.totalSessions}}</div>
+                <div class="stat-label">Sessões</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #E8F5E9;">
+                <mat-icon style="color: #4CAF50;">schedule</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.totalFocusTime}}h</div>
+                <div class="stat-label">Tempo Total</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #FFF3E0;">
+                <mat-icon style="color: #FF9800;">check_circle</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.tasksCompleted}}</div>
+                <div class="stat-label">Tarefas</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #FCE4EC;">
+                <mat-icon style="color: #E91E63;">local_fire_department</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.currentStreak}}</div>
+                <div class="stat-label">Sequência</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      }
+      <mat-card class="main-card">
+        <mat-card-content>
+          @if (!isActive) {
+            <div class="setup-section">
+              <div class="duration-selector">
+                <h3>
+                  <mat-icon>schedule</mat-icon>
+                  Duração da Sessão
+                </h3>
+                <div class="duration-chips">
+                  @for (duration of durations; track duration) {
+                    <mat-chip
+                      [class.selected]="selectedDuration === duration"
+                      (click)="selectedDuration = duration">
+                      {{duration}} min
+                    </mat-chip>
+                  }
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="block-settings">
+                <h3>
+                  <mat-icon>block</mat-icon>
+                  Bloquear Durante o Foco
+                </h3>
+                <div class="toggle-list">
+                  <mat-slide-toggle [(ngModel)]="blockApps" color="primary">
+                    <mat-icon>smartphone</mat-icon>
+                    Apps de Mensagem
+                  </mat-slide-toggle>
+                  <mat-slide-toggle [(ngModel)]="blockWebsites" color="primary">
+                    <mat-icon>language</mat-icon>
+                    Sites Distratores
+                  </mat-slide-toggle>
+                  <mat-slide-toggle [(ngModel)]="blockNotifications" color="primary">
+                    <mat-icon>notifications_off</mat-icon>
+                    Notificações
+                  </mat-slide-toggle>
+                </div>
+              </div>
+              <button mat-raised-button color="primary" class="activate-btn" (click)="activate()">
+                <mat-icon>play_arrow</mat-icon>
+                Iniciar Sessão de Foco
+              </button>
+            </div>
+          }
+          @if (isActive) {
+            <div class="active-section">
+              <div class="timer-display">
+                <div class="circular-timer">
+                  <svg width="240" height="240" viewBox="0 0 240 240">
+                    <circle cx="120" cy="120" r="110"
+                      stroke="#e0e0e0"
+                      stroke-width="12"
+                      fill="none"/>
+                    <circle cx="120" cy="120" r="110"
+                      stroke="#6A1B9A"
+                      stroke-width="12"
+                      fill="none"
+                      stroke-linecap="round"
+                      [style.stroke-dasharray]="691"
+                      [style.stroke-dashoffset]="progressOffset"
+                      transform="rotate(-90 120 120)"/>
+                  </svg>
+                  <div class="timer-content">
+                    <div class="time">{{timeRemaining}}</div>
+                    <div class="percentage">{{getProgressPercentage()}}%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="session-info">
+                <mat-chip-set>
+                  @for (item of blockedItems; track item) {
+                    <mat-chip>
+                      <mat-icon>block</mat-icon>
+                      {{item}}
+                    </mat-chip>
+                  }
+                </mat-chip-set>
+              </div>
+              @if (currentSession) {
+                <div class="session-stats">
+                  <div class="stat-item">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>{{currentSession.tasksCompleted}} tarefas completadas</span>
+                  </div>
+                  <div class="stat-item">
+                    <mat-icon>block</mat-icon>
+                    <span>{{currentSession.distractionsBlocked}} distrações bloqueadas</span>
+                  </div>
+                </div>
+              }
+              <div class="action-buttons">
+                @if (!isPaused) {
+                  <button mat-raised-button color="accent" (click)="pause()">
+                    <mat-icon>pause</mat-icon>
+                    Pausar
+                  </button>
+                }
+                @if (isPaused) {
+                  <button mat-raised-button color="accent" (click)="resume()">
+                    <mat-icon>play_arrow</mat-icon>
+                    Retomar
+                  </button>
+                }
+                <button mat-button (click)="recordTaskCompleted()">
+                  <mat-icon>add_task</mat-icon>
+                  Tarefa Completa
+                </button>
+                <button mat-raised-button color="warn" (click)="deactivate()">
+                  <mat-icon>stop</mat-icon>
+                  Encerrar
+                </button>
+              </div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+      @if (recentSessions.length > 0) {
+        <mat-card class="recent-sessions">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>history</mat-icon>
+              Sessões Recentes
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="sessions-list">
+              @for (session of recentSessions; track session) {
+                <div class="session-item">
+                  <div class="session-date">
+                    <mat-icon>event</mat-icon>
+                    {{formatDate(session.startTime)}}
+                  </div>
+                  <div class="session-details">
+                    <span class="duration">
+                      <mat-icon>schedule</mat-icon>
+                      {{session.duration}} min
+                    </span>
+                    <span class="tasks">
+                      <mat-icon>check_circle</mat-icon>
+                      {{session.tasksCompleted}} tarefas
+                    </span>
+                    <span class="distractions">
+                      <mat-icon>block</mat-icon>
+                      {{session.distractionsBlocked}} bloqueadas
+                    </span>
+                  </div>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

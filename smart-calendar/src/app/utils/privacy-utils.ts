@@ -18,14 +18,14 @@ export function maskPhone(phone: string): string {
   return masked;
 }
 
-export function anonymizeData<T extends object>(data: T, fields: string[]): T {
+export function anonymizeData<T extends Record<string, unknown>>(data: T, fields: (keyof T)[]): T {
   const anonymized = { ...data };
   
-  fields.forEach(field => {
+  for (const field of fields) {
     if (field in anonymized) {
-      (anonymized as any)[field] = '[REDACTED]';
+      anonymized[field] = '[REDACTED]' as T[keyof T];
     }
-  });
+  }
   
   return anonymized;
 }

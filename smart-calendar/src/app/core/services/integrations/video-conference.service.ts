@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface MeetingLink {
@@ -62,7 +62,7 @@ export class VideoConferenceService {
   }
 
   getConnectionStatus(): Observable<{ zoom: boolean; meet: boolean; teams: boolean }> {
-    return this.http.get<any>(`${environment.apiUrl}/integrations/video/status`);
+    return this.http.get<{ zoom: boolean; meet: boolean; teams: boolean }>(`${environment.apiUrl}/integrations/video/status`);
   }
 
   disconnect(provider: 'zoom' | 'meet' | 'teams'): Observable<void> {

@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { ReactiveFormsModule } from '@angular/forms.component';
+import { MatTableModule } from '@angular/material/table.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator.component';
+import { MatButtonModule } from '@angular/material/button.component';
+import { MatIconModule } from '@angular/material/icon.component';
+import { MatMenuModule } from '@angular/material/menu.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators.component';
 import { Category, CategoryService } from '../services/category.service';
 
 

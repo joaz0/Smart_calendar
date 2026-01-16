@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core.component';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs/operators.component';
 import { ApiService, ApiResponse } from './api.service';
 import { Event } from '../models/event.model';
 

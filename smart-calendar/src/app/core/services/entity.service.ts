@@ -1,9 +1,9 @@
 // Entity Service Base - Para CRUD operations
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core.component';
 import { BaseService } from '../services/base.service';
 import { ApiService } from '../services/api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators.component';
 import { of } from 'rxjs';
 
 /**

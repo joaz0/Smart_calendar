@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@angular-eslint/component-class-suffix": "error",
+    "@angular-eslint/directive-class-suffix": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@angular-eslint/template/label-has-associated-control": "warn",
+    "@angular-eslint/template/click-events-have-key-events": "warn",
+    "@angular-eslint/template/interactive-supports-focus": "warn"
+  }
+}

@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, inject } from '@angular/core.component';
+import { FormBuilder } from '@angular/forms.component';
 import { BaseFormComponent, FormField } from '@core/components/base-form.component';
 import { CategoryService } from '../services/category.service';
-import * as CustomValidators from '@core/validators/custom.validators';
+import * as CustomValidators from '@core/validators/custom.validators.component';
 
 
 @Component({

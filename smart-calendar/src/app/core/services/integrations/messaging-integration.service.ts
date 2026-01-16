@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface Message {
@@ -39,7 +39,7 @@ export class MessagingIntegrationService {
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/messaging`;
 
   connectPlatform(platform: 'slack' | 'teams' | 'whatsapp' | 'telegram'): Observable<{ success: boolean; message: string }> {
-    return this.http.post<any>(`${this.apiUrl}/connect`, { platform }).pipe(
+    return this.http.post<{ success: boolean; message: string }>(`${this.apiUrl}/connect`, { platform }).pipe(
       catchError(() => of({ success: false, message: 'Erro ao conectar' }))
     );
   }
@@ -52,12 +52,12 @@ export class MessagingIntegrationService {
 
   sendMessage(platform: string, recipient: string, content: string): Observable<Message> {
     return this.http.post<Message>(`${this.apiUrl}/send`, { platform, recipient, content }).pipe(
-      catchError(() => of(this.getMockMessage(platform as any, recipient, content)))
+      catchError(() => of(this.getMockMessage(platform as 'slack' | 'teams' | 'whatsapp' | 'telegram', recipient, content)))
     );
   }
 
   sendEventReminder(eventId: string, recipients: string[], platform: string): Observable<{ sent: number; failed: number }> {
-    return this.http.post<any>(`${this.apiUrl}/remind`, { eventId, recipients, platform }).pipe(
+    return this.http.post<{ sent: number; failed: number }>(`${this.apiUrl}/remind`, { eventId, recipients, platform }).pipe(
       catchError(() => of({ sent: recipients.length, failed: 0 }))
     );
   }
@@ -95,7 +95,7 @@ export class MessagingIntegrationService {
   }
 
   sendFromTemplate(templateId: string, variables: Record<string, string>, recipients: string[]): Observable<{ sent: number; failed: number }> {
-    return this.http.post<any>(`${this.apiUrl}/templates/${templateId}/send`, { variables, recipients }).pipe(
+    return this.http.post<{ sent: number; failed: number }>(`${this.apiUrl}/templates/${templateId}/send`, { variables, recipients }).pipe(
       catchError(() => of({ sent: recipients.length, failed: 0 }))
     );
   }

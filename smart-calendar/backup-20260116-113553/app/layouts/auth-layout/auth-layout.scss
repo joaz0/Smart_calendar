@@ -1,0 +1,460 @@
+@use '../../../assets/styles/_variables' as vars;
+@use '../../../assets/styles/_mixins' as mixins;
+@use '../../../assets/styles/_breakpoints' as *;
+
+.auth-layout {
+  height: 100vh;
+  height: 100dvh;
+  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: auto;
+  padding: var(--space-4);
+
+  @supports (padding: max(0px)) {
+    padding-top: max(var(--space-4), env(safe-area-inset-top));
+    padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+  }
+}
+
+.auth-container {
+  width: 100%;
+  max-width: min(400px, 90vw);
+  padding: var(--space-2) 0;
+  position: relative;
+  margin: auto;
+}
+
+.auth-card {
+  @include mixins.glass-card;
+  padding: var(--space-6);
+  width: 100%;
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%),
+              linear-gradient(135deg, rgba(91, 11, 220, 0.8) 0%, rgba(139, 61, 255, 0.4) 50%, rgba(91, 11, 220, 0.8) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow:
+    0 8px 32px rgba(91, 11, 220, 0.6),
+    0 0 80px rgba(91, 11, 220, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+  animation: slideUp var(--transition-normal) ease-out, crystalShimmer 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: crystalReflection 6s linear infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(91, 11, 220, 0.3) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-4);
+
+  h1 {
+    color: #ffffff;
+    margin: var(--space-4) 0;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: var(--font-bold);
+    text-box: uppercase;
+    text-transform: uppercase;
+    text-shadow: 0 2px 8px rgba(91, 11, 220, 0.8);
+  }
+}
+
+.app-logo {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.auth-subtitle {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(91, 11, 220, 0.8);
+  margin: 0;
+  font-size: clamp(var(--font-size-sm), 3vw, var(--font-size-base));
+  font-weight: var(--font-normal);
+}
+
+.auth-form {
+  @include mixins.flex-column;
+  gap: vars.$spacing-md;
+}
+
+.form-group {
+  @include mixins.flex-column;
+
+  label {
+    @include mixins.form-label;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  input {
+    @include mixins.form-input;
+    border: 2px solid rgba(91, 11, 220, 0.5);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(91, 11, 220, 0.2) 100%);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    position: relative;
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.5),
+      inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+
+    &:focus {
+      border-color: #5b0bdc;
+      outline: none;
+      box-shadow:
+        0 0 0 3px rgba(91, 11, 220, 0.3),
+        0 0 20px rgba(91, 11, 220, 0.4),
+        inset 0 1px 2px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 1px rgba(91, 11, 220, 0.3);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(91, 11, 220, 0.3) 100%);
+    }
+
+    &:hover:not(:focus) {
+      border-color: rgba(91, 11, 220, 0.7);
+      box-shadow:
+        0 0 15px rgba(91, 11, 220, 0.2),
+        inset 0 1px 2px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+    }
+  }
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.global-error {
+  text-align: center;
+  padding: 0.75rem;
+  background: #fee2e2;
+  border-radius: 0.5rem;
+  border-left: 4px solid #ef4444;
+  color: #991b1b;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+
+  @include mobile-only {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+
+    @media (pointer: coarse) {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:checked {
+      background-color: #5b0bdc;
+      border-color: #5b0bdc;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #5b0bdc;
+      outline-offset: 2px;
+    }
+  }
+
+  span {
+    color: #e4e4e7;
+    font-size: var(--font-size-sm);
+  }
+}
+
+.forgot-password {
+  background: none;
+  border: none;
+  color: #8b3dff;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(91, 11, 220, 0.2);
+    color: #5b0bdc;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #5b0bdc;
+    outline-offset: 2px;
+  }
+
+  @include mobile-only {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #5b0bdc 0%, #3d0894 100%);
+  color: white;
+  border: 2px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+  margin-top: var(--space-2);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 4px 12px rgba(91, 11, 220, 0.5),
+    0 0 20px rgba(91, 11, 220, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7b2bfc 0%, #5b0bdc 100%);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(91, 11, 220, 0.7),
+      0 0 40px rgba(91, 11, 220, 0.4),
+      inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    border-color: rgba(139, 61, 255, 0.5);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: #3d3d3d;
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+  }
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: var(--space-4) 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(91, 11, 220, 0.3);
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%);
+    padding: 0 var(--space-4);
+    color: #c0b3db;
+    font-size: var(--font-size-sm);
+  }
+}
+
+.social-btn {
+  @include mixins.button-base;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 2px solid rgba(91, 11, 220, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: all var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    background: rgba(91, 11, 220, 0.2);
+    border-color: #5b0bdc;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(91, 11, 220, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.social-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: var(--space-2);
+  flex-shrink: 0;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(91, 11, 220, 0.3);
+
+  p {
+    margin: 0;
+    color: #e4e4e7;
+    font-size: var(--font-size-sm);
+  }
+}
+
+.switch-btn {
+  background: none;
+  border: none;
+  color: #8b3dff;
+  cursor: pointer;
+  font-weight: var(--font-semibold);
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background: rgba(91, 11, 220, 0.2);
+    color: #5b0bdc;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #5b0bdc;
+    outline-offset: 2px;
+  }
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-4);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--font-size-xs);
+
+  p {
+    margin: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes crystalShimmer {
+  0%, 100% {
+    box-shadow:
+      0 8px 32px rgba(91, 11, 220, 0.6),
+      0 0 80px rgba(91, 11, 220, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 8px 32px rgba(91, 11, 220, 0.8),
+      0 0 100px rgba(91, 11, 220, 0.5),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2),
+      inset 0 -1px 2px rgba(91, 11, 220, 0.4);
+  }
+}
+
+@keyframes crystalReflection {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}

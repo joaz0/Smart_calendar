@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core.component';
 
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon.component';
 
 @Component({
   selector: 'app-glass-card',

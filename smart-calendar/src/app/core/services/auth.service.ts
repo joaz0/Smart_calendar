@@ -1,11 +1,11 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap, catchError, switchMap } from 'rxjs/operators';
+import { map, tap, catchError, switchMap } from 'rxjs/operators.component';
 import { User } from '../models/user.model';
 import { AuthApiService } from './auth-api.service';
 import { OAuthService } from './oauth.service';
-import { Logger } from '../utils/logger';
+import { Logger } from '../utils/logger.component';
 
 
 interface PasswordResetResponse {

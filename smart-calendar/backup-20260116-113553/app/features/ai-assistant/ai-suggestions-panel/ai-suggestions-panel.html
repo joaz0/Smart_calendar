@@ -1,0 +1,16 @@
+<section class="ai-suggestions-panel" data-component="AiSuggestionsPanel">
+  <header>
+    <h4>Sugestões da IA</h4>
+  </header>
+
+  <ul>
+    @for (s of suggestions; track s) {
+      <li>
+        <div class="suggestion-text">{{ s.text }}</div>
+        <div class="suggestion-actions">
+          <button type="button" (click)="apply(s)">Aplicar</button>
+        </div>
+      </li>
+    }
+  </ul>
+</section>

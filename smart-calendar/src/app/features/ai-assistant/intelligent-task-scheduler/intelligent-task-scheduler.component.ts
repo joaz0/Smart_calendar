@@ -1,0 +1,19 @@
+import { Component, Input } from '@angular/core.component';
+
+import { FormsModule } from '@angular/forms.component';
+
+
+@Component({
+  selector: 'app-intelligent-task-scheduler',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './intelligent-task-scheduler.html',
+  styleUrls: ['./intelligent-task-scheduler.scss'],
+})
+export class IntelligentTaskScheduler {
+  @Input() suggestions: any[] = [];
+
+  apply(s: any): void {
+    console.log('apply intelligent suggestion', s);
+  }
+}

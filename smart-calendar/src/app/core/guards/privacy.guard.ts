@@ -1,7 +1,7 @@
-import { inject } from '@angular/core';
-import { Router, type CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core.component';
+import { Router, type CanActivateFn } from '@angular/router.component';
 import { map, switchMap, catchError, of, timeout, combineLatest } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar.component';
 
 // Serviços de privacidade específicos
 import { PrivacyManagerService } from '../services/privacy/privacy-manager.service';

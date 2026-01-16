@@ -1,10 +1,10 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core.component';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators.component';
 import { of } from 'rxjs';
 import { Task } from '../models/task.model';
 import { TaskApiService } from './task-api.service';
-import { Logger } from '../utils/logger';
+import { Logger } from '../utils/logger.component';
 
 
 interface TaskListResponse {

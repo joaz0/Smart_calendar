@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface Location {
@@ -64,7 +64,7 @@ export class MapIntegrationService {
   }
 
   geocode(address: string): Observable<{ lat: number; lng: number }> {
-    return this.http.post<any>(`${this.apiUrl}/geocode`, { address }).pipe(
+    return this.http.post<{ lat: number; lng: number }>(`${this.apiUrl}/geocode`, { address }).pipe(
       catchError(() => of({ lat: -23.5505, lng: -46.6333 }))
     );
   }

@@ -1,0 +1,148 @@
+<div class="productivity-insights">
+  <div class="header">
+    <h2>
+      <mat-icon>insights</mat-icon>
+      Insights de Produtividade
+    </h2>
+
+    <div class="controls">
+      <mat-form-field appearance="outline">
+        <mat-select [(ngModel)]="selectedPeriod" (selectionChange)="onPeriodChange()">
+          <mat-option value="week">Última Semana</mat-option>
+          <mat-option value="month">Último Mês</mat-option>
+          <mat-option value="quarter">Último Trimestre</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+
+  @if (!loading && metricsData) {
+    <div class="content">
+      <div class="score-card">
+        <mat-card>
+          <mat-card-content>
+            <div class="score-display">
+              <div class="score-value" [style.color]="getScoreColor(metricsData.overallScore)">
+                {{metricsData.overallScore}}
+              </div>
+              <div class="score-label">Score Geral de Produtividade</div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <mat-tab-group>
+        <mat-tab label="Padrões">
+          <div class="tab-content">
+            <h3>Padrões de Trabalho</h3>
+            <div class="patterns-grid">
+              @for (pattern of metricsData.patterns; track trackByPattern($index, pattern)) {
+                <mat-card>
+                  <mat-card-content>
+                    <div class="pattern-header">
+                      <mat-icon [style.color]="getPatternColor(pattern.type)">
+                        {{getPatternIcon(pattern.type)}}
+                      </mat-icon>
+                      <span class="time-range">{{pattern.timeRange}}</span>
+                    </div>
+                    <div class="pattern-score" [style.color]="getScoreColor(pattern.score)">
+                      {{pattern.score}}%
+                    </div>
+                    <p class="pattern-description">{{pattern.description}}</p>
+                  </mat-card-content>
+                </mat-card>
+              }
+            </div>
+            <mat-card class="best-worst-hours">
+              <mat-card-content>
+                <div class="hours-section">
+                  <div class="best-hours">
+                    <h4><mat-icon>wb_sunny</mat-icon> Melhores Horários</h4>
+                    <mat-chip-set>
+                      @for (hour of metricsData.bestHours; track hour) {
+                        <mat-chip class="success-chip">
+                          {{hour}}
+                        </mat-chip>
+                      }
+                    </mat-chip-set>
+                  </div>
+                  <div class="worst-hours">
+                    <h4><mat-icon>nights_stay</mat-icon> Horários de Baixa Energia</h4>
+                    <mat-chip-set>
+                      @for (hour of metricsData.worstHours; track hour) {
+                        <mat-chip class="warning-chip">
+                          {{hour}}
+                        </mat-chip>
+                      }
+                    </mat-chip-set>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="Insights">
+          <div class="tab-content">
+            <h3>Insights Personalizados</h3>
+            <div class="insights-list">
+              @for (insight of metricsData.insights; track trackByInsight($index, insight)) {
+                <mat-card class="insight-card">
+                  <mat-card-content>
+                    <div class="insight-header">
+                      <mat-icon>{{insight.icon}}</mat-icon>
+                      <div class="insight-title-section">
+                        <h4>{{insight.title}}</h4>
+                        <mat-chip [style.background-color]="getImpactColor(insight.impact)" class="impact-chip">
+                          {{insight.impact === 'high' ? 'Alto Impacto' : insight.impact === 'medium' ? 'Médio Impacto' : 'Baixo Impacto'}}
+                        </mat-chip>
+                      </div>
+                    </div>
+                    <p class="insight-description">{{insight.description}}</p>
+                    <div class="insight-recommendation">
+                      <mat-icon>lightbulb</mat-icon>
+                      <span>{{insight.recommendation}}</span>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              }
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Evolução">
+          <div class="tab-content">
+            <h3>Comparação Semanal</h3>
+            <mat-card class="weekly-comparison">
+              <mat-card-content>
+                <div class="comparison-grid">
+                  @for (week of metricsData.weeklyComparison; track week) {
+                    <div class="week-card">
+                      <div class="week-label">{{week.week}}</div>
+                      <div class="week-score" [style.color]="getScoreColor(week.score)">
+                        {{week.score}}%
+                      </div>
+                      <div class="week-stats">
+                        <div class="stat">
+                          <mat-icon>check_circle</mat-icon>
+                          <span>{{week.tasksCompleted}} tarefas</span>
+                        </div>
+                        <div class="stat">
+                          <mat-icon>schedule</mat-icon>
+                          <span>{{week.focusHours}}h foco</span>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  }
+</div>

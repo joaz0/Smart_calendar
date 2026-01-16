@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface VideoCallLink {
@@ -31,9 +31,9 @@ export class VideoCallIntegrationService {
 
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/video`;
 
-  createMeeting(provider: string, settings: any): Observable<VideoCallLink> {
+  createMeeting(provider: string, settings: Record<string, unknown>): Observable<VideoCallLink> {
     return this.http.post<VideoCallLink>(`${this.apiUrl}/create`, { provider, settings }).pipe(
-      catchError(() => of(this.getMockVideoCallLink(provider as any)))
+      catchError(() => of(this.getMockVideoCallLink(provider as 'zoom' | 'meet' | 'teams' | 'custom')))
     );
   }
 
@@ -68,7 +68,7 @@ export class VideoCallIntegrationService {
   }
 
   testConnection(provider: string): Observable<{ connected: boolean; message: string }> {
-    return this.http.post<any>(`${this.apiUrl}/test`, { provider }).pipe(
+    return this.http.post<{ connected: boolean; message: string }>(`${this.apiUrl}/test`, { provider }).pipe(
       catchError(() => of({ connected: false, message: 'Não conectado' }))
     );
   }

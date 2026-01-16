@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable, of, interval } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { catchError, switchMap } from 'rxjs/operators.component';
+import { environment } from '../../../../environments/environment.component';
 
 export interface UserAvailability {
   userId: string;

@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient } from '@angular/common/http.component';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.component';
 
 
 export interface Webhook {
@@ -11,6 +11,19 @@ export interface Webhook {
   active: boolean;
   secret?: string;
   createdAt: Date;
+}
+
+export interface WebhookTestResponse {
+  success: boolean;
+  response?: Record<string, unknown>;
+}
+
+export interface WebhookLog {
+  id: string;
+  timestamp: Date;
+  event: WebhookEvent;
+  status: number;
+  response?: string;
 }
 
 export type WebhookEvent = 
@@ -44,16 +57,16 @@ export class WebhookService {
     return this.http.delete<void>(`${environment.apiUrl}/webhooks/${id}`);
   }
 
-  testWebhook(id: string): Observable<{ success: boolean; response?: any }> {
-    return this.http.post<any>(`${environment.apiUrl}/webhooks/${id}/test`, {});
+  testWebhook(id: string): Observable<WebhookTestResponse> {
+    return this.http.post<WebhookTestResponse>(`${environment.apiUrl}/webhooks/${id}/test`, {});
   }
 
   toggleWebhook(id: string, active: boolean): Observable<Webhook> {
     return this.http.patch<Webhook>(`${environment.apiUrl}/webhooks/${id}`, { active });
   }
 
-  getWebhookLogs(id: string, limit = 50): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/webhooks/${id}/logs`, {
+  getWebhookLogs(id: string, limit = 50): Observable<WebhookLog[]> {
+    return this.http.get<WebhookLog[]>(`${environment.apiUrl}/webhooks/${id}/logs`, {
       params: { limit: limit.toString() }
     });
   }

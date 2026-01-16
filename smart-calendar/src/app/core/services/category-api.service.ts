@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core.component';
 import { Observable } from 'rxjs';
 import { ApiService, ApiResponse } from './api.service';
 import { Category } from '../models/category.model';

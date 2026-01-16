@@ -1,0 +1,24 @@
+<section class="task-list" data-component="TaskList">
+  <header class="task-list-header">
+    <h2>Tarefas</h2>
+    <button class="btn-new" (click)="openNewTask()" aria-label="Adicionar tarefa">+ Nova Tarefa</button>
+  </header>
+
+  <div class="task-list-controls">
+    <input type="text" placeholder="Filtrar por título" [value]="filterText" (input)="filterText = $any($event.target).value; applyFilter()" aria-label="Filtrar tarefas" />
+  </div>
+
+  @if (tasks.length > 0) {
+    <ul class="tasks" role="list">
+      @for (task of tasks; track task) {
+        <li class="task-entry" [class.completed]="task?.completed" [attr.data-task-id]="task?.id">
+          <app-task-item [task]="task" (edit)="editTask($event)" (delete)="deleteTask($event)"></app-task-item>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (!(tasks.length > 0)) {
+    <div class="empty-state">Nenhuma tarefa encontrada</div>
+  }
+</section>

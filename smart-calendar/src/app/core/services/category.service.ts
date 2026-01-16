@@ -1,9 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core.component';
 import { EntityService } from './entity.service';
 import { Category } from '../models/category.model';
 import { CategoryApiService } from './category-api.service';
 import { Observable } from 'rxjs';
-import { Logger } from '../utils/logger';
+import { Logger } from '../utils/logger.component';
 
 
 @Injectable({

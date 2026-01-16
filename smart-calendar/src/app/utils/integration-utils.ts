@@ -1,3 +1,5 @@
+export type QueryParams = Record<string, string | number | boolean | null | undefined>;
+
 export function generateMeetingLink(provider: 'zoom' | 'meet' | 'teams', meetingId?: string): string {
   const links = {
     zoom: `https://zoom.us/j/${meetingId || 'new'}`,
@@ -53,10 +55,15 @@ export function extractDomainFromEmail(email: string): string {
   return parts.length === 2 ? parts[1] : '';
 }
 
-export function buildQueryString(params: Record<string, any>): string {
-  return Object.entries(params)
-    .filter(([_, value]) => value !== undefined && value !== null)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+export function buildQueryString(params: QueryParams): string {
+  const filteredParams = Object.entries(params).filter(([, value]) => 
+    value !== undefined && value !== null
+  );
+  
+  return filteredParams
+    .map(([key, value]) => 
+      `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
+    )
     .join('&');
 }
 

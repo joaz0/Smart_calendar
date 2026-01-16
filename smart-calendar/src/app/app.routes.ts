@@ -1,8 +1,8 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router.component';
 
 // Layouts
-import { MainLayout } from './layouts/main-layout/main-layout';
-import { AuthLayout } from './layouts/auth-layout/auth-layout';
+import { MainLayout } from './layouts/main-layout/main-layout.component';
+import { AuthLayout } from './layouts/auth-layout/auth-layout.component';
 
 // Guards
 import { authGuard } from './core/guards/auth.guard';
@@ -10,7 +10,7 @@ import { privacyGuard } from './core/guards/privacy.guard';
 import { PrivacyLevel, PrivacyContext } from './core/guards/privacy.guard';
 
 // Components - Shared
-import { NotFound } from './shared/components/not-found/not-found';
+import { NotFound } from './shared/components/not-found/not-found.component';
 import { ErrorComponent } from './shared/components/error/error.component';
 
 export const routes: Routes = [

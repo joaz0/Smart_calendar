@@ -1,0 +1,37 @@
+@use '../../../../assets/styles/variables';
+@use '../../../../assets/styles/mixins';
+
+:host {
+  display: block;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .date-time-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  mat-checkbox {
+    margin-top: 1rem;
+  }
+}
+
+mat-dialog-actions {
+  padding: 1rem;
+  gap: 1rem;
+  
+  button {
+    min-width: 100px;
+  }
+}

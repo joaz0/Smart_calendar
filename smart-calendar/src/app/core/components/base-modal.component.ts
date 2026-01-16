@@ -1,6 +1,6 @@
 // Base Modal Component
-import { Component } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog.component';
 import { BaseComponent } from './base.component';
 
 /**

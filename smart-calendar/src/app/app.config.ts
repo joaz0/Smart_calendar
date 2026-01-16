@@ -1,9 +1,9 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { routes } from './app.routes';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core.component';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http.component';
+import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar.component';
+import { routes } from './app.routes.component';
 
 // Interceptor classes
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';

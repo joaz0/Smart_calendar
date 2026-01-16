@@ -1,0 +1,108 @@
+import { AnyObject } from '@core/models/common-interfaces';
+export interface ContextPattern {
+  type: string;
+  frequency: number;
+  timeOfDay: string[];
+  dayOfWeek: number[];
+  duration: number;
+}
+
+export function analyzeContextPatterns(
+  events: { title: string; startDate: Date; endDate: Date; category?: string }[]
+): ContextPattern[] {
+  const patterns: Record<string, ContextPattern> = {};
+  
+  events.forEach(event => {
+    const key = event.category || 'uncategorized';
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
+    const duration = (endDate.getTime() - startDate.getTime()) / 60000; // minutes
+    const hour = startDate.getHours();
+    const dayOfWeek = startDate.getDay();
+    
+    if (!patterns[key]) {
+      patterns[key] = {
+        type: key,
+        frequency: 0,
+        timeOfDay: [],
+        dayOfWeek: [],
+        duration: 0
+      };
+    }
+    
+    patterns[key].frequency++;
+    patterns[key].duration += duration;
+    
+    const timeSlot = getTimeSlot(hour);
+    if (!patterns[key].timeOfDay.includes(timeSlot)) {
+      patterns[key].timeOfDay.push(timeSlot);
+    }
+    
+    if (!patterns[key].dayOfWeek.includes(dayOfWeek)) {
+      patterns[key].dayOfWeek.push(dayOfWeek);
+    }
+  });
+  
+  return Object.values(patterns).map(p => ({
+    ...p,
+    duration: Math.round(p.duration / p.frequency)
+  }));
+}
+
+export function getTimeSlot(hour: number): string {
+  if (hour < 6) return 'madrugada';
+  if (hour < 12) return 'manhã';
+  if (hour < 18) return 'tarde';
+  return 'noite';
+}
+
+export function predictNextContext(patterns: ContextPattern[], currentTime: Date): string | null {
+  const hour = currentTime.getHours();
+  const dayOfWeek = currentTime.getDay();
+  const timeSlot = getTimeSlot(hour);
+  
+  const matching = patterns.filter(p => 
+    p.timeOfDay.includes(timeSlot) && p.dayOfWeek.includes(dayOfWeek)
+  );
+  
+  if (matching.length === 0) return null;
+  
+  matching.sort((a, b) => b.frequency - a.frequency);
+  return matching[0].type;
+}
+
+export function calculateContextSwitchCost(
+  previousContext: string,
+  nextContext: string
+): number {
+  const switchCosts: Record<string, Record<string, number>> = {
+    'work': { 'personal': 15, 'meeting': 5, 'break': 10 },
+    'personal': { 'work': 15, 'meeting': 10, 'break': 5 },
+    'meeting': { 'work': 5, 'personal': 10, 'break': 5 },
+    'break': { 'work': 10, 'personal': 5, 'meeting': 10 }
+  };
+  
+  return switchCosts[previousContext]?.[nextContext] || 10;
+}
+
+export function suggestOptimalSchedule(
+  tasks: { title: string; duration: number; context: string }[],
+  patterns: ContextPattern[]
+): { task: AnyObject; startTime: Date }[] {
+  const schedule: { task: AnyObject; startTime: Date }[] = [];
+  const now = new Date();
+  const currentTime = new Date(now);
+  
+  tasks.sort((a, b) => {
+    const aPattern = patterns.find(p => p.type === a.context);
+    const bPattern = patterns.find(p => p.type === b.context);
+    return (bPattern?.frequency || 0) - (aPattern?.frequency || 0);
+  });
+  
+  tasks.forEach(task => {
+    schedule.push({ task, startTime: new Date(currentTime) });
+    currentTime.setMinutes(currentTime.getMinutes() + task.duration);
+  });
+  
+  return schedule;
+}

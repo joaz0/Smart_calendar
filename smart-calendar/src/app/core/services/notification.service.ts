@@ -1,7 +1,7 @@
-import { Injectable, signal, inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Injectable, signal, inject } from '@angular/core.component';
+import { MatSnackBar } from '@angular/material/snack-bar.component';
 import { Observable } from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop.component';
 
 export interface Notification {
   id: string;

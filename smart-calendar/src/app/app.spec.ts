@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app';
+import { TestBed } from '@angular/core/testing.component';
+import { AppComponent } from './app.component';
 import { LoadingService } from './core/services/loading.service';
 import { NotificationService } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
 import { ApiMapperInitService } from './core/services/api-mapper-init.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
