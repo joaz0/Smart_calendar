@@ -29,6 +29,13 @@ export interface ProductivityInsight {
   icon: string;
 }
 
+export interface WeeklyComparison {
+  week: string;
+  score: number;
+  tasksCompleted: number;
+  focusHours: number;
+}
+
 export interface ProductivityMetricsData {
   userId: string;
   period: { start: Date; end: Date };
@@ -36,12 +43,7 @@ export interface ProductivityMetricsData {
   patterns: ProductivityPattern[];
   sessions: WorkSession[];
   insights: ProductivityInsight[];
-  weeklyComparison: {
-    week: string;
-    score: number;
-    tasksCompleted: number;
-    focusHours: number;
-  }[];
+  weeklyComparison: WeeklyComparison[];
   bestHours: string[];
   worstHours: string[];
 }
@@ -59,7 +61,7 @@ export class ProductivityInsightsService {
       .set('start', startDate.toISOString())
       .set('end', endDate.toISOString());
 
-    return this.http.get<any>(`${this.apiUrl}/insights`, { params }).pipe(
+    return this.http.get<ProductivityMetricsData>(`${this.apiUrl}/insights`, { params }).pipe(
       map(data => this.transformBackendData(data, startDate, endDate)),
       catchError(() => of(this.getMockData(startDate, endDate)))
     );
@@ -67,7 +69,7 @@ export class ProductivityInsightsService {
 
   getProductivityScore(date: Date): Observable<number> {
     const params = new HttpParams().set('date', date.toISOString());
-    return this.http.get<any>(`${this.apiUrl}/score`, { params }).pipe(
+    return this.http.get<{ score: number }>(`${this.apiUrl}/score`, { params }).pipe(
       map(response => response.score || 75),
       catchError(() => of(75))
     );
@@ -75,13 +77,13 @@ export class ProductivityInsightsService {
 
   getWorkPatterns(days = 30): Observable<ProductivityPattern[]> {
     const params = new HttpParams().set('days', days.toString());
-    return this.http.get<any>(`${this.apiUrl}/patterns`, { params }).pipe(
+    return this.http.get<{ patterns: ProductivityPattern[] }>(`${this.apiUrl}/patterns`, { params }).pipe(
       map(response => response.patterns || []),
       catchError(() => of(this.getMockPatterns()))
     );
   }
 
-  private transformBackendData(data: any, startDate: Date, endDate: Date): ProductivityMetricsData {
+  private transformBackendData(data: ProductivityMetricsData, startDate: Date, endDate: Date): ProductivityMetricsData {
     return {
       userId: data.userId || 'current-user',
       period: { start: startDate, end: endDate },
@@ -183,7 +185,7 @@ export class ProductivityInsightsService {
     ];
   }
 
-  private getMockWeeklyComparison(): any[] {
+  private getMockWeeklyComparison(): WeeklyComparison[] {
     return [
       { week: 'Semana 1', score: 65, tasksCompleted: 18, focusHours: 22 },
       { week: 'Semana 2', score: 72, tasksCompleted: 24, focusHours: 28 },
