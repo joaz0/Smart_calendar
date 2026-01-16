@@ -45,7 +45,7 @@ export class PrivacyManagerService {
     return this.http.post<boolean>(`${environment.apiUrl}/privacy/check`, { level, context });
   }
 
-  updatePrivacySettings(settings: unknown): Observable<any> {
+  updatePrivacySettings(settings: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/privacy/settings`, settings);
   }
 

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +15,6 @@ import { PriorityIndicator } from '../priority-indicator/priority-indicator';
   selector: 'app-task-item',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatCheckboxModule,
     MatIconModule,
@@ -26,7 +25,7 @@ import { PriorityIndicator } from '../priority-indicator/priority-indicator';
     MatDividerModule,
     MatTooltipModule,
     PriorityIndicator
-  ],
+],
   templateUrl: './task-item.html',
   styleUrls: ['./task-item.scss']
 })
@@ -51,7 +50,7 @@ export class TaskItem {
     this.showDescription = !this.showDescription;
   }
 
-  onEdit(event: Event): void {
+  onEdit(_event: Event): void {
     event.stopPropagation();
     this.taskEdited.emit(this.task);
   }
@@ -80,7 +79,7 @@ export class TaskItem {
   }
 
   getCompletedSubtasks(): number {
-    return this.task.subtasks?.filter((s: unknown) => s.completed).length || 0;
+    return this.task.subtasks?.filter((s: any) => s.completed).length || 0;
   }
 
   getSubtaskProgress(): number {

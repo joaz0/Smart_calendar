@@ -7,7 +7,7 @@ import { Task } from '../models/task.model';
 })
 export class ApiMapperService {
   // Events: front <-> back
-  toApiEvent(event: Partial<CalendarEvent>): any {
+  toApiEvent(_event: Partial<CalendarEvent>): any {
     const payload: any = {
       title: event.title,
       description: event.description,
@@ -36,7 +36,7 @@ export class ApiMapperService {
     return payload;
   }
 
-  fromApiEvent(api: unknown): CalendarEvent {
+  fromApiEvent(api: any): CalendarEvent {
     return {
       id: String(api.id),
       title: api.title,
@@ -83,7 +83,7 @@ export class ApiMapperService {
     return payload;
   }
 
-  fromApiTask(api: unknown): Task {
+  fromApiTask(api: any): Task {
     return {
       id: String(api.id),
       title: api.title,

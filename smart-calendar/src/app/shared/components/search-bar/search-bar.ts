@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -44,14 +44,13 @@ interface QuickAction {
   selector: 'app-search-bar',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatRippleModule
-  ],
+],
   templateUrl: './search-bar.html',
   styleUrls: ['./search-bar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -187,7 +186,7 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
   }
 
   // Quando results são atualizados externamente
-  ngOnChanges(changes: unknown): void {
+  ngOnChanges(changes: any): void {
     if (changes.results && this.results) {
       this.searchResults = this.results;
       this.updateGroupedResults();
@@ -271,7 +270,7 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
     this.recentSearchSelected.emit(search);
   }
 
-  executeQuickAction(action: QuickAction, event?: Event): void {
+  executeQuickAction(_action: QuickAction, event?: Event): void {
     if (event) {
       event.stopPropagation();
     }
@@ -343,13 +342,13 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
     this.cdr.markForCheck();
   }
 
-  onKeyDown(event: KeyboardEvent): void {
+  onKeyDown(_event: KeyboardEvent): void {
     this.handleKeyboard(event);
   }
 
   // Navegação por teclado
   @HostListener('document:keydown', ['$event'])
-  handleKeyboard(event: KeyboardEvent): void {
+  handleKeyboard(_event: KeyboardEvent): void {
     if (!this.showResults) return;
 
     switch (event.key) {
@@ -373,7 +372,7 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
   }
 
   @HostListener('document:click', ['$event'])
-  handleClickOutside(event: Event): void {
+  handleClickOutside(_event: Event): void {
     const target = event.target as HTMLElement;
     if (!this.elementRef.nativeElement.contains(target)) {
       this.closeResults();

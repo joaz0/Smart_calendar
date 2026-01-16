@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -15,14 +15,14 @@ export interface ListColumn {
   key: string;
   label: string;
   sortable?: boolean;
-  formatter?: (value: any, row?: unknown) => string;
+  formatter?: (value: any, row?: any) => string;
   width?: string;
 }
 
 export interface ListAction {
   icon: string;
   label: string;
-  handler: (row: unknown) => void;
+  handler: (row: any) => void;
 }
 
 @Component({
@@ -31,15 +31,14 @@ export interface ListAction {
   styleUrls: ['./categories-list.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    MatProgressSpinnerModule,
-  ],
+    MatProgressSpinnerModule
+],
 })
 export class CategoriesListComponent implements OnInit, OnDestroy {
   private categoryService = inject(CategoryService);
@@ -127,7 +126,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onPageChange(event: PageEvent): void {
+  onPageChange(_event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadData();

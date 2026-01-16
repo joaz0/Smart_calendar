@@ -56,7 +56,7 @@ export class AuthCallbackComponent implements OnInit {
     });
   }
 
-  private handleMicrosoftCallback(params: unknown) {
+  private handleMicrosoftCallback(params: any) {
     if (window.opener) {
       window.opener.postMessage({
         type: 'MICROSOFT_AUTH_SUCCESS',

@@ -36,9 +36,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     wellness: 'Bom'
   };
   
-  todayEvents: unknown[] = [];
-  quickTasks: unknown[] = [];
-  aiInsights: unknown[] = [
+  todayEvents: any[] = [];
+  quickTasks: any[] = [];
+  aiInsights: any[] = [
     {
       icon: 'schedule',
       title: 'Otimização de Tempo',
@@ -165,7 +165,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   
-  toggleTask(task: unknown) {
+  toggleTask(task: any) {
     task.completed = !task.completed;
     if (task.completed) {
       this.todayStats.tasks--;

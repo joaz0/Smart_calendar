@@ -46,7 +46,7 @@ export class AiSchedulingService {
     );
   }
 
-  autoSchedule(requests: AutoScheduleRequest[]): Observable<{ scheduled: unknown[]; failed: unknown[] }> {
+  autoSchedule(requests: AutoScheduleRequest[]): Observable<{ scheduled: any[]; failed: any[] }> {
     return this.http.post<any>(`${this.apiUrl}/auto-schedule`, { requests }).pipe(
       catchError(() => of({ scheduled: [], failed: [] }))
     );
@@ -68,7 +68,7 @@ export class AiSchedulingService {
     );
   }
 
-  optimizeSchedule(date: Date): Observable<{ optimizations: unknown[]; timeSaved: number }> {
+  optimizeSchedule(date: Date): Observable<{ optimizations: any[]; timeSaved: number }> {
     return this.http.post<any>(`${this.apiUrl}/optimize`, { date }).pipe(
       catchError(() => of({ optimizations: [], timeSaved: 0 }))
     );
@@ -127,7 +127,7 @@ export class AiSchedulingService {
     ];
   }
 
-  private getMockAvailableSlots(duration: number): Date[] {
+  private getMockAvailableSlots(_duration: number): Date[] {
     const slots: Date[] = [];
     const baseDate = new Date();
     baseDate.setHours(9, 0, 0, 0);

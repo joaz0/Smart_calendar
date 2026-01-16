@@ -141,7 +141,7 @@ export class AuthLayout {
     this.isLoading = true;
     this.authService.loginWithGoogle().subscribe({
       next: () => this.router.navigate(['/app/calendar']),
-      error: (error: unknown) => {
+      error: (error: any) => {
         this.errorMessage = 'Erro no login com Google';
         this.isLoading = false;
       },
@@ -153,7 +153,7 @@ export class AuthLayout {
     this.isLoading = true;
     this.authService.loginWithMicrosoft().subscribe({
       next: () => this.router.navigate(['/app/calendar']),
-      error: (error: unknown) => {
+      error: (error: any) => {
         this.errorMessage = 'Erro no login com Microsoft';
         this.isLoading = false;
       },

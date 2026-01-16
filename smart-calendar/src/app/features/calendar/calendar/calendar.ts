@@ -21,8 +21,8 @@ export class Calendar {
   currentView = 'month';
   currentPeriodTitle = 'Janeiro 2024';
   selectedDate = new Date();
-  filteredEvents: unknown[] = [];
-  categories: unknown[] = [
+  filteredEvents: any[] = [];
+  categories: any[] = [
     { name: 'Trabalho', color: '#3B82F6', visible: true },
     { name: 'Pessoal', color: '#10B981', visible: true }
   ];
@@ -30,10 +30,10 @@ export class Calendar {
   previousPeriod() {}
   nextPeriod() {}
   goToToday() { this.selectedDate = new Date(); }
-  changeView(event: unknown) { this.currentView = event.value; }
+  changeView(_event: any) { this.currentView = event.value; }
   createEvent() {}
   onDateSelected(date: Date) { this.selectedDate = date; }
-  onEventClicked(event: unknown) {}
+  onEventClicked(_event: any) {}
   applyFilters() {
     this.filteredEvents = this.filteredEvents.filter(e => 
       this.categories.find(c => c.name === e.category)?.visible

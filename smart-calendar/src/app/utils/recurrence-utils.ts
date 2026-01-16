@@ -10,29 +10,26 @@ export function generateRecurrenceDates(
   
   for (let i = 1; i < count; i++) {
     switch (recurrence.frequency) {
-      case 'daily':
-      {
+      case 'daily': {
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + (recurrence.interval || 1));
         break;
-        
-      case 'weekly':
-      {
+      }
+      case 'weekly': {
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + (7 * (recurrence.interval || 1)));
         break;
-        
-      case 'monthly':
-      {
+      }
+      case 'monthly': {
         currentDate = new Date(currentDate);
         currentDate.setMonth(currentDate.getMonth() + (recurrence.interval || 1));
         break;
-        
-      case 'yearly':
-      {
+      }
+      case 'yearly': {
         currentDate = new Date(currentDate);
         currentDate.setFullYear(currentDate.getFullYear() + (recurrence.interval || 1));
         break;
+      }
     }
     
     if (recurrence.endDate && currentDate > recurrence.endDate) break;

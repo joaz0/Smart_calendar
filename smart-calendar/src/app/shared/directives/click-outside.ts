@@ -9,14 +9,14 @@ export class ClickOutsideDirective {
   @Output() appClickOutside = new EventEmitter<Event>();
 
   @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
+  onClick(_event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.appClickOutside.emit(event);
     }
   }
 
   @HostListener('document:touchstart', ['$event'])
-  onTouchStart(event: Event): void {
+  onTouchStart(_event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.appClickOutside.emit(event);
     }

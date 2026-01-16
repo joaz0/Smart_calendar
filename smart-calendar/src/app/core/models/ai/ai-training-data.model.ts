@@ -3,7 +3,7 @@ export interface AiTrainingExample {
   input: string;
   output: string;
   label?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface AiTrainingDataset {

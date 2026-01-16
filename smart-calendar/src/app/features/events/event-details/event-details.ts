@@ -13,11 +13,11 @@ export class EventDetails {
   @Output() edit = new EventEmitter<any>();
   @Output() remove = new EventEmitter<any>();
 
-  editEvent(ev: unknown): void {
+  editEvent(ev: any): void {
     this.edit.emit(ev);
   }
 
-  deleteEvent(ev: unknown): void {
+  deleteEvent(ev: any): void {
     this.remove.emit(ev);
   }
 }

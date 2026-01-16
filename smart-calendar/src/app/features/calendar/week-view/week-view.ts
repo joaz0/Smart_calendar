@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,18 +9,18 @@ import { MatDividerModule } from '@angular/material/divider';
 @Component({
   selector: 'app-week-view',
   standalone: true,
-  imports: [CommonModule, DatePipe, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatMenuModule, MatDividerModule],
+  imports: [DatePipe, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatMenuModule, MatDividerModule],
   templateUrl: './week-view.html',
   styleUrl: './week-view.scss',
 })
 export class WeekView {
-  @Input() events: unknown[] = [];
+  @Input() events: any[] = [];
   @Input() selectedDate: Date = new Date();
   @Output() dateSelected = new EventEmitter<Date>();
   @Output() eventClicked = new EventEmitter<any>();
   
   startOfWeek: Date = this.getStartOfWeek(new Date());
-  weekDays: { date: Date; events: unknown[] }[] = [];
+  weekDays: { date: Date; events: any[] }[] = [];
   showSummary = true;
   isLoading = false;
   timeSlots: number[] = Array.from({ length: 24 }, (_, i) => i);
@@ -48,11 +48,11 @@ export class WeekView {
     }
   }
 
-  startEventDrag(event: any, mouseEvent: MouseEvent) {
+  startEventDrag(_event: any, mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
   }
 
-  startResize(event: any, direction: string, mouseEvent: MouseEvent) {
+  startResize(_event: any, direction: string, mouseEvent: MouseEvent) {
     mouseEvent.stopPropagation();
   }
 
@@ -72,7 +72,7 @@ export class WeekView {
     console.log('Generating weekly report...');
   }
 
-  getDayIndicators(day: unknown): unknown[] {
+  getDayIndicators(day: any): any[] {
     return [];
   }
 
@@ -80,11 +80,11 @@ export class WeekView {
     return hour;
   }
 
-  trackByDay(index: number, day: unknown): number {
+  trackByDay(index: number, day: any): number {
     return day.date ? day.date.getTime() : day.getTime();
   }
 
-  trackByEvent(index: number, event: unknown): any {
+  trackByEvent(index: number, event: any): any {
     return event.id || index;
   }
 
@@ -96,13 +96,13 @@ export class WeekView {
     return `${hour.toString().padStart(2, '0')}:00`;
   }
 
-  isToday(day: unknown): boolean {
+  isToday(day: any): boolean {
     const today = new Date();
     const date = day.date || day;
     return date.toDateString() === today.toDateString();
   }
 
-  isWeekend(day: unknown): boolean {
+  isWeekend(day: any): boolean {
     const date = day.date || day;
     const dayOfWeek = date.getDay();
     return dayOfWeek === 0 || dayOfWeek === 6;
@@ -126,39 +126,39 @@ export class WeekView {
     return (minutes / 60) * 100;
   }
 
-  getEventsForSlot(day: Date, hour: number): unknown[] {
+  getEventsForSlot(day: Date, hour: number): any[] {
     return [];
   }
 
-  getEventHeight(event: unknown): number {
+  getEventHeight(_event: any): number {
     return 60;
   }
 
-  getEventTop(event: unknown): number {
+  getEventTop(_event: any): number {
     return 0;
   }
 
-  getEventLeft(event: unknown): number {
+  getEventLeft(_event: any): number {
     return 0;
   }
 
-  getEventWidth(event: unknown): number {
+  getEventWidth(_event: any): number {
     return 100;
   }
 
-  isMultiDayEvent(event: unknown): boolean {
+  isMultiDayEvent(_event: any): boolean {
     return false;
   }
 
-  hasConflicts(event: unknown): boolean {
+  hasConflicts(_event: any): boolean {
     return false;
   }
 
-  getEventTooltip(event: unknown): string {
+  getEventTooltip(_event: any): string {
     return event.title || '';
   }
 
-  openEvent(event: unknown): void {
+  openEvent(_event: any): void {
     console.log('Open event', event);
   }
 
@@ -215,7 +215,7 @@ export class WeekView {
     return false;
   }
 
-  getAllDayEventsForDay(day: unknown): unknown[] {
+  getAllDayEventsForDay(day: any): any[] {
     return [];
   }
 }

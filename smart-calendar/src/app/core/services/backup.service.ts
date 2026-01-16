@@ -10,9 +10,9 @@ export interface BackupData {
   version: string;
   timestamp: Date;
   user: any;
-  events: unknown[];
-  tasks: unknown[];
-  categories: unknown[];
+  events: any[];
+  tasks: any[];
+  categories: any[];
   settings: any;
 }
 

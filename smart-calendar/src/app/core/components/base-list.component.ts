@@ -6,7 +6,7 @@ export interface ListAction {
   label: string;
   icon?: string;
   color?: string;
-  action: (item: unknown) => void;
+  action: (item: any) => void;
 }
 
 export interface ListColumn {
@@ -36,7 +36,7 @@ export abstract class BaseListComponent<T> extends BaseComponent implements OnIn
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
   @Output() sortChange = new EventEmitter<{ column: string; direction: 'asc' | 'desc' }>();
   @Output() filterChange = new EventEmitter<any>();
-  @Output() search = new EventEmitter<string>();
+  @Output() itemSearch = new EventEmitter<string>();
 
   currentPage = 1;
   searchQuery = '';
@@ -98,7 +98,7 @@ export abstract class BaseListComponent<T> extends BaseComponent implements OnIn
   onSearch(query: string): void {
     this.searchQuery = query;
     this.currentPage = 1;
-    this.search.emit(query);
+    this.itemSearch.emit(query);
   }
 
   /**

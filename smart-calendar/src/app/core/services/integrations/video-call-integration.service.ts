@@ -30,7 +30,7 @@ export class VideoCallIntegrationService {
 
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/integrations/video`;
 
-  createMeeting(provider: string, settings: unknown): Observable<VideoCallLink> {
+  createMeeting(provider: string, settings: any): Observable<VideoCallLink> {
     return this.http.post<VideoCallLink>(`${this.apiUrl}/create`, { provider, settings }).pipe(
       catchError(() => of(this.getMockVideoCallLink(provider as any)))
     );

@@ -31,7 +31,7 @@ export interface TrendData {
 export interface ChartConfig {
   type: 'line' | 'bar' | 'pie' | 'doughnut';
   data: ChartData;
-  options?: any;
+  options?: Record<string, unknown>;
 }
 
 export interface ChartData {

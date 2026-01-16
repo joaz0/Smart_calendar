@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-list',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [DatePipe],
   templateUrl: './event-list.html',
   styleUrl: './event-list.scss',
 })
 export class EventList {
-  events: unknown[] = [];
+  events: any[] = [];
 
   @Output() create = new EventEmitter<void>();
 
@@ -17,7 +17,7 @@ export class EventList {
     this.create.emit();
   }
 
-  openDetails(ev: unknown): void {
+  openDetails(ev: any): void {
     // stub: abrir detalhe do evento
     console.log('openDetails', ev);
   }

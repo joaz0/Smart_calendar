@@ -56,7 +56,7 @@ export class CategoryFormComponent extends BaseFormComponent {
     this.buildForm();
   }
 
-  protected async handleSubmit(value: unknown): Promise<void> {
+  protected async handleSubmit(value: any): Promise<void> {
     await this.categoryService.create(value).toPromise();
     this.resetForm();
   }

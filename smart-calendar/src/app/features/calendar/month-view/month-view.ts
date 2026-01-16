@@ -10,7 +10,7 @@ import { Task } from '../../../core/models/task.model';
 import { EventDialogComponent } from '../event-dialog/event-dialog';
 import { TaskDialogComponent } from '../task-dialog/task-dialog';
 import { DayDetailsDialogComponent } from '../day-details-dialog/day-details-dialog';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -27,7 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
 @Component({
   selector: 'app-month-view',
   standalone: true,
-  imports: [CommonModule, DatePipe, MatIconModule, MatButtonModule, MatListModule, MatTooltipModule],
+  imports: [DatePipe, MatIconModule, MatButtonModule, MatListModule, MatTooltipModule],
   templateUrl: './month-view.html',
   styleUrls: ['./month-view.scss'],
 })
@@ -44,7 +44,7 @@ export class MonthView implements OnInit, OnDestroy {
   
   currentDate: Date = new Date();
   weeks: Date[][] = [];
-  calendarWeeks: unknown[] = [];
+  calendarWeeks: any[] = [];
   tasks: Task[] = [];
   weekdays: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   maxEventsPerDay = 3;
@@ -129,7 +129,7 @@ export class MonthView implements OnInit, OnDestroy {
           (this.tasks = tasks.filter(
             (task: Task) => task.dueDate && task.dueDate >= startDate && task.dueDate <= endDate
           )),
-        error: (error: unknown) => console.error('Erro ao carregar tarefas:', error),
+        error: (error: any) => console.error('Erro ao carregar tarefas:', error),
       });
   }
 
@@ -266,7 +266,7 @@ export class MonthView implements OnInit, OnDestroy {
     return day.getTime();
   }
 
-  trackByEvent(index: number, event: unknown): any {
+  trackByEvent(index: number, event: any): any {
     return event?.id || index;
   }
 
@@ -295,7 +295,7 @@ export class MonthView implements OnInit, OnDestroy {
     this.dateSelected.emit(date);
   }
 
-  onEventClick(event: any, mouseEvent: Event) {
+  onEventClick(_event: any, mouseEvent: Event) {
     mouseEvent.stopPropagation();
     this.eventClicked.emit(event);
   }
@@ -305,11 +305,11 @@ export class MonthView implements OnInit, OnDestroy {
     this.openEventDialog(undefined, date);
   }
 
-  getDayIndicators(date: Date): unknown[] {
+  getDayIndicators(date: Date): any[] {
     return [];
   }
 
-  getEventTooltip(event: CalendarEvent): string {
+  getEventTooltip(_event: CalendarEvent): string {
     return event.title || '';
   }
 
@@ -317,7 +317,7 @@ export class MonthView implements OnInit, OnDestroy {
     return task.title || '';
   }
 
-  openEvent(event: CalendarEvent, mouseEvent: PointerEvent) {
+  openEvent(_event: CalendarEvent, mouseEvent: PointerEvent) {
     mouseEvent.stopPropagation();
     this.openEventDialog(event);
   }

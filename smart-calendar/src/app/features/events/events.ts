@@ -36,8 +36,8 @@ export class EventsComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   
-  events: unknown[] = [];
-  filteredEvents: unknown[] = [];
+  events: any[] = [];
+  filteredEvents: any[] = [];
   searchTerm = '';
   selectedFilter = 'all';
   isLoading = false;
@@ -183,13 +183,13 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/app/calendar'], { queryParams: { action: 'create' } });
   }
   
-  editEvent(event: unknown) {
+  editEvent(_event: any) {
     this.router.navigate(['/app/calendar'], { 
       queryParams: { action: 'edit', eventId: event.id } 
     });
   }
   
-  deleteEvent(event: unknown) {
+  deleteEvent(_event: any) {
     if (confirm(`Tem certeza que deseja excluir o evento "${event.title}"?`)) {
       this.eventService.deleteEvent(event.id)
         .pipe(takeUntil(this.destroy$))
@@ -207,13 +207,13 @@ export class EventsComponent implements OnInit, OnDestroy {
     }
   }
   
-  viewEvent(event: unknown) {
+  viewEvent(_event: any) {
     this.router.navigate(['/app/calendar'], { 
       queryParams: { eventId: event.id } 
     });
   }
   
-  getEventStatus(event: unknown): string {
+  getEventStatus(_event: any): string {
     const now = new Date();
     if (event.endDate < now) return 'past';
     if (event.startDate <= now && event.endDate >= now) return 'ongoing';

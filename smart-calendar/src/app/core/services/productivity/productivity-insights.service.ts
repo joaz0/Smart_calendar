@@ -182,7 +182,7 @@ export class ProductivityInsightsService {
     ];
   }
 
-  private getMockWeeklyComparison(): unknown[] {
+  private getMockWeeklyComparison(): any[] {
     return [
       { week: 'Semana 1', score: 65, tasksCompleted: 18, focusHours: 22 },
       { week: 'Semana 2', score: 72, tasksCompleted: 24, focusHours: 28 },

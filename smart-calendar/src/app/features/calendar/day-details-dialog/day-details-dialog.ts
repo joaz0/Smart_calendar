@@ -31,7 +31,7 @@ export class DayDetailsDialogComponent {
     this.dialogRef.close();
   }
 
-  getEventTime(event: CalendarEvent): string {
+  getEventTime(_event: CalendarEvent): string {
     return event.startDate
       ? new Date(event.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       : '';
@@ -59,7 +59,7 @@ export class DayDetailsDialogComponent {
     return task.id || index;
   }
 
-  openEvent(event: CalendarEvent) {
+  openEvent(_event: CalendarEvent) {
     this.dialogRef.close({ action: 'openEvent', event });
   }
 
@@ -72,16 +72,16 @@ export class DayDetailsDialogComponent {
     return new Date(task.dueDate) < new Date() && !task.completed;
   }
 
-  toggleTaskCompletion(task: Task, event: unknown) {
+  toggleTaskCompletion(task: Task, event: any) {
     task.completed = event.checked;
     this.dialogRef.close({ action: 'toggleTask', task });
   }
 
-  getCategoryColor(category: unknown): string {
+  getCategoryColor(category: any): string {
     return category?.color || '#6366f1';
   }
 
-  getCategoryName(category: unknown): string {
+  getCategoryName(category: any): string {
     return category?.name || 'Sem categoria';
   }
 

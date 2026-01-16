@@ -100,7 +100,7 @@ export class EventApiService {
   /**
    * Criar novo evento
    */
-  createEvent(event: CreateEventRequest): Observable<Event> {
+  createEvent(_event: CreateEventRequest): Observable<Event> {
     return this.apiService.post<Event>('/events', event).pipe(
       map((response) => {
         if (response.data) {

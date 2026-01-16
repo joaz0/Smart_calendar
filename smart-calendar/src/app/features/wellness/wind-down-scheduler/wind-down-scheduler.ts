@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class WindDownScheduler {
   settings = { sleepTime: '22:00', windDownDuration: 60 };
-  categories: unknown[] = [];
-  violations: unknown[] = [];
+  categories: any[] = [];
+  violations: any[] = [];
 
   isBlocked(id: string) { return false; }
   toggleCategory(id: string) {}

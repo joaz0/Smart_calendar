@@ -12,9 +12,9 @@ export interface SyncStatus {
 }
 
 export interface SyncData {
-  events: unknown[];
-  tasks: unknown[];
-  categories: unknown[];
+  events: any[];
+  tasks: any[];
+  categories: any[];
   timestamp: Date;
 }
 

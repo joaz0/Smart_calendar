@@ -4,7 +4,7 @@ export function exportToJSON<T>(data: T, filename: string): void {
   downloadFile(blob, filename);
 }
 
-export function exportToCSV(data: unknown[], filename: string): void {
+export function exportToCSV(data: any[], filename: string): void {
   if (data.length === 0) return;
   
   const headers = Object.keys(data[0]);
@@ -25,7 +25,7 @@ export function exportToCSV(data: unknown[], filename: string): void {
   downloadFile(blob, filename);
 }
 
-export function exportToICalendar(events: unknown[], filename: string): void {
+export function exportToICalendar(events: any[], filename: string): void {
   const icalLines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',

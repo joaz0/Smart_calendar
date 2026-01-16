@@ -10,21 +10,21 @@ export class DragDropDirective {
   @Input() acceptedTypes: string[] = [];
 
   @HostListener('dragover', ['$event'])
-  onDragOver(event: DragEvent): void {
+  onDragOver(_event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  onDragLeave(event: DragEvent): void {
+  onDragLeave(_event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(false);
   }
 
   @HostListener('drop', ['$event'])
-  onDrop(event: DragEvent): void {
+  onDrop(_event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(false);

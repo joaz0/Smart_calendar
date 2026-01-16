@@ -154,7 +154,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
 
   // Navegação por teclado
   @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKey(event: KeyboardEvent): void {
+  onEscapeKey(_event: KeyboardEvent): void {
     if (this.visible && !this.preventBackdropClose && !this.isProcessing) {
       this.onCancel();
       event.preventDefault();
@@ -162,7 +162,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   }
 
   @HostListener('document:keydown.enter', ['$event'])
-  onEnterKey(event: KeyboardEvent): void {
+  onEnterKey(_event: KeyboardEvent): void {
     if (!this.visible || this.isProcessing) return;
 
     const activeElement = document.activeElement as HTMLElement;
@@ -176,7 +176,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   }
 
   @HostListener('document:keydown.tab', ['$event'])
-  onTabKey(event: KeyboardEvent): void {
+  onTabKey(_event: KeyboardEvent): void {
     if (!this.visible || !this.dialogContainer) return;
 
     const focusableElements = this.getFocusableElements();
@@ -267,7 +267,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   }
 
   // Clique no backdrop
-  onBackdropClick(event: MouseEvent): void {
+  onBackdropClick(_event: MouseEvent): void {
     if (this.preventBackdropClose || this.isProcessing) return;
 
     const target = event.target as HTMLElement;
@@ -276,7 +276,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onContentClick(event: MouseEvent): void {
+  onContentClick(_event: MouseEvent): void {
     event.stopPropagation();
   }
 

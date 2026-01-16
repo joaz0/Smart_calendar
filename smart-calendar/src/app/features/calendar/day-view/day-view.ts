@@ -17,22 +17,22 @@ import { LoadingSpinner } from '../../../shared/components/loading-spinner/loadi
   styleUrl: './day-view.scss',
 })
 export class DayView {
-  @Input() events: unknown[] = [];
+  @Input() events: any[] = [];
   @Input() selectedDate: Date = new Date();
   @Output() eventClicked = new EventEmitter<any>();
   
   day: Date = new Date();
-  dayTasks: unknown[] = [];
+  dayTasks: any[] = [];
   is24Hour = true;
   isLoading = false;
   currentDate = new Date();
   weatherData: any = null;
   showWeather = false;
-  allDayEvents: unknown[] = [];
+  allDayEvents: any[] = [];
   timeSlots: number[] = Array.from({ length: 24 }, (_, i) => i);
   showHint = false;
   hintHour: number | null = null;
-  slots: { time: string; events: unknown[] }[] = [
+  slots: { time: string; events: any[] }[] = [
     { time: '08:00', events: [] },
     { time: '09:00', events: [] },
     { time: '10:00', events: [] },
@@ -95,7 +95,7 @@ export class DayView {
     return labels[priority] || priority;
   }
 
-  editTask(task: unknown) {
+  editTask(task: any) {
     console.log('Edit task', task);
   }
 
@@ -131,7 +131,7 @@ export class DayView {
     return 'wb_sunny';
   }
 
-  trackByEvent(index: number, event: unknown): any {
+  trackByEvent(index: number, event: any): any {
     return event.id;
   }
 
@@ -139,15 +139,15 @@ export class DayView {
     return hour;
   }
 
-  trackByTask(index: number, task: unknown): any {
+  trackByTask(index: number, task: any): any {
     return task.id;
   }
 
-  getEventTooltip(event: unknown): string {
+  getEventTooltip(_event: any): string {
     return event.title || '';
   }
 
-  openEvent(event: unknown) {
+  openEvent(_event: any) {
     console.log('Open event', event);
   }
 
@@ -190,53 +190,53 @@ export class DayView {
     return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   }
 
-  getEventsForHour(hour: number): unknown[] {
+  getEventsForHour(hour: number): any[] {
     return [];
   }
 
-  getEventHeight(event: unknown): number {
+  getEventHeight(_event: any): number {
     return 60;
   }
 
-  getEventTop(event: unknown): number {
+  getEventTop(_event: any): number {
     return 0;
   }
 
-  hasTimeConflict(event: unknown): boolean {
+  hasTimeConflict(_event: any): boolean {
     return false;
   }
 
-  isPastEvent(event: unknown): boolean {
+  isPastEvent(_event: any): boolean {
     return false;
   }
 
-  isCurrentEvent(event: unknown): boolean {
+  isCurrentEvent(_event: any): boolean {
     return false;
   }
 
-  editEvent(event: unknown) {
+  editEvent(_event: any) {
     console.log('Edit event', event);
   }
 
-  onEventDragStart(event: any, dragEvent: DragEvent) {
+  onEventDragStart(_event: any, dragEvent: DragEvent) {
     console.log('Drag start', event);
   }
 
-  getEventDuration(event: unknown): string {
+  getEventDuration(_event: any): string {
     return '1h';
   }
 
-  quickEditEvent(event: any, mouseEvent: MouseEvent) {
+  quickEditEvent(_event: any, mouseEvent: MouseEvent) {
     mouseEvent.stopPropagation();
     console.log('Quick edit', event);
   }
 
-  deleteEvent(event: any, mouseEvent: MouseEvent) {
+  deleteEvent(_event: any, mouseEvent: MouseEvent) {
     mouseEvent.stopPropagation();
     console.log('Delete event', event);
   }
 
-  startResize(event: any, type: string, mouseEvent: MouseEvent) {
+  startResize(_event: any, type: string, mouseEvent: MouseEvent) {
     mouseEvent.stopPropagation();
     console.log('Start resize', event, type);
   }
@@ -251,11 +251,11 @@ export class DayView {
     this.hintHour = null;
   }
 
-  isTaskOverdue(task: unknown): boolean {
+  isTaskOverdue(task: any): boolean {
     return false;
   }
 
-  toggleTaskCompletion(task: unknown) {
+  toggleTaskCompletion(task: any) {
     console.log('Toggle task', task);
   }
 }

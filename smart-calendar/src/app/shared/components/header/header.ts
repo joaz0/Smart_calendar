@@ -275,7 +275,7 @@ export class Header implements OnInit, OnDestroy {
     this.searchQuery.emit(query);
   }
 
-  executeQuickAction(action: QuickAction): void {
+  executeQuickAction(_action: QuickAction): void {
     if (action.disabled) return;
 
     action.callback();
@@ -421,7 +421,7 @@ export class Header implements OnInit, OnDestroy {
 
   // Atalhos de teclado
   @HostListener('document:keydown', ['$event'])
-  handleKeyboardShortcuts(event: KeyboardEvent): void {
+  handleKeyboardShortcuts(_event: KeyboardEvent): void {
     // Ctrl/Cmd + K para busca
     if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
       event.preventDefault();

@@ -11,7 +11,7 @@ import { TaskItem } from '../task-item/task-item';
 })
 export class TaskList {
   // Lista de tarefas; preenchida por um service em runtime
-  tasks: unknown[] = [];
+  tasks: any[] = [];
   filterText = '';
 
   @Output() create = new EventEmitter<void>();
@@ -24,11 +24,11 @@ export class TaskList {
     // stub: o serviço deve filtrar tasks conforme filterText
   }
 
-  editTask(task: unknown): void {
+  editTask(task: any): void {
     // stub
   }
 
-  deleteTask(task: unknown): void {
+  deleteTask(task: any): void {
     // stub
   }
 }

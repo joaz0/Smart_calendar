@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,6 @@ import { AIAssistantService, ChatMessage, AISuggestion } from '../../core/servic
   selector: 'app-ai-assistant',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatButtonModule,
@@ -26,7 +25,7 @@ import { AIAssistantService, ChatMessage, AISuggestion } from '../../core/servic
     MatChipsModule,
     MatProgressSpinnerModule,
     MatBadgeModule
-  ],
+],
   templateUrl: './ai-assistant.html',
   styleUrls: ['./ai-assistant.scss']
 })

@@ -9,10 +9,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./ai-suggestions-panel.scss'],
 })
 export class AiSuggestionsPanel {
-  @Input() suggestions: unknown[] = [];
+  @Input() suggestions: any[] = [];
   @Input() showApply = true;
 
-  apply(s: unknown): void {
+  apply(s: any): void {
     // placeholder: aplicar sugestão
     console.log('apply suggestion', s);
   }

@@ -46,12 +46,12 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   ];
 
   actions = [
-    { label: 'Editar', icon: 'edit', action: (item: unknown) => this.editEvent(item) },
+    { label: 'Editar', icon: 'edit', action: (item: any) => this.editEvent(item) },
     {
       label: 'Deletar',
       icon: 'delete',
       color: 'warn',
-      action: (item: unknown) => this.deleteEvent(item),
+      action: (item: any) => this.deleteEvent(item),
     },
   ];
 
@@ -59,7 +59,7 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
     // Events are already loaded in the EventService constructor
   }
 
-  onPageChange(event: { page: number; pageSize: number }): void {
+  onPageChange(_event: { page: number; pageSize: number }): void {
     this.loading = true;
     this.eventService.getAllEvents(event.page, event.pageSize).pipe(this.takeUntil()).subscribe({
       complete: () => this.loading = false
@@ -79,15 +79,15 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onAction(action: { type: string; item: any }): void {
+  onAction(_action: { type: string; item: any }): void {
     // Delegar para método apropriado
   }
 
-  private editEvent(event: unknown): void {
+  private editEvent(_event: any): void {
     // Abrir modal/navegação para edição
   }
 
-  private deleteEvent(event: unknown): void {
+  private deleteEvent(_event: any): void {
     // Confirmar e deletar
     this.loading = true;
     this.eventService.deleteEvent(event.id).pipe(this.takeUntil()).subscribe({
@@ -151,7 +151,7 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsListComponent {
-  @Input() items: unknown[] | null = null;
+  @Input() items: any[] | null = null;
   @Input() columns: ListColumn[] = [];
   @Input() actions: ListAction[] = [];
   @Input() loading = false;
@@ -159,11 +159,11 @@ export class EventsListComponent {
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
   @Output() search = new EventEmitter<string>();
 
-  onSearchChange(event: unknown): void {
+  onSearchChange(_event: any): void {
     this.search.emit(event.target.value);
   }
 
-  executeAction(action: ListAction, item: unknown): void {
+  executeAction(_action: ListAction, item: any): void {
     action.action(item);
   }
 

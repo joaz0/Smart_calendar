@@ -30,35 +30,35 @@ export class ApiService {
   /**
    * GET request
    */
-  get<T>(endpoint: string, options?: unknown): Observable<ApiResponse<T>> {
+  get<T>(endpoint: string, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('GET', endpoint, null, options);
   }
 
   /**
    * POST request
    */
-  post<T>(endpoint: string, body: any, options?: unknown): Observable<ApiResponse<T>> {
+  post<T>(endpoint: string, body: any, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('POST', endpoint, body, options);
   }
 
   /**
    * PUT request
    */
-  put<T>(endpoint: string, body: any, options?: unknown): Observable<ApiResponse<T>> {
+  put<T>(endpoint: string, body: any, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('PUT', endpoint, body, options);
   }
 
   /**
    * PATCH request
    */
-  patch<T>(endpoint: string, body: any, options?: unknown): Observable<ApiResponse<T>> {
+  patch<T>(endpoint: string, body: any, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('PATCH', endpoint, body, options);
   }
 
   /**
    * DELETE request
    */
-  delete<T>(endpoint: string, options?: unknown): Observable<ApiResponse<T>> {
+  delete<T>(endpoint: string, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('DELETE', endpoint, null, options);
   }
 
@@ -109,7 +109,7 @@ export class ApiService {
   /**
    * Configurar headers HTTP
    */
-  private getHttpOptions(options: unknown): { headers: HttpHeaders } {
+  private getHttpOptions(options: any): { headers: HttpHeaders } {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',

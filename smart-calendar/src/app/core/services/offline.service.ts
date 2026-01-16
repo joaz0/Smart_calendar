@@ -43,7 +43,7 @@ export class OfflineService {
     }
   }
 
-  addPendingAction(action: Omit<OfflineAction, 'id' | 'timestamp'>): void {
+  addPendingAction(_action: Omit<OfflineAction, 'id' | 'timestamp'>): void {
     const newAction: OfflineAction = {
       ...action,
       id: Date.now().toString(),
@@ -69,7 +69,7 @@ export class OfflineService {
   }
 
   // Cache management
-  cacheData(key: string, data: unknown): void {
+  cacheData(key: string, data: any): void {
     localStorage.setItem(`cache_${key}`, JSON.stringify({
       data,
       timestamp: Date.now()

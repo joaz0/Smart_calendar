@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,6 @@ import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/se
   standalone: true,
   selector: 'app-privacy-control-center',
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatButtonModule,
@@ -24,7 +23,7 @@ import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/se
     MatSelectModule,
     MatDividerModule,
     MatProgressSpinnerModule
-  ],
+],
   templateUrl: './privacy-control-center.html',
   styleUrl: './privacy-control-center.scss'
 })
@@ -99,7 +98,7 @@ export class PrivacyControlCenter implements OnInit, OnDestroy {
     return new Date(date).toLocaleString('pt-BR');
   }
 
-  getActionIcon(action: string): string {
+  getActionIcon(_action: string): string {
     switch (action) {
       case 'read': return 'visibility';
       case 'write': return 'edit';

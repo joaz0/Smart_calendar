@@ -38,8 +38,8 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   
-  tasks: unknown[] = [];
-  filteredTasks: unknown[] = [];
+  tasks: any[] = [];
+  filteredTasks: any[] = [];
   searchTerm = '';
   selectedFilter = 'all';
   selectedPriority = 'all';
@@ -226,12 +226,12 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   
-  toggleTask(task: unknown) {
+  toggleTask(task: any) {
     task.completed = !task.completed;
     this.applyFilters();
   }
   
-  editTask(task: unknown) {
+  editTask(task: any) {
     const newTitle = prompt('Editar título:', task.title);
     if (newTitle && newTitle !== task.title) {
       task.title = newTitle;
@@ -239,7 +239,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   
-  deleteTask(task: unknown) {
+  deleteTask(task: any) {
     if (confirm(`Tem certeza que deseja excluir a tarefa "${task.title}"?`)) {
       this.tasks = this.tasks.filter(t => t.id !== task.id);
       this.applyFilters();
@@ -274,7 +274,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   
-  isOverdue(task: unknown): boolean {
+  isOverdue(task: any): boolean {
     return !task.completed && task.dueDate && task.dueDate < new Date();
   }
   

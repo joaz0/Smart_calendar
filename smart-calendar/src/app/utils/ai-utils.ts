@@ -59,13 +59,13 @@ export function calculateConfidence(intent: string, entities: Record<string, any
   return Math.min(confidence, 1.0);
 }
 
-export function generateSuggestion(context: unknown): string {
+export function generateSuggestion(context: any): string {
   const { events, tasks, habits } = context;
   
   if (events?.length > 5) {
     return 'Você tem muitos eventos hoje. Considere reagendar alguns para manter o foco.';
   }
-  if (tasks?.filter((t: unknown) => !t.completed).length > 10) {
+  if (tasks?.filter((t: any) => !t.completed).length > 10) {
     return 'Você tem muitas tarefas pendentes. Priorize as mais importantes.';
   }
   if (habits?.streak < 3) {

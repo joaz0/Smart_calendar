@@ -11,9 +11,9 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent, BrowserAnimationsModule],
       providers: [
-        { provide: LoadingService, useValue: { isLoading$: { subscribe: () => {} } } },
-        { provide: NotificationService, useValue: { initializeNotifications: () => {} } },
-        { provide: ThemeService, useValue: { initializeTheme: () => {} } },
+        { provide: LoadingService, useValue: { isLoading$: { subscribe: () => { /* Mock vazio */ } } } },
+        { provide: NotificationService, useValue: { initializeNotifications: () => { /* Mock vazio */ } } },
+        { provide: ThemeService, useValue: { initializeTheme: () => { /* Mock vazio */ } } },
         { provide: ApiMapperInitService, useValue: {} }
       ]
     }).compileComponents();

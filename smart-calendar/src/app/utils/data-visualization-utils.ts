@@ -46,16 +46,15 @@ export function formatPeriodKey(date: Date, period: 'day' | 'week' | 'month'): s
   
   switch (period) {
     case 'day':
-      {
       return `${d.getDate()}/${d.getMonth() + 1}`;
-    case 'week':
-      {
+    case 'week': {
       const weekNum = getWeekNumber(d);
       return `Sem ${weekNum}`;
-    case 'month':
-      {
+    }
+    case 'month': {
       const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
       return months[d.getMonth()];
+    }
   }
 }
 

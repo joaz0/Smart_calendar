@@ -184,7 +184,7 @@ export class CollaborationDashboard implements OnInit, OnDestroy {
       .join(', ');
   }
 
-  isEventToday(event: SharedEvent): boolean {
+  isEventToday(_event: SharedEvent): boolean {
     const today = new Date();
     const eventDate = new Date(event.start);
     return eventDate.toDateString() === today.toDateString();

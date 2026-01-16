@@ -226,7 +226,7 @@ export class Converters {
   /**
    * Converte flat object em objeto aninhado
    */
-  static unflattenObject(obj: unknown): any {
+  static unflattenObject(obj: any): any {
     const result: any = {};
 
     for (const key in obj) {

@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CategoryFilterPipe implements PipeTransform {
 
-  transform(_value: unknown, ...args: unknown[]): unknown {
+  transform(_value: any, ...args: any[]): any {
     return null;
   }
 

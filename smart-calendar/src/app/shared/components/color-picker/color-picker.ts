@@ -154,7 +154,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event): void {
+  onDocumentClick(_event: Event): void {
     if (!this.isPickerOpen) return;
 
     const target = event.target as HTMLElement;
@@ -170,7 +170,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
     }
   }
 
-  togglePicker(event: Event): void {
+  togglePicker(_event: Event): void {
     if (this.disabled || this.isDisabled) return;
 
     event.stopPropagation();
@@ -215,7 +215,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
     }
   }
 
-  onCustomColorChange(event: Event): void {
+  onCustomColorChange(_event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const color = inputElement.value;
     this.customColor = color;
@@ -228,7 +228,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
     this.cdr.markForCheck();
   }
 
-  onColorTextChange(event: Event): void {
+  onColorTextChange(_event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     let color = inputElement.value.trim().toUpperCase();
 
@@ -250,7 +250,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
     this.cdr.markForCheck();
   }
 
-  onColorTextInput(event: Event): void {
+  onColorTextInput(_event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     let value = inputElement.value.toUpperCase();
 

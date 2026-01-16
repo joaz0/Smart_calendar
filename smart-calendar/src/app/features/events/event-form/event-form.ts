@@ -112,7 +112,7 @@ export class EventForm implements OnInit, OnDestroy {
 
     // Patch reminders if they exist
     if (this.eventData.reminders && Array.isArray(this.eventData.reminders)) {
-      this.eventData.reminders.forEach((reminder: unknown) => {
+      this.eventData.reminders.forEach((reminder: any) => {
         this.reminders.push(
           this.fb.group({
             minutesBefore: [reminder.minutesBefore || '15', Validators.required],
@@ -260,7 +260,7 @@ export class EventForm implements OnInit, OnDestroy {
       } else if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
       } else if (control instanceof FormArray) {
-        control.controls.forEach((group: unknown) => {
+        control.controls.forEach((group: any) => {
           if (group instanceof FormGroup) {
             this.markFormGroupTouched(group);
           }

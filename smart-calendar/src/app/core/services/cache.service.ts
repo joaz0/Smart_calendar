@@ -10,7 +10,7 @@ interface CacheEntry<T> {
   providedIn: 'root'
 })
 export class CacheService {
-  private cache = new Map<string, CacheEntry<unknown>>();
+  private cache = new Map<string, CacheEntry<any>>();
 
   set<T>(key: string, data: T, ttlMinutes = 5): void {
     this.cache.set(key, {

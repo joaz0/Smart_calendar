@@ -142,7 +142,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   customCategories: Category[] = [];
 
   // ControlValueAccessor
-  private onChange: (value: unknown) => void = () => {};
+  private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
   disabled = false;
 
@@ -181,7 +181,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   }
 
   // ControlValueAccessor Implementation
-  writeValue(value: unknown): void {
+  writeValue(value: any): void {
     if (value) {
       this.selectedCategory = this.categories.find(cat => cat.id === value) || null;
       this.cdr.markForCheck();
@@ -190,11 +190,11 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
   }
 
-  registerOnChange(fn: unknown): void {
+  registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: unknown): void {
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
@@ -268,7 +268,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
 
   // Keyboard Navigation
   @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): void {
+  handleKeyboardEvent(_event: KeyboardEvent): void {
     if (!this.isOpen && !this.showCategoryModal) return;
 
     if (this.isOpen) {
@@ -294,7 +294,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   }
 
   @HostListener('document:click', ['$event'])
-  handleClickOutside(event: Event): void {
+  handleClickOutside(_event: Event): void {
     const target = event.target as HTMLElement;
     if (!this.elementRef.nativeElement.contains(target)) {
       this.closeDropdown();
@@ -513,7 +513,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  onModalOverlayClick(event: Event): void {
+  onModalOverlayClick(_event: Event): void {
     const target = event.target as HTMLElement;
     if (target.classList.contains('category-modal')) {
       this.closeModal();
@@ -525,7 +525,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
     return category.id;
   }
 
-  trackByColor(index: number, color: unknown): string {
+  trackByColor(index: number, color: any): string {
     return color.value;
   }
 

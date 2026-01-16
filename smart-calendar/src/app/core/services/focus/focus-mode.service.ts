@@ -65,7 +65,7 @@ export class FocusModeService {
     this.loadSettings();
   }
 
-  startFocusSession(duration: number, settings?: Partial<FocusSettings>): Observable<FocusSession> {
+  startFocusSession(_duration: number, settings?: Partial<FocusSettings>): Observable<FocusSession> {
     const session: FocusSession = {
       id: `session-${Date.now()}`,
       startTime: new Date(),

@@ -5,9 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DateFormatPipe implements PipeTransform {
   transform(_value: Date | string, format = 'medium'): string {
-    if (!value) return '';
+    if (!_value) return '';
 
-    const date = new Date(value);
+    const date = new Date(_value);
     
     const formats: Record<string, string> = {
       // Data completa

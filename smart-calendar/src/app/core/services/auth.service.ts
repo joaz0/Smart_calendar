@@ -108,7 +108,7 @@ export class AuthService {
   }
 
   // OAuth login methods
-  loginWithOAuth(provider: string, userData: unknown): Observable<User> {
+  loginWithOAuth(provider: string, userData: any): Observable<User> {
     this.logger.info('Login OAuth iniciado', { provider });
     return this.authApiService.login({ email: userData.email, password: userData.token } as any).pipe(
       tap((response) => {

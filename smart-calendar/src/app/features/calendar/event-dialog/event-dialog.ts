@@ -112,7 +112,7 @@ export class EventDialogComponent {
     }
   }
 
-  getTimeFromDate(control: unknown): string {
+  getTimeFromDate(control: any): string {
     const date = control?.value;
     if (!date) return '';
     return new Date(date).toTimeString().slice(0, 5);
@@ -150,7 +150,7 @@ export class EventDialogComponent {
     this.eventForm.get('reminders')?.setValue(reminders);
   }
 
-  addAttendee(event: unknown) {
+  addAttendee(_event: any) {
     const value = (event.value || '').trim();
     if (value) {
       this.attendees.push({email: value});
