@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators.component';
-import { environment } from '../../../../environments/environment.component';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 
 export interface ContextPrediction {
@@ -57,7 +57,7 @@ export class ContextPredictionService {
     );
   }
 
-  getOptimalTimeForActivity(activity: string, preferences: any = {}): Observable<{ time: Date; confidence: number }> {
+  getOptimalTimeForActivity(activity: string, preferences: Record<string, unknown> = {}): Observable<{ time: Date; confidence: number }> {
     return this.http.post<any>(`${this.apiUrl}/optimal-time`, { activity, preferences }).pipe(
       catchError(() => {
         const optimalTime = new Date();

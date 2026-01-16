@@ -1,8 +1,9 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators.component';
-import { environment } from '../../../../environments/environment.component';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
+import { ScheduleResult, OptimizationResult } from '../../models/common-interfaces';
 
 
 export interface SchedulingSuggestion {
@@ -47,8 +48,8 @@ export class AiSchedulingService {
     );
   }
 
-  autoSchedule(requests: AutoScheduleRequest[]): Observable<{ scheduled: any[]; failed: any[] }> {
-    return this.http.post<any>(`${this.apiUrl}/auto-schedule`, { requests }).pipe(
+  autoSchedule(requests: AutoScheduleRequest[]): Observable<ScheduleResult> {
+    return this.http.post<ScheduleResult>(`${this.apiUrl}/auto-schedule`, { requests }).pipe(
       catchError(() => of({ scheduled: [], failed: [] }))
     );
   }
@@ -69,8 +70,8 @@ export class AiSchedulingService {
     );
   }
 
-  optimizeSchedule(date: Date): Observable<{ optimizations: any[]; timeSaved: number }> {
-    return this.http.post<any>(`${this.apiUrl}/optimize`, { date }).pipe(
+  optimizeSchedule(date: Date): Observable<OptimizationResult> {
+    return this.http.post<OptimizationResult>(`${this.apiUrl}/optimize`, { date }).pipe(
       catchError(() => of({ optimizations: [], timeSaved: 0 }))
     );
   }
