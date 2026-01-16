@@ -1,8 +1,8 @@
-import { inject } from '@angular/core.component';
-import { Router, type CanActivateFn } from '@angular/router.component';
+import { inject } from '@angular/core';
+import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { map, catchError, of, timeout } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);

@@ -1,15 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, signal, computed, HostListener, inject } from '@angular/core.component';
-import { CommonModule } from '@angular/common.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatBadgeModule } from '@angular/material/badge.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
-import { MatDividerModule } from '@angular/material/divider.component';
-import { MatRippleModule } from '@angular/material/core.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { RouterModule, Router, NavigationEnd } from '@angular/router.component';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, signal, computed, HostListener, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { SearchBar } from '../search-bar/search-bar.component';
 

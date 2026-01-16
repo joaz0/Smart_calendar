@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core.component';
+import { Injectable } from '@angular/core';
 
 export type CalendarView = 'month' | 'week' | 'day';
 

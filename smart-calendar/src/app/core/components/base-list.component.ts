@@ -1,5 +1,5 @@
 // Padrão de componente list/table reutilizável
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core.component';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from '../../core/components/base.component';
 
 

@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core.component';
-import { ActivatedRoute, Router } from '@angular/router.component';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 

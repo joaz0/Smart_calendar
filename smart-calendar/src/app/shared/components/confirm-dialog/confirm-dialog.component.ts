@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, Output, HostListener, ViewChild, ElementRef, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core.component';
+import { Component, EventEmitter, Input, Output, HostListener, ViewChild, ElementRef, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
-import { MatRippleModule } from '@angular/material/core.component';
-import { MatDialogModule } from '@angular/material/dialog.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 interface CheckboxOption {

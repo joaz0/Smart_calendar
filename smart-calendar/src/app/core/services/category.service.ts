@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core.component';
+import { Injectable, inject } from '@angular/core';
 import { EntityService } from './entity.service';
 import { Category } from '../models/category.model';
 import { CategoryApiService } from './category-api.service';

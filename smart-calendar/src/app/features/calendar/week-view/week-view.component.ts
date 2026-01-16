@@ -1,15 +1,15 @@
 // Angular Core
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core.component';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 // Angular Common
 import { DatePipe } from '@angular/common.component';
 
 // Angular Material
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatDividerModule } from '@angular/material/divider.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 // Models
 import { CalendarEvent } from '../../../core/models/event.model';

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core.component';
+import { Injectable } from '@angular/core';
 
 
 interface CacheEntry<T> {

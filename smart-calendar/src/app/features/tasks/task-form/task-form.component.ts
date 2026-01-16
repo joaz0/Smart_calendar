@@ -1,14 +1,14 @@
-import { Component, inject } from '@angular/core.component';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { MatSelectModule } from '@angular/material/select.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatChipsModule, MatChipInputEvent } from '@angular/material/chips.component';
-import { MatDatepickerModule } from '@angular/material/datepicker.component';
-import { MatNativeDateModule } from '@angular/material/core.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule, MatChipInputEvent } from '@angular/material/chips';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes.component';
 
 interface Category {

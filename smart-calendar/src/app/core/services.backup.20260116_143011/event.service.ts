@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core.component';
+import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators.component';
+import { map, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Event } from '../models/event.model';
 import { EventApiService } from './event-api.service';

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core.component';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common.component';
 
 import { TasksRoutingModule } from './tasks-routing-module';

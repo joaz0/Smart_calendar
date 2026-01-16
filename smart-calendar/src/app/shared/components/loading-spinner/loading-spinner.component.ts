@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core.component';
+import { Component, Input } from '@angular/core';
 
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar.component';
-import { MatIconModule } from '@angular/material/icon.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-loading-spinner',

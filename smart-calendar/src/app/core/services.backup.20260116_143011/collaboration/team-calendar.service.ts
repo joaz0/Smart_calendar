@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators.component';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment.component';
 
 export interface TeamMember {

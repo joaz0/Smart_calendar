@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms.component';
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatDividerModule } from '@angular/material/divider.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { Subject, takeUntil } from 'rxjs';
 import { FocusModeService, FocusSession, FocusStats } from '../../../core/services/focus/focus-mode.service';
 

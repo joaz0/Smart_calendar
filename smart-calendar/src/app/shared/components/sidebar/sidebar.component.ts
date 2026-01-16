@@ -1,12 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, inject } from '@angular/core.component';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, inject } from '@angular/core';
 
-import { Router, NavigationEnd } from '@angular/router.component';
+import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
-import { MatDividerModule } from '@angular/material/divider.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 import { Subject, takeUntil, filter } from 'rxjs';
 
 

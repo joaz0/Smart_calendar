@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Subject, takeUntil, forkJoin } from 'rxjs';
 import { WellnessService, WellnessMetrics, BreakPattern, WellnessRecommendation } from '../../../core/services/wellness/wellness.service';
 

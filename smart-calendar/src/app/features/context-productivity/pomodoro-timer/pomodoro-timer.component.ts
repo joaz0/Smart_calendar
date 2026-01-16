@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle.component';
-import { MatDividerModule } from '@angular/material/divider.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms.component';
 import { Subject, takeUntil } from 'rxjs';
 import { PomodoroService, PomodoroSession, PomodoroStats, PomodoroSettings } from '../../../core/services/pomodoro/pomodoro.service';

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core.component';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, merge, of, fromEvent } from 'rxjs';
-import { map } from 'rxjs/operators.component';
+import { map } from 'rxjs/operators';
 
 
 export interface OfflineAction {

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core.component';
+import { Component } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatIconModule } from '@angular/material/icon.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,

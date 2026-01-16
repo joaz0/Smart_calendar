@@ -1,7 +1,7 @@
 // Validadores customizados para Reactive Forms
 import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms.component';
 import { Observable, of, timer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators.component';
+import { map, switchMap } from 'rxjs/operators';
 
 /**
  * Coleção de validadores customizados reutilizáveis

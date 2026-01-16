@@ -1,5 +1,5 @@
 // Base Service com padrões reutilizáveis
-import { Injectable, OnDestroy } from '@angular/core.component';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Logger } from '../utils/logger.component';
 

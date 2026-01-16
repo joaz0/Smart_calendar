@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core.component';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { TaskItem } from '../task-item/task-item.component';
 

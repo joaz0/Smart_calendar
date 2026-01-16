@@ -4,7 +4,7 @@ import { LoadingService } from './core/services/loading.service';
 import { NotificationService } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
 import { ApiMapperInitService } from './core/services/api-mapper-init.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core.component';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DatePipe } from '@angular/common.component';
 
 

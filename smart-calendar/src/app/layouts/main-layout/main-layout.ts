@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy, inject } from '@angular/core';
 
-import { RouterModule, Router, NavigationEnd } from '@angular/router.component';
-import { filter, takeUntil, catchError } from 'rxjs/operators.component';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter, takeUntil, catchError } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
 import { Header } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';

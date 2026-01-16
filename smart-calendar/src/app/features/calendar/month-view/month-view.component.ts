@@ -1,5 +1,5 @@
 // Angular Core
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 
 // Angular Common
 import { CommonModule, DatePipe, SlicePipe } from '@angular/common.component';
@@ -8,24 +8,24 @@ import { CommonModule, DatePipe, SlicePipe } from '@angular/common.component';
 import { FormsModule } from '@angular/forms.component';
 
 // Angular Material
-import { MatDialog } from '@angular/material/dialog.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatListModule } from '@angular/material/list.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
-import { MatBadgeModule } from '@angular/material/badge.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { MatSelectModule } from '@angular/material/select.component';
-import { MatChipsModule } from '@angular/material/chips.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 // Angular CDK
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop.component';
 
 // RxJS
 import { Subject, combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
-import { takeUntil, map, startWith } from 'rxjs/operators.component';
+import { takeUntil, map, startWith } from 'rxjs/operators';
 
 // Services
 import { CalendarService } from '../../../core/services/calendar.service';

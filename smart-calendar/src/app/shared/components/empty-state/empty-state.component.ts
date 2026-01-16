@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core.component';
+import { Component, Input } from '@angular/core';
 
-import { MatIconModule } from '@angular/material/icon.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({

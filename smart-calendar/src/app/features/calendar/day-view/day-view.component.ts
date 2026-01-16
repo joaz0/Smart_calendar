@@ -1,5 +1,5 @@
 // Angular Core
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core.component';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 // Angular Common
 import { CommonModule, DatePipe } from '@angular/common.component';
@@ -8,11 +8,11 @@ import { CommonModule, DatePipe } from '@angular/common.component';
 import { FormsModule } from '@angular/forms.component';
 
 // Angular Material
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatDividerModule } from '@angular/material/divider.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 // Shared Components
 import { EmptyState } from '../../../shared/components/empty-state/empty-state.component';

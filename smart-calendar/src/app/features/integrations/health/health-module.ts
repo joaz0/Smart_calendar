@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core.component';
+import { Component, OnInit, inject } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { HealthIntegrationService } from '../../../core/services/integrations/health-integration.service';
 
 @Component({

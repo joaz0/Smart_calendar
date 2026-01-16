@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms.component';
 import { CommonModule, DatePipe } from '@angular/common.component';
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatBadgeModule } from '@angular/material/badge.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatBadgeModule } from '@angular/material/badge';
 import { Subject, takeUntil } from 'rxjs';
 import { AIAssistantService, ChatMessage, AISuggestion } from '../../core/services/ai/ai-assistant.service';
 

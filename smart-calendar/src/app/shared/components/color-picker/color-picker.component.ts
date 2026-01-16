@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, Output, forwardRef, HostListener, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, inject } from '@angular/core.component';
+import { Component, EventEmitter, Input, Output, forwardRef, HostListener, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, inject } from '@angular/core';
 
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
-import { MatRippleModule } from '@angular/material/core.component';
-import { MatDividerModule } from '@angular/material/divider.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
 
 interface ColorPalette {

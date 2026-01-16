@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatTabsModule } from '@angular/material/tabs.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatSelectModule } from '@angular/material/select.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms.component';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsight, ProductivityPattern } from '../../../core/services/productivity/productivity-insights.service';

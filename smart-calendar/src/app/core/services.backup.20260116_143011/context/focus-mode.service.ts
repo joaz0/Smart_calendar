@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core.component';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http.component';
-import { catchError } from 'rxjs/operators.component';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment.component';
 
 

@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog.component';
+import { Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Event as CalendarEvent } from '../../../core/models/event.model';
 import { Task } from '../../../core/models/task.model';
 import { CommonModule, DatePipe } from '@angular/common.component';
-import { MatListModule } from '@angular/material/list.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
-import { MatDialogModule } from '@angular/material/dialog.component';
-import { MatButtonModule } from '@angular/material/button.component';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
 interface DialogData {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core.component';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { PrivacyContext } from '../../guards/privacy.guard';
 

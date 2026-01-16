@@ -1,11 +1,11 @@
-import { Component } from '@angular/core.component';
+import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MonthView } from '../month-view/month-view.component';
 import { WeekView } from '../week-view/week-view.component';
 import { DayView } from '../day-view/day-view.component';

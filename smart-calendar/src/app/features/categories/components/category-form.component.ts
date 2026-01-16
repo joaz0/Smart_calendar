@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core.component';
+import { Component, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms.component';
 import { BaseFormComponent, FormField } from '@core/components/base-form.component';
 import { CategoryService } from '../services/category.service';

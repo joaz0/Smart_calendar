@@ -1,16 +1,16 @@
 // Angular Core
-import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core';
 
 // Angular Material
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatBadgeModule } from '@angular/material/badge.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatDividerModule } from '@angular/material/divider.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 // RxJS
 import { Subject, takeUntil, forkJoin } from 'rxjs';

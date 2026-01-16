@@ -1,13 +1,13 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core.component';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatMenuModule } from '@angular/material/menu.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar.component';
-import { MatDividerModule } from '@angular/material/divider.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { PriorityIndicator } from '../priority-indicator/priority-indicator.component';
 
 interface Subtask {

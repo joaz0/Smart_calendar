@@ -1,4 +1,4 @@
-import { Component } from '@angular/core.component';
+import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms.component';
 

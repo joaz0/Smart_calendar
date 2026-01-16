@@ -1,16 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core.component';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms.component';
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { MatSelectModule } from '@angular/material/select.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router.component';
+import { Router } from '@angular/router';
 
 
 @Component({

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core.component';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common.component';
 
 import { WellnessRoutingModule } from './wellness-routing-module';

@@ -1,5 +1,5 @@
 // Padrão de formulário reutilizável
-import { Component, OnInit } from '@angular/core.component';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms.component';
 import { BaseComponent } from '../../core/components/base.component';
 

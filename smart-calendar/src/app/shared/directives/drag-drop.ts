@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output, Input } from '@angular/core.component';
+import { Directive, EventEmitter, HostListener, Output, Input } from '@angular/core';
 
 @Directive({
   selector: '[appDragDrop]',

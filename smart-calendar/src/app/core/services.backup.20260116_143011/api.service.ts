@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, retry, timeout, finalize } from 'rxjs/operators.component';
-import { environment } from '../../../environments/environment.component';
+import { catchError, retry, timeout, finalize } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { logger } from '../utils/logger.component';
 
 

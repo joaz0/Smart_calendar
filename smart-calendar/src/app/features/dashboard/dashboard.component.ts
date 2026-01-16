@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { Router } from '@angular/router.component';
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
+import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms.component';
 import { DatePipe } from '@angular/common.component';
 import { Subject, takeUntil } from 'rxjs';

@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatSelectModule } from '@angular/material/select.component';
-import { MatDatepickerModule } from '@angular/material/datepicker.component';
-import { MatNativeDateModule } from '@angular/material/core.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { MatTabsModule } from '@angular/material/tabs.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms.component';
 import { Subject, takeUntil } from 'rxjs';
 import { TimeAnalyticsService } from '../../core/services/visualization/time-analytics.service';

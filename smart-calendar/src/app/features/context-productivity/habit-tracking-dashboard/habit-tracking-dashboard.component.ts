@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core.component';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatChipsModule } from '@angular/material/chips.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner.component';
-import { MatTooltipModule } from '@angular/material/tooltip.component';
-import { MatDialogModule } from '@angular/material/dialog.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { HabitTrackerService } from '../../../core/services/context/habit-tracker.service';
 import { Habit, HabitStats } from '../../../core/models/context/habit.model';

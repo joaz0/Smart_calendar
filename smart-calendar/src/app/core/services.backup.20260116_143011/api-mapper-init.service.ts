@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core.component';
+import { Injectable, inject } from '@angular/core';
 import { ApiMapperService } from './api-mapper.service';
 import { TaskService } from './task.service';
 import { AuthService } from './auth.service';

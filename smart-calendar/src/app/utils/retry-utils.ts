@@ -1,5 +1,5 @@
 import { Observable, throwError, timer } from 'rxjs';
-import { mergeMap, retryWhen } from 'rxjs/operators.component';
+import { mergeMap, retryWhen } from 'rxjs/operators';
 
 export interface RetryConfig {
   maxRetries?: number;

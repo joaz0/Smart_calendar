@@ -1,6 +1,6 @@
-import { Injectable, signal, effect, untracked } from '@angular/core.component';
+import { Injectable, signal, effect, untracked } from '@angular/core';
 import { Observable } from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop.component';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export type Theme = 'light' | 'dark' | 'auto';
 

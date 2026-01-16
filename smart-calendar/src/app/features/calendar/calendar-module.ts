@@ -1,18 +1,18 @@
 // calendar.module.ts
 
-import { NgModule } from '@angular/core.component';
+import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common.component';
-import { RouterModule } from '@angular/router.component';
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms.component';
-import { MatButtonModule } from '@angular/material/button.component';
-import { MatIconModule } from '@angular/material/icon.component';
-import { MatDialogModule } from '@angular/material/dialog.component';
-import { MatFormFieldModule } from '@angular/material/form-field.component';
-import { MatInputModule } from '@angular/material/input.component';
-import { MatDatepickerModule } from '@angular/material/datepicker.component';
-import { MatSelectModule } from '@angular/material/select.component';
-import { MatCheckboxModule } from '@angular/material/checkbox.component';
-import { MatListModule } from '@angular/material/list.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 
 import { MonthView } from './month-view/month-view.component';
 import { EventDialogComponent } from './event-dialog/event-dialog.component';

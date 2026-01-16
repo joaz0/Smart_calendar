@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Output, HostListener, inject } from '@angular/core.component';
+import { Directive, ElementRef, EventEmitter, Output, HostListener, inject } from '@angular/core';
 
 @Directive({
   selector: '[appInfiniteScroll]',

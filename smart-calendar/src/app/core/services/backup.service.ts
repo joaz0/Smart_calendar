@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators.component';
-import { environment } from '../../../environments/environment.component';
+import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { exportToJSON } from '../../utils/import-export-utils.component';
 import { generateBackupFilename } from '../../utils/privacy-utils.component';
 
