@@ -1,11 +1,12 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap, catchError, switchMap } from 'rxjs/operators.component';
+import { map, tap, catchError, switchMap } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { AuthApiService } from './auth-api.service';
 import { OAuthService } from './oauth.service';
-import { Logger } from '../utils/logger.component';
+import { Logger } from '../utils/logger';
+import { OAuthUserData } from '../models/common-interfaces';
 
 
 interface PasswordResetResponse {
@@ -69,7 +70,7 @@ export class AuthService {
 
   register(user: Partial<User>): Observable<User> {
     this.logger.info('Iniciando registro', { email: user.email });
-    return this.authApiService.register(user as any).pipe(
+    return this.authApiService.register(user).pipe(
       tap((response) => {
         this.logger.info('Registro bem-sucedido');
         this.saveAuthData(response.token);
@@ -103,15 +104,15 @@ export class AuthService {
       catchError((error) => {
         this.logger.error('Erro ao carregar usuário', error);
         this.logout();
-        return of(null as any);
+        return of(null as unknown as User);
       })
     );
   }
 
   // OAuth login methods
-  loginWithOAuth(provider: string, userData: any): Observable<User> {
+  loginWithOAuth(provider: string, userData: OAuthUserData): Observable<User> {
     this.logger.info('Login OAuth iniciado', { provider });
-    return this.authApiService.login({ email: userData.email, password: userData.token } as any).pipe(
+    return this.authApiService.login({ email: userData.email, password: userData.accessToken || '' }).pipe(
       tap((response) => {
         this.logger.info('Login OAuth bem-sucedido', { provider });
         this.saveAuthData(response.token);
