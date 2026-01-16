@@ -76,7 +76,7 @@
                   class="all-day-event"
                   [style.background-color]="event.color || '#6d3bf7'"
                   [attr.title]="getEventTooltip(event)"
-                  (click)="openEvent(event)">
+                  (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
                   <span class="event-title">{{ event.title }}</span>
                   @if (event.recurrence) {
                     <mat-icon class="recurrence-icon">repeat</mat-icon>
@@ -144,7 +144,7 @@
                 class="hour-slot"
                 [class.current-hour]="isCurrentHour(hour) && isToday(day)"
                 [class.business-hours]="isBusinessHour(hour)"
-                (click)="createEventAt(day, hour)"
+                (click)="createEventAt(day, hour)" (keydown.enter)="createEventAt(day, hour)" (keydown.space)="createEventAt(day, hour)" tabindex="0" role="button"
                 [attr.aria-label]="'Criar evento em ' + (day | date:'short') + ' às ' + formatHour(hour)">
                 <!-- Current Time Indicator -->
                 @if (isCurrentHour(hour) && isToday(day)) {
@@ -167,7 +167,7 @@
                     [class.multi-day]="isMultiDayEvent(event)"
                     [class.conflicting]="hasConflicts(event)"
                     [attr.title]="getEventTooltip(event)"
-                    (click)="openEvent(event)"
+                    (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button"
                     (mousedown)="startEventDrag(event, $event)"
                     draggable="true">
                     <div class="event-content">

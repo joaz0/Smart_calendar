@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './contact-sync-settings.html',
   styleUrl: './contact-sync-settings.scss'
 })
-export class ContactSyncSettings {
+export class ContactSyncSettingsComponent {
 
 }

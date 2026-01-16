@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './messaging-settings.html',
   styleUrl: './messaging-settings.scss'
 })
-export class MessagingSettings {
+export class MessagingSettingsComponent {
 
 }

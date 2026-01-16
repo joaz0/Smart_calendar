@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+
 interface CheckboxOption {
   label: string;
   checked: boolean;
@@ -34,7 +35,7 @@ interface CheckboxOption {
   styleUrls: ['./confirm-dialog.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
+export class ConfirmDialogComponentComponent implements AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   @ViewChild('dialogContainer') dialogContainer?: ElementRef<HTMLDivElement>;

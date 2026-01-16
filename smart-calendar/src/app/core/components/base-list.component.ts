@@ -2,11 +2,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from '../../core/components/base.component';
 
+
 export interface ListAction {
   label: string;
   icon?: string;
   color?: string;
-  action: (item: any) => void;
+  action: (_item: any) => void;
 }
 
 export interface ListColumn {

@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface RelationshipNode {
   id: string;
   type: 'person' | 'event' | 'project' | 'task' | 'document';

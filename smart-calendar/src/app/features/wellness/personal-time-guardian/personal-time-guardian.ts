@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './personal-time-guardian.html',
   styleUrl: './personal-time-guardian.scss'
 })
-export class PersonalTimeGuardian {
+export class PersonalTimeGuardianComponent {
 
 }

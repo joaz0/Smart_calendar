@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './priority-indicator.html',
   styleUrl: './priority-indicator.scss'
 })
-export class PriorityIndicator {
+export class PriorityIndicatorComponent {
   @Input() priority = 'medium';
   @Input() size = 'medium';
 }

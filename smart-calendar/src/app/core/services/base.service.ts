@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Logger } from '../utils/logger';
 
+
 /**
  * Classe base para todos os serviços
  * Fornece padrões comuns: loading, error, logging

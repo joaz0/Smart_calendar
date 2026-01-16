@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface SearchResult {
   id: string;
   type: 'event' | 'task' | 'person' | 'document' | 'note';

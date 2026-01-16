@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface Insight {
   id: string;
   type: 'trend' | 'anomaly' | 'opportunity' | 'warning';

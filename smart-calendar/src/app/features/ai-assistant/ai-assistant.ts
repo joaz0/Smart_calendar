@@ -111,7 +111,7 @@ export class AiAssistantComponent implements OnInit, OnDestroy, AfterViewChecked
       });
   }
 
-  quickAction(actionId: string) {
+  quickAction(_actionId: string) {
     const actions: Record<string, string> = {
       schedule: 'Analise minha agenda e sugira otimizações',
       productivity: 'Como está minha produtividade esta semana?',

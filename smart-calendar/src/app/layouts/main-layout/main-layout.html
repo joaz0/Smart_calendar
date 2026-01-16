@@ -39,7 +39,7 @@
   <!-- Mobile Sidebar Backdrop -->
   @if (sidebarOpen && isMobile) {
     <div class="sidebar-backdrop"
-      (click)="closeSidebar()">
+      (click)="closeSidebar()" (keydown.enter)="closeSidebar()" (keydown.space)="closeSidebar()" tabindex="0" role="button">
     </div>
   }
 </div>

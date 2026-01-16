@@ -32,7 +32,7 @@
                   <div class="event-item"
                     [style.background-color]="$any(event).category?.color"
                     [class.all-day]="$any(event).allDay"
-                    (click)="onEventClick($any(event), $event)"
+                    (click)="onEventClick($any(event), $event)" (keydown.enter)="onEventClick($any(event), $event)" (keydown.space)="onEventClick($any(event), $event)" tabindex="0" role="button"
                     [matTooltip]="getEventTooltip($any(event))">
                     <div class="event-content">
                       @if (!$any(event).allDay) {
@@ -47,7 +47,7 @@
                 <!-- More Events Indicator -->
                 @if (day.events.length > maxEventsPerDay) {
                   <div class="more-events"
-                    (click)="showMoreEvents(day, $event)">
+                    (click)="showMoreEvents(day, $event)" (keydown.enter)="showMoreEvents(day, $event)" (keydown.space)="showMoreEvents(day, $event)" tabindex="0" role="button">
                     +{{ day.events.length - maxEventsPerDay }} mais
                   </div>
                 }

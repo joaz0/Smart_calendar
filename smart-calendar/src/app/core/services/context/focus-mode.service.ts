@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface FocusSession {
   id: string;
   startTime: Date;

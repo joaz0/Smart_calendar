@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './loading-spinner.html',
   styleUrls: ['./loading-spinner.scss']
 })
-export class LoadingSpinner {
+export class LoadingSpinnerComponent {
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() color: 'primary' | 'accent' | 'warn' = 'primary';
   @Input() message?: string;

@@ -10,6 +10,7 @@ import { MonthView } from '../month-view/month-view';
 import { WeekView } from '../week-view/week-view';
 import { DayView } from '../day-view/day-view';
 
+
 @Component({
   standalone: true,
   selector: 'app-calendar',

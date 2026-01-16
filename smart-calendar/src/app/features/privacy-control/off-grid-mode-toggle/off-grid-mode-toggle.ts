@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './off-grid-mode-toggle.html',
   styleUrl: './off-grid-mode-toggle.scss'
 })
-export class OffGridModeToggle {
+export class OffGridModeToggleComponent {
 
 }

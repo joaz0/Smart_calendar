@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
@@ -24,7 +25,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })
-export class AuthLayout {
+export class AuthLayoutComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
@@ -141,7 +142,7 @@ export class AuthLayout {
     this.isLoading = true;
     this.authService.loginWithGoogle().subscribe({
       next: () => this.router.navigate(['/app/calendar']),
-      error: (error: any) => {
+      error: (_error: any) => {
         this.errorMessage = 'Erro no login com Google';
         this.isLoading = false;
       },
@@ -153,7 +154,7 @@ export class AuthLayout {
     this.isLoading = true;
     this.authService.loginWithMicrosoft().subscribe({
       next: () => this.router.navigate(['/app/calendar']),
-      error: (error: any) => {
+      error: (_error: any) => {
         this.errorMessage = 'Erro no login com Microsoft';
         this.isLoading = false;
       },

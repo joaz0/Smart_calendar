@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { calculateBurnoutScore, calculateWellnessScore } from '../../../utils/wellness-calculations';
 
+
 export interface BurnoutData {
   score: number;
   level: 'low' | 'medium' | 'high' | 'critical';

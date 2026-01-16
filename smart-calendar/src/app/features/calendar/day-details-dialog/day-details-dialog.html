@@ -26,7 +26,7 @@
             <div
               class="event-item"
               [class.all-day]="event.allDay"
-              (click)="openEvent(event)">
+              (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
               <div class="event-indicator" [style.background-color]="event.color || '#6d3bf7'"></div>
               <div class="event-content">
                 <div class="event-header">
@@ -97,7 +97,7 @@
               class="task-item"
               [class.completed]="task.completed"
               [class.overdue]="isTaskOverdue(task)"
-              (click)="openTask(task)">
+              (click)="openTask(task)" (keydown.enter)="openTask(task)" (keydown.space)="openTask(task)" tabindex="0" role="button">
               <div class="task-content">
                 <div class="task-header">
                   <mat-checkbox [checked]="task.completed"

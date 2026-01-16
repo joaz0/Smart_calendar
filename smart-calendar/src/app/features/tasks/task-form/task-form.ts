@@ -11,6 +11,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-task-form',
@@ -31,7 +33,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
   templateUrl: './task-form.html',
   styleUrls: ['./task-form.scss']
 })
-export class TaskForm {
+export class TaskFormComponent {
   private fb = inject(FormBuilder);
 
   taskForm: FormGroup;

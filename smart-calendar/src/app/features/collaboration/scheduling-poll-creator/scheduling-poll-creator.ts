@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './scheduling-poll-creator.html',
   styleUrl: './scheduling-poll-creator.scss'
 })
-export class SchedulingPollCreator {
+export class SchedulingPollCreatorComponent {
   poll = { title: '', duration: 30, timeSlots: [{ date: '', start: '', end: '' }] };
   createdPollId: string | null = null;
 

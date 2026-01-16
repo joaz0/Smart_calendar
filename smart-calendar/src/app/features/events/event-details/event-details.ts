@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-event-details',
@@ -8,7 +10,7 @@ import { CommonModule, DatePipe } from '@angular/common';
   templateUrl: './event-details.html',
   styleUrl: './event-details.scss',
 })
-export class EventDetails {
+export class EventDetailsComponent {
   @Input() event: any | null = null;
   @Output() edit = new EventEmitter<any>();
   @Output() remove = new EventEmitter<any>();

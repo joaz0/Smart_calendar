@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-intelligent-task-scheduler',
   standalone: true,

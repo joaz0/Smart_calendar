@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './digital-inheritance-setup.html',
   styleUrl: './digital-inheritance-setup.scss'
 })
-export class DigitalInheritanceSetup {
+export class DigitalInheritanceSetupComponent {
 
 }

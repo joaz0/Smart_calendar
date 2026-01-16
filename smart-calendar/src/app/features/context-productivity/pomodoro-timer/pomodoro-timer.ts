@@ -27,7 +27,7 @@ import { PomodoroService, PomodoroSession, PomodoroStats, PomodoroSettings } fro
   templateUrl: './pomodoro-timer.html',
   styleUrl: './pomodoro-timer.scss'
 })
-export class PomodoroTimer implements OnInit, OnDestroy {
+export class PomodoroTimerComponent implements OnInit, OnDestroy {
   private pomodoroService = inject(PomodoroService);
 
   private destroy$ = new Subject<void>();

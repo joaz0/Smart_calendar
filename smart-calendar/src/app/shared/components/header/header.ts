@@ -13,6 +13,7 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { SearchBar } from '../search-bar/search-bar';
 
+
 interface User {
   id?: string;
   name?: string;
@@ -69,7 +70,7 @@ interface Breadcrumb {
   styleUrls: ['./header.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Header implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 

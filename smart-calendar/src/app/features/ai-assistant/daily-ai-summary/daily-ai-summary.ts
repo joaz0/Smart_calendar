@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 
+
 @Component({
   selector: 'app-daily-ai-summary',
   standalone: true,

@@ -27,7 +27,7 @@ import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsig
   templateUrl: './productivity-insights.html',
   styleUrl: './productivity-insights.scss'
 })
-export class ProductivityInsights implements OnInit, OnDestroy {
+export class ProductivityInsightsComponent implements OnInit, OnDestroy {
   private productivityService = inject(ProductivityInsightsService);
 
   private destroy$ = new Subject<void>();

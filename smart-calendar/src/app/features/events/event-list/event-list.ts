@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-event-list',
@@ -8,7 +10,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './event-list.html',
   styleUrl: './event-list.scss',
 })
-export class EventList {
+export class EventListComponent {
   events: any[] = [];
 
   @Output() create = new EventEmitter<void>();

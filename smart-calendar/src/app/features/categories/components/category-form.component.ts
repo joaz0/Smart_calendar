@@ -4,6 +4,7 @@ import { BaseFormComponent, FormField } from '@core/components/base-form.compone
 import { CategoryService } from '../services/category.service';
 import * as CustomValidators from '@core/validators/custom.validators';
 
+
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',

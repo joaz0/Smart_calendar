@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+
 interface CacheEntry<T> {
   data: T;
   timestamp: number;

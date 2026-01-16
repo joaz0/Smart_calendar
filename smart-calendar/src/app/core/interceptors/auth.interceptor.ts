@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Logger } from '../utils/logger';
 
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private authService = inject(AuthService);

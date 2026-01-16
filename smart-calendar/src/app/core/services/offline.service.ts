@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+
 export interface OfflineAction {
   id: string;
   type: 'create' | 'update' | 'delete';

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   standalone: true,
   selector: 'app-wind-down-scheduler',
@@ -8,13 +9,13 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './wind-down-scheduler.html',
   styleUrl: './wind-down-scheduler.scss'
 })
-export class WindDownScheduler {
+export class WindDownSchedulerComponent {
   settings = { sleepTime: '22:00', windDownDuration: 60 };
   categories: any[] = [];
   violations: any[] = [];
 
-  isBlocked(id: string) { return false; }
-  toggleCategory(id: string) {}
+  isBlocked(_id: string) { return false; }
+  toggleCategory(_id: string) {}
   save() {}
-  reschedule(id: string) {}
+  reschedule(_id: string) {}
 }

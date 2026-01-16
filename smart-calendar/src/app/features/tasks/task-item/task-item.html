@@ -15,7 +15,7 @@
   </div>
 
   <!-- Task Content -->
-  <div class="task-content" (click)="onTaskClick()">
+  <div class="task-content" (click)="onTaskClick()" (keydown.enter)="onTaskClick()" (keydown.space)="onTaskClick()" tabindex="0" role="button">
     <!-- Main Info -->
     <div class="task-main">
       <h4 class="task-title" [class.strikethrough]="task.completed">

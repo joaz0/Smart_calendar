@@ -127,7 +127,7 @@
       <div
         class="notification-item"
         [class.unread]="!notification.read"
-        (click)="openNotification(notification)">
+        (click)="openNotification(notification)" (keydown.enter)="openNotification(notification)" (keydown.space)="openNotification(notification)" tabindex="0" role="button">
         <mat-icon [class]="'notification-icon ' + notification.type">
           {{ getNotificationIcon(notification.type) }}
         </mat-icon>

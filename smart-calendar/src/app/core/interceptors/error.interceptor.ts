@@ -4,7 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable({ providedIn: 'root' })
+
+@Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   private snackBar = inject(MatSnackBar);
 
@@ -55,4 +56,4 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 }
 
-export const errorInterceptor = new ErrorInterceptor();
+

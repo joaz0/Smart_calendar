@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRippleModule } from '@angular/material/core';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
+
 interface SearchResult {
   id: string;
   type: string;
@@ -58,7 +59,7 @@ interface QuickAction {
   styleUrls: ['./search-bar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBar implements OnInit, OnDestroy, OnChanges {
+export class SearchBarComponent implements OnInit, OnDestroy, OnChanges {
   private cdr = inject(ChangeDetectorRef);
   private elementRef = inject(ElementRef);
 

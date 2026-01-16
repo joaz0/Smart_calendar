@@ -6,6 +6,7 @@ import { BaseComponent } from '../../core/components/base.component';
 import { ListColumn, ListAction } from '../components/base-list.component';
 import { EventService } from '../services/event.service';
 
+
 /**
  * CONTAINER COMPONENT (Smart Component)
  * - Lida com lógica e estado

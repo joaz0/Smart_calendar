@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { oauthConfig } from '../../../environments/oauth.config';
 
+
 declare global {
   interface Window {
     google: any;

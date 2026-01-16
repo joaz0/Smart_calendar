@@ -6,6 +6,7 @@ import { Event } from '../models/event.model';
 import { EventApiService } from './event-api.service';
 import { Logger } from '../utils/logger';
 
+
 interface EventListResponse {
   data: Event[];
   total: number;

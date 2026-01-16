@@ -104,7 +104,7 @@
             class="all-day-event"
             [style.background-color]="event.color || '#6d3bf7'"
             [attr.title]="getEventTooltip(event)"
-            (click)="openEvent(event)">
+            (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
             <div class="event-content">
               <span class="event-title">{{ event.title }}</span>
               <div class="event-meta">
@@ -148,7 +148,7 @@
             [class.current-hour]="isCurrentHour(hour) && isToday(currentDate)"
             [class.business-hours]="isBusinessHour(hour)"
             [class.break-time]="isBreakTime(hour)"
-            (click)="createEventAt(hour)"
+            (click)="createEventAt(hour)" (keydown.enter)="createEventAt(hour)" (keydown.space)="createEventAt(hour)" tabindex="0" role="button"
             [attr.aria-label]="'Criar evento às ' + formatHour(hour)">
             <!-- Current Time Indicator -->
             @if (isCurrentHour(hour) && isToday(currentDate)) {
@@ -171,7 +171,7 @@
                 [class.past-event]="isPastEvent(event)"
                 [class.current-event]="isCurrentEvent(event)"
                 [attr.title]="getEventTooltip(event)"
-                (click)="openEvent(event)"
+                (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button"
                 (dblclick)="editEvent(event)"
                 draggable="true"
                 (dragstart)="onEventDragStart(event, $event)">

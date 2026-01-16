@@ -46,7 +46,7 @@
                 @for (item of group.items; track item; let i = $index) {
                   <div class="result-item"
                     [class.highlighted]="i === selectedIndex"
-                    (click)="selectResult(item)"
+                    (click)="selectResult(item)" (keydown.enter)="selectResult(item)" (keydown.space)="selectResult(item)" tabindex="0" role="button"
                     (mouseenter)="highlightResult(i)">
                     <div class="result-icon">
                       <mat-icon [style.color]="item.color || '#666'">{{ item.icon }}</mat-icon>
@@ -97,7 +97,7 @@
         <div class="quick-actions">
           @for (action of quickActions; track action) {
             <div class="quick-action"
-              (click)="executeQuickAction(action)">
+              (click)="executeQuickAction(action)" (keydown.enter)="executeQuickAction(action)" (keydown.space)="executeQuickAction(action)" tabindex="0" role="button">
               <mat-icon class="action-icon">{{ action.icon }}</mat-icon>
               <span class="action-label">{{ action.label }}</span>
             </div>
@@ -113,7 +113,7 @@
           </div>
           @for (recent of recentSearches; track recent) {
             <div class="recent-item"
-              (click)="selectRecentSearch(recent)">
+              (click)="selectRecentSearch(recent)" (keydown.enter)="selectRecentSearch(recent)" (keydown.space)="selectRecentSearch(recent)" tabindex="0" role="button">
               <mat-icon class="recent-icon">history</mat-icon>
               <span class="recent-text">{{ recent }}</span>
               <button mat-icon-button
@@ -131,7 +131,7 @@
   <!-- Search Backdrop -->
   @if (showResults) {
     <div class="search-backdrop"
-      (click)="closeResults()">
+      (click)="closeResults()" (keydown.enter)="closeResults()" (keydown.space)="closeResults()" tabindex="0" role="button">
     </div>
   }
 </div>

@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './map-integration-panel.html',
   styleUrl: './map-integration-panel.scss'
 })
-export class MapIntegrationPanel {
+export class MapIntegrationPanelComponent {
 
 }

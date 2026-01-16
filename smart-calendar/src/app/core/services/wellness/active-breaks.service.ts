@@ -4,6 +4,7 @@ import { Observable, of, interval } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface BreakActivity {
   id: string;
   name: string;

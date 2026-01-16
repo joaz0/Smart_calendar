@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './quick-links-manager.html',
   styleUrl: './quick-links-manager.scss',
 })
-export class QuickLinksManager {
+export class QuickLinksManagerComponent {
   links: { title: string; url: string }[] = [];
 
   constructor() {

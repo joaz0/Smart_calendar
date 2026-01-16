@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
 
+
 @Component({
   selector: 'app-day-view',
   standalone: true,

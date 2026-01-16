@@ -10,6 +10,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PriorityIndicator } from '../priority-indicator/priority-indicator';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-task-item',
@@ -29,7 +31,7 @@ import { PriorityIndicator } from '../priority-indicator/priority-indicator';
   templateUrl: './task-item.html',
   styleUrls: ['./task-item.scss']
 })
-export class TaskItem {
+export class TaskItemComponent {
   @Input() task: any = {};
   @Output() taskToggled = new EventEmitter<any>();
   @Output() taskEdited = new EventEmitter<any>();

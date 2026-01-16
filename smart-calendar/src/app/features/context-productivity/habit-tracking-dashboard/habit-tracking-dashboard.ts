@@ -28,7 +28,7 @@ import { Habit, HabitStats } from '../../../core/models/context/habit.model';
   templateUrl: './habit-tracking-dashboard.html',
   styleUrl: './habit-tracking-dashboard.scss'
 })
-export class HabitTrackingDashboard implements OnInit, OnDestroy {
+export class HabitTrackingDashboardComponent implements OnInit, OnDestroy {
   private habitService = inject(HabitTrackerService);
 
   private destroy$ = new Subject<void>();

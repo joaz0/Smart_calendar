@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-settings',

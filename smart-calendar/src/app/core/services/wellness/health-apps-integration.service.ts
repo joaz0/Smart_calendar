@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 @Injectable({ providedIn: 'root' })
 export class HealthAppsIntegrationService {
   private http = inject(HttpClient);

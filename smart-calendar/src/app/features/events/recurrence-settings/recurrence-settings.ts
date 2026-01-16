@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+
 @Component({
   standalone: true,
   selector: 'app-recurrence-settings',
@@ -7,7 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './recurrence-settings.html',
   styleUrl: './recurrence-settings.scss'
 })
-export class RecurrenceSettings {
+export class RecurrenceSettingsComponent {
   @Input() recurrenceRule: any;
   @Output() recurrenceRuleChange = new EventEmitter<any>();
 }

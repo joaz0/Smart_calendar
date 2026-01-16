@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 
+
 @Component({
   selector: 'app-empty-state',
   standalone: true,
@@ -40,7 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
     }
   `]
 })
-export class EmptyState {
+export class EmptyStateComponent {
   @Input() icon = 'inbox';
   @Input() title = 'Nenhum item encontrado';
   @Input() message = 'Não há dados para exibir no momento.';

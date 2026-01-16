@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './health-apps-connector.html',
   styleUrl: './health-apps-connector.scss'
 })
-export class HealthAppsConnector {
+export class HealthAppsConnectorComponent {
 
 }

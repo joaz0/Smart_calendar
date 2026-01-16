@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './event-camouflage-settings.html',
   styleUrl: './event-camouflage-settings.scss'
 })
-export class EventCamouflageSettings {
+export class EventCamouflageSettingsComponent {
 
 }

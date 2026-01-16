@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface Message {
   id: string;
   platform: 'slack' | 'teams' | 'whatsapp' | 'telegram';

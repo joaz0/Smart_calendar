@@ -6,6 +6,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
 import { Subject, takeUntil } from 'rxjs';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 interface Category {
   id: string;
@@ -38,7 +40,7 @@ interface Category {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
+export class CategoryPickerComponent implements ControlValueAccessor, OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private elementRef = inject(ElementRef);
 
@@ -142,7 +144,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   customCategories: Category[] = [];
 
   // ControlValueAccessor
-  private onChange: (value: any) => void = () => {};
+  private onChange: (_value: any) => void = () => {};
   private onTouched: () => void = () => {};
   disabled = false;
 

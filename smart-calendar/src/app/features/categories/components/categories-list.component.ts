@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-
-import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -12,18 +10,19 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Category, CategoryService } from '../services/category.service';
 
+
 export interface ListColumn {
   key: string;
   label: string;
   sortable?: boolean;
-  formatter?: (value: any, row?: any) => string;
+  formatter?: (_value: any, row?: any) => string;
   width?: string;
 }
 
 export interface ListAction {
   icon: string;
   label: string;
-  handler: (row: any) => void;
+  handler: (_row: any) => void;
 }
 
 @Component({
@@ -32,7 +31,6 @@ export interface ListAction {
   styleUrls: ['./categories-list.component.scss'],
   standalone: true,
   imports: [
-    DatePipe,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,

@@ -27,7 +27,7 @@ import { FocusModeService, FocusSession, FocusStats } from '../../../core/servic
   templateUrl: './focus-mode-manager.html',
   styleUrl: './focus-mode-manager.scss'
 })
-export class FocusModeManager implements OnInit, OnDestroy {
+export class FocusModeManagerComponent implements OnInit, OnDestroy {
   private focusModeService = inject(FocusModeService);
 
   private destroy$ = new Subject<void>();

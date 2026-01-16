@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './multiple-calendars-manager.html',
   styleUrl: './multiple-calendars-manager.scss'
 })
-export class MultipleCalendarsManager {
+export class MultipleCalendarsManagerComponent {
 
 }

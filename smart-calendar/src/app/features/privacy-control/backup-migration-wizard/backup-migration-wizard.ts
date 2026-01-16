@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './backup-migration-wizard.html',
   styleUrl: './backup-migration-wizard.scss'
 })
-export class BackupMigrationWizard {
+export class BackupMigrationWizardComponent {
 
 }

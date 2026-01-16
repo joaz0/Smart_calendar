@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './task-delegation-panel.html',
   styleUrl: './task-delegation-panel.scss'
 })
-export class TaskDelegationPanel {
+export class TaskDelegationPanelComponent {
 
 }

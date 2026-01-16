@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './real-time-availability-view.html',
   styleUrl: './real-time-availability-view.scss'
 })
-export class RealTimeAvailabilityView {
+export class RealTimeAvailabilityViewComponent {
 
 }

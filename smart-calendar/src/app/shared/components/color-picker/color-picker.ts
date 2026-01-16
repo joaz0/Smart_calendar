@@ -37,7 +37,7 @@ interface ColorPalette {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class ColorPickerComponentComponent implements ControlValueAccessor, OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private elementRef = inject(ElementRef);
 
@@ -99,7 +99,7 @@ export class ColorPickerComponent implements ControlValueAccessor, OnInit, OnDes
   ];
 
   // ControlValueAccessor
-  private onChange: (value: string) => void = () => {};
+  private onChange: (_value: string) => void = () => {};
   private onTouched: () => void = () => {};
   private isDisabled = false;
   private destroy$ = new Subject<void>();

@@ -3,7 +3,7 @@ import { Directive } from '@angular/core';
 @Directive({
   selector: '[appTooltip]'
 })
-export class Tooltip {
+export class TooltipDirective {
 
   constructor() { }
 

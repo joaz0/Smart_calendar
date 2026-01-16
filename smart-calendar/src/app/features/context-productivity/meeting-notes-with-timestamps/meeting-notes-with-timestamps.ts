@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './meeting-notes-with-timestamps.html',
   styleUrl: './meeting-notes-with-timestamps.scss'
 })
-export class MeetingNotesWithTimestamps {
+export class MeetingNotesWithTimestampsComponent {
 
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   standalone: true,
   selector: 'app-burnout-detector-dashboard',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './burnout-detector-dashboard.html',
   styleUrl: './burnout-detector-dashboard.scss'
 })
-export class BurnoutDetectorDashboard {
+export class BurnoutDetectorDashboardComponent {
   analysis: any = null;
 
   getRiskColor() { return '#ff0000'; }

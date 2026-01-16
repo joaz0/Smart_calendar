@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
+
 export interface ProductivityPattern {
   type: 'peak' | 'low' | 'consistent';
   timeRange: string;

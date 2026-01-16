@@ -20,7 +20,7 @@ export class AiSchedulingAssistant {
     ];
   }
 
-  applySuggestion(s: { time: string; reason: string }) {
+  applySuggestion(_s: { time: string; reason: string }) {
     console.log('Aplicando sugestão', s);
     // lógica de aplicação ficaria aqui
   }

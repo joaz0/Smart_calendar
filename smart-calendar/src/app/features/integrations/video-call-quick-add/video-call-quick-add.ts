@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './video-call-quick-add.html',
   styleUrl: './video-call-quick-add.scss'
 })
-export class VideoCallQuickAdd {
+export class VideoCallQuickAddComponent {
 
 }

@@ -15,7 +15,7 @@ import { WellnessService, WellnessMetrics, BreakPattern, WellnessRecommendation 
   templateUrl: './wellness-report.html',
   styleUrl: './wellness-report.scss'
 })
-export class WellnessReport implements OnInit, OnDestroy {
+export class WellnessReportComponent implements OnInit, OnDestroy {
   private wellnessService = inject(WellnessService);
 
   private destroy$ = new Subject<void>();

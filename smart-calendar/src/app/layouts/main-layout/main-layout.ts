@@ -12,6 +12,8 @@ import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-main-layout',
@@ -26,7 +28,7 @@ import { NotificationService } from '../../core/services/notification.service';
   styleUrls: ['./main-layout.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainLayout implements OnInit, OnDestroy {
+export class MainLayoutComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthService);
   private userService = inject(UserService);
@@ -170,7 +172,7 @@ export class MainLayout implements OnInit, OnDestroy {
     }
   }
 
-  private updateActiveTabFromRoute(url: string) {
+  private updateActiveTabFromRoute(_url: string) {
     const routeMap: Record<string, string> = {
       '/app/calendar': 'calendar',
       '/app/tasks': 'tasks', 

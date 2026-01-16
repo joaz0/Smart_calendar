@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './context-blocks-editor.html',
   styleUrl: './context-blocks-editor.scss'
 })
-export class ContextBlocksEditor {
+export class ContextBlocksEditorComponent {
   blocks = [
     { id: '1', name: 'Foco Profundo', color: '#6A1B9A', startTime: '09:00', endTime: '11:00' },
     { id: '2', name: 'Reuniões', color: '#2196F3', startTime: '11:00', endTime: '12:00' },

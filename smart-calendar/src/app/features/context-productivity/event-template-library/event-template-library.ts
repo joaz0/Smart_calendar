@@ -27,7 +27,7 @@ import { EventTemplateService, EventTemplate } from '../../../core/services/temp
   templateUrl: './event-template-library.html',
   styleUrl: './event-template-library.scss'
 })
-export class EventTemplateLibrary implements OnInit, OnDestroy {
+export class EventTemplateLibraryComponent implements OnInit, OnDestroy {
   private templateService = inject(EventTemplateService);
   private dialog = inject(MatDialog);
 

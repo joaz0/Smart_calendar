@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Logger } from '../utils/logger';
 
+
 /**
  * Classe base para todos os componentes
  * Fornece padrões comuns: lifecycle, logging, unsubscribe automático

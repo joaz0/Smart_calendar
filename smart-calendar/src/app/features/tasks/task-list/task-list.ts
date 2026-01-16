@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { TaskItem } from '../task-item/task-item';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-task-list',
@@ -9,7 +11,7 @@ import { TaskItem } from '../task-item/task-item';
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
 })
-export class TaskList {
+export class TaskListComponent {
   // Lista de tarefas; preenchida por um service em runtime
   tasks: any[] = [];
   filterText = '';

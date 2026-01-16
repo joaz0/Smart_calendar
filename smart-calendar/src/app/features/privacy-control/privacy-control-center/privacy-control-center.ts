@@ -27,7 +27,7 @@ import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/se
   templateUrl: './privacy-control-center.html',
   styleUrl: './privacy-control-center.scss'
 })
-export class PrivacyControlCenter implements OnInit, OnDestroy {
+export class PrivacyControlCenterComponent implements OnInit, OnDestroy {
   private privacyService = inject(PrivacyService);
 
   private destroy$ = new Subject<void>();

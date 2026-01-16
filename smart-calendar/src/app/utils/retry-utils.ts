@@ -7,7 +7,7 @@ export interface RetryConfig {
   backoffMultiplier?: number;
 }
 
-export function retryWithBackoff<T>(config: RetryConfig = {}) {
+export function retryWithBackoff<T>(_config: RetryConfig = {}) {
   const { maxRetries = 3, delay = 1000, backoffMultiplier = 2 } = config;
 
   return (source: Observable<T>) =>

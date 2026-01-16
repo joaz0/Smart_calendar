@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
+
 export interface MeetingLink {
   provider: 'zoom' | 'meet' | 'teams';
   url: string;

@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './document-attachment-manager.html',
   styleUrl: './document-attachment-manager.scss'
 })
-export class DocumentAttachmentManager {
+export class DocumentAttachmentManagerComponent {
 
 }

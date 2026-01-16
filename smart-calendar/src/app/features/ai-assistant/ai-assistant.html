@@ -102,7 +102,7 @@
         @for (suggestion of suggestions; track suggestion) {
           <div
             class="suggestion-card"
-            (click)="executeSuggestion(suggestion)">
+            (click)="executeSuggestion(suggestion)" (keydown.enter)="executeSuggestion(suggestion)" (keydown.space)="executeSuggestion(suggestion)" tabindex="0" role="button">
             <div class="suggestion-header">
               <div class="suggestion-title">
                 <mat-icon>{{ getSuggestionIcon(suggestion.type) }}</mat-icon>

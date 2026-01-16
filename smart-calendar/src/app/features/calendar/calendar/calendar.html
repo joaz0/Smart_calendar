@@ -65,7 +65,7 @@
 
   <!-- Filter Menu -->
   <mat-menu #filterMenu="matMenu">
-    <div class="filter-content" (click)="$event.stopPropagation()">
+    <div class="filter-content" (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()" tabindex="0" role="button">
       <h3>Filtrar por Categoria</h3>
       @for (category of categories; track category) {
         <mat-checkbox

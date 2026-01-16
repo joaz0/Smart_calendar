@@ -16,6 +16,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule, FormArray } from '@angular/forms';
 import { RecurrenceSettings } from '../../events/recurrence-settings/recurrence-settings';
 
+
 interface DialogData {
   event?: Event;
   date: Date;
@@ -160,7 +161,7 @@ export class EventDialogComponent {
     }
   }
 
-  removeAttendee(attendee: {email: string}) {
+  removeAttendee(_attendee: {email: string}) {
     const index = this.attendees.indexOf(attendee);
     if (index >= 0) {
       this.attendees.splice(index, 1);
