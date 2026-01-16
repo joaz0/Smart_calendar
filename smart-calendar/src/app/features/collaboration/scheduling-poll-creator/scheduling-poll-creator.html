@@ -3,13 +3,13 @@
 
   <form (ngSubmit)="createPoll()">
     <div class="form-group">
-      <label>Título da Enquete</label>
-      <input type="text" [(ngModel)]="poll.title" name="title" required>
+      <label for="pollTitle">Título da Enquete</label>
+      <input id="pollTitle" type="text" [(ngModel)]="poll.title" name="title" required>
     </div>
 
     <div class="form-group">
-      <label>Duração (minutos)</label>
-      <input type="number" [(ngModel)]="poll.duration" name="duration" min="15" step="15">
+      <label for="pollDuration">Duração (minutos)</label>
+      <input id="pollDuration" type="number" [(ngModel)]="poll.duration" name="duration" min="15" step="15">
     </div>
 
     <div class="time-slots">
