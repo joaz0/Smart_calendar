@@ -1,15 +1,15 @@
 // ============================================
+// IMPORTS DE ESTILOS CUSTOMIZADOS (devem vir primeiro)
+// ============================================
+@use 'assets/styles/variables';
+@use 'assets/styles/contrast-improvements';
+
+// ============================================
 // IMPORTS DO ANGULAR MATERIAL (Angular 20)
 // ============================================
 
 // Importe um tema pronto do Angular Material
 @import '@angular/material/prebuilt-themes/azure-blue.css';
-
-// ============================================
-// IMPORTS DE ESTILOS CUSTOMIZADOS
-// ============================================
-@use 'assets/styles/variables';
-@use 'assets/styles/contrast-improvements';
 
 // ============================================
 // VARIÁVEIS DE CORES CUSTOMIZADAS
