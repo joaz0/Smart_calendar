@@ -73,8 +73,8 @@
           @if (!isActive) {
             <div class="start-section">
               <div class="task-input">
-                <label>Tarefa (opcional):</label>
-                <input type="text" [(ngModel)]="taskTitle" placeholder="O que você vai trabalhar?">
+                <label for="taskTitleInput">Tarefa (opcional):</label>
+                <input id="taskTitleInput" type="text" [(ngModel)]="taskTitle" placeholder="O que você vai trabalhar?">
               </div>
               <div class="start-buttons">
                 <button mat-raised-button color="primary" class="start-btn" (click)="startWork()">
