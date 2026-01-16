@@ -14,13 +14,13 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './week-view.scss',
 })
 export class WeekView {
-  @Input() events: any[] = [];
+  @Input() events: unknown[] = [];
   @Input() selectedDate: Date = new Date();
   @Output() dateSelected = new EventEmitter<Date>();
   @Output() eventClicked = new EventEmitter<any>();
   
   startOfWeek: Date = this.getStartOfWeek(new Date());
-  weekDays: { date: Date; events: any[] }[] = [];
+  weekDays: { date: Date; events: unknown[] }[] = [];
   showSummary = true;
   isLoading = false;
   timeSlots: number[] = Array.from({ length: 24 }, (_, i) => i);
@@ -72,7 +72,7 @@ export class WeekView {
     console.log('Generating weekly report...');
   }
 
-  getDayIndicators(day: any): any[] {
+  getDayIndicators(day: unknown): unknown[] {
     return [];
   }
 
@@ -80,11 +80,11 @@ export class WeekView {
     return hour;
   }
 
-  trackByDay(index: number, day: any): number {
+  trackByDay(index: number, day: unknown): number {
     return day.date ? day.date.getTime() : day.getTime();
   }
 
-  trackByEvent(index: number, event: any): any {
+  trackByEvent(index: number, event: unknown): any {
     return event.id || index;
   }
 
@@ -96,13 +96,13 @@ export class WeekView {
     return `${hour.toString().padStart(2, '0')}:00`;
   }
 
-  isToday(day: any): boolean {
+  isToday(day: unknown): boolean {
     const today = new Date();
     const date = day.date || day;
     return date.toDateString() === today.toDateString();
   }
 
-  isWeekend(day: any): boolean {
+  isWeekend(day: unknown): boolean {
     const date = day.date || day;
     const dayOfWeek = date.getDay();
     return dayOfWeek === 0 || dayOfWeek === 6;
@@ -126,39 +126,39 @@ export class WeekView {
     return (minutes / 60) * 100;
   }
 
-  getEventsForSlot(day: Date, hour: number): any[] {
+  getEventsForSlot(day: Date, hour: number): unknown[] {
     return [];
   }
 
-  getEventHeight(event: any): number {
+  getEventHeight(event: unknown): number {
     return 60;
   }
 
-  getEventTop(event: any): number {
+  getEventTop(event: unknown): number {
     return 0;
   }
 
-  getEventLeft(event: any): number {
+  getEventLeft(event: unknown): number {
     return 0;
   }
 
-  getEventWidth(event: any): number {
+  getEventWidth(event: unknown): number {
     return 100;
   }
 
-  isMultiDayEvent(event: any): boolean {
+  isMultiDayEvent(event: unknown): boolean {
     return false;
   }
 
-  hasConflicts(event: any): boolean {
+  hasConflicts(event: unknown): boolean {
     return false;
   }
 
-  getEventTooltip(event: any): string {
+  getEventTooltip(event: unknown): string {
     return event.title || '';
   }
 
-  openEvent(event: any): void {
+  openEvent(event: unknown): void {
     console.log('Open event', event);
   }
 
@@ -215,7 +215,7 @@ export class WeekView {
     return false;
   }
 
-  getAllDayEventsForDay(day: any): any[] {
+  getAllDayEventsForDay(day: unknown): unknown[] {
     return [];
   }
 }

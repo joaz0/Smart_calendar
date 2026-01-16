@@ -37,9 +37,9 @@ export class TaskForm {
   taskForm: FormGroup;
   isEditMode = false;
   isSaving = false;
-  categories: any[] = [];
+  categories: unknown[] = [];
   tags: string[] = [];
-  subtasks: any[] = [];
+  subtasks: unknown[] = [];
   hasReminder = false;
   reminderTime = 15;
   isRecurring = false;
@@ -70,7 +70,7 @@ export class TaskForm {
     console.log('Excluir tarefa');
   }
 
-  addTag(event: any): void {
+  addTag(event: unknown): void {
     const value = (event.value || '').trim();
     if (value) {
       this.tags.push(value);

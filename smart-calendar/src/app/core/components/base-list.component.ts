@@ -6,7 +6,7 @@ export interface ListAction {
   label: string;
   icon?: string;
   color?: string;
-  action: (item: any) => void;
+  action: (item: unknown) => void;
 }
 
 export interface ListColumn {

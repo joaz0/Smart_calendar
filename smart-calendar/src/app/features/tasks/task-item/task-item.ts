@@ -80,7 +80,7 @@ export class TaskItem {
   }
 
   getCompletedSubtasks(): number {
-    return this.task.subtasks?.filter((s: any) => s.completed).length || 0;
+    return this.task.subtasks?.filter((s: unknown) => s.completed).length || 0;
   }
 
   getSubtaskProgress(): number {

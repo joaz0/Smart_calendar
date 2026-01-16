@@ -9,7 +9,7 @@ import { CommonModule, DatePipe } from '@angular/common';
   styleUrl: './event-list.scss',
 })
 export class EventList {
-  events: any[] = [];
+  events: unknown[] = [];
 
   @Output() create = new EventEmitter<void>();
 
@@ -17,7 +17,7 @@ export class EventList {
     this.create.emit();
   }
 
-  openDetails(ev: any): void {
+  openDetails(ev: unknown): void {
     // stub: abrir detalhe do evento
     console.log('openDetails', ev);
   }

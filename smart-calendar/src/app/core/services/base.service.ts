@@ -33,7 +33,7 @@ export abstract class BaseService implements OnDestroy {
   /**
    * Emite um erro
    */
-  protected setError(error: any): void {
+  protected setError(error: unknown): void {
     this.logger.error('Erro no serviço', error as Record<string, any>);
     this.errorSubject$.next(error);
   }

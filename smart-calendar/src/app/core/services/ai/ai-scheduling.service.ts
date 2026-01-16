@@ -46,7 +46,7 @@ export class AiSchedulingService {
     );
   }
 
-  autoSchedule(requests: AutoScheduleRequest[]): Observable<{ scheduled: any[]; failed: any[] }> {
+  autoSchedule(requests: AutoScheduleRequest[]): Observable<{ scheduled: unknown[]; failed: unknown[] }> {
     return this.http.post<any>(`${this.apiUrl}/auto-schedule`, { requests }).pipe(
       catchError(() => of({ scheduled: [], failed: [] }))
     );
@@ -68,7 +68,7 @@ export class AiSchedulingService {
     );
   }
 
-  optimizeSchedule(date: Date): Observable<{ optimizations: any[]; timeSaved: number }> {
+  optimizeSchedule(date: Date): Observable<{ optimizations: unknown[]; timeSaved: number }> {
     return this.http.post<any>(`${this.apiUrl}/optimize`, { date }).pipe(
       catchError(() => of({ optimizations: [], timeSaved: 0 }))
     );

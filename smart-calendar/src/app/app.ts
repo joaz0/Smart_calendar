@@ -107,7 +107,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  trackByNotification(index: number, notification: any): string {
+  trackByNotification(index: number, notification: unknown): string {
     return notification.id;
   }
 

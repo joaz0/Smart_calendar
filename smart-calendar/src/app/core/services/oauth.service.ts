@@ -41,10 +41,10 @@ export class OAuthService {
     }));
   }
 
-  private performGoogleLogin(resolve: any, reject: any) {
+  private performGoogleLogin(resolve: any, reject: unknown) {
     window.google.accounts.id.initialize({
       client_id: oauthConfig.google.clientId,
-      callback: (response: any) => {
+      callback: (response: unknown) => {
         if (response.credential) {
           resolve(response);
         } else {
@@ -53,7 +53,7 @@ export class OAuthService {
       }
     });
     
-    window.google.accounts.id.prompt((notification: any) => {
+    window.google.accounts.id.prompt((notification: unknown) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
         // Fallback para popup
         window.google.accounts.oauth2.initTokenClient({

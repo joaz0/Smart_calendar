@@ -15,14 +15,14 @@ export interface ListColumn {
   key: string;
   label: string;
   sortable?: boolean;
-  formatter?: (value: any, row?: any) => string;
+  formatter?: (value: any, row?: unknown) => string;
   width?: string;
 }
 
 export interface ListAction {
   icon: string;
   label: string;
-  handler: (row: any) => void;
+  handler: (row: unknown) => void;
 }
 
 @Component({

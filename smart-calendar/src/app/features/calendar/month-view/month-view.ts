@@ -44,7 +44,7 @@ export class MonthView implements OnInit, OnDestroy {
   
   currentDate: Date = new Date();
   weeks: Date[][] = [];
-  calendarWeeks: any[] = [];
+  calendarWeeks: unknown[] = [];
   tasks: Task[] = [];
   weekdays: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   maxEventsPerDay = 3;
@@ -129,7 +129,7 @@ export class MonthView implements OnInit, OnDestroy {
           (this.tasks = tasks.filter(
             (task: Task) => task.dueDate && task.dueDate >= startDate && task.dueDate <= endDate
           )),
-        error: (error: any) => console.error('Erro ao carregar tarefas:', error),
+        error: (error: unknown) => console.error('Erro ao carregar tarefas:', error),
       });
   }
 
@@ -266,7 +266,7 @@ export class MonthView implements OnInit, OnDestroy {
     return day.getTime();
   }
 
-  trackByEvent(index: number, event: any): any {
+  trackByEvent(index: number, event: unknown): any {
     return event?.id || index;
   }
 
@@ -305,7 +305,7 @@ export class MonthView implements OnInit, OnDestroy {
     this.openEventDialog(undefined, date);
   }
 
-  getDayIndicators(date: Date): any[] {
+  getDayIndicators(date: Date): unknown[] {
     return [];
   }
 

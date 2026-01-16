@@ -72,16 +72,16 @@ export class DayDetailsDialogComponent {
     return new Date(task.dueDate) < new Date() && !task.completed;
   }
 
-  toggleTaskCompletion(task: Task, event: any) {
+  toggleTaskCompletion(task: Task, event: unknown) {
     task.completed = event.checked;
     this.dialogRef.close({ action: 'toggleTask', task });
   }
 
-  getCategoryColor(category: any): string {
+  getCategoryColor(category: unknown): string {
     return category?.color || '#6366f1';
   }
 
-  getCategoryName(category: any): string {
+  getCategoryName(category: unknown): string {
     return category?.name || 'Sem categoria';
   }
 

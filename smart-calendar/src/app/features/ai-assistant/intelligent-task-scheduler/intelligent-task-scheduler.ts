@@ -10,9 +10,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./intelligent-task-scheduler.scss'],
 })
 export class IntelligentTaskScheduler {
-  @Input() suggestions: any[] = [];
+  @Input() suggestions: unknown[] = [];
 
-  apply(s: any): void {
+  apply(s: unknown): void {
     console.log('apply intelligent suggestion', s);
   }
 }

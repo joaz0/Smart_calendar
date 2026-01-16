@@ -78,7 +78,7 @@ export class MainLayout implements OnInit, OnDestroy {
         filter((event) => event instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
-      .subscribe((event: any) => {
+      .subscribe((event: unknown) => {
         this.updateActiveTabFromRoute(event.url);
       });
 

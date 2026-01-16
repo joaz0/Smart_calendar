@@ -28,7 +28,7 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.getAllCategories(page, pageSize).subscribe({
-        next: (response: any) => {
+        next: (response: unknown) => {
           const categories = response.data || response;
           this.logger.info('Categorias carregadas', {
             count: categories.length,
@@ -54,7 +54,7 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.getCategoryById(id).subscribe({
-        next: (response: any) => {
+        next: (response: unknown) => {
           const category = response.data || response;
           this.logger.info('Categoria carregada', { id });
           this.setLoading(false);
@@ -78,7 +78,7 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.createCategory(category as any).subscribe({
-        next: (response: any) => {
+        next: (response: unknown) => {
           const newCategory = response.data || response;
           this.logger.info('Categoria criada', {
             id: newCategory.id,
@@ -105,7 +105,7 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.updateCategory(id, updates as any).subscribe({
-        next: (response: any) => {
+        next: (response: unknown) => {
           const updatedCategory = response.data || response;
           this.logger.info('Categoria atualizada', {
             id,
@@ -155,7 +155,7 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.searchCategories(query, page, pageSize).subscribe({
-        next: (response: any) => {
+        next: (response: unknown) => {
           const categories = response.data || response;
           this.logger.info('Categorias encontradas', {
             query,

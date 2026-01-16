@@ -36,7 +36,7 @@ export class ApiMapperService {
     return payload;
   }
 
-  fromApiEvent(api: any): CalendarEvent {
+  fromApiEvent(api: unknown): CalendarEvent {
     return {
       id: String(api.id),
       title: api.title,
@@ -83,7 +83,7 @@ export class ApiMapperService {
     return payload;
   }
 
-  fromApiTask(api: any): Task {
+  fromApiTask(api: unknown): Task {
     return {
       id: String(api.id),
       title: api.title,

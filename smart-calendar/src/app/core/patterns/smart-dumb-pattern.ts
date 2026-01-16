@@ -46,12 +46,12 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   ];
 
   actions = [
-    { label: 'Editar', icon: 'edit', action: (item: any) => this.editEvent(item) },
+    { label: 'Editar', icon: 'edit', action: (item: unknown) => this.editEvent(item) },
     {
       label: 'Deletar',
       icon: 'delete',
       color: 'warn',
-      action: (item: any) => this.deleteEvent(item),
+      action: (item: unknown) => this.deleteEvent(item),
     },
   ];
 
@@ -83,11 +83,11 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
     // Delegar para método apropriado
   }
 
-  private editEvent(event: any): void {
+  private editEvent(event: unknown): void {
     // Abrir modal/navegação para edição
   }
 
-  private deleteEvent(event: any): void {
+  private deleteEvent(event: unknown): void {
     // Confirmar e deletar
     this.loading = true;
     this.eventService.deleteEvent(event.id).pipe(this.takeUntil()).subscribe({
@@ -151,7 +151,7 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsListComponent {
-  @Input() items: any[] | null = null;
+  @Input() items: unknown[] | null = null;
   @Input() columns: ListColumn[] = [];
   @Input() actions: ListAction[] = [];
   @Input() loading = false;
@@ -159,11 +159,11 @@ export class EventsListComponent {
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
   @Output() search = new EventEmitter<string>();
 
-  onSearchChange(event: any): void {
+  onSearchChange(event: unknown): void {
     this.search.emit(event.target.value);
   }
 
-  executeAction(action: ListAction, item: any): void {
+  executeAction(action: ListAction, item: unknown): void {
     action.action(item);
   }
 

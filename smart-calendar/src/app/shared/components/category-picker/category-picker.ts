@@ -142,7 +142,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   customCategories: Category[] = [];
 
   // ControlValueAccessor
-  private onChange: (value: any) => void = () => {};
+  private onChange: (value: unknown) => void = () => {};
   private onTouched: () => void = () => {};
   disabled = false;
 
@@ -181,7 +181,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
   }
 
   // ControlValueAccessor Implementation
-  writeValue(value: any): void {
+  writeValue(value: unknown): void {
     if (value) {
       this.selectedCategory = this.categories.find(cat => cat.id === value) || null;
       this.cdr.markForCheck();
@@ -190,11 +190,11 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: unknown): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: unknown): void {
     this.onTouched = fn;
   }
 
@@ -525,7 +525,7 @@ export class CategoryPicker implements ControlValueAccessor, OnInit, OnDestroy {
     return category.id;
   }
 
-  trackByColor(index: number, color: any): string {
+  trackByColor(index: number, color: unknown): string {
     return color.value;
   }
 

@@ -19,7 +19,7 @@ export interface FormField {
   placeholder?: string;
   value?: any;
   required?: boolean;
-  validators?: any[];
+  validators?: unknown[];
   options?: { label: string; value: any }[];
   cols?: number;
   rows?: number;
@@ -148,7 +148,7 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
       this.isSubmitting = true;
       this.serverError = null;
       await this.handleSubmit(this.form.value);
-    } catch (error: any) {
+    } catch (error: unknown) {
       this.serverError = error.message || 'Erro ao processar formulário';
       this.logError('Erro na submissão', error);
     } finally {
@@ -159,7 +159,7 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
   /**
    * Método abstrato para tratar submissão
    */
-  protected abstract handleSubmit(formValue: any): Promise<void>;
+  protected abstract handleSubmit(formValue: unknown): Promise<void>;
 
   /**
    * Marca todos os campos como touched para exibir erros

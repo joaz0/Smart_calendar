@@ -77,9 +77,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   searchTerm = '';
   notifications = 3;
   filteredNavItems: NavItem[] = [];
-  searchResults: any[] = [];
+  searchResults: unknown[] = [];
   hasUnreadNotifications = true;
-  recentNotifications: any[] = [];
+  recentNotifications: unknown[] = [];
 
   private destroy$ = new Subject<void>();
   private cachedCompletionPercentage?: number;
@@ -360,15 +360,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ];
   }
 
-  trackByNotification(index: number, notification: any): string {
+  trackByNotification(index: number, notification: unknown): string {
     return notification.id;
   }
 
-  trackBySearchResult(index: number, result: any): string {
+  trackBySearchResult(index: number, result: unknown): string {
     return result.id || `${result.type}-${index}`;
   }
 
-  selectSearchResult(result: any): void {
+  selectSearchResult(result: unknown): void {
     if (result.type === 'event') {
       this.router.navigate(['/app/calendar'], { queryParams: { eventId: result.id } });
     } else if (result.type === 'task') {
@@ -377,7 +377,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.clearSearch();
   }
 
-  openNotification(notification: any) {
+  openNotification(notification: unknown) {
     notification.read = true;
     const routes: Record<string, string> = {
       event: '/app/calendar',

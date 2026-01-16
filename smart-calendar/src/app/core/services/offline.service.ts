@@ -69,7 +69,7 @@ export class OfflineService {
   }
 
   // Cache management
-  cacheData(key: string, data: any): void {
+  cacheData(key: string, data: unknown): void {
     localStorage.setItem(`cache_${key}`, JSON.stringify({
       data,
       timestamp: Date.now()

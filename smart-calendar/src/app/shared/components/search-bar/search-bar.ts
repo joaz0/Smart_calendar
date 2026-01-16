@@ -187,7 +187,7 @@ export class SearchBar implements OnInit, OnDestroy, OnChanges {
   }
 
   // Quando results são atualizados externamente
-  ngOnChanges(changes: any): void {
+  ngOnChanges(changes: unknown): void {
     if (changes.results && this.results) {
       this.searchResults = this.results;
       this.updateGroupedResults();

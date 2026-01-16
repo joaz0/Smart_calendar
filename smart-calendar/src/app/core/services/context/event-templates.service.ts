@@ -64,7 +64,7 @@ export class EventTemplatesService {
     );
   }
 
-  applyTemplate(templateId: string, overrides?: any): Observable<any> {
+  applyTemplate(templateId: string, overrides?: unknown): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${templateId}/apply`, overrides || {}).pipe(
       catchError(() => of({}))
     );

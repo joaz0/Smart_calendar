@@ -25,7 +25,7 @@ export class N8nService {
     return this.http.post(`${this.apiUrl}/webhook`, webhook);
   }
 
-  executeWorkflow(workflowId: string, data: any): Observable<any> {
+  executeWorkflow(workflowId: string, data: unknown): Observable<any> {
     return this.http.post(`${this.apiUrl}/workflow/${workflowId}/execute`, data);
   }
 
