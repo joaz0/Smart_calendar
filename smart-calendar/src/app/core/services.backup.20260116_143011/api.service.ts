@@ -1,10 +1,9 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core.component';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http.component';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, retry, timeout, finalize } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { logger } from '../utils/logger';
-import { HttpOptions, AnyObject } from '../models/common-interfaces';
+import { catchError, retry, timeout, finalize } from 'rxjs/operators.component';
+import { environment } from '../../../environments/environment.component';
+import { logger } from '../utils/logger.component';
 
 
 export interface ApiResponse<T> {
@@ -32,35 +31,35 @@ export class ApiService {
   /**
    * GET request
    */
-  get<T>(endpoint: string, options?: HttpOptions): Observable<ApiResponse<T>> {
+  get<T>(endpoint: string, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('GET', endpoint, null, options);
   }
 
   /**
    * POST request
    */
-  post<T>(endpoint: string, body: AnyObject, options?: HttpOptions): Observable<ApiResponse<T>> {
+  post<T>(endpoint: string, body: any, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('POST', endpoint, body, options);
   }
 
   /**
    * PUT request
    */
-  put<T>(endpoint: string, body: AnyObject, options?: HttpOptions): Observable<ApiResponse<T>> {
+  put<T>(endpoint: string, body: any, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('PUT', endpoint, body, options);
   }
 
   /**
    * PATCH request
    */
-  patch<T>(endpoint: string, body: AnyObject, options?: HttpOptions): Observable<ApiResponse<T>> {
+  patch<T>(endpoint: string, body: any, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('PATCH', endpoint, body, options);
   }
 
   /**
    * DELETE request
    */
-  delete<T>(endpoint: string, options?: HttpOptions): Observable<ApiResponse<T>> {
+  delete<T>(endpoint: string, options?: any): Observable<ApiResponse<T>> {
     return this.request<T>('DELETE', endpoint, null, options);
   }
 
@@ -70,8 +69,8 @@ export class ApiService {
   private request<T>(
     method: string,
     endpoint: string,
-    body: AnyObject | null = null,
-    options: HttpOptions = {}
+    body: any = null,
+    options: any = {}
   ): Observable<ApiResponse<T>> {
     const url = `${this.apiUrl}${endpoint}`;
     const httpOptions = this.getHttpOptions(options);
@@ -111,7 +110,7 @@ export class ApiService {
   /**
    * Configurar headers HTTP
    */
-  private getHttpOptions(options: HttpOptions): { headers: HttpHeaders } {
+  private getHttpOptions(options: any): { headers: HttpHeaders } {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -130,13 +129,13 @@ export class ApiService {
   /**
    * Tratamento de erros
    */
-  private handleError(error: HttpErrorResponse | Error, method: string, endpoint: string): Observable<never> {
+  private handleError(error: any, method: string, endpoint: string): Observable<never> {
     let errorMessage = 'Erro desconhecido';
     let statusCode = 500;
 
     if (error instanceof HttpErrorResponse) {
       statusCode = error.status;
-      const errorResponse = error.error as ApiResponse<unknown>;
+      const errorResponse = error.error as ApiResponse<any>;
 
       if (errorResponse?.error) {
         errorMessage = errorResponse.error;

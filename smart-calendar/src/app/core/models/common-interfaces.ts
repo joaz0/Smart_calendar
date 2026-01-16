@@ -380,3 +380,59 @@ export interface EncryptedData {
   iv: string;
   algorithm: string;
 }
+
+// ============================================
+// HTTP OPTIONS
+// ============================================
+
+export interface HttpOptions {
+  headers?: Record<string, string>;
+  params?: Record<string, string | number | boolean>;
+  responseType?: 'json' | 'text' | 'blob';
+  withCredentials?: boolean;
+}
+
+// ============================================
+// OAUTH
+// ============================================
+
+export interface OAuthUserData {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  provider: string;
+  accessToken?: string;
+}
+
+// ============================================
+// SCHEDULING
+// ============================================
+
+export interface ScheduledItem {
+  id: string;
+  time: Date;
+  duration: number;
+  title?: string;
+}
+
+export interface FailedItem {
+  id: string;
+  reason: string;
+}
+
+export interface ScheduleResult {
+  scheduled: ScheduledItem[];
+  failed: FailedItem[];
+}
+
+export interface Optimization {
+  type: string;
+  description: string;
+  impact: number;
+}
+
+export interface OptimizationResult {
+  optimizations: Optimization[];
+  timeSaved: number;
+}
