@@ -7,7 +7,7 @@
       </h1>
       <p>Seu assistente inteligente para produtividade e organização</p>
     </div>
-    
+
     <div class="header-actions">
       <button mat-raised-button color="accent" (click)="analyzeProductivity()">
         <mat-icon>analytics</mat-icon>
@@ -26,42 +26,48 @@
   <div class="ai-content">
     <div class="chat-container">
       <div class="chat-messages" #messagesContainer>
-        <div *ngFor="let message of messages" 
-             class="message"
-             [class.user]="message.isUser"
-             [class.ai]="!message.isUser">
-          <mat-icon>{{ message.isUser ? 'person' : 'smart_toy' }}</mat-icon>
-          <div>
-            <div class="message-content">{{ message.text }}</div>
-            <div class="timestamp">{{ message.timestamp | date:'short' }}</div>
+        @for (message of messages; track message) {
+          <div
+            class="message"
+            [class.user]="message.isUser"
+            [class.ai]="!message.isUser">
+            <mat-icon>{{ message.isUser ? 'person' : 'smart_toy' }}</mat-icon>
+            <div>
+              <div class="message-content">{{ message.text }}</div>
+              <div class="timestamp">{{ message.timestamp | date:'short' }}</div>
+            </div>
           </div>
-        </div>
+        }
 
-        <div class="loading-indicator" *ngIf="loading">
-          <mat-spinner diameter="24"></mat-spinner>
-          <span>Processando...</span>
-        </div>
+        @if (loading) {
+          <div class="loading-indicator">
+            <mat-spinner diameter="24"></mat-spinner>
+            <span>Processando...</span>
+          </div>
+        }
       </div>
 
       <div class="quick-actions">
-        <button *ngFor="let action of quickActions"
-                (click)="quickAction(action.id)"
-                [disabled]="loading">
-          <mat-icon>{{ action.icon }}</mat-icon>
-          {{ action.label }}
-        </button>
+        @for (action of quickActions; track action) {
+          <button
+            (click)="quickAction(action.id)"
+            [disabled]="loading">
+            <mat-icon>{{ action.icon }}</mat-icon>
+            {{ action.label }}
+          </button>
+        }
       </div>
 
       <div class="chat-input">
         <input type="text"
-               [(ngModel)]="currentMessage"
-               (keydown.enter)="sendMessage()"
-               [disabled]="loading"
-               placeholder="Digite sua mensagem ou comando..."
-               aria-label="Campo de mensagem">
-        <button (click)="sendMessage()" 
-                [disabled]="!currentMessage.trim() || loading"
-                aria-label="Enviar mensagem">
+          [(ngModel)]="currentMessage"
+          (keydown.enter)="sendMessage()"
+          [disabled]="loading"
+          placeholder="Digite sua mensagem ou comando..."
+          aria-label="Campo de mensagem">
+        <button (click)="sendMessage()"
+          [disabled]="!currentMessage.trim() || loading"
+          aria-label="Enviar mensagem">
           <mat-icon>send</mat-icon>
         </button>
       </div>
@@ -79,32 +85,38 @@
       </div>
 
       <div class="suggestions-list">
-        <div class="loading-suggestions" *ngIf="loadingSuggestions">
-          <mat-spinner diameter="32"></mat-spinner>
-          <span>Carregando sugestões...</span>
-        </div>
-
-        <div *ngIf="!loadingSuggestions && suggestions.length === 0" class="no-suggestions">
-          <mat-icon>lightbulb_outline</mat-icon>
-          <p>Nenhuma sugestão no momento</p>
-        </div>
-
-        <div *ngFor="let suggestion of suggestions"
-             class="suggestion-card"
-             (click)="executeSuggestion(suggestion)">
-          <div class="suggestion-header">
-            <div class="suggestion-title">
-              <mat-icon>{{ getSuggestionIcon(suggestion.type) }}</mat-icon>
-              {{ suggestion.title }}
-            </div>
-            <span class="priority-badge"
-                  [style.background]="getSuggestionColor(suggestion.priority)"
-                  [style.color]="'white'">
-              {{ suggestion.priority }}
-            </span>
+        @if (loadingSuggestions) {
+          <div class="loading-suggestions">
+            <mat-spinner diameter="32"></mat-spinner>
+            <span>Carregando sugestões...</span>
           </div>
-          <p class="suggestion-description">{{ suggestion.description }}</p>
-        </div>
+        }
+
+        @if (!loadingSuggestions && suggestions.length === 0) {
+          <div class="no-suggestions">
+            <mat-icon>lightbulb_outline</mat-icon>
+            <p>Nenhuma sugestão no momento</p>
+          </div>
+        }
+
+        @for (suggestion of suggestions; track suggestion) {
+          <div
+            class="suggestion-card"
+            (click)="executeSuggestion(suggestion)">
+            <div class="suggestion-header">
+              <div class="suggestion-title">
+                <mat-icon>{{ getSuggestionIcon(suggestion.type) }}</mat-icon>
+                {{ suggestion.title }}
+              </div>
+              <span class="priority-badge"
+                [style.background]="getSuggestionColor(suggestion.priority)"
+                [style.color]="'white'">
+                {{ suggestion.priority }}
+              </span>
+            </div>
+            <p class="suggestion-description">{{ suggestion.description }}</p>
+          </div>
+        }
       </div>
 
       <div class="quick-analytics">

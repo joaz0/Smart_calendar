@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil, catchError } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
@@ -17,12 +17,11 @@ import { NotificationService } from '../../core/services/notification.service';
   selector: 'app-main-layout',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     Header,
     SidebarComponent,
     LoadingSpinner
-  ],
+],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

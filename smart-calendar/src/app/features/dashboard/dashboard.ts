@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,7 @@ import { TaskService } from '../../core/services/task.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })
@@ -199,7 +199,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 @Component({
   selector: 'app-dashboard-legacy',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="dashboard">
       <div class="dashboard-header">

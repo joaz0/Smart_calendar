@@ -10,123 +10,157 @@
 
 <mat-dialog-content class="day-details-content">
   <div class="day-details">
-    <section class="events-section" *ngIf="data.events.length > 0" aria-labelledby="events-heading">
-      <div class="section-header">
-        <h3 id="events-heading">
-          <mat-icon>event</mat-icon>
-          Eventos ({{ data.events.length }})
-        </h3>
-        <button mat-icon-button (click)="addEvent()" aria-label="Adicionar evento">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      
-      <div class="events-list">
-        <div *ngFor="let event of data.events; trackBy: trackByEvent" 
-             class="event-item"
-             [class.all-day]="event.allDay"
-             (click)="openEvent(event)">
-          <div class="event-indicator" [style.background-color]="event.color || '#6d3bf7'"></div>
-          <div class="event-content">
-            <div class="event-header">
-              <span class="event-time" *ngIf="!event.allDay">{{ getEventTime(event) }}</span>
-              <span class="event-time" *ngIf="event.allDay">Dia inteiro</span>
-              <div class="event-icons">
-                <mat-icon *ngIf="event.location" title="Tem localização">location_on</mat-icon>
-                <mat-icon *ngIf="event.description" title="Tem descrição">description</mat-icon>
-                <mat-icon *ngIf="event.recurrence" title="Evento recorrente">repeat</mat-icon>
-                <mat-icon *ngIf="event.url" title="Tem link">link</mat-icon>
+    @if (data.events.length > 0) {
+      <section class="events-section" aria-labelledby="events-heading">
+        <div class="section-header">
+          <h3 id="events-heading">
+            <mat-icon>event</mat-icon>
+            Eventos ({{ data.events.length }})
+          </h3>
+          <button mat-icon-button (click)="addEvent()" aria-label="Adicionar evento">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="events-list">
+          @for (event of data.events; track trackByEvent($index, event)) {
+            <div
+              class="event-item"
+              [class.all-day]="event.allDay"
+              (click)="openEvent(event)">
+              <div class="event-indicator" [style.background-color]="event.color || '#6d3bf7'"></div>
+              <div class="event-content">
+                <div class="event-header">
+                  @if (!event.allDay) {
+                    <span class="event-time">{{ getEventTime(event) }}</span>
+                  }
+                  @if (event.allDay) {
+                    <span class="event-time">Dia inteiro</span>
+                  }
+                  <div class="event-icons">
+                    @if (event.location) {
+                      <mat-icon title="Tem localização">location_on</mat-icon>
+                    }
+                    @if (event.description) {
+                      <mat-icon title="Tem descrição">description</mat-icon>
+                    }
+                    @if (event.recurrence) {
+                      <mat-icon title="Evento recorrente">repeat</mat-icon>
+                    }
+                    @if (event.url) {
+                      <mat-icon title="Tem link">link</mat-icon>
+                    }
+                  </div>
+                </div>
+                <h4 class="event-title">{{ event.title }}</h4>
+                @if (event.description) {
+                  <p class="event-description">
+                    {{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...' : '' }}
+                  </p>
+                }
+                @if (event.location || event.category) {
+                  <div class="event-meta">
+                    @if (event.location) {
+                      <span class="event-location">
+                        <mat-icon>location_on</mat-icon>
+                        {{ event.location }}
+                      </span>
+                    }
+                    @if (event.category) {
+                      <span class="event-category">
+                        <span class="category-dot" [style.background-color]="event.category.color"></span>
+                        {{ event.category.name }}
+                      </span>
+                    }
+                  </div>
+                }
               </div>
             </div>
-            <h4 class="event-title">{{ event.title }}</h4>
-            <p class="event-description" *ngIf="event.description">
-              {{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...' : '' }}
-            </p>
-            <div class="event-meta" *ngIf="event.location || event.category">
-              <span class="event-location" *ngIf="event.location">
-                <mat-icon>location_on</mat-icon>
-                {{ event.location }}
-              </span>
-              <span class="event-category" *ngIf="event.category">
-                <span class="category-dot" [style.background-color]="event.category.color"></span>
-                {{ event.category.name }}
-              </span>
-            </div>
-          </div>
+          }
         </div>
-      </div>
-    </section>
+      </section>
+    }
 
-    <section class="tasks-section" *ngIf="data.tasks.length > 0" aria-labelledby="tasks-heading">
-      <div class="section-header">
-        <h3 id="tasks-heading">
-          <mat-icon>task_alt</mat-icon>
-          Tarefas ({{ data.tasks.length }})
-        </h3>
-        <button mat-icon-button (click)="addTask()" aria-label="Adicionar tarefa">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      
-      <div class="tasks-list">
-        <div *ngFor="let task of data.tasks; trackBy: trackByTask" 
-             class="task-item"
-             [class.completed]="task.completed"
-             [class.overdue]="isTaskOverdue(task)"
-             (click)="openTask(task)">
-          <div class="task-content">
-            <div class="task-header">
-              <mat-checkbox [checked]="task.completed" 
-                           (change)="toggleTaskCompletion(task, $event)"
-                           (click)="$event.stopPropagation()">
-              </mat-checkbox>
-              <span class="task-time" *ngIf="task.dueDate">
-                {{ getTaskTime(task) }}
-              </span>
-              <div class="task-priority">
-                <mat-icon [class]="'priority-' + task.priority" 
-                         [title]="'Prioridade ' + task.priority">
-                  flag
-                </mat-icon>
+    @if (data.tasks.length > 0) {
+      <section class="tasks-section" aria-labelledby="tasks-heading">
+        <div class="section-header">
+          <h3 id="tasks-heading">
+            <mat-icon>task_alt</mat-icon>
+            Tarefas ({{ data.tasks.length }})
+          </h3>
+          <button mat-icon-button (click)="addTask()" aria-label="Adicionar tarefa">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="tasks-list">
+          @for (task of data.tasks; track trackByTask($index, task)) {
+            <div
+              class="task-item"
+              [class.completed]="task.completed"
+              [class.overdue]="isTaskOverdue(task)"
+              (click)="openTask(task)">
+              <div class="task-content">
+                <div class="task-header">
+                  <mat-checkbox [checked]="task.completed"
+                    (change)="toggleTaskCompletion(task, $event)"
+                    (click)="$event.stopPropagation()">
+                  </mat-checkbox>
+                  @if (task.dueDate) {
+                    <span class="task-time">
+                      {{ getTaskTime(task) }}
+                    </span>
+                  }
+                  <div class="task-priority">
+                    <mat-icon [class]="'priority-' + task.priority"
+                      [title]="'Prioridade ' + task.priority">
+                      flag
+                    </mat-icon>
+                  </div>
+                </div>
+                <h4 class="task-title" [class.completed]="task.completed">
+                  {{ task.title }}
+                </h4>
+                @if (task.description) {
+                  <p class="task-description">
+                    {{ task.description | slice:0:80 }}{{ task.description.length > 80 ? '...' : '' }}
+                  </p>
+                }
+                <div class="task-meta">
+                  @if (task.category) {
+                    <span class="task-category">
+                      <span class="category-dot" [style.background-color]="getCategoryColor(task.category)"></span>
+                      {{ getCategoryName(task.category) }}
+                    </span>
+                  }
+                  <span class="task-status" [class]="task.status">
+                    {{ getStatusLabel(task.status) }}
+                  </span>
+                </div>
               </div>
             </div>
-            <h4 class="task-title" [class.completed]="task.completed">
-              {{ task.title }}
-            </h4>
-            <p class="task-description" *ngIf="task.description">
-              {{ task.description | slice:0:80 }}{{ task.description.length > 80 ? '...' : '' }}
-            </p>
-            <div class="task-meta">
-              <span class="task-category" *ngIf="task.category">
-                <span class="category-dot" [style.background-color]="getCategoryColor(task.category)"></span>
-                {{ getCategoryName(task.category) }}
-              </span>
-              <span class="task-status" [class]="task.status">
-                {{ getStatusLabel(task.status) }}
-              </span>
-            </div>
-          </div>
+          }
+        </div>
+      </section>
+    }
+
+    @if (data.events.length === 0 && data.tasks.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">
+          <mat-icon>event_available</mat-icon>
+        </div>
+        <h3>Dia livre!</h3>
+        <p>Nenhum evento ou tarefa agendado para este dia</p>
+        <div class="empty-actions">
+          <button mat-raised-button color="primary" (click)="addEvent()">
+            <mat-icon>add</mat-icon>
+            Adicionar Evento
+          </button>
+          <button mat-stroked-button (click)="addTask()">
+            <mat-icon>add_task</mat-icon>
+            Adicionar Tarefa
+          </button>
         </div>
       </div>
-    </section>
-
-    <div class="empty-state" *ngIf="data.events.length === 0 && data.tasks.length === 0">
-      <div class="empty-icon">
-        <mat-icon>event_available</mat-icon>
-      </div>
-      <h3>Dia livre!</h3>
-      <p>Nenhum evento ou tarefa agendado para este dia</p>
-      <div class="empty-actions">
-        <button mat-raised-button color="primary" (click)="addEvent()">
-          <mat-icon>add</mat-icon>
-          Adicionar Evento
-        </button>
-        <button mat-stroked-button (click)="addTask()">
-          <mat-icon>add_task</mat-icon>
-          Adicionar Tarefa
-        </button>
-      </div>
-    </div>
+    }
   </div>
 </mat-dialog-content>
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,50 +8,54 @@ import { HealthIntegrationService } from '../../../core/services/integrations/he
 @Component({
   selector: 'app-health-home',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   template: `
     <div class="health-container">
       <h1><mat-icon>favorite</mat-icon> Integração de Saúde</h1>
-      
+    
       <mat-card>
         <mat-card-header>
           <mat-card-title>Google Fit</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <p>Sincronize seus dados de atividade e sono</p>
-          <button mat-raised-button color="primary" 
-                  *ngIf="!status.googleFit"
-                  (click)="connectGoogleFit()">
-            Conectar Google Fit
-          </button>
-          <button mat-raised-button color="warn" 
-                  *ngIf="status.googleFit"
-                  (click)="disconnect('googlefit')">
-            Desconectar
-          </button>
+          @if (!status.googleFit) {
+            <button mat-raised-button color="primary"
+              (click)="connectGoogleFit()">
+              Conectar Google Fit
+            </button>
+          }
+          @if (status.googleFit) {
+            <button mat-raised-button color="warn"
+              (click)="disconnect('googlefit')">
+              Desconectar
+            </button>
+          }
         </mat-card-content>
       </mat-card>
-
+    
       <mat-card>
         <mat-card-header>
           <mat-card-title>Apple Health</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <p>Sincronize seus dados de saúde do iPhone</p>
-          <button mat-raised-button color="primary" 
-                  *ngIf="!status.appleHealth"
-                  (click)="connectAppleHealth()">
-            Conectar Apple Health
-          </button>
-          <button mat-raised-button color="warn" 
-                  *ngIf="status.appleHealth"
-                  (click)="disconnect('applehealth')">
-            Desconectar
-          </button>
+          @if (!status.appleHealth) {
+            <button mat-raised-button color="primary"
+              (click)="connectAppleHealth()">
+              Conectar Apple Health
+            </button>
+          }
+          @if (status.appleHealth) {
+            <button mat-raised-button color="warn"
+              (click)="disconnect('applehealth')">
+              Desconectar
+            </button>
+          }
         </mat-card-content>
       </mat-card>
     </div>
-  `,
+    `,
   styles: [`
     .health-container { padding: 2rem; max-width: 800px; margin: 0 auto; }
     h1 { display: flex; align-items: center; gap: 0.5rem; }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,6 @@ import { Habit, HabitStats } from '../../../core/models/context/habit.model';
   standalone: true,
   selector: 'app-habit-tracking-dashboard',
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -25,7 +24,7 @@ import { Habit, HabitStats } from '../../../core/models/context/habit.model';
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatDialogModule
-  ],
+],
   templateUrl: './habit-tracking-dashboard.html',
   styleUrl: './habit-tracking-dashboard.scss'
 })

@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Event } from '../../../core/models/event.model';
 import { EventService } from '../../../core/services/event.service';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -25,7 +25,6 @@ interface DialogData {
   selector: 'app-event-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -37,8 +36,8 @@ interface DialogData {
     MatDialogModule,
     MatChipsModule,
     FormsModule,
-    RecurrenceSettings,
-  ],
+    RecurrenceSettings
+],
   templateUrl: './event-dialog.html',
   styleUrls: ['./event-dialog.scss'],
 })

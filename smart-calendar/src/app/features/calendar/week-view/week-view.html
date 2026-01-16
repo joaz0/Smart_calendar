@@ -1,45 +1,45 @@
 <div class="week-view" role="main" aria-label="Visualização semanal do calendário">
   <div class="week-header">
     <div class="week-navigation">
-      <button mat-icon-button 
-              (click)="previousWeek()" 
-              aria-label="Semana anterior"
-              [attr.aria-describedby]="'current-week'">
+      <button mat-icon-button
+        (click)="previousWeek()"
+        aria-label="Semana anterior"
+        [attr.aria-describedby]="'current-week'">
         <mat-icon>chevron_left</mat-icon>
       </button>
-      
+
       <div class="week-info" id="current-week">
         <h2 class="week-title">{{ getWeekTitle() }}</h2>
         <span class="week-range">{{ getWeekRange() }}</span>
       </div>
-      
-      <button mat-icon-button 
-              (click)="nextWeek()" 
-              aria-label="Próxima semana"
-              [attr.aria-describedby]="'current-week'">
+
+      <button mat-icon-button
+        (click)="nextWeek()"
+        aria-label="Próxima semana"
+        [attr.aria-describedby]="'current-week'">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
-    
+
     <div class="week-actions">
       <button mat-button (click)="goToToday()" class="today-btn">
         <mat-icon>today</mat-icon>
         <span>Hoje</span>
       </button>
-      
-      <button mat-icon-button 
-              (click)="addEvent()" 
-              aria-label="Adicionar evento"
-              class="add-event-btn">
+
+      <button mat-icon-button
+        (click)="addEvent()"
+        aria-label="Adicionar evento"
+        class="add-event-btn">
         <mat-icon>add</mat-icon>
       </button>
-      
-      <button mat-icon-button 
-              [matMenuTriggerFor]="viewMenu"
-              aria-label="Opções de visualização">
+
+      <button mat-icon-button
+        [matMenuTriggerFor]="viewMenu"
+        aria-label="Opções de visualização">
         <mat-icon>more_vert</mat-icon>
       </button>
-      
+
       <mat-menu #viewMenu="matMenu">
         <button mat-menu-item (click)="toggleWeekends()">
           <mat-icon>{{ showWeekends ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -57,159 +57,190 @@
       </mat-menu>
     </div>
   </div>
-  
+
   <div class="week-grid" role="grid" aria-label="Grade semanal">
     <!-- All Day Events Section -->
-    <div class="all-day-section" *ngIf="showAllDay && hasAllDayEvents()">
-      <div class="all-day-header">
-        <span class="all-day-label">Dia inteiro</span>
-      </div>
-      <div class="all-day-events">
-        <div *ngFor="let day of weekDays; trackBy: trackByDay" 
-             class="all-day-column"
-             [class.today]="isToday(day)"
-             [class.weekend]="isWeekend(day)">
-          <div *ngFor="let event of getAllDayEventsForDay(day); trackBy: trackByEvent"
-               class="all-day-event"
-               [style.background-color]="event.color || '#6d3bf7'"
-               [attr.title]="getEventTooltip(event)"
-               (click)="openEvent(event)">
-            <span class="event-title">{{ event.title }}</span>
-            <mat-icon *ngIf="event.recurrence" class="recurrence-icon">repeat</mat-icon>
-          </div>
+    @if (showAllDay && hasAllDayEvents()) {
+      <div class="all-day-section">
+        <div class="all-day-header">
+          <span class="all-day-label">Dia inteiro</span>
+        </div>
+        <div class="all-day-events">
+          @for (day of weekDays; track trackByDay($index, day)) {
+            <div
+              class="all-day-column"
+              [class.today]="isToday(day)"
+              [class.weekend]="isWeekend(day)">
+              @for (event of getAllDayEventsForDay(day); track trackByEvent($index, event)) {
+                <div
+                  class="all-day-event"
+                  [style.background-color]="event.color || '#6d3bf7'"
+                  [attr.title]="getEventTooltip(event)"
+                  (click)="openEvent(event)">
+                  <span class="event-title">{{ event.title }}</span>
+                  @if (event.recurrence) {
+                    <mat-icon class="recurrence-icon">repeat</mat-icon>
+                  }
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
-    </div>
-    
+    }
+
     <!-- Days Header -->
     <div class="days-header" role="row">
       <div class="time-column-header"></div>
-      <div *ngFor="let day of visibleDays; trackBy: trackByDay" 
-           class="day-header"
-           role="columnheader"
-           [class.today]="isToday(day)"
-           [class.weekend]="isWeekend(day)"
-           [attr.aria-label]="getDayAriaLabel(day)">
-        <div class="day-name">{{ day | date:'EEE' }}</div>
-        <div class="day-number" 
-             [class.today-number]="isToday(day)">
-          {{ day | date:'d' }}
-        </div>
-        <div class="day-indicators" *ngIf="getDayIndicators(day).length > 0">
-          <span *ngFor="let indicator of getDayIndicators(day)" 
-                class="indicator" 
-                [class]="indicator.type"
+      @for (day of visibleDays; track trackByDay($index, day)) {
+        <div
+          class="day-header"
+          role="columnheader"
+          [class.today]="isToday(day)"
+          [class.weekend]="isWeekend(day)"
+          [attr.aria-label]="getDayAriaLabel(day)">
+          <div class="day-name">{{ day | date:'EEE' }}</div>
+          <div class="day-number"
+            [class.today-number]="isToday(day)">
+            {{ day | date:'d' }}
+          </div>
+          @if (getDayIndicators(day).length > 0) {
+            <div class="day-indicators">
+              @for (indicator of getDayIndicators(day); track indicator) {
+                <span
+                  class="indicator"
+                  [class]="indicator.type"
                 [attr.title]="indicator.tooltip"></span>
+              }
+            </div>
+          }
         </div>
-      </div>
+      }
     </div>
-    
+
     <!-- Time Grid -->
     <div class="time-grid">
       <div class="time-column">
-        <div *ngFor="let hour of timeSlots; trackBy: trackByHour" 
-             class="time-slot"
-             [class.current-hour]="isCurrentHour(hour)">
-          <span class="time-label">{{ formatHour(hour) }}</span>
-        </div>
-      </div>
-      
-      <div class="days-grid">
-        <div *ngFor="let day of visibleDays; trackBy: trackByDay" 
-             class="day-column"
-             [class.today]="isToday(day)"
-             [class.weekend]="isWeekend(day)"
-             role="gridcell"
-             [attr.aria-label]="getDayAriaLabel(day)">
-          
-          <!-- Hour Slots -->
-          <div *ngFor="let hour of timeSlots; trackBy: trackByHour" 
-               class="hour-slot"
-               [class.current-hour]="isCurrentHour(hour) && isToday(day)"
-               [class.business-hours]="isBusinessHour(hour)"
-               (click)="createEventAt(day, hour)"
-               [attr.aria-label]="'Criar evento em ' + (day | date:'short') + ' às ' + formatHour(hour)">
-            
-            <!-- Current Time Indicator -->
-            <div *ngIf="isCurrentHour(hour) && isToday(day)" 
-                 class="current-time-line"
-                 [style.top.%]="getCurrentTimePosition()">
-              <div class="time-dot"></div>
-              <div class="time-line"></div>
-            </div>
-            
-            <!-- Events in this slot -->
-            <div *ngFor="let event of getEventsForSlot(day, hour); trackBy: trackByEvent"
-                 class="week-event"
-                 [style.background-color]="event.color || '#6d3bf7'"
-                 [style.height.px]="getEventHeight(event)"
-                 [style.top.px]="getEventTop(event)"
-                 [style.left.px]="getEventLeft(event)"
-                 [style.width.px]="getEventWidth(event)"
-                 [class.multi-day]="isMultiDayEvent(event)"
-                 [class.conflicting]="hasConflicts(event)"
-                 [attr.title]="getEventTooltip(event)"
-                 (click)="openEvent(event)"
-                 (mousedown)="startEventDrag(event, $event)"
-                 draggable="true">
-              
-              <div class="event-content">
-                <div class="event-time" *ngIf="!event.allDay">
-                  {{ event.startDate | date:'HH:mm' }}
-                </div>
-                <div class="event-title">{{ event.title }}</div>
-                <div class="event-location" *ngIf="event.location">
-                  <mat-icon>location_on</mat-icon>
-                  {{ event.location }}
-                </div>
-              </div>
-              
-              <div class="event-icons">
-                <mat-icon *ngIf="event.recurrence" class="recurrence-icon">repeat</mat-icon>
-                <mat-icon *ngIf="event.url" class="link-icon">link</mat-icon>
-                <mat-icon *ngIf="event.description" class="description-icon">description</mat-icon>
-              </div>
-              
-              <!-- Resize Handles -->
-              <div class="resize-handle top" 
-                   (mousedown)="startResize(event, 'top', $event)"></div>
-              <div class="resize-handle bottom" 
-                   (mousedown)="startResize(event, 'bottom', $event)"></div>
-            </div>
+        @for (hour of timeSlots; track trackByHour($index, hour)) {
+          <div
+            class="time-slot"
+            [class.current-hour]="isCurrentHour(hour)">
+            <span class="time-label">{{ formatHour(hour) }}</span>
           </div>
+        }
+      </div>
+
+      <div class="days-grid">
+        @for (day of visibleDays; track trackByDay($index, day)) {
+          <div
+            class="day-column"
+            [class.today]="isToday(day)"
+            [class.weekend]="isWeekend(day)"
+            role="gridcell"
+            [attr.aria-label]="getDayAriaLabel(day)">
+            <!-- Hour Slots -->
+            @for (hour of timeSlots; track trackByHour($index, hour)) {
+              <div
+                class="hour-slot"
+                [class.current-hour]="isCurrentHour(hour) && isToday(day)"
+                [class.business-hours]="isBusinessHour(hour)"
+                (click)="createEventAt(day, hour)"
+                [attr.aria-label]="'Criar evento em ' + (day | date:'short') + ' às ' + formatHour(hour)">
+                <!-- Current Time Indicator -->
+                @if (isCurrentHour(hour) && isToday(day)) {
+                  <div
+                    class="current-time-line"
+                    [style.top.%]="getCurrentTimePosition()">
+                    <div class="time-dot"></div>
+                    <div class="time-line"></div>
+                  </div>
+                }
+                <!-- Events in this slot -->
+                @for (event of getEventsForSlot(day, hour); track trackByEvent($index, event)) {
+                  <div
+                    class="week-event"
+                    [style.background-color]="event.color || '#6d3bf7'"
+                    [style.height.px]="getEventHeight(event)"
+                    [style.top.px]="getEventTop(event)"
+                    [style.left.px]="getEventLeft(event)"
+                    [style.width.px]="getEventWidth(event)"
+                    [class.multi-day]="isMultiDayEvent(event)"
+                    [class.conflicting]="hasConflicts(event)"
+                    [attr.title]="getEventTooltip(event)"
+                    (click)="openEvent(event)"
+                    (mousedown)="startEventDrag(event, $event)"
+                    draggable="true">
+                    <div class="event-content">
+                      @if (!event.allDay) {
+                        <div class="event-time">
+                          {{ event.startDate | date:'HH:mm' }}
+                        </div>
+                      }
+                      <div class="event-title">{{ event.title }}</div>
+                      @if (event.location) {
+                        <div class="event-location">
+                          <mat-icon>location_on</mat-icon>
+                          {{ event.location }}
+                        </div>
+                      }
+                    </div>
+                    <div class="event-icons">
+                      @if (event.recurrence) {
+                        <mat-icon class="recurrence-icon">repeat</mat-icon>
+                      }
+                      @if (event.url) {
+                        <mat-icon class="link-icon">link</mat-icon>
+                      }
+                      @if (event.description) {
+                        <mat-icon class="description-icon">description</mat-icon>
+                      }
+                    </div>
+                    <!-- Resize Handles -->
+                    <div class="resize-handle top"
+                    (mousedown)="startResize(event, 'top', $event)"></div>
+                    <div class="resize-handle bottom"
+                    (mousedown)="startResize(event, 'bottom', $event)"></div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Week Summary -->
+  @if (showSummary) {
+    <div class="week-summary">
+      <div class="summary-stats">
+        <div class="stat-item">
+          <mat-icon>event</mat-icon>
+          <span>{{ getTotalEvents() }} eventos</span>
+        </div>
+        <div class="stat-item">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ getTotalHours() }}h agendadas</span>
+        </div>
+        <div class="stat-item">
+          <mat-icon>task_alt</mat-icon>
+          <span>{{ getTotalTasks() }} tarefas</span>
         </div>
       </div>
-    </div>
-  </div>
-  
-  <!-- Week Summary -->
-  <div class="week-summary" *ngIf="showSummary">
-    <div class="summary-stats">
-      <div class="stat-item">
-        <mat-icon>event</mat-icon>
-        <span>{{ getTotalEvents() }} eventos</span>
-      </div>
-      <div class="stat-item">
-        <mat-icon>schedule</mat-icon>
-        <span>{{ getTotalHours() }}h agendadas</span>
-      </div>
-      <div class="stat-item">
-        <mat-icon>task_alt</mat-icon>
-        <span>{{ getTotalTasks() }} tarefas</span>
+      <div class="summary-actions">
+        <button mat-stroked-button (click)="generateWeeklyReport()">
+          <mat-icon>assessment</mat-icon>
+          Relatório Semanal
+        </button>
       </div>
     </div>
-    
-    <div class="summary-actions">
-      <button mat-stroked-button (click)="generateWeeklyReport()">
-        <mat-icon>assessment</mat-icon>
-        Relatório Semanal
-      </button>
-    </div>
-  </div>
-  
+  }
+
   <!-- Loading Overlay -->
-  <div class="loading-overlay" *ngIf="isLoading">
-    <mat-spinner></mat-spinner>
-    <p>Carregando eventos...</p>
-  </div>
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <mat-spinner></mat-spinner>
+      <p>Carregando eventos...</p>
+    </div>
+  }
 </div>

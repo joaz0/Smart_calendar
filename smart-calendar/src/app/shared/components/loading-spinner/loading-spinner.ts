@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,11 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-loading-spinner',
   standalone: true,
   imports: [
-    CommonModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatIconModule
-  ],
+],
   templateUrl: './loading-spinner.html',
   styleUrls: ['./loading-spinner.scss']
 })

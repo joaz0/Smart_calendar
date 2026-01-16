@@ -10,22 +10,24 @@
     <!-- Title -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Título da Tarefa</mat-label>
-      <input matInput 
-             formControlName="title" 
-             placeholder="Digite o título da tarefa"
-            >
-      <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
-        Título é obrigatório
-      </mat-error>
+      <input matInput
+        formControlName="title"
+        placeholder="Digite o título da tarefa"
+        >
+      @if (taskForm.get('title')?.hasError('required')) {
+        <mat-error>
+          Título é obrigatório
+        </mat-error>
+      }
     </mat-form-field>
 
     <!-- Description -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Descrição</mat-label>
-      <textarea matInput 
-                formControlName="description" 
-                rows="3"
-                placeholder="Adicione uma descrição (opcional)">
+      <textarea matInput
+        formControlName="description"
+        rows="3"
+        placeholder="Adicione uma descrição (opcional)">
       </textarea>
     </mat-form-field>
 
@@ -58,12 +60,14 @@
       <mat-form-field appearance="outline" class="category-field">
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="categoryId">
-          <mat-option *ngFor="let category of categories" [value]="category.id">
-            <div class="category-option">
-              <span class="category-color" [style.background-color]="category.color"></span>
-              {{ category.name }}
-            </div>
-          </mat-option>
+          @for (category of categories; track category) {
+            <mat-option [value]="category.id">
+              <div class="category-option">
+                <span class="category-color" [style.background-color]="category.color"></span>
+                {{ category.name }}
+              </div>
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>
@@ -72,18 +76,18 @@
     <div class="form-row">
       <mat-form-field appearance="outline" class="date-field">
         <mat-label>Data de Vencimento</mat-label>
-        <input matInput 
-               [matDatepicker]="dueDatePicker" 
-               formControlName="dueDate">
+        <input matInput
+          [matDatepicker]="dueDatePicker"
+          formControlName="dueDate">
         <mat-datepicker-toggle matIconSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #dueDatePicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="time-field">
         <mat-label>Horário</mat-label>
-        <input matInput 
-               type="time" 
-               formControlName="dueTime">
+        <input matInput
+          type="time"
+          formControlName="dueTime">
       </mat-form-field>
     </div>
 
@@ -104,18 +108,20 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Tags</mat-label>
       <mat-chip-grid #chipGrid>
-        <mat-chip-row *ngFor="let tag of tags" (removed)="removeTag(tag)">
-          {{ tag }}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
+        @for (tag of tags; track tag) {
+          <mat-chip-row (removed)="removeTag(tag)">
+            {{ tag }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
       </mat-chip-grid>
-      <input matInput 
-             [matChipInputFor]="chipGrid"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             (matChipInputTokenEnd)="addTag($event)"
-             placeholder="Digite uma tag e pressione Enter">
+      <input matInput
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addTag($event)"
+        placeholder="Digite uma tag e pressione Enter">
     </mat-form-field>
 
     <!-- Subtasks -->
@@ -126,22 +132,26 @@
           <mat-icon>add</mat-icon>
         </button>
       </div>
-      
-      <div class="subtasks-list" *ngIf="subtasks.length > 0">
-        <div class="subtask-item" *ngFor="let subtask of subtasks; let i = index">
-          <mat-checkbox [(ngModel)]="subtask.completed" [ngModelOptions]="{standalone: true}">
-          </mat-checkbox>
-          <mat-form-field appearance="outline" class="subtask-input">
-            <input matInput 
-                   [(ngModel)]="subtask.title" 
-                   [ngModelOptions]="{standalone: true}"
-                   placeholder="Título da subtarefa">
-          </mat-form-field>
-          <button mat-icon-button (click)="removeSubtask(i)" type="button">
-            <mat-icon>delete</mat-icon>
-          </button>
+
+      @if (subtasks.length > 0) {
+        <div class="subtasks-list">
+          @for (subtask of subtasks; track subtask; let i = $index) {
+            <div class="subtask-item">
+              <mat-checkbox [(ngModel)]="subtask.completed" [ngModelOptions]="{standalone: true}">
+              </mat-checkbox>
+              <mat-form-field appearance="outline" class="subtask-input">
+                <input matInput
+                  [(ngModel)]="subtask.title"
+                  [ngModelOptions]="{standalone: true}"
+                  placeholder="Título da subtarefa">
+              </mat-form-field>
+              <button mat-icon-button (click)="removeSubtask(i)" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
         </div>
-      </div>
+      }
     </div>
 
     <!-- Reminder -->
@@ -149,17 +159,19 @@
       <mat-checkbox [(ngModel)]="hasReminder" [ngModelOptions]="{standalone: true}">
         Adicionar lembrete
       </mat-checkbox>
-      
-      <mat-form-field appearance="outline" *ngIf="hasReminder" class="reminder-field">
-        <mat-label>Lembrar</mat-label>
-        <mat-select [(ngModel)]="reminderTime" [ngModelOptions]="{standalone: true}">
-          <mat-option value="0">No momento</mat-option>
-          <mat-option value="15">15 minutos antes</mat-option>
-          <mat-option value="30">30 minutos antes</mat-option>
-          <mat-option value="60">1 hora antes</mat-option>
-          <mat-option value="1440">1 dia antes</mat-option>
-        </mat-select>
-      </mat-form-field>
+
+      @if (hasReminder) {
+        <mat-form-field appearance="outline" class="reminder-field">
+          <mat-label>Lembrar</mat-label>
+          <mat-select [(ngModel)]="reminderTime" [ngModelOptions]="{standalone: true}">
+            <mat-option value="0">No momento</mat-option>
+            <mat-option value="15">15 minutos antes</mat-option>
+            <mat-option value="30">30 minutos antes</mat-option>
+            <mat-option value="60">1 hora antes</mat-option>
+            <mat-option value="1440">1 dia antes</mat-option>
+          </mat-select>
+        </mat-form-field>
+      }
     </div>
 
     <!-- Recurring Task -->
@@ -167,16 +179,18 @@
       <mat-checkbox [(ngModel)]="isRecurring" [ngModelOptions]="{standalone: true}">
         Tarefa recorrente
       </mat-checkbox>
-      
-      <mat-form-field appearance="outline" *ngIf="isRecurring" class="recurrence-field">
-        <mat-label>Repetir</mat-label>
-        <mat-select [(ngModel)]="recurrencePattern" [ngModelOptions]="{standalone: true}">
-          <mat-option value="daily">Diariamente</mat-option>
-          <mat-option value="weekly">Semanalmente</mat-option>
-          <mat-option value="monthly">Mensalmente</mat-option>
-          <mat-option value="yearly">Anualmente</mat-option>
-        </mat-select>
-      </mat-form-field>
+
+      @if (isRecurring) {
+        <mat-form-field appearance="outline" class="recurrence-field">
+          <mat-label>Repetir</mat-label>
+          <mat-select [(ngModel)]="recurrencePattern" [ngModelOptions]="{standalone: true}">
+            <mat-option value="daily">Diariamente</mat-option>
+            <mat-option value="weekly">Semanalmente</mat-option>
+            <mat-option value="monthly">Mensalmente</mat-option>
+            <mat-option value="yearly">Anualmente</mat-option>
+          </mat-select>
+        </mat-form-field>
+      }
     </div>
 
     <!-- Form Actions -->
@@ -184,18 +198,19 @@
       <button mat-button type="button" (click)="close()">
         Cancelar
       </button>
-      <button mat-button 
-              color="warn" 
-              type="button"
-              *ngIf="isEditMode"
-              (click)="deleteTask()">
-        Excluir
-      </button>
-      <button mat-raised-button 
-              color="primary" 
-              type="submit"
-              (click)="saveTask()"
-              [disabled]="taskForm.invalid || isSaving">
+      @if (isEditMode) {
+        <button mat-button
+          color="warn"
+          type="button"
+          (click)="deleteTask()">
+          Excluir
+        </button>
+      }
+      <button mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="saveTask()"
+        [disabled]="taskForm.invalid || isSaving">
         {{ isSaving ? 'Salvando...' : (isEditMode ? 'Salvar' : 'Criar') }}
       </button>
     </div>

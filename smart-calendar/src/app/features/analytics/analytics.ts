@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,7 +30,6 @@ interface ChartData {
   selector: 'app-analytics',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatButtonModule,
@@ -42,7 +41,7 @@ interface ChartData {
     MatInputModule,
     MatTabsModule,
     MatProgressSpinnerModule
-  ],
+],
   templateUrl: './analytics.html',
   styleUrls: ['./analytics.scss']
 })

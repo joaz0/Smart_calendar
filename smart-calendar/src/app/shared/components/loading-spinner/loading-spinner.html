@@ -1,7 +1,7 @@
 <div class="loading-container" [class]="'loading-' + size">
   <!-- Spinner -->
   <div class="spinner-wrapper">
-    <mat-spinner 
+    <mat-spinner
       [diameter]="spinnerSize"
       [strokeWidth]="strokeWidth"
       [color]="color">
@@ -9,30 +9,40 @@
   </div>
 
   <!-- Loading Text -->
-  <div class="loading-text" *ngIf="showText">
-    <p class="loading-message">{{ message || 'Carregando...' }}</p>
-    <p class="loading-tip" *ngIf="tip">{{ tip }}</p>
-  </div>
+  @if (showText) {
+    <div class="loading-text">
+      <p class="loading-message">{{ message || 'Carregando...' }}</p>
+      @if (tip) {
+        <p class="loading-tip">{{ tip }}</p>
+      }
+    </div>
+  }
 
   <!-- Progress Bar -->
-  <div class="progress-section" *ngIf="showProgress && progress !== undefined">
-    <mat-progress-bar 
-      mode="determinate" 
-      [value]="progress"
-      [color]="color">
-    </mat-progress-bar>
-    <span class="progress-text">{{ progress }}%</span>
-  </div>
+  @if (showProgress && progress !== undefined) {
+    <div class="progress-section">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progress"
+        [color]="color">
+      </mat-progress-bar>
+      <span class="progress-text">{{ progress }}%</span>
+    </div>
+  }
 
   <!-- Animated Dots -->
-  <div class="loading-dots" *ngIf="showDots">
-    <div class="dot" [style.animation-delay]="'0s'"></div>
-    <div class="dot" [style.animation-delay]="'0.2s'"></div>
-    <div class="dot" [style.animation-delay]="'0.4s'"></div>
-  </div>
+  @if (showDots) {
+    <div class="loading-dots">
+      <div class="dot" [style.animation-delay]="'0s'"></div>
+      <div class="dot" [style.animation-delay]="'0.2s'"></div>
+      <div class="dot" [style.animation-delay]="'0.4s'"></div>
+    </div>
+  }
 
   <!-- Custom Icon -->
-  <div class="loading-icon" *ngIf="customIcon">
-    <mat-icon [class]="'icon-' + size">{{ customIcon }}</mat-icon>
-  </div>
+  @if (customIcon) {
+    <div class="loading-icon">
+      <mat-icon [class]="'icon-' + size">{{ customIcon }}</mat-icon>
+    </div>
+  }
 </div>

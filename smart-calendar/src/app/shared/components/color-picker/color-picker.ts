@@ -12,7 +12,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -31,7 +31,6 @@ interface ColorPalette {
   selector: 'app-color-picker',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatIconModule,
     MatTooltipModule,
@@ -39,7 +38,7 @@ interface ColorPalette {
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule
-  ],
+],
   templateUrl: './color-picker.html',
   styleUrls: ['./color-picker.scss'],
   providers: [

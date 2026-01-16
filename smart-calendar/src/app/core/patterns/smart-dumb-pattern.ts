@@ -114,31 +114,42 @@ export class EventsContainerComponent extends BaseComponent implements OnInit {
       <div class="list-header">
         <input type="text" placeholder="Buscar..." (input)="onSearchChange($event)" />
       </div>
-
-      <mat-spinner *ngIf="loading"></mat-spinner>
-
-      <div *ngIf="!loading && items?.length > 0" class="list-items">
-        <div *ngFor="let item of items" class="list-item">
-          <div *ngFor="let col of columns" [ngClass]="'col-' + col.key">
-            {{ getColumnValue(item, col) | date : (col.type === 'date' ? 'shortDate' : '') }}
-          </div>
-          <div class="actions">
-            <button
-              *ngFor="let action of actions"
-              (click)="executeAction(action, item)"
-              [attr.aria-label]="action.label"
-            >
-              {{ action.label }}
-            </button>
-          </div>
+    
+      @if (loading) {
+        <mat-spinner></mat-spinner>
+      }
+    
+      @if (!loading && items?.length > 0) {
+        <div class="list-items">
+          @for (item of items; track item) {
+            <div class="list-item">
+              @for (col of columns; track col) {
+                <div [ngClass]="'col-' + col.key">
+                  {{ getColumnValue(item, col) | date : (col.type === 'date' ? 'shortDate' : '') }}
+                </div>
+              }
+              <div class="actions">
+                @for (action of actions; track action) {
+                  <button
+                    (click)="executeAction(action, item)"
+                    [attr.aria-label]="action.label"
+                    >
+                    {{ action.label }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
         </div>
-      </div>
-
-      <div *ngIf="!loading && (!items || items.length === 0)" class="empty-state">
-        <p>Nenhum item encontrado</p>
-      </div>
+      }
+    
+      @if (!loading && (!items || items.length === 0)) {
+        <div class="empty-state">
+          <p>Nenhum item encontrado</p>
+        </div>
+      }
     </div>
-  `,
+    `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsListComponent {

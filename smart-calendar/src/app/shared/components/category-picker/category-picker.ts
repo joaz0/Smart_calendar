@@ -9,7 +9,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -31,13 +31,12 @@ interface Category {
   selector: 'app-category-picker',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatIconModule,
     MatDividerModule,
     MatTooltipModule,
     MatRippleModule
-  ],
+],
   templateUrl: './category-picker.html',
   styleUrls: ['./category-picker.scss'],
   providers: [

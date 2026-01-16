@@ -11,7 +11,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,7 +32,6 @@ interface CheckboxOption {
   selector: 'app-confirm-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatIconModule,
     MatButtonModule,
@@ -42,7 +41,7 @@ interface CheckboxOption {
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule
-  ],
+],
   templateUrl: './confirm-dialog.html',
   styleUrls: ['./confirm-dialog.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

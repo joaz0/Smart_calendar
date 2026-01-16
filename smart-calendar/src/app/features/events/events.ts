@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,17 +17,16 @@ import { EventService } from '../../core/services/event.service';
   selector: 'app-events',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatCardModule, 
-    MatButtonModule, 
-    MatIconModule, 
-    MatMenuModule, 
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
     MatChipsModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule
-  ],
+],
   templateUrl: './events.html',
   styleUrls: ['./events.scss']
 })
@@ -273,7 +272,7 @@ export class EventsComponent implements OnInit, OnDestroy {
 @Component({
   selector: 'app-events-legacy',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="events">
       <div class="events-header">

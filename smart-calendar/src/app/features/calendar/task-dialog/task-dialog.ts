@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Task } from '../../../core/models/task.model';
 import { TaskService } from '../../../core/services/task.service';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -29,7 +29,6 @@ interface DialogData {
   selector: 'app-task-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     MatFormFieldModule,
@@ -40,8 +39,8 @@ interface DialogData {
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
-    MatDialogModule,
-  ],
+    MatDialogModule
+],
   templateUrl: './task-dialog.html',
   styleUrls: ['./task-dialog.scss'],
 })

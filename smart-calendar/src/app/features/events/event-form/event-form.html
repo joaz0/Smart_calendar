@@ -18,7 +18,7 @@
         class="tab-btn"
         [class.active]="activeTab === 'details'"
         (click)="setActiveTab('details')"
-      >
+        >
         📝 Detalhes
       </button>
       <button
@@ -26,7 +26,7 @@
         class="tab-btn"
         [class.active]="activeTab === 'time'"
         (click)="setActiveTab('time')"
-      >
+        >
         ⏰ Horário
       </button>
       <button
@@ -34,7 +34,7 @@
         class="tab-btn"
         [class.active]="activeTab === 'advanced'"
         (click)="setActiveTab('advanced')"
-      >
+        >
         ⚙️ Avançado
       </button>
     </div>
@@ -42,276 +42,284 @@
     <!-- Tab Content -->
     <div class="tab-content">
       <!-- Detalhes Tab -->
-      <div class="tab-pane" *ngIf="activeTab === 'details'">
-        <div class="form-group">
-          <label>Título *</label>
-          <input
-            type="text"
-            formControlName="title"
-            placeholder="Título do evento..."
-            class="form-input"
-            [class.error]="eventForm.get('title')?.invalid && eventForm.get('title')?.touched"
-          />
-          <div class="error-message" *ngIf="eventForm.get('title')?.invalid && eventForm.get('title')?.touched">
-            Título é obrigatório
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Descrição</label>
-          <textarea
-            formControlName="description"
-            placeholder="Descrição do evento..."
-            class="form-textarea"
-            rows="4"
-          ></textarea>
-        </div>
-
-        <div class="form-row">
+      @if (activeTab === 'details') {
+        <div class="tab-pane">
           <div class="form-group">
-            <label>Categoria</label>
-            <app-category-picker
-              formControlName="category"
-            ></app-category-picker>
+            <label>Título *</label>
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="Título do evento..."
+              class="form-input"
+              [class.error]="eventForm.get('title')?.invalid && eventForm.get('title')?.touched"
+              />
+            @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
+              <div class="error-message">
+                Título é obrigatório
+              </div>
+            }
           </div>
-
           <div class="form-group">
-            <label>Cor</label>
-            <app-color-picker
-              formControlName="color"
-            ></app-color-picker>
+            <label>Descrição</label>
+            <textarea
+              formControlName="description"
+              placeholder="Descrição do evento..."
+              class="form-textarea"
+              rows="4"
+            ></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Categoria</label>
+              <app-category-picker
+                formControlName="category"
+              ></app-category-picker>
+            </div>
+            <div class="form-group">
+              <label>Cor</label>
+              <app-color-picker
+                formControlName="color"
+              ></app-color-picker>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Localização</label>
+            <input
+              type="text"
+              formControlName="location"
+              placeholder="Local do evento..."
+              class="form-input"
+              />
           </div>
         </div>
-
-        <div class="form-group">
-          <label>Localização</label>
-          <input
-            type="text"
-            formControlName="location"
-            placeholder="Local do evento..."
-            class="form-input"
-          />
-        </div>
-      </div>
+      }
 
       <!-- Horário Tab -->
-      <div class="tab-pane" *ngIf="activeTab === 'time'">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Data Início *</label>
-            <input
-              placeholder="Data do início"
-              type="date"
-              formControlName="startDate"
-              class="form-input"
-              [class.error]="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched"
-            />
-            <div class="error-message" *ngIf="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched">
-              Data de início é obrigatória
+      @if (activeTab === 'time') {
+        <div class="tab-pane">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Data Início *</label>
+              <input
+                placeholder="Data do início"
+                type="date"
+                formControlName="startDate"
+                class="form-input"
+                [class.error]="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched"
+                />
+              @if (eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched) {
+                <div class="error-message">
+                  Data de início é obrigatória
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label>Hora Início</label>
+              @if (!eventForm.get('allDay')?.value) {
+                <input
+                  placeholder="Hora do início"
+                  type="time"
+                  formControlName="startTime"
+                  class="form-input"
+                  />
+              }
+              @if (eventForm.get('allDay')?.value) {
+                <div class="all-day-text">
+                  Dia todo
+                </div>
+              }
             </div>
           </div>
-
-          <div class="form-group">
-            <label>Hora Início</label>
-            <input
-              placeholder="Hora do início"
-              type="time"
-              formControlName="startTime"
-              class="form-input"
-              *ngIf="!eventForm.get('allDay')?.value"
-            />
-            <div class="all-day-text" *ngIf="eventForm.get('allDay')?.value">
-              Dia todo
+          <div class="form-row">
+            <div class="form-group">
+              <label>Data Fim *</label>
+              <input
+                placeholder="Data do término"
+                type="date"
+                formControlName="endDate"
+                class="form-input"
+                [class.error]="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched"
+                />
+              @if (eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched) {
+                <div class="error-message">
+                  Data de fim é obrigatória
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label>Hora Fim</label>
+              @if (!eventForm.get('allDay')?.value) {
+                <input
+                  placeholder="Hora do término"
+                  type="time"
+                  formControlName="endTime"
+                  class="form-input"
+                  />
+              }
+              @if (eventForm.get('allDay')?.value) {
+                <div class="all-day-text">
+                  Dia todo
+                </div>
+              }
             </div>
           </div>
-        </div>
-
-        <div class="form-row">
           <div class="form-group">
-            <label>Data Fim *</label>
-            <input
-              placeholder="Data do término"
-              type="date"
-              formControlName="endDate"
-              class="form-input"
-              [class.error]="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched"
-            />
-            <div class="error-message" *ngIf="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched">
-              Data de fim é obrigatória
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                formControlName="allDay"
+                class="checkbox"
+                />
+              <span class="checkmark"></span>
+              Evento de dia todo
+            </label>
+          </div>
+          @if (!eventForm.get('allDay')?.value) {
+            <div class="form-group">
+              <label>Duração</label>
+              <div class="duration-display">
+              </div>
             </div>
-          </div>
-
+          }
+          <!-- Recorrência -->
           <div class="form-group">
-            <label>Hora Fim</label>
-            <input
-              placeholder="Hora do término"
-              type="time"
-              formControlName="endTime"
-              class="form-input"
-              *ngIf="!eventForm.get('allDay')?.value"
-            />
-            <div class="all-day-text" *ngIf="eventForm.get('allDay')?.value">
-              Dia todo
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                formControlName="isRecurring"
+                class="checkbox"
+                />
+              <span class="checkmark"></span>
+              Evento recorrente
+            </label>
+          </div>
+          @if (eventForm.get('isRecurring')?.value) {
+            <div class="recurrence-settings">
+              <!-- Placeholder para recorrência -->
+              <div class="form-group">
+                <label>Frequência</label>
+                <select class="form-select">
+                  <option value="daily">Diariamente</option>
+                  <option value="weekly">Semanalmente</option>
+                  <option value="monthly">Mensalmente</option>
+                  <option value="yearly">Anualmente</option>
+                </select>
+              </div>
             </div>
-          </div>
+          }
         </div>
-
-        <div class="form-group">
-          <label class="checkbox-label">
-            <input
-              type="checkbox"
-              formControlName="allDay"
-              class="checkbox"
-            />
-            <span class="checkmark"></span>
-            Evento de dia todo
-          </label>
-        </div>
-
-        <div class="form-group" *ngIf="!eventForm.get('allDay')?.value">
-          <label>Duração</label>
-          <div class="duration-display">
-            
-          </div>
-        </div>
-
-        <!-- Recorrência -->
-        <div class="form-group">
-          <label class="checkbox-label">
-            <input
-              type="checkbox"
-              formControlName="isRecurring"
-              class="checkbox"
-            />
-            <span class="checkmark"></span>
-            Evento recorrente
-          </label>
-        </div>
-
-        <div class="recurrence-settings" *ngIf="eventForm.get('isRecurring')?.value">
-          <!-- Placeholder para recorrência -->
-          <div class="form-group">
-            <label>Frequência</label>
-            <select class="form-select">
-              <option value="daily">Diariamente</option>
-              <option value="weekly">Semanalmente</option>
-              <option value="monthly">Mensalmente</option>
-              <option value="yearly">Anualmente</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      }
 
       <!-- Avançado Tab -->
-      <div class="tab-pane" *ngIf="activeTab === 'advanced'">
-        <!-- Lembretes -->
-        <div class="form-group">
-          <label>Lembretes</label>
-          <div class="reminders-list">
-            <div
-              *ngFor="let reminder of reminders.controls; let i = index"
-              class="reminder-item"
-              [formGroupName]="i"
-            >
-              <select
-                formControlName="minutesBefore"
-                class="form-select"
+      @if (activeTab === 'advanced') {
+        <div class="tab-pane">
+          <!-- Lembretes -->
+          <div class="form-group">
+            <label>Lembretes</label>
+            <div class="reminders-list">
+              @for (reminder of reminders.controls; track reminder; let i = $index) {
+                <div
+                  class="reminder-item"
+                  [formGroupName]="i"
+                  >
+                  <select
+                    formControlName="minutesBefore"
+                    class="form-select"
+                    >
+                    <option value="5">5 minutos antes</option>
+                    <option value="15">15 minutos antes</option>
+                    <option value="30">30 minutos antes</option>
+                    <option value="60">1 hora antes</option>
+                    <option value="1440">1 dia antes</option>
+                  </select>
+                  <select
+                    formControlName="type"
+                    class="form-select"
+                    >
+                    <option value="notification">Notificação</option>
+                    <option value="email">E-mail</option>
+                    <option value="sound">Alerta sonoro</option>
+                  </select>
+                  <button
+                    type="button"
+                    class="btn-remove"
+                    (click)="removeReminder(i)"
+                    >
+                    🗑️
+                  </button>
+                </div>
+              }
+            </div>
+            <button
+              type="button"
+              class="btn-add"
+              (click)="addReminder()"
               >
-                <option value="5">5 minutos antes</option>
-                <option value="15">15 minutos antes</option>
-                <option value="30">30 minutos antes</option>
-                <option value="60">1 hora antes</option>
-                <option value="1440">1 dia antes</option>
-              </select>
-
-              <select
-                formControlName="type"
-                class="form-select"
-              >
-                <option value="notification">Notificação</option>
-                <option value="email">E-mail</option>
-                <option value="sound">Alerta sonoro</option>
-              </select>
-
-              <button
-                type="button"
-                class="btn-remove"
-                (click)="removeReminder(i)"
-              >
-                🗑️
-              </button>
+              + Adicionar Lembrete
+            </button>
+          </div>
+          <!-- Disponibilidade -->
+          <div class="form-group">
+            <label>Disponibilidade</label>
+            <select formControlName="availability" class="form-select">
+              <option value="busy">Ocupado</option>
+              <option value="free">Livre</option>
+              <option value="tentative">Talvez</option>
+              <option value="outofoffice">Fora do escritório</option>
+            </select>
+          </div>
+          <!-- Links Rápidos -->
+          <div class="form-group">
+            <label>Links da Reunião</label>
+            <div class="quick-links">
+              <input
+                type="url"
+                formControlName="meetingLink"
+                placeholder="Link da videochamada..."
+                class="form-input"
+                />
+              <input
+                type="url"
+                formControlName="documentLink"
+                placeholder="Link do documento..."
+                class="form-input"
+                />
             </div>
           </div>
-          <button
-            type="button"
-            class="btn-add"
-            (click)="addReminder()"
-          >
-            + Adicionar Lembrete
-          </button>
-        </div>
-
-        <!-- Disponibilidade -->
-        <div class="form-group">
-          <label>Disponibilidade</label>
-          <select formControlName="availability" class="form-select">
-            <option value="busy">Ocupado</option>
-            <option value="free">Livre</option>
-            <option value="tentative">Talvez</option>
-            <option value="outofoffice">Fora do escritório</option>
-          </select>
-        </div>
-
-        <!-- Links Rápidos -->
-        <div class="form-group">
-          <label>Links da Reunião</label>
-          <div class="quick-links">
-            <input
-              type="url"
-              formControlName="meetingLink"
-              placeholder="Link da videochamada..."
-              class="form-input"
-            />
-            <input
-              type="url"
-              formControlName="documentLink"
-              placeholder="Link do documento..."
-              class="form-input"
-            />
+          <!-- Privacidade -->
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                formControlName="isPrivate"
+                class="checkbox"
+                />
+              <span class="checkmark"></span>
+              Evento privado (apenas eu posso ver os detalhes)
+            </label>
           </div>
         </div>
-
-        <!-- Privacidade -->
-        <div class="form-group">
-          <label class="checkbox-label">
-            <input
-              type="checkbox"
-              formControlName="isPrivate"
-              class="checkbox"
-            />
-            <span class="checkmark"></span>
-            Evento privado (apenas eu posso ver os detalhes)
-          </label>
-        </div>
-      </div>
+      }
     </div>
 
     <!-- AI Suggestions -->
-    <div class="ai-suggestions" *ngIf="showAISuggestions">
-      <div class="suggestions-header">
-        <h4>🤖 Sugestões da IA</h4>
-        <button type="button" class="btn-close" (click)="hideAISuggestions()">×</button>
-      </div>
-      <div class="suggestion-list">
-        <div class="suggestion-item">
-          <div class="suggestion-text">Sugerir horários disponíveis</div>
-          <button type="button" class="btn-suggestion">Aplicar</button>
+    @if (showAISuggestions) {
+      <div class="ai-suggestions">
+        <div class="suggestions-header">
+          <h4>🤖 Sugestões da IA</h4>
+          <button type="button" class="btn-close" (click)="hideAISuggestions()">×</button>
         </div>
-        <div class="suggestion-item">
-          <div class="suggestion-text">Adicionar template de reunião</div>
-          <button type="button" class="btn-suggestion">Aplicar</button>
+        <div class="suggestion-list">
+          <div class="suggestion-item">
+            <div class="suggestion-text">Sugerir horários disponíveis</div>
+            <button type="button" class="btn-suggestion">Aplicar</button>
+          </div>
+          <div class="suggestion-item">
+            <div class="suggestion-text">Adicionar template de reunião</div>
+            <button type="button" class="btn-suggestion">Aplicar</button>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </form>
 </div>

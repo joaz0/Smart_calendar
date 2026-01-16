@@ -10,199 +10,209 @@
     </button>
   </div>
 
-  <div *ngIf="loading" class="loading">
-    <mat-spinner></mat-spinner>
-  </div>
-
-  <div *ngIf="!loading" class="content">
-    <div class="stats-row" *ngIf="stats">
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon" style="background-color: #E3F2FD;">
-            <mat-icon style="color: #2196F3;">group</mat-icon>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">{{stats.totalMembers}}</div>
-            <div class="stat-label">Membros da Equipe</div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon" style="background-color: #E8F5E9;">
-            <mat-icon style="color: #4CAF50;">check_circle</mat-icon>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">{{stats.activeMembers}}</div>
-            <div class="stat-label">Membros Ativos</div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon" style="background-color: #FFF3E0;">
-            <mat-icon style="color: #FF9800;">event</mat-icon>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">{{stats.sharedEvents}}</div>
-            <div class="stat-label">Eventos Compartilhados</div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon" style="background-color: #FCE4EC;">
-            <mat-icon style="color: #E91E63;">assignment</mat-icon>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value" [matBadge]="stats.pendingDelegations" matBadgeColor="warn">{{stats.completedTasks}}</div>
-            <div class="stat-label">Tarefas Delegadas</div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner></mat-spinner>
     </div>
+  }
 
-    <div class="main-grid">
-      <mat-card class="team-members-card">
-        <mat-card-header>
-          <mat-card-title>
-            <mat-icon>group</mat-icon>
-            Equipe
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="members-list">
-            <div *ngFor="let member of teamMembers; trackBy: trackByMember" class="member-item">
-              <div class="member-avatar">
-                <div class="avatar-circle">
-                  {{member.name.charAt(0).toUpperCase()}}
-                </div>
-                <div class="status-indicator" [style.background-color]="getStatusColor(member.status)"></div>
+  @if (!loading) {
+    <div class="content">
+      @if (stats) {
+        <div class="stats-row">
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #E3F2FD;">
+                <mat-icon style="color: #2196F3;">group</mat-icon>
               </div>
-              <div class="member-info">
-                <div class="member-name">{{member.name}}</div>
-                <div class="member-details">
-                  <mat-chip class="role-chip">{{getRoleText(member.role)}}</mat-chip>
-                  <span class="status-text" [style.color]="getStatusColor(member.status)">
-                    {{getStatusText(member.status)}}
-                  </span>
-                </div>
-                <div class="availability">
-                  <mat-icon>schedule</mat-icon>
-                  {{member.availability.start}} - {{member.availability.end}}
-                </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.totalMembers}}</div>
+                <div class="stat-label">Membros da Equipe</div>
               </div>
-              <button mat-icon-button [matMenuTriggerFor]="memberMenu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #memberMenu="matMenu">
-                <button mat-menu-item>
-                  <mat-icon>message</mat-icon>
-                  <span>Enviar Mensagem</span>
-                </button>
-                <button mat-menu-item>
-                  <mat-icon>calendar_today</mat-icon>
-                  <span>Ver Calendário</span>
-                </button>
-                <mat-divider></mat-divider>
-                <button mat-menu-item>
-                  <mat-icon>person_remove</mat-icon>
-                  <span>Remover</span>
-                </button>
-              </mat-menu>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <div class="right-column">
-        <mat-card class="shared-events-card">
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #E8F5E9;">
+                <mat-icon style="color: #4CAF50;">check_circle</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.activeMembers}}</div>
+                <div class="stat-label">Membros Ativos</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #FFF3E0;">
+                <mat-icon style="color: #FF9800;">event</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{stats.sharedEvents}}</div>
+                <div class="stat-label">Eventos Compartilhados</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="stat-card">
+            <mat-card-content>
+              <div class="stat-icon" style="background-color: #FCE4EC;">
+                <mat-icon style="color: #E91E63;">assignment</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value" [matBadge]="stats.pendingDelegations" matBadgeColor="warn">{{stats.completedTasks}}</div>
+                <div class="stat-label">Tarefas Delegadas</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      }
+      <div class="main-grid">
+        <mat-card class="team-members-card">
           <mat-card-header>
             <mat-card-title>
-              <mat-icon>event</mat-icon>
-              Próximos Eventos
+              <mat-icon>group</mat-icon>
+              Equipe
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="events-list">
-              <div *ngFor="let event of sharedEvents; trackBy: trackByEvent" 
-                   class="event-item"
-                   [class.today]="isEventToday(event)">
-                <mat-icon [style.color]="isEventToday(event) ? '#4CAF50' : '#2196F3'">
-                  {{getEventTypeIcon(event.type)}}
-                </mat-icon>
-                <div class="event-info">
-                  <div class="event-title">{{event.title}}</div>
-                  <div class="event-details">
-                    <span class="event-time">{{formatDate(event.start)}}</span>
-                    <mat-chip class="attendees-chip">
-                      <mat-icon>people</mat-icon>
-                      {{event.attendees.length}}
-                    </mat-chip>
+            <div class="members-list">
+              @for (member of teamMembers; track trackByMember($index, member)) {
+                <div class="member-item">
+                  <div class="member-avatar">
+                    <div class="avatar-circle">
+                      {{member.name.charAt(0).toUpperCase()}}
+                    </div>
+                    <div class="status-indicator" [style.background-color]="getStatusColor(member.status)"></div>
                   </div>
-                  <div class="event-attendees" [matTooltip]="getAttendeeNames(event.attendees)">
-                    Organizador: {{getMemberName(event.organizer)}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="delegations-card">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon>assignment</mat-icon>
-              Delegações
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="delegations-list">
-              <div *ngFor="let delegation of delegations; trackBy: trackByDelegation" class="delegation-item">
-                <div class="delegation-header">
-                  <div class="delegation-title">{{delegation.taskTitle}}</div>
-                  <mat-chip [style.background-color]="getDelegationStatusColor(delegation.status)" class="status-chip">
-                    {{getDelegationStatusText(delegation.status)}}
-                  </mat-chip>
-                </div>
-                <div class="delegation-info">
-                  <div class="delegation-users">
-                    <span>De: <strong>{{getMemberName(delegation.fromUser)}}</strong></span>
-                    <mat-icon>arrow_forward</mat-icon>
-                    <span>Para: <strong>{{getMemberName(delegation.toUser)}}</strong></span>
-                  </div>
-                  <div class="delegation-meta">
-                    <span class="due-date">
+                  <div class="member-info">
+                    <div class="member-name">{{member.name}}</div>
+                    <div class="member-details">
+                      <mat-chip class="role-chip">{{getRoleText(member.role)}}</mat-chip>
+                      <span class="status-text" [style.color]="getStatusColor(member.status)">
+                        {{getStatusText(member.status)}}
+                      </span>
+                    </div>
+                    <div class="availability">
                       <mat-icon>schedule</mat-icon>
-                      Vencimento: {{formatDate(delegation.dueDate)}}
-                    </span>
-                    <mat-chip [style.background-color]="getPriorityColor(delegation.priority)" class="priority-chip">
-                      {{delegation.priority === 'high' ? 'Alta' : delegation.priority === 'medium' ? 'Média' : 'Baixa'}}
-                    </mat-chip>
+                      {{member.availability.start}} - {{member.availability.end}}
+                    </div>
                   </div>
-                  <div *ngIf="delegation.notes" class="delegation-notes">
-                    <mat-icon>note</mat-icon>
-                    {{delegation.notes}}
-                  </div>
-                </div>
-                <div *ngIf="delegation.status === 'pending'" class="delegation-actions">
-                  <button mat-button color="primary" (click)="acceptDelegation(delegation.id)">
-                    <mat-icon>check</mat-icon>
-                    Aceitar
+                  <button mat-icon-button [matMenuTriggerFor]="memberMenu">
+                    <mat-icon>more_vert</mat-icon>
                   </button>
-                  <button mat-button color="warn" (click)="rejectDelegation(delegation.id)">
-                    <mat-icon>close</mat-icon>
-                    Rejeitar
-                  </button>
+                  <mat-menu #memberMenu="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>message</mat-icon>
+                      <span>Enviar Mensagem</span>
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>calendar_today</mat-icon>
+                      <span>Ver Calendário</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item>
+                      <mat-icon>person_remove</mat-icon>
+                      <span>Remover</span>
+                    </button>
+                  </mat-menu>
                 </div>
-              </div>
+              }
             </div>
           </mat-card-content>
         </mat-card>
+        <div class="right-column">
+          <mat-card class="shared-events-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>event</mat-icon>
+                Próximos Eventos
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="events-list">
+                @for (event of sharedEvents; track trackByEvent($index, event)) {
+                  <div
+                    class="event-item"
+                    [class.today]="isEventToday(event)">
+                    <mat-icon [style.color]="isEventToday(event) ? '#4CAF50' : '#2196F3'">
+                      {{getEventTypeIcon(event.type)}}
+                    </mat-icon>
+                    <div class="event-info">
+                      <div class="event-title">{{event.title}}</div>
+                      <div class="event-details">
+                        <span class="event-time">{{formatDate(event.start)}}</span>
+                        <mat-chip class="attendees-chip">
+                          <mat-icon>people</mat-icon>
+                          {{event.attendees.length}}
+                        </mat-chip>
+                      </div>
+                      <div class="event-attendees" [matTooltip]="getAttendeeNames(event.attendees)">
+                        Organizador: {{getMemberName(event.organizer)}}
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="delegations-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>assignment</mat-icon>
+                Delegações
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="delegations-list">
+                @for (delegation of delegations; track trackByDelegation($index, delegation)) {
+                  <div class="delegation-item">
+                    <div class="delegation-header">
+                      <div class="delegation-title">{{delegation.taskTitle}}</div>
+                      <mat-chip [style.background-color]="getDelegationStatusColor(delegation.status)" class="status-chip">
+                        {{getDelegationStatusText(delegation.status)}}
+                      </mat-chip>
+                    </div>
+                    <div class="delegation-info">
+                      <div class="delegation-users">
+                        <span>De: <strong>{{getMemberName(delegation.fromUser)}}</strong></span>
+                        <mat-icon>arrow_forward</mat-icon>
+                        <span>Para: <strong>{{getMemberName(delegation.toUser)}}</strong></span>
+                      </div>
+                      <div class="delegation-meta">
+                        <span class="due-date">
+                          <mat-icon>schedule</mat-icon>
+                          Vencimento: {{formatDate(delegation.dueDate)}}
+                        </span>
+                        <mat-chip [style.background-color]="getPriorityColor(delegation.priority)" class="priority-chip">
+                          {{delegation.priority === 'high' ? 'Alta' : delegation.priority === 'medium' ? 'Média' : 'Baixa'}}
+                        </mat-chip>
+                      </div>
+                      @if (delegation.notes) {
+                        <div class="delegation-notes">
+                          <mat-icon>note</mat-icon>
+                          {{delegation.notes}}
+                        </div>
+                      }
+                    </div>
+                    @if (delegation.status === 'pending') {
+                      <div class="delegation-actions">
+                        <button mat-button color="primary" (click)="acceptDelegation(delegation.id)">
+                          <mat-icon>check</mat-icon>
+                          Aceitar
+                        </button>
+                        <button mat-button color="warn" (click)="rejectDelegation(delegation.id)">
+                          <mat-icon>close</mat-icon>
+                          Rejeitar
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>

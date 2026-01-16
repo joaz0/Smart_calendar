@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,6 @@ import { CollaborationService, TeamMember, SharedEvent, TaskDelegation, Collabor
   standalone: true,
   selector: 'app-collaboration-dashboard',
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -26,7 +25,7 @@ import { CollaborationService, TeamMember, SharedEvent, TaskDelegation, Collabor
     MatProgressSpinnerModule,
     MatMenuModule,
     MatDividerModule
-  ],
+],
   templateUrl: './collaboration-dashboard.html',
   styleUrl: './collaboration-dashboard.scss'
 })

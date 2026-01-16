@@ -1,9 +1,11 @@
 <section class="daily-ai-summary" data-component="DailyAiSummary">
-	<header>
-		<h4>Resumo Diário (IA)</h4>
-	</header>
+  <header>
+    <h4>Resumo Diário (IA)</h4>
+  </header>
 
-	<div *ngIf="summary">
-		<p>{{ summary.overview }}</p>
-	</div>
+  @if (summary) {
+    <div>
+      <p>{{ summary.overview }}</p>
+    </div>
+  }
 </section>

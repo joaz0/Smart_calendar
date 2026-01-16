@@ -1,0 +1,166 @@
+openapi: 3.0.0
+info:
+  title: Smart Calendar API
+  version: 2.0.0
+  description: API endpoints para Smart Calendar
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development
+  - url: https://api.smartcalendar.com/api
+    description: Production
+
+paths:
+  /users/profile:
+    get:
+      summary: Retorna perfil do usuário
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Perfil do usuário
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/stats:
+    get:
+      summary: Estatísticas do usuário
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Estatísticas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStats'
+
+  /privacy/settings:
+    get:
+      summary: Configurações de privacidade
+      tags: [Privacy]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Configurações
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivacySettings'
+    
+    put:
+      summary: Atualiza configurações de privacidade
+      tags: [Privacy]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivacySettings'
+      responses:
+        '200':
+          description: Atualizado com sucesso
+
+  /privacy/check:
+    post:
+      summary: Verifica permissões de privacidade
+      tags: [Privacy]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+                level:
+                  type: string
+      responses:
+        '200':
+          description: Verificação concluída
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allowed:
+                    type: boolean
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        avatar:
+          type: string
+        preferences:
+          type: object
+
+    UserStats:
+      type: object
+      properties:
+        events_today:
+          type: integer
+        pending_tasks:
+          type: integer
+        completed_tasks:
+          type: integer
+        productivity_score:
+          type: integer
+
+    PrivacySettings:
+      type: object
+      properties:
+        defaultLevel:
+          type: string
+        offGridMode:
+          type: boolean
+        encryptionEnabled:
+          type: boolean
+
+  responses:
+    Unauthorized:
+      description: Não autorizado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    
+    NotFound:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

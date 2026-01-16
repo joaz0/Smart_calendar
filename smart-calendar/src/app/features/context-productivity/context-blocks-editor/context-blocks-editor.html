@@ -9,16 +9,18 @@
   <mat-card>
     <mat-card-content>
       <div class="blocks-timeline">
-        <div *ngFor="let block of blocks" class="block-item" [style.border-left-color]="block.color">
-          <div class="block-header">
-            <div class="block-color" [style.background-color]="block.color"></div>
-            <h3>{{block.name}}</h3>
+        @for (block of blocks; track block) {
+          <div class="block-item" [style.border-left-color]="block.color">
+            <div class="block-header">
+              <div class="block-color" [style.background-color]="block.color"></div>
+              <h3>{{block.name}}</h3>
+            </div>
+            <div class="block-time">
+              <mat-icon>schedule</mat-icon>
+              {{block.startTime}} - {{block.endTime}}
+            </div>
           </div>
-          <div class="block-time">
-            <mat-icon>schedule</mat-icon>
-            {{block.startTime}} - {{block.endTime}}
-          </div>
-        </div>
+        }
       </div>
       <p style="text-align: center; color: #666; margin-top: 2rem;">
         Recurso em desenvolvimento - Em breve você poderá criar e gerenciar blocos de contexto personalizados

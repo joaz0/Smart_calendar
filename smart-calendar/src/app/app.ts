@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { BehaviorSubject, Subject, fromEvent, merge, of } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -19,7 +19,7 @@ import { LoadingSpinner } from './shared/components/loading-spinner/loading-spin
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatProgressSpinnerModule, MatIconModule, MatButtonModule, LoadingSpinner],
+  imports: [RouterOutlet, MatProgressSpinnerModule, MatIconModule, MatButtonModule, LoadingSpinner],
   animations: [
     trigger('slideInOut', [
       transition(':enter', [

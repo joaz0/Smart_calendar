@@ -1,14 +1,16 @@
 <section class="ai-suggestions-panel" data-component="AiSuggestionsPanel">
-	<header>
-		<h4>Sugestões da IA</h4>
-	</header>
+  <header>
+    <h4>Sugestões da IA</h4>
+  </header>
 
-	<ul>
-		<li *ngFor="let s of suggestions">
-			<div class="suggestion-text">{{ s.text }}</div>
-			<div class="suggestion-actions">
-				<button type="button" (click)="apply(s)">Aplicar</button>
-			</div>
-		</li>
-	</ul>
+  <ul>
+    @for (s of suggestions; track s) {
+      <li>
+        <div class="suggestion-text">{{ s.text }}</div>
+        <div class="suggestion-actions">
+          <button type="button" (click)="apply(s)">Aplicar</button>
+        </div>
+      </li>
+    }
+  </ul>
 </section>

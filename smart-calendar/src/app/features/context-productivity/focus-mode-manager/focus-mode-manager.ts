@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,6 @@ import { FocusModeService, FocusSession, FocusStats } from '../../../core/servic
   standalone: true,
   selector: 'app-focus-mode-manager',
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatButtonModule,
@@ -24,7 +23,7 @@ import { FocusModeService, FocusSession, FocusStats } from '../../../core/servic
     MatChipsModule,
     MatProgressSpinnerModule,
     MatDividerModule
-  ],
+],
   templateUrl: './focus-mode-manager.html',
   styleUrl: './focus-mode-manager.scss'
 })

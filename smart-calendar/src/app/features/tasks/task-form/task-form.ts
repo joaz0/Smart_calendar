@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,7 +16,6 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
   selector: 'app-task-form',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -28,7 +27,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
     MatChipsModule,
     MatDatepickerModule,
     MatNativeDateModule
-  ],
+],
   templateUrl: './task-form.html',
   styleUrls: ['./task-form.scss']
 })

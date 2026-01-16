@@ -34,44 +34,48 @@
   <!-- Calendar Views -->
   <div class="calendar-content">
     <!-- Month View -->
-    <app-month-view 
-      *ngIf="currentView === 'month'"
-      [events]="filteredEvents"
-      [selectedDate]="selectedDate"
-      (dateSelected)="onDateSelected($event)"
-      (eventClicked)="onEventClicked($event)">
-    </app-month-view>
+    @if (currentView === 'month') {
+      <app-month-view
+        [events]="filteredEvents"
+        [selectedDate]="selectedDate"
+        (dateSelected)="onDateSelected($event)"
+        (eventClicked)="onEventClicked($event)">
+      </app-month-view>
+    }
 
     <!-- Week View -->
-    <app-week-view 
-      *ngIf="currentView === 'week'"
-      [events]="filteredEvents"
-      [selectedDate]="selectedDate"
-      (dateSelected)="onDateSelected($event)"
-      (eventClicked)="onEventClicked($event)">
-    </app-week-view>
+    @if (currentView === 'week') {
+      <app-week-view
+        [events]="filteredEvents"
+        [selectedDate]="selectedDate"
+        (dateSelected)="onDateSelected($event)"
+        (eventClicked)="onEventClicked($event)">
+      </app-week-view>
+    }
 
     <!-- Day View -->
-    <app-day-view 
-      *ngIf="currentView === 'day'"
-      [events]="filteredEvents"
-      [selectedDate]="selectedDate"
-      (eventClicked)="onEventClicked($event)">
-    </app-day-view>
+    @if (currentView === 'day') {
+      <app-day-view
+        [events]="filteredEvents"
+        [selectedDate]="selectedDate"
+        (eventClicked)="onEventClicked($event)">
+      </app-day-view>
+    }
   </div>
 
   <!-- Filter Menu -->
   <mat-menu #filterMenu="matMenu">
     <div class="filter-content" (click)="$event.stopPropagation()">
       <h3>Filtrar por Categoria</h3>
-      <mat-checkbox 
-        *ngFor="let category of categories"
-        [(ngModel)]="category.visible"
-        (change)="applyFilters()"
-        class="category-filter">
-        <span class="category-color" [style.background-color]="category.color"></span>
-        {{ category.name }}
-      </mat-checkbox>
+      @for (category of categories; track category) {
+        <mat-checkbox
+          [(ngModel)]="category.visible"
+          (change)="applyFilters()"
+          class="category-filter">
+          <span class="category-color" [style.background-color]="category.color"></span>
+          {{ category.name }}
+        </mat-checkbox>
+      }
     </div>
   </mat-menu>
 </div>

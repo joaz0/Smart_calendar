@@ -1,13 +1,13 @@
-<div class="task-item" 
-     [class.completed]="task.completed"
-     [class.overdue]="isOverdue"
-     [class.high-priority]="task.priority === 'high'"
-     [class.medium-priority]="task.priority === 'medium'"
-     [class.low-priority]="task.priority === 'low'">
+<div class="task-item"
+  [class.completed]="task.completed"
+  [class.overdue]="isOverdue"
+  [class.high-priority]="task.priority === 'high'"
+  [class.medium-priority]="task.priority === 'medium'"
+  [class.low-priority]="task.priority === 'low'">
 
   <!-- Task Checkbox -->
   <div class="task-checkbox">
-    <mat-checkbox 
+    <mat-checkbox
       [(ngModel)]="task.completed"
       (change)="onToggleComplete()"
       [color]="task.priority === 'high' ? 'warn' : 'primary'">
@@ -21,83 +21,101 @@
       <h4 class="task-title" [class.strikethrough]="task.completed">
         {{ task.title }}
       </h4>
-      
+
       <div class="task-meta">
         <!-- Priority Indicator -->
-        <app-priority-indicator 
+        <app-priority-indicator
           [priority]="task.priority"
           [size]="'small'">
         </app-priority-indicator>
 
         <!-- Due Date -->
-        <span class="due-date" *ngIf="task.dueDate">
-          <mat-icon class="meta-icon">schedule</mat-icon>
-          {{ task.dueDate | date:'shortDate' }}
-          <span class="due-time" *ngIf="task.dueTime">
-            {{ task.dueTime }}
+        @if (task.dueDate) {
+          <span class="due-date">
+            <mat-icon class="meta-icon">schedule</mat-icon>
+            {{ task.dueDate | date:'shortDate' }}
+            @if (task.dueTime) {
+              <span class="due-time">
+                {{ task.dueTime }}
+              </span>
+            }
           </span>
-        </span>
+        }
 
         <!-- Category -->
-        <span class="category" *ngIf="task.category">
-          <span class="category-dot" [style.background-color]="task.category.color"></span>
-          {{ task.category.name }}
-        </span>
+        @if (task.category) {
+          <span class="category">
+            <span class="category-dot" [style.background-color]="task.category.color"></span>
+            {{ task.category.name }}
+          </span>
+        }
 
         <!-- Estimated Duration -->
-        <span class="duration" *ngIf="task.estimatedDuration">
-          <mat-icon class="meta-icon">timer</mat-icon>
-          {{ formatDuration(task.estimatedDuration) }}
-        </span>
+        @if (task.estimatedDuration) {
+          <span class="duration">
+            <mat-icon class="meta-icon">timer</mat-icon>
+            {{ formatDuration(task.estimatedDuration) }}
+          </span>
+        }
       </div>
 
       <!-- Description -->
-      <p class="task-description" *ngIf="task.description && showDescription">
-        {{ task.description }}
-      </p>
+      @if (task.description && showDescription) {
+        <p class="task-description">
+          {{ task.description }}
+        </p>
+      }
 
       <!-- Tags -->
-      <div class="task-tags" *ngIf="task.tags && task.tags.length > 0">
-        <mat-chip *ngFor="let tag of task.tags" class="task-tag">
-          {{ tag }}
-        </mat-chip>
-      </div>
+      @if (task.tags && task.tags.length > 0) {
+        <div class="task-tags">
+          @for (tag of task.tags; track tag) {
+            <mat-chip class="task-tag">
+              {{ tag }}
+            </mat-chip>
+          }
+        </div>
+      }
 
       <!-- Subtasks Progress -->
-      <div class="subtasks-progress" *ngIf="task.subtasks && task.subtasks.length > 0">
-        <div class="progress-info">
-          <mat-icon class="progress-icon">checklist</mat-icon>
-          <span>{{ getCompletedSubtasks() }}/{{ task.subtasks.length }} subtarefas</span>
+      @if (task.subtasks && task.subtasks.length > 0) {
+        <div class="subtasks-progress">
+          <div class="progress-info">
+            <mat-icon class="progress-icon">checklist</mat-icon>
+            <span>{{ getCompletedSubtasks() }}/{{ task.subtasks.length }} subtarefas</span>
+          </div>
+          <mat-progress-bar
+            mode="determinate"
+            [value]="getSubtaskProgress()"
+            class="subtask-progress-bar">
+          </mat-progress-bar>
         </div>
-        <mat-progress-bar 
-          mode="determinate" 
-          [value]="getSubtaskProgress()"
-          class="subtask-progress-bar">
-        </mat-progress-bar>
-      </div>
+      }
     </div>
 
     <!-- Overdue Warning -->
-    <div class="overdue-warning" *ngIf="isOverdue && !task.completed">
-      <mat-icon class="warning-icon">warning</mat-icon>
-      <span>Atrasada</span>
-    </div>
+    @if (isOverdue && !task.completed) {
+      <div class="overdue-warning">
+        <mat-icon class="warning-icon">warning</mat-icon>
+        <span>Atrasada</span>
+      </div>
+    }
   </div>
 
   <!-- Task Actions -->
   <div class="task-actions">
-    <button mat-icon-button 
-            (click)="onEdit($event)"
-            matTooltip="Editar tarefa"
-            class="action-btn edit-btn">
+    <button mat-icon-button
+      (click)="onEdit($event)"
+      matTooltip="Editar tarefa"
+      class="action-btn edit-btn">
       <mat-icon>edit</mat-icon>
     </button>
 
-    <button mat-icon-button 
-            [matMenuTriggerFor]="taskMenu"
-            matTooltip="Mais opções"
-            class="action-btn menu-btn"
-            (click)="$event.stopPropagation()">
+    <button mat-icon-button
+      [matMenuTriggerFor]="taskMenu"
+      matTooltip="Mais opções"
+      class="action-btn menu-btn"
+      (click)="$event.stopPropagation()">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
@@ -108,19 +126,19 @@
       <mat-icon>content_copy</mat-icon>
       <span>Duplicar</span>
     </button>
-    
+
     <button mat-menu-item (click)="onSetReminder()">
       <mat-icon>alarm</mat-icon>
       <span>Definir Lembrete</span>
     </button>
-    
+
     <button mat-menu-item (click)="onMoveToCategory()">
       <mat-icon>folder</mat-icon>
       <span>Mover para Categoria</span>
     </button>
-    
+
     <mat-divider></mat-divider>
-    
+
     <button mat-menu-item (click)="onDelete()" class="delete-item">
       <mat-icon>delete</mat-icon>
       <span>Excluir</span>
@@ -128,12 +146,16 @@
   </mat-menu>
 
   <!-- Reminder Indicator -->
-  <div class="reminder-indicator" *ngIf="task.hasReminder">
-    <mat-icon class="reminder-icon">notifications</mat-icon>
-  </div>
+  @if (task.hasReminder) {
+    <div class="reminder-indicator">
+      <mat-icon class="reminder-icon">notifications</mat-icon>
+    </div>
+  }
 
   <!-- Recurring Indicator -->
-  <div class="recurring-indicator" *ngIf="task.isRecurring">
-    <mat-icon class="recurring-icon">repeat</mat-icon>
-  </div>
+  @if (task.isRecurring) {
+    <div class="recurring-indicator">
+      <mat-icon class="recurring-icon">repeat</mat-icon>
+    </div>
+  }
 </div>

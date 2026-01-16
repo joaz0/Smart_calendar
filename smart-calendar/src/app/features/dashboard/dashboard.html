@@ -74,22 +74,25 @@
         </button>
       </mat-card-header>
       <mat-card-content>
-        <div class="event-list" *ngIf="todayEvents.length > 0; else noEvents">
-          <div class="event-item" *ngFor="let event of todayEvents">
-            <div class="event-time">{{ event.startTime | date:'shortTime' }}</div>
-            <div class="event-details">
-              <h4>{{ event.title }}</h4>
-              <p>{{ event.description }}</p>
-            </div>
-            <div class="event-category" [style.background-color]="event.category.color"></div>
+        @if (todayEvents.length > 0) {
+          <div class="event-list">
+            @for (event of todayEvents; track event) {
+              <div class="event-item">
+                <div class="event-time">{{ event.startTime | date:'shortTime' }}</div>
+                <div class="event-details">
+                  <h4>{{ event.title }}</h4>
+                  <p>{{ event.description }}</p>
+                </div>
+                <div class="event-category" [style.background-color]="event.category.color"></div>
+              </div>
+            }
           </div>
-        </div>
-        <ng-template #noEvents>
+        } @else {
           <div class="empty-state">
             <mat-icon>event_available</mat-icon>
             <p>Nenhum evento hoje</p>
           </div>
-        </ng-template>
+        }
       </mat-card-content>
     </mat-card>
 
@@ -102,21 +105,24 @@
         </button>
       </mat-card-header>
       <mat-card-content>
-        <div class="task-list" *ngIf="quickTasks.length > 0; else noTasks">
-          <div class="task-item" *ngFor="let task of quickTasks">
-            <mat-checkbox [(ngModel)]="task.completed" (change)="toggleTask(task)"></mat-checkbox>
-            <span [class.completed]="task.completed">{{ task.title }}</span>
-            <mat-icon class="priority-icon" [style.color]="getPriorityColor(task.priority)">
-              {{ getPriorityIcon(task.priority) }}
-            </mat-icon>
+        @if (quickTasks.length > 0) {
+          <div class="task-list">
+            @for (task of quickTasks; track task) {
+              <div class="task-item">
+                <mat-checkbox [(ngModel)]="task.completed" (change)="toggleTask(task)"></mat-checkbox>
+                <span [class.completed]="task.completed">{{ task.title }}</span>
+                <mat-icon class="priority-icon" [style.color]="getPriorityColor(task.priority)">
+                  {{ getPriorityIcon(task.priority) }}
+                </mat-icon>
+              </div>
+            }
           </div>
-        </div>
-        <ng-template #noTasks>
+        } @else {
           <div class="empty-state">
             <mat-icon>task_alt</mat-icon>
             <p>Nenhuma tarefa pendente</p>
           </div>
-        </ng-template>
+        }
       </mat-card-content>
     </mat-card>
 
@@ -127,13 +133,15 @@
         <mat-icon class="ai-icon">smart_toy</mat-icon>
       </mat-card-header>
       <mat-card-content>
-        <div class="insight-item" *ngFor="let insight of aiInsights">
-          <mat-icon>{{ insight.icon }}</mat-icon>
-          <div class="insight-content">
-            <h4>{{ insight.title }}</h4>
-            <p>{{ insight.description }}</p>
+        @for (insight of aiInsights; track insight) {
+          <div class="insight-item">
+            <mat-icon>{{ insight.icon }}</mat-icon>
+            <div class="insight-content">
+              <h4>{{ insight.title }}</h4>
+              <p>{{ insight.description }}</p>
+            </div>
           </div>
-        </div>
+        }
       </mat-card-content>
     </mat-card>
   </div>

@@ -1,42 +1,49 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="category-form">
 
-  <div *ngIf="serverError" class="error-banner">
-    {{ serverError }}
-  </div>
+  @if (serverError) {
+    <div class="error-banner">
+      {{ serverError }}
+    </div>
+  }
 
   <div class="form-fields">
-    <mat-form-field *ngFor="let field of formFields" class="form-field">
-
-      <input
-        *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password'"
-        matInput
-        [formControlName]="field.name"
-        [placeholder]="field.placeholder"
-        [type]="field.type"
-        class="form-input">
-
-      <textarea
-        *ngIf="field.type === 'textarea'"
-        matInput
-        [formControlName]="field.name"
-        [placeholder]="field.placeholder"
-        [rows]="field.rows"
-        class="form-textarea">
-      </textarea>
-
-      <mat-select
-        *ngIf="field.type === 'select'"
-        [formControlName]="field.name"
-        class="form-select">
-        <mat-option *ngFor="let option of field.options" [value]="option.value">
-          {{ option.label }}
-        </mat-option>
-      </mat-select>
-
-      <mat-error *ngIf="form.get(field.name)?.hasError('required')">
-        {{ field.errorMessages?.required || 'Campo obrigatório' }}
-      </mat-error>
-    </mat-form-field>
+    @for (field of formFields; track field) {
+      <mat-form-field class="form-field">
+        @if (field.type === 'text' || field.type === 'email' || field.type === 'password') {
+          <input
+            matInput
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder"
+            [type]="field.type"
+            class="form-input">
+        }
+        @if (field.type === 'textarea') {
+          <textarea
+            matInput
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder"
+            [rows]="field.rows"
+            class="form-textarea">
+          </textarea>
+        }
+        @if (field.type === 'select') {
+          <mat-select
+            [formControlName]="field.name"
+            class="form-select">
+            @for (option of field.options; track option) {
+              <mat-option [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            }
+          </mat-select>
+        }
+        @if (form.get(field.name)?.hasError('required')) {
+          <mat-error>
+            {{ field.errorMessages?.required || 'Campo obrigatório' }}
+          </mat-error>
+        }
+      </mat-form-field>
+    }
   </div>
 
   <div class="form-actions">

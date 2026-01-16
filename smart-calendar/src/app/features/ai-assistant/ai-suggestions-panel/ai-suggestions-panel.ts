@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-ai-suggestions-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './ai-suggestions-panel.html',
   styleUrls: ['./ai-suggestions-panel.scss'],
 })

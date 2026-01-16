@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarEvent } from '../../../core/models/event.model';
@@ -15,7 +15,7 @@ import { CalendarEvent } from '../../../core/models/event.model';
 @Component({
   selector: 'app-event-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './event-form.html',
   styleUrls: ['./event-form.scss'],
 })

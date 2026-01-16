@@ -1,7 +1,7 @@
 <div class="main-layout" [class.sidebar-collapsed]="!sidebarOpen">
   <!-- Sidebar -->
   <aside class="sidebar-container">
-    <app-sidebar 
+    <app-sidebar
       [isOpen]="sidebarOpen"
       [stats]="userStats"
       [user]="currentUser"
@@ -13,7 +13,7 @@
   <div class="main-content">
     <!-- Header -->
     <header class="main-header">
-      <app-header 
+      <app-header
         [user]="currentUser"
         [sidebarOpen]="sidebarOpen"
         (sidebarToggle)="toggleSidebar()"
@@ -30,13 +30,16 @@
   </div>
 
   <!-- Loading Overlay -->
-  <div class="loading-overlay" *ngIf="isLoading">
-    <app-loading-spinner></app-loading-spinner>
-  </div>
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+  }
 
   <!-- Mobile Sidebar Backdrop -->
-  <div class="sidebar-backdrop" 
-       *ngIf="sidebarOpen && isMobile"
-       (click)="closeSidebar()">
-  </div>
+  @if (sidebarOpen && isMobile) {
+    <div class="sidebar-backdrop"
+      (click)="closeSidebar()">
+    </div>
+  }
 </div>

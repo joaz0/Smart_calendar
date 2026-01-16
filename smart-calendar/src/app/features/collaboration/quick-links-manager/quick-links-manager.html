@@ -1,13 +1,15 @@
 <section class="quick-links-manager" data-component="QuickLinksManager">
-	<header>
-		<h3>Atalhos Rápidos</h3>
-	</header>
+  <header>
+    <h3>Atalhos Rápidos</h3>
+  </header>
 
-		<ul>
-			<li *ngFor="let link of links">
-				<a [href]="link.url" target="_blank">{{ link.title }}</a>
-				<button type="button" data-action="edit-link">Editar</button>
-				<button type="button" data-action="remove-link">Remover</button>
-			</li>
-		</ul>
+  <ul>
+    @for (link of links; track link) {
+      <li>
+        <a [href]="link.url" target="_blank">{{ link.title }}</a>
+        <button type="button" data-action="edit-link">Editar</button>
+        <button type="button" data-action="remove-link">Remover</button>
+      </li>
+    }
+  </ul>
 </section>

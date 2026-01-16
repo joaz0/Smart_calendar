@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,6 @@ import { TaskService } from '../../core/services/task.service';
   selector: 'app-tasks',
   standalone: true,
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -29,7 +28,7 @@ import { TaskService } from '../../core/services/task.service';
     MatInputModule,
     MatSelectModule,
     FormsModule
-  ],
+],
   templateUrl: './tasks.html',
   styleUrls: ['./tasks.scss']
 })

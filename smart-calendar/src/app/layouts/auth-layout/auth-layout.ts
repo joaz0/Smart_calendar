@@ -1,6 +1,6 @@
 // src/app/layouts/auth-layout/auth-layout.component.ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
@@ -13,15 +13,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-auth-layout',
   standalone: true,
   imports: [
-    CommonModule, 
-    RouterModule, 
-    ReactiveFormsModule, 
+    RouterModule,
+    ReactiveFormsModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule
-  ],
+],
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TaskItem } from '../task-item/task-item';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, TaskItem],
+  imports: [TaskItem],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
 })

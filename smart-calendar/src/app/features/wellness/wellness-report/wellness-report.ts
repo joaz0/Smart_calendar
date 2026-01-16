@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -11,7 +11,7 @@ import { WellnessService, WellnessMetrics, BreakPattern, WellnessRecommendation 
 @Component({
   standalone: true,
   selector: 'app-wellness-report',
-  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, MatProgressSpinnerModule, MatProgressBarModule],
+  imports: [MatCardModule, MatIconModule, MatChipsModule, MatProgressSpinnerModule, MatProgressBarModule],
   templateUrl: './wellness-report.html',
   styleUrl: './wellness-report.scss'
 })

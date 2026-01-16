@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +15,6 @@ import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsig
   standalone: true,
   selector: 'app-productivity-insights',
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatButtonModule,
@@ -24,7 +23,7 @@ import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsig
     MatChipsModule,
     MatProgressSpinnerModule,
     MatSelectModule
-  ],
+],
   templateUrl: './productivity-insights.html',
   styleUrl: './productivity-insights.scss'
 })

@@ -1,37 +1,43 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-glass-card',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [MatIconModule],
   template: `
-    <article 
-      class="glass-card" 
-      [class.hoverable]="hoverable" 
+    <article
+      class="glass-card"
+      [class.hoverable]="hoverable"
       [class.clickable]="clickable"
       [attr.aria-label]="ariaLabel || title"
       [attr.role]="clickable ? 'button' : null"
       [attr.tabindex]="clickable ? '0' : null"
       (keydown.enter)="clickable && handleClick()"
       (keydown.space)="clickable && handleClick()">
-      
-      <header class="card-header" *ngIf="title || icon">
-        <mat-icon *ngIf="icon" [style.color]="iconColor" [attr.aria-hidden]="true">{{ icon }}</mat-icon>
-        <h3 [id]="headerId">{{ title }}</h3>
-        <ng-content select="[header-actions]"></ng-content>
-      </header>
-      
+    
+      @if (title || icon) {
+        <header class="card-header">
+          @if (icon) {
+            <mat-icon [style.color]="iconColor" [attr.aria-hidden]="true">{{ icon }}</mat-icon>
+          }
+          <h3 [id]="headerId">{{ title }}</h3>
+          <ng-content select="[header-actions]"></ng-content>
+        </header>
+      }
+    
       <div class="card-content" [attr.aria-labelledby]="title ? headerId : null">
         <ng-content></ng-content>
       </div>
-      
-      <footer class="card-footer" *ngIf="hasFooter">
-        <ng-content select="[footer]"></ng-content>
-      </footer>
+    
+      @if (hasFooter) {
+        <footer class="card-footer">
+          <ng-content select="[footer]"></ng-content>
+        </footer>
+      }
     </article>
-  `,
+    `,
   styles: [`
     .glass-card {
       background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(91, 11, 220, 0.85) 100%);
