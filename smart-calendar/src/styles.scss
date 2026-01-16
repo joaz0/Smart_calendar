@@ -1,5 +1,5 @@
 // ============================================
-// IMPORTS DO ANGULAR MATERIAL (Angular 18)
+// IMPORTS DO ANGULAR MATERIAL (Angular 20)
 // ============================================
 
 // Importe um tema pronto do Angular Material
@@ -8,8 +8,8 @@
 // ============================================
 // IMPORTS DE ESTILOS CUSTOMIZADOS
 // ============================================
-@import 'assets/styles/variables';
-@import 'assets/styles/contrast-improvements';
+@use 'assets/styles/variables';
+@use 'assets/styles/contrast-improvements';
 
 // ============================================
 // VARIÁVEIS DE CORES CUSTOMIZADAS

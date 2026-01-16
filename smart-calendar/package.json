@@ -23,15 +23,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.2.18",
+    "@angular/animations": "^20.3.16",
     "@angular/cdk": "^19.2.18",
-    "@angular/common": "^19.2.18",
-    "@angular/compiler": "^19.2.18",
-    "@angular/core": "^19.2.18",
-    "@angular/forms": "^19.2.18",
+    "@angular/common": "^20.3.16",
+    "@angular/compiler": "^20.3.16",
+    "@angular/core": "^20.3.16",
+    "@angular/forms": "^20.3.16",
     "@angular/material": "^19.2.18",
-    "@angular/platform-browser": "^19.2.18",
-    "@angular/router": "^19.2.18",
+    "@angular/platform-browser": "^20.3.16",
+    "@angular/router": "^20.3.16",
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@google-cloud/local-auth": "^3.0.1",
     "chart.js": "^4.5.1",
@@ -42,9 +42,9 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.2.19",
-    "@angular/cli": "^19.2.19",
-    "@angular/compiler-cli": "^19.2.18",
+    "@angular/build": "^20.3.14",
+    "@angular/cli": "^20.3.14",
+    "@angular/compiler-cli": "^20.3.16",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "^19.2.19",
     "eslint": "^9.39.1",
@@ -54,7 +54,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.5.0",
+    "typescript": "~5.9.3",
     "typescript-eslint": "8.46.4"
   }
 }
