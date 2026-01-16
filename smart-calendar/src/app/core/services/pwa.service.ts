@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core.component';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
 
 
 @Injectable({
@@ -9,7 +14,7 @@ export class PwaService {
   private updateAvailableSubject = new BehaviorSubject<boolean>(false);
   updateAvailable$ = this.updateAvailableSubject.asObservable();
 
-  private installPromptSubject = new BehaviorSubject<any>(null);
+  private installPromptSubject = new BehaviorSubject<BeforeInstallPromptEvent | null>(null);
   installPrompt$ = this.installPromptSubject.asObservable();
 
   constructor() {
@@ -106,6 +111,6 @@ export class PwaService {
 
   isInstalled(): boolean {
     return window.matchMedia('(display-mode: standalone)').matches ||
-           (window.navigator as any).standalone === true;
+           ('standalone' in window.navigator && (window.navigator as { standalone?: boolean }).standalone === true);
   }
 }
