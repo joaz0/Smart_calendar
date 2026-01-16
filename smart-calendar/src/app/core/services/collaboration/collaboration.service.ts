@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators.component';
-import { environment } from '../../../../environments/environment.component';
+import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 export interface TeamMember {
   id: string;

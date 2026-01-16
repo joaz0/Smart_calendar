@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core.component';
-import { HttpClient } from '@angular/common/http.component';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval } from 'rxjs';
-import { map } from 'rxjs/operators.component';
-import { environment } from '../../../../environments/environment.component';
+import { map } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 import { calculateBurnoutScore, calculateWellnessScore } from '../../../utils/wellness-calculations.component';
 
 

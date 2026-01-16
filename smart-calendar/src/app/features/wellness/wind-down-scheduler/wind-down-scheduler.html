@@ -3,13 +3,13 @@
 
   <div class="config-card">
     <div class="form-group">
-      <label>Horário de Dormir</label>
-      <input type="time" [(ngModel)]="settings.sleepTime">
+      <label for="sleepTimeInput">Horário de Dormir</label>
+      <input id="sleepTimeInput" type="time" [(ngModel)]="settings.sleepTime">
     </div>
 
     <div class="form-group">
-      <label>Tempo de Desaceleração (minutos)</label>
-      <input type="number" [(ngModel)]="settings.windDownDuration" min="30" step="15">
+      <label for="windDownInput">Tempo de Desaceleração (minutos)</label>
+      <input id="windDownInput" type="number" [(ngModel)]="settings.windDownDuration" min="30" step="15">
     </div>
 
     <div class="blocked-categories">
