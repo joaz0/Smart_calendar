@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
 
@@ -21,7 +21,7 @@ export interface SearchFacet {
 
 export interface SemanticQuery {
   query: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   limit?: number;
   offset?: number;
 }
@@ -41,7 +41,7 @@ export class SemanticSearchService {
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/search`;
 
   search(query: SemanticQuery): Observable<{ results: SearchResult[]; facets: SearchFacet[]; total: number }> {
-    return this.http.post<any>(`${this.apiUrl}/semantic`, query).pipe(
+    return this.http.post<{ results: SearchResult[]; facets: SearchFacet[]; total: number }>(`${this.apiUrl}/semantic`, query).pipe(
       catchError(() => of(this.getMockSearchResults(query.query)))
     );
   }
@@ -77,7 +77,7 @@ export class SemanticSearchService {
     tags?: string[];
     priority?: string[];
   }): Observable<{ results: SearchResult[]; total: number }> {
-    return this.http.post<any>(`${this.apiUrl}/advanced`, criteria).pipe(
+    return this.http.post<{ results: SearchResult[]; total: number }>(`${this.apiUrl}/advanced`, criteria).pipe(
       catchError(() => of({ results: this.getMockQuickResults(''), total: 5 }))
     );
   }

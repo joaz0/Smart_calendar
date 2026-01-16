@@ -1,29 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService, ApiResponse } from './api.service';
+import { ApiService } from './api.service';
 import { Event } from '../models/event.model';
-
-interface CreateEventRequest {
-  title: string;
-  description?: string;
-  startDate: string;
-  endDate: string;
-  categoryId?: number;
-  color?: string;
-}
-
-interface UpdateEventRequest extends Partial<CreateEventRequest> {}
-
-interface EventListResponse {
-  data: Event[];
-  meta: {
-    total: number;
-    page: number;
-    limit: number;
-    pages: number;
-  };
-}
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +21,7 @@ export class EventApiService {
     endDate: Date,
     page = 1,
     limit = 50
-  ): Observable<EventListResponse> {
+  ): Observable<Event[]> {
     const params = {
       params: {
         startDate: startDate.toISOString(),
@@ -65,7 +44,7 @@ export class EventApiService {
   /**
    * Obter todos os eventos
    */
-  getAllEvents(page = 1, limit = 50): Observable<EventListResponse> {
+  getAllEvents(page = 1, limit = 50): Observable<Event[]> {
     const params = {
       params: {
         page: page.toString(),
@@ -100,8 +79,8 @@ export class EventApiService {
   /**
    * Criar novo evento
    */
-  createEvent(_event: CreateEventRequest): Observable<Event> {
-    return this.apiService.post<Event>('/events', event).pipe(
+  createEvent(eventData: Partial<Event>): Observable<Event> {
+    return this.apiService.post<Event>('/events', eventData).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -114,7 +93,7 @@ export class EventApiService {
   /**
    * Atualizar evento
    */
-  updateEvent(id: number, event: UpdateEventRequest): Observable<Event> {
+  updateEvent(id: number, event: Partial<Event>): Observable<Event> {
     return this.apiService.patch<Event>(`/events/${id}`, event).pipe(
       map((response) => {
         if (response.data) {
@@ -142,7 +121,7 @@ export class EventApiService {
   /**
    * Buscar eventos por texto
    */
-  searchEvents(query: string, page = 1, limit = 20): Observable<EventListResponse> {
+  searchEvents(query: string, page = 1, limit = 20): Observable<Event[]> {
     const params = {
       params: {
         q: query,

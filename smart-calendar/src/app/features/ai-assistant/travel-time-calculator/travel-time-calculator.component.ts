@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -10,10 +10,10 @@ import { FormsModule } from '@angular/forms.component';
   templateUrl: './travel-time-calculator.html',
   styleUrls: ['./travel-time-calculator.scss'],
 })
-export class TravelTimeCalculator {
+export class TravelTimeCalculatorComponent {
   from = '';
   to = '';
-  result: any | null = null;
+  result: { duration: string } | null = null;
 
   calculate(): void {
     // placeholder: calcula tempo de viagem (mock)

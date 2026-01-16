@@ -11,7 +11,7 @@ interface CacheEntry<T> {
   providedIn: 'root'
 })
 export class CacheService {
-  private cache = new Map<string, CacheEntry<any>>();
+  private cache = new Map<string, CacheEntry<unknown>>();
 
   set<T>(key: string, data: T, ttlMinutes = 5): void {
     this.cache.set(key, {
@@ -35,6 +35,10 @@ export class CacheService {
   }
 
   clear(key?: string): void {
-    key ? this.cache.delete(key) : this.cache.clear();
+    if (key) {
+      this.cache.delete(key);
+    } else {
+      this.cache.clear();
+    }
   }
 }

@@ -161,11 +161,11 @@ export class EventsListComponent {
   @Input() loading = false;
 
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
-  @Output() search = new EventEmitter<string>();
+  @Output() searchChange = new EventEmitter<string>();
 
   onSearchChange(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.search.emit(target.value);
+    this.searchChange.emit(target.value);
   }
 
   executeAction(action: ListAction, item: AnyObject): void {

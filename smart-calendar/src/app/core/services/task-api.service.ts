@@ -1,28 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService, ApiResponse } from './api.service';
+import { ApiService } from './api.service';
 import { Task } from '../models/task.model';
-
-interface CreateTaskRequest {
-  title: string;
-  description?: string;
-  dueDate?: string;
-  priority: 'low' | 'medium' | 'high';
-  status: 'pending' | 'in_progress' | 'completed';
-}
-
-interface UpdateTaskRequest extends Partial<CreateTaskRequest> {}
-
-interface TaskListResponse {
-  data: Task[];
-  meta: {
-    total: number;
-    page: number;
-    limit: number;
-    pages: number;
-  };
-}
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +16,7 @@ export class TaskApiService {
   /**
    * Obter todas as tarefas
    */
-  getAllTasks(page = 1, limit = 50): Observable<TaskListResponse> {
+  getAllTasks(page = 1, limit = 50): Observable<Task[]> {
     const params = {
       params: {
         page: page.toString(),
@@ -71,7 +51,7 @@ export class TaskApiService {
   /**
    * Obter tarefas por status
    */
-  getTasksByStatus(status: string, page = 1, limit = 50): Observable<TaskListResponse> {
+  getTasksByStatus(status: string, page = 1, limit = 50): Observable<Task[]> {
     const params = {
       params: {
         status,
@@ -93,7 +73,7 @@ export class TaskApiService {
   /**
    * Criar nova tarefa
    */
-  createTask(task: CreateTaskRequest): Observable<Task> {
+  createTask(task: Partial<Task>): Observable<Task> {
     return this.apiService.post<Task>('/tasks', task).pipe(
       map((response) => {
         if (response.data) {
@@ -107,7 +87,7 @@ export class TaskApiService {
   /**
    * Atualizar tarefa
    */
-  updateTask(id: number, task: UpdateTaskRequest): Observable<Task> {
+  updateTask(id: number, task: Partial<Task>): Observable<Task> {
     return this.apiService.patch<Task>(`/tasks/${id}`, task).pipe(
       map((response) => {
         if (response.data) {
@@ -135,7 +115,7 @@ export class TaskApiService {
   /**
    * Buscar tarefas por texto
    */
-  searchTasks(query: string, page = 1, limit = 20): Observable<TaskListResponse> {
+  searchTasks(query: string, page = 1, limit = 20): Observable<Task[]> {
     const params = {
       params: {
         q: query,

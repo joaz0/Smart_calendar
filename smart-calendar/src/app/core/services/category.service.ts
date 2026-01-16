@@ -17,7 +17,7 @@ export class CategoryService extends EntityService<Category> {
   constructor() {
     const categoryApiService = inject(CategoryApiService);
 
-    super(categoryApiService as any, '/api/categories');
+    super(categoryApiService, '/api/categories');
     this.categoryApiService = categoryApiService;
 
   }
@@ -29,8 +29,8 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.getAllCategories(page, pageSize).subscribe({
-        next: (response: any) => {
-          const categories = response.data || response;
+        next: (response: unknown) => {
+          const categories = (response as { data?: Category[] }).data || (response as Category[]);
           this.logger.info('Categorias carregadas', {
             count: categories.length,
           });
@@ -55,8 +55,8 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.getCategoryById(id).subscribe({
-        next: (response: any) => {
-          const category = response.data || response;
+        next: (response: unknown) => {
+          const category = (response as { data?: Category }).data || (response as Category);
           this.logger.info('Categoria carregada', { id });
           this.setLoading(false);
           observer.next(category);
@@ -78,9 +78,9 @@ export class CategoryService extends EntityService<Category> {
   override create(category: Partial<Category>): Observable<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
-      this.categoryApiService.createCategory(category as any).subscribe({
-        next: (response: any) => {
-          const newCategory = response.data || response;
+      this.categoryApiService.createCategory(category).subscribe({
+        next: (response: unknown) => {
+          const newCategory = (response as { data?: Category }).data || (response as Category);
           this.logger.info('Categoria criada', {
             id: newCategory.id,
             name: newCategory.name,
@@ -105,9 +105,9 @@ export class CategoryService extends EntityService<Category> {
   override update(id: number, updates: Partial<Category>): Observable<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
-      this.categoryApiService.updateCategory(id, updates as any).subscribe({
-        next: (response: any) => {
-          const updatedCategory = response.data || response;
+      this.categoryApiService.updateCategory(id, updates).subscribe({
+        next: (response: unknown) => {
+          const updatedCategory = (response as { data?: Category }).data || (response as Category);
           this.logger.info('Categoria atualizada', {
             id,
             name: updatedCategory.name,
@@ -156,8 +156,8 @@ export class CategoryService extends EntityService<Category> {
     this.setLoading(true);
     return new Observable((observer) => {
       this.categoryApiService.searchCategories(query, page, pageSize).subscribe({
-        next: (response: any) => {
-          const categories = response.data || response;
+        next: (response: unknown) => {
+          const categories = (response as { data?: Category[] }).data || (response as Category[]);
           this.logger.info('Categorias encontradas', {
             query,
             count: categories.length,
@@ -179,7 +179,7 @@ export class CategoryService extends EntityService<Category> {
   /**
    * Obter categorias por cor
    */
-  getByColor(color: string): Observable<Category[]> {
+  getByColor(_color: string): Observable<Category[]> {
     return this.getAll().pipe();
   }
 }

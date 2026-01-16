@@ -9,6 +9,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: './daily-ai-summary.html',
   styleUrls: ['./daily-ai-summary.scss'],
 })
-export class DailyAiSummary {
-  @Input() summary: any | null = null;
+export class DailyAiSummaryComponent {
+  @Input() summary: unknown | null = null;
 }

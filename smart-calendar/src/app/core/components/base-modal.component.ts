@@ -1,5 +1,5 @@
 // Base Modal Component
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BaseComponent } from './base.component';
 
@@ -10,7 +10,7 @@ import { BaseComponent } from './base.component';
 @Component({
   template: '',
 })
-export abstract class BaseModalComponent<T = any> extends BaseComponent {
+export abstract class BaseModalComponent<T = unknown> extends BaseComponent {
   constructor(
     public dialogRef: MatDialogRef<BaseModalComponent<T>>,
     @Inject(MAT_DIALOG_DATA) public data: T

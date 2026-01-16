@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ai-scheduling-assistant',
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms.component';
   templateUrl: './ai-scheduling-assistant.component.html',
   styleUrls: ['./ai-scheduling-assistant.component.scss'],
 })
-export class AiSchedulingAssistant {
+export class AiSchedulingAssistantComponent {
   suggestions: { time: string; reason: string }[] = [];
 
   constructor() {
@@ -20,8 +20,8 @@ export class AiSchedulingAssistant {
     ];
   }
 
-  applySuggestion(_s: { time: string; reason: string }) {
-    console.log('Aplicando sugestão', s);
+  applySuggestion(suggestion: { time: string; reason: string }): void {
+    console.log('Aplicando sugestão', suggestion);
     // lógica de aplicação ficaria aqui
   }
 }

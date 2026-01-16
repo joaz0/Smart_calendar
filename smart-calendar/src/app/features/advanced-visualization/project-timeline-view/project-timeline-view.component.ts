@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './project-timeline-view.component.html',
   styleUrl: './project-timeline-view.component.scss'
 })
-export class ProjectTimelineView {
+export class ProjectTimelineViewComponent {
 
 }

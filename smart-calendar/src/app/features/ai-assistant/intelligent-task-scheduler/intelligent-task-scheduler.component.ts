@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -10,10 +10,10 @@ import { FormsModule } from '@angular/forms.component';
   templateUrl: './intelligent-task-scheduler.html',
   styleUrls: ['./intelligent-task-scheduler.scss'],
 })
-export class IntelligentTaskScheduler {
-  @Input() suggestions: any[] = [];
+export class IntelligentTaskSchedulerComponent {
+  @Input() suggestions: unknown[] = [];
 
-  apply(s: any): void {
+  apply(s: unknown): void {
     console.log('apply intelligent suggestion', s);
   }
 }

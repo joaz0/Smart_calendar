@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { Event as CalendarEvent } from '../models/event.model';
+import { Task } from '../models/task.model';
+import { Category } from '../models/category.model';
 
 
 export interface SyncStatus {
@@ -13,9 +16,9 @@ export interface SyncStatus {
 }
 
 export interface SyncData {
-  events: any[];
-  tasks: any[];
-  categories: any[];
+  events: CalendarEvent[];
+  tasks: Task[];
+  categories: Category[];
   timestamp: Date;
 }
 

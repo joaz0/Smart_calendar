@@ -22,13 +22,20 @@ export enum PrivacyContext {
   BACKUP_DATA = 'backup_data'
 }
 
+interface PrivacySettings {
+  defaultLevel: PrivacyLevel;
+  allowDataCollection: boolean;
+  allowAIFeatures: boolean;
+  encryptionEnabled: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class PrivacyManagerService {
   private http = inject(HttpClient);
 
-  private privacySettingsSubject = new BehaviorSubject<any>(null);
+  private privacySettingsSubject = new BehaviorSubject<PrivacySettings | null>(null);
   privacySettings$ = this.privacySettingsSubject.asObservable();
 
   constructor() {
@@ -46,11 +53,11 @@ export class PrivacyManagerService {
     return this.http.post<boolean>(`${environment.apiUrl}/privacy/check`, { level, context });
   }
 
-  updatePrivacySettings(settings: any): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/privacy/settings`, settings);
+  updatePrivacySettings(settings: Partial<PrivacySettings>): Observable<PrivacySettings> {
+    return this.http.put<PrivacySettings>(`${environment.apiUrl}/privacy/settings`, settings);
   }
 
-  private getDefaultSettings(): any {
+  private getDefaultSettings(): PrivacySettings {
     return {
       defaultLevel: PrivacyLevel.PRIVATE,
       allowDataCollection: false,

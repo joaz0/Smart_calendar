@@ -10,10 +10,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { TimeAnalyticsService } from '../../core/services/visualization/time-analytics.service';
-import { TimeAnalytics, TimeBreakdown } from '../../core/models/visualization/time-analytics.model';
+import { TimeAnalytics } from '../../core/models/visualization/time-analytics.model';
 
 interface ChartData {
   labels: string[];

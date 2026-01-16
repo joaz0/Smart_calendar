@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './energy-week-calendar.component.html',
   styleUrl: './energy-week-calendar.component.scss'
 })
-export class EnergyWeekCalendar {
+export class EnergyWeekCalendarComponent {
 
 }

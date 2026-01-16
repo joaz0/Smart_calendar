@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './relationship-mapper-chart.component.html',
   styleUrl: './relationship-mapper-chart.component.scss'
 })
-export class RelationshipMapperChart {
+export class RelationshipMapperChartComponent {
 
 }

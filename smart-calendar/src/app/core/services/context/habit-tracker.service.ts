@@ -270,9 +270,9 @@ export class HabitTrackerService {
     const completions: HabitCompletion[] = [];
     const now = new Date();
 
-    for (let i = 0; i < days; i++) {
+    for (const day of Array.from({ length: days }, (_, i) => i)) {
       const date = new Date(now);
-      date.setDate(now.getDate() - i);
+      date.setDate(now.getDate() - day);
       date.setHours(0, 0, 0, 0);
 
       completions.push({

@@ -1,25 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService, ApiResponse } from './api.service';
+import { ApiService } from './api.service';
 import { Category } from '../models/category.model';
-
-interface CreateCategoryRequest {
-  name: string;
-  color?: string;
-  description?: string;
-}
-
-interface UpdateCategoryRequest extends Partial<CreateCategoryRequest> {}
-
-interface CategoryListResponse {
-  data: Category[];
-  meta: {
-    total: number;
-    page: number;
-    limit: number;
-    pages: number;
-  };
-}
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +14,7 @@ export class CategoryApiService {
   /**
    * Obter todas as categorias
    */
-  getAllCategories(page = 1, limit = 50): Observable<ApiResponse<CategoryListResponse>> {
+  getAllCategories(page = 1, limit = 50): Observable<Category[]> {
     const params = {
       params: {
         page: page.toString(),
@@ -40,41 +22,41 @@ export class CategoryApiService {
       },
     };
 
-    return this.apiService.get<CategoryListResponse>(this.endpoint, params);
+    return this.apiService.get<Category[]>(this.endpoint, params);
   }
 
   /**
    * Obter categoria por ID
    */
-  getCategoryById(id: number): Observable<ApiResponse<Category>> {
+  getCategoryById(id: number): Observable<Category> {
     return this.apiService.get<Category>(`${this.endpoint}/${id}`);
   }
 
   /**
    * Criar nova categoria
    */
-  createCategory(request: CreateCategoryRequest): Observable<ApiResponse<Category>> {
+  createCategory(request: Partial<Category>): Observable<Category> {
     return this.apiService.post<Category>(this.endpoint, request);
   }
 
   /**
    * Atualizar categoria
    */
-  updateCategory(id: number, request: UpdateCategoryRequest): Observable<ApiResponse<Category>> {
+  updateCategory(id: number, request: Partial<Category>): Observable<Category> {
     return this.apiService.put<Category>(`${this.endpoint}/${id}`, request);
   }
 
   /**
    * Deletar categoria
    */
-  deleteCategory(id: number): Observable<ApiResponse<void>> {
+  deleteCategory(id: number): Observable<void> {
     return this.apiService.delete<void>(`${this.endpoint}/${id}`);
   }
 
   /**
    * Buscar categorias por nome
    */
-  searchCategories(query: string, page = 1, limit = 50): Observable<ApiResponse<CategoryListResponse>> {
+  searchCategories(query: string, page = 1, limit = 50): Observable<Category[]> {
     const params = {
       params: {
         q: query,
@@ -83,6 +65,6 @@ export class CategoryApiService {
       },
     };
 
-    return this.apiService.get<CategoryListResponse>(`${this.endpoint}/search`, params);
+    return this.apiService.get<Category[]>(`${this.endpoint}/search`, params);
   }
 }

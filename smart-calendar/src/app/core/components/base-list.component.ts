@@ -7,7 +7,7 @@ export interface ListAction {
   label: string;
   icon?: string;
   color?: string;
-  action: (_item: any) => void;
+  action: (_item: unknown) => void;
 }
 
 export interface ListColumn {
@@ -36,7 +36,7 @@ export abstract class BaseListComponent<T> extends BaseComponent implements OnIn
 
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
   @Output() sortChange = new EventEmitter<{ column: string; direction: 'asc' | 'desc' }>();
-  @Output() filterChange = new EventEmitter<any>();
+  @Output() filterChange = new EventEmitter<unknown>();
   @Output() itemSearch = new EventEmitter<string>();
 
   currentPage = 1;
@@ -113,12 +113,12 @@ export abstract class BaseListComponent<T> extends BaseComponent implements OnIn
   /**
    * Obtém valor da coluna para exibição
    */
-  getColumnValue(item: T, column: ListColumn): any {
+  getColumnValue(item: T, column: ListColumn): unknown {
     const keys = column.key.split('.');
-    let value: any = item;
+    let value: unknown = item;
 
     for (const key of keys) {
-      value = value?.[key as keyof typeof value];
+      value = (value as Record<string, unknown>)?.[key];
     }
 
     return value;
@@ -127,12 +127,12 @@ export abstract class BaseListComponent<T> extends BaseComponent implements OnIn
   /**
    * Formata valor para exibição
    */
-  formatValue(value: any, type?: string): string {
+  formatValue(value: unknown, type?: string): string {
     if (value === null || value === undefined) return '-';
 
     switch (type) {
       case 'date':
-        return new Date(value).toLocaleDateString('pt-BR');
+        return new Date(value as string).toLocaleDateString('pt-BR');
       case 'boolean':
         return value ? 'Sim' : 'Não';
       case 'number':

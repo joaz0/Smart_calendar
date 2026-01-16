@@ -6,15 +6,6 @@ import { Event } from '../models/event.model';
 import { EventApiService } from './event-api.service';
 import { Logger } from '../utils/logger.component';
 
-
-interface EventListResponse {
-  data: Event[];
-  total: number;
-  page: number;
-  pages: number;
-  limit: number;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -47,7 +38,6 @@ export class EventService {
 
   getEventsByDateRange(startDate: Date, endDate: Date, page = 1, limit = 50): Observable<Event[]> {
     return this.eventApiService.getEventsByDateRange(startDate, endDate, page, limit).pipe(
-      map((response) => response.data),
       catchError((error) => {
         this.logger.error('Erro ao buscar eventos por intervalo de datas', error);
         return of([]);
@@ -57,7 +47,6 @@ export class EventService {
 
   getAllEvents(page = 1, limit = 50): Observable<Event[]> {
     return this.eventApiService.getAllEvents(page, limit).pipe(
-      map((response) => response.data),
       catchError((error) => {
         this.logger.error('Erro ao buscar todos os eventos', error);
         return of([]);
@@ -78,7 +67,7 @@ export class EventService {
     event: Omit<Event, 'id' | 'createdBy' | 'createdAt' | 'updatedAt'>
   ): Observable<Event> {
     this.logger.info('Criando novo evento', { title: event.title });
-    return this.eventApiService.createEvent(event as any).pipe(
+    return this.eventApiService.createEvent(event as unknown as Parameters<typeof this.eventApiService.createEvent>[0]).pipe(
       tap((newEvent) => {
         this.logger.info('Evento criado com sucesso', { id: newEvent.id });
         this.eventsSubject.next([...this.eventsSubject.value, newEvent]);
@@ -92,7 +81,7 @@ export class EventService {
 
   updateEvent(id: string, event: Partial<Event>): Observable<Event> {
     this.logger.info('Atualizando evento', { id });
-    const updateRequest: any = {
+    const updateRequest = {
       ...event,
       startDate: event.startDate instanceof Date ? event.startDate.toISOString() : event.startDate,
       endDate: event.endDate instanceof Date ? event.endDate.toISOString() : event.endDate,
@@ -132,7 +121,6 @@ export class EventService {
   searchEvents(query: string, page = 1, limit = 50): Observable<Event[]> {
     this.logger.info('Buscando eventos', { query });
     return this.eventApiService.searchEvents(query, page, limit).pipe(
-      map((response) => response.data),
       catchError((error) => {
         this.logger.error('Erro ao buscar eventos', error);
         return of([]);

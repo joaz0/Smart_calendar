@@ -24,7 +24,10 @@ export class WindDownSchedulerComponent {
   categories: Category[] = [];
   violations: Violation[] = [];
 
-  isBlocked(_id: string): boolean { return false; }
+  isBlocked(id: string): boolean { 
+    console.log('Check blocked:', id);
+    return false; 
+  }
   toggleCategory(id: string): void {
     console.log('Toggle category:', id);
   }

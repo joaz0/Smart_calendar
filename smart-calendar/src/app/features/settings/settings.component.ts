@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,6 +11,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+
+interface UserSettings {
+  darkMode: boolean;
+  notifications: boolean;
+  emailNotifications: boolean;
+  soundNotifications: boolean;
+  language: string;
+  timezone: string;
+  workingHours: {
+    start: string;
+    end: string;
+  };
+  weekStart: string;
+}
 
 
 @Component({
@@ -34,13 +48,13 @@ export class SettingsComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  user: any = {
+  user: { name: string; email: string; avatar: string | null } = {
     name: 'Usuário',
     email: 'user@example.com',
     avatar: null
   };
   
-  settings = {
+  settings: UserSettings = {
     darkMode: false,
     notifications: true,
     emailNotifications: true,

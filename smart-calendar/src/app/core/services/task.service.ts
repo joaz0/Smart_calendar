@@ -6,15 +6,6 @@ import { Task } from '../models/task.model';
 import { TaskApiService } from './task-api.service';
 import { Logger } from '../utils/logger.component';
 
-
-interface TaskListResponse {
-  data: Task[];
-  total: number;
-  page: number;
-  pages: number;
-  limit: number;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -75,7 +66,7 @@ export class TaskService {
 
   createTask(task: Omit<Task, 'id' | 'created_at' | 'updated_at'>): Observable<Task> {
     this.logger.info('Criando nova tarefa', { title: task.title });
-    return this.taskApiService.createTask(task as any).pipe(
+    return this.taskApiService.createTask(task as unknown as Parameters<typeof this.taskApiService.createTask>[0]).pipe(
       tap((newTask) => {
         this.logger.info('Tarefa criada com sucesso', { id: newTask.id });
         this.tasksSubject.next([...this.tasksSubject.value, newTask]);
@@ -89,7 +80,7 @@ export class TaskService {
 
   updateTask(id: string, task: Partial<Task>): Observable<Task> {
     this.logger.info('Atualizando tarefa', { id });
-    const updateRequest: any = {
+    const updateRequest = {
       ...task,
       dueDate: task.dueDate instanceof Date ? task.dueDate.toISOString() : task.dueDate,
     };

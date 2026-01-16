@@ -30,7 +30,7 @@ export class ThemeService {
 
     // Effect to update DOM when theme changes
     effect(() => {
-      const theme = this.currentTheme();
+      this.currentTheme();
       untracked(() => this.updateThemeClass());
     });
   }

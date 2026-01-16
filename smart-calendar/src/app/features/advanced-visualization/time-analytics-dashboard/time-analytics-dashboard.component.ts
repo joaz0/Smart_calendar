@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './time-analytics-dashboard.component.html',
   styleUrl: './time-analytics-dashboard.component.scss'
 })
-export class TimeAnalyticsDashboard {
+export class TimeAnalyticsDashboardComponent {
 
 }

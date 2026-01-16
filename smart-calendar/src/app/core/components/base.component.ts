@@ -48,14 +48,14 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
   /**
    * Log simplificado
    */
-  protected log(message: string, data?: any): void {
+  protected log(message: string, data?: unknown): void {
     this.logger.info(message, data);
   }
 
   /**
    * Erro simplificado
    */
-  protected logError(message: string, error?: any): void {
+  protected logError(message: string, error?: unknown): void {
     this.logger.error(message, error);
   }
 }

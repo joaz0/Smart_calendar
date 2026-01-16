@@ -11,9 +11,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms.component';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TaskService } from '../../core/services/task.service';
 
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  priority: 'high' | 'medium' | 'low';
+  dueDate: Date | null;
+  category: string;
+  tags: string[];
+}
 
 @Component({
   selector: 'app-tasks',
@@ -34,13 +45,12 @@ import { TaskService } from '../../core/services/task.service';
   styleUrls: ['./tasks.scss']
 })
 export class TasksComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   private router = inject(Router);
   private taskService = inject(TaskService);
-
-  private destroy$ = new Subject<void>();
   
-  tasks: any[] = [];
-  filteredTasks: any[] = [];
+  tasks: Task[] = [];
+  filteredTasks: Task[] = [];
   searchTerm = '';
   selectedFilter = 'all';
   selectedPriority = 'all';
@@ -80,7 +90,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     }, 500);
   }
   
-  getMockTasks() {
+  getMockTasks(): Task[] {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -214,7 +224,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   createTask() {
     const title = prompt('Digite o título da tarefa:');
     if (title) {
-      const newTask = {
+      const newTask: Task = {
         id: Date.now().toString(),
         title,
         description: '',
@@ -229,12 +239,12 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   
-  toggleTask(task: any) {
+  toggleTask(task: Task) {
     task.completed = !task.completed;
     this.applyFilters();
   }
   
-  editTask(task: any) {
+  editTask(task: Task) {
     const newTitle = prompt('Editar título:', task.title);
     if (newTitle && newTitle !== task.title) {
       task.title = newTitle;
@@ -242,7 +252,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   
-  deleteTask(task: any) {
+  deleteTask(task: Task) {
     if (confirm(`Tem certeza que deseja excluir a tarefa "${task.title}"?`)) {
       this.tasks = this.tasks.filter(t => t.id !== task.id);
       this.applyFilters();
@@ -277,7 +287,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   
-  isOverdue(task: any): boolean {
+  isOverdue(task: Task): boolean {
     return !task.completed && task.dueDate && task.dueDate < new Date();
   }
   

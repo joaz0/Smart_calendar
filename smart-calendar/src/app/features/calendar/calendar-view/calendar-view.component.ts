@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './calendar-view.html',
   styleUrl: './calendar-view.scss',
 })
-export class CalendarView {
+export class CalendarViewComponent {
   currentDate: Date = new Date();
 
   prev(): void {

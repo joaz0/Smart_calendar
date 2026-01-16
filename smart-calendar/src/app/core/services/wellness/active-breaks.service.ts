@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, interval } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
@@ -40,7 +40,7 @@ export class ActiveBreaksService {
   }
 
   getBreakStats(): Observable<{ total: number; completed: number }> {
-    return this.http.get<any>(`${this.apiUrl}/stats`).pipe(
+    return this.http.get<{ total: number; completed: number }>(`${this.apiUrl}/stats`).pipe(
       catchError(() => of({ total: 20, completed: 16 }))
     );
   }

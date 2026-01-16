@@ -5,8 +5,8 @@ import { oauthConfig } from '../../../environments/oauth.config.component';
 
 declare global {
   interface Window {
-    google: any;
-    Microsoft: any;
+    google: Record<string, unknown>;
+    Microsoft: Record<string, unknown>;
   }
 }
 
@@ -19,10 +19,10 @@ export class OAuthService {
     // OAuth Service initialization
   }
 
-  initializeGoogleAuth(): Observable<any> {
+  initializeGoogleAuth(): Observable<unknown> {
     return from(this.loadGoogleScript().then(() => {
-      return new Promise((resolve, reject) => {
-        window.google.accounts.id.initialize({
+      return new Promise((resolve) => {
+        (window.google as Record<string, Record<string, Record<string, unknown>>>).accounts.id.initialize({
           client_id: oauthConfig.google.clientId,
           callback: resolve,
           auto_select: false,
@@ -32,7 +32,7 @@ export class OAuthService {
     }));
   }
 
-  loginWithGoogle(): Observable<any> {
+  loginWithGoogle(): Observable<unknown> {
     return from(new Promise((resolve, reject) => {
       if (!window.google) {
         this.loadGoogleScript().then(() => {
@@ -44,10 +44,11 @@ export class OAuthService {
     }));
   }
 
-  private performGoogleLogin(resolve: any, reject: any) {
-    window.google.accounts.id.initialize({
+  private performGoogleLogin(resolve: (value: unknown) => void, reject: (reason?: unknown) => void) {
+    const google = window.google as Record<string, Record<string, Record<string, (config: Record<string, unknown>) => void>>>;
+    google.accounts.id.initialize({
       client_id: oauthConfig.google.clientId,
-      callback: (response: any) => {
+      callback: (response: Record<string, unknown>) => {
         if (response.credential) {
           resolve(response);
         } else {
@@ -56,10 +57,10 @@ export class OAuthService {
       }
     });
     
-    window.google.accounts.id.prompt((notification: any) => {
+    (google.accounts.id as Record<string, (callback: (notification: Record<string, () => boolean>) => void) => void>).prompt((notification: Record<string, () => boolean>) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
         // Fallback para popup
-        window.google.accounts.oauth2.initTokenClient({
+        (google.accounts.oauth2 as Record<string, (config: Record<string, unknown>) => { requestAccessToken: () => void }>).initTokenClient({
           client_id: oauthConfig.google.clientId,
           scope: 'email profile',
           callback: resolve
@@ -68,7 +69,7 @@ export class OAuthService {
     });
   }
 
-  loginWithMicrosoft(): Observable<any> {
+  loginWithMicrosoft(): Observable<unknown> {
     return from(new Promise((resolve, reject) => {
       const popup = window.open(
         this.getMicrosoftAuthUrl(),

@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './agenda-list.html',
   styleUrl: './agenda-list.scss'
 })
-export class AgendaList {
+export class AgendaListComponent {
 
 }

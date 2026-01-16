@@ -18,10 +18,10 @@ export interface FormField {
     | 'checkbox'
     | 'radio';
   placeholder?: string;
-  value?: any;
+  value?: unknown;
   required?: boolean;
-  validators?: any[];
-  options?: { label: string; value: any }[];
+  validators?: unknown[];
+  options?: { label: string; value: unknown }[];
   cols?: number;
   rows?: number;
   hint?: string;
@@ -149,8 +149,9 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
       this.isSubmitting = true;
       this.serverError = null;
       await this.handleSubmit(this.form.value);
-    } catch (error: any) {
-      this.serverError = error.message || 'Erro ao processar formulário';
+    } catch (error) {
+      const err = error as Error;
+      this.serverError = err.message || 'Erro ao processar formulário';
       this.logError('Erro na submissão', error);
     } finally {
       this.isSubmitting = false;
@@ -160,7 +161,7 @@ export abstract class BaseFormComponent extends BaseComponent implements OnInit 
   /**
    * Método abstrato para tratar submissão
    */
-  protected abstract handleSubmit(formValue: any): Promise<void>;
+  protected abstract handleSubmit(formValue: Record<string, unknown>): Promise<void>;
 
   /**
    * Marca todos os campos como touched para exibir erros

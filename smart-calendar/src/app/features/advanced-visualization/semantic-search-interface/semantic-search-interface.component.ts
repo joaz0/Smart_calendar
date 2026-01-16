@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './semantic-search-interface.component.html',
   styleUrl: './semantic-search-interface.component.scss'
 })
-export class SemanticSearchInterface {
+export class SemanticSearchInterfaceComponent {
 
 }

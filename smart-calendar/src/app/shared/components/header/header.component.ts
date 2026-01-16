@@ -119,7 +119,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   private timeInterval?: number;
-  private onlineSubscription?: any;
 
   ngOnInit(): void {
     this.updateTime();

@@ -1,6 +1,6 @@
 // Base Service com padrões reutilizáveis
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Logger } from '../utils/logger.component';
 
 
@@ -13,7 +13,7 @@ export abstract class BaseService implements OnDestroy {
   protected logger: Logger;
 
   private loadingSubject$ = new BehaviorSubject<boolean>(false);
-  private errorSubject$ = new Subject<any>();
+  private errorSubject$ = new Subject<unknown>();
   private destroySubject$ = new Subject<void>();
 
   public loading$ = this.loadingSubject$.asObservable();
@@ -34,8 +34,8 @@ export abstract class BaseService implements OnDestroy {
   /**
    * Emite um erro
    */
-  protected setError(error: any): void {
-    this.logger.error('Erro no serviço', error as Record<string, any>);
+  protected setError(error: unknown): void {
+    this.logger.error('Erro no serviço', error as Record<string, unknown>);
     this.errorSubject$.next(error);
   }
 
@@ -61,7 +61,7 @@ export abstract class BaseService implements OnDestroy {
       return result;
     } catch (error) {
       this.setError(error);
-      this.logger.error(`${operationName} falhou`, error as Record<string, any>);
+      this.logger.error(`${operationName} falhou`, error as Record<string, unknown>);
       throw error;
     } finally {
       this.setLoading(false);

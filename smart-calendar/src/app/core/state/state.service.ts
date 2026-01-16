@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
  */
 export interface State {
   loading: boolean;
-  error: any | null;
+  error: Error | null;
   lastUpdated: Date | null;
 }
 
