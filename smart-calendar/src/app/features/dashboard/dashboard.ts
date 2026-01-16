@@ -11,6 +11,36 @@ import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { EventService } from '../../core/services/event.service';
 import { TaskService } from '../../core/services/task.service';
+import { AnyObject } from '@core/models/common-interfaces';
+
+interface User {
+  name: string;
+  email?: string;
+  id?: number;
+}
+
+interface Event {
+  id: string;
+  title: string;
+  description?: string;
+  startTime: Date;
+  startDate?: Date;
+  category: { color: string };
+}
+
+interface Task {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority: 'high' | 'medium' | 'low';
+}
+
+interface AIInsight {
+  icon: string;
+  title: string;
+  description: string;
+}
+
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +57,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   
-  user: any = { name: 'Usuário' };
+  user: User = { name: 'Usuário' };
   currentDate = new Date();
   
   todayStats = {
@@ -37,9 +67,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     wellness: 'Bom'
   };
   
-  todayEvents: any[] = [];
-  quickTasks: any[] = [];
-  aiInsights: any[] = [
+  todayEvents: Event[] = [];
+  quickTasks: Task[] = [];
+  aiInsights: AIInsight[] = [
     {
       icon: 'schedule',
       title: 'Otimização de Tempo',
@@ -166,7 +196,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   
-  toggleTask(task: any) {
+  toggleTask(task: Task): void {
     task.completed = !task.completed;
     if (task.completed) {
       this.todayStats.tasks--;

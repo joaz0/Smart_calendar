@@ -11,6 +11,8 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarEvent } from '../../../core/models/event.model';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 @Component({
   selector: 'app-event-form',
@@ -19,14 +21,14 @@ import { CalendarEvent } from '../../../core/models/event.model';
   templateUrl: './event-form.html',
   styleUrls: ['./event-form.scss'],
 })
-export class EventForm implements OnInit, OnDestroy {
+export class EventFormComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
 
   private destroy$ = new Subject<void>();
   
   @Input() isEditMode = false;
   @Input() eventData: CalendarEvent | null = null;
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelDialog = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<CalendarEvent>();
   eventForm: FormGroup;
   activeTab = 'details';
@@ -112,7 +114,7 @@ export class EventForm implements OnInit, OnDestroy {
 
     // Patch reminders if they exist
     if (this.eventData.reminders && Array.isArray(this.eventData.reminders)) {
-      this.eventData.reminders.forEach((reminder: any) => {
+      this.eventData.reminders.forEach((reminder: AnyObject) => {
         this.reminders.push(
           this.fb.group({
             minutesBefore: [reminder.minutesBefore || '15', Validators.required],
@@ -149,7 +151,7 @@ export class EventForm implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
-    this.cancel.emit();
+    this.cancelDialog.emit();
   }
 
   // Métodos para lembretes
@@ -215,7 +217,7 @@ export class EventForm implements OnInit, OnDestroy {
       const formValue = this.eventForm.value;
 
       // Preparar dados para envio no formato CalendarEvent
-      const eventData: any = {
+      const eventData: AnyObject = {
         id: this.eventData?.id || this.generateId(),
         title: formValue.title,
         description: formValue.description,
@@ -260,7 +262,7 @@ export class EventForm implements OnInit, OnDestroy {
       } else if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
       } else if (control instanceof FormArray) {
-        control.controls.forEach((group: any) => {
+        control.controls.forEach((group: AnyObject) => {
           if (group instanceof FormGroup) {
             this.markFormGroupTouched(group);
           }

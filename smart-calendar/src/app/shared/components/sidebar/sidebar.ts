@@ -8,6 +8,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { Subject, takeUntil, filter } from 'rxjs';
+import { AnyObject } from '@core/models/common-interfaces';
+
 
 
 const MOBILE_BREAKPOINT = 768;
@@ -16,6 +18,26 @@ const STORAGE_KEYS = {
   TOKEN: 'token',
   LOGIN_TIME: 'loginTime'
 } as const;
+
+interface User {
+  name: string;
+  email: string;
+  avatar: string | null;
+}
+
+interface Notification {
+  id: string;
+  type: string;
+  title: string;
+  timestamp: Date;
+  read: boolean;
+}
+
+interface SearchResult {
+  id: string;
+  type: string;
+  title?: string;
+}
 
 interface NavItem {
   label: string;
@@ -49,7 +71,7 @@ interface UserStats {
   styleUrls: ['./sidebar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponentComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
@@ -61,7 +83,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     completedTasks: 0,
     weeklyFocus: 0
   };
-  @Input() user: any = {
+  @Input() user: User = {
     name: 'Usuário',
     email: 'user@example.com',
     avatar: null
@@ -77,9 +99,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   searchTerm = '';
   notifications = 3;
   filteredNavItems: NavItem[] = [];
-  searchResults: any[] = [];
+  searchResults: SearchResult[] = [];
   hasUnreadNotifications = true;
-  recentNotifications: any[] = [];
+  recentNotifications: Notification[] = [];
 
   private destroy$ = new Subject<void>();
   private cachedCompletionPercentage?: number;
@@ -360,15 +382,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ];
   }
 
-  trackByNotification(index: number, notification: any): string {
+  trackByNotification(index: number, notification: Notification): string {
     return notification.id;
   }
 
-  trackBySearchResult(index: number, result: any): string {
+  trackBySearchResult(index: number, result: SearchResult): string {
     return result.id || `${result.type}-${index}`;
   }
 
-  selectSearchResult(result: any): void {
+  selectSearchResult(result: SearchResult): void {
     if (result.type === 'event') {
       this.router.navigate(['/app/calendar'], { queryParams: { eventId: result.id } });
     } else if (result.type === 'task') {
@@ -377,7 +399,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.clearSearch();
   }
 
-  openNotification(notification: any) {
+  openNotification(notification: Notification) {
     notification.read = true;
     const routes: Record<string, string> = {
       event: '/app/calendar',
