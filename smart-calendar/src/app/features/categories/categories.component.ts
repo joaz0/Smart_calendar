@@ -8,6 +8,6 @@ import { CategoriesListComponent } from './components/categories-list.component'
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss'],
   standalone: true,
-  imports: [RouterOutlet, CategoriesListComponent],
+  imports: [CategoriesListComponent],
 })
 export class CategoriesComponent {}

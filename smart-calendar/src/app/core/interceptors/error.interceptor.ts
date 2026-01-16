@@ -55,4 +55,4 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 }
 
-export const errorInterceptor = new ErrorInterceptor(null as never);
+export const errorInterceptor = new ErrorInterceptor();
