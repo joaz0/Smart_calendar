@@ -24,12 +24,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^20.3.16",
-    "@angular/cdk": "^19.2.18",
+    "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.3.16",
     "@angular/compiler": "^20.3.16",
     "@angular/core": "^20.3.16",
     "@angular/forms": "^20.3.16",
-    "@angular/material": "^19.2.18",
+    "@angular/material": "^20.2.14",
     "@angular/platform-browser": "^20.3.16",
     "@angular/router": "^20.3.16",
     "@fortawesome/fontawesome-free": "^6.5.1",
@@ -54,7 +54,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.9.3",
+    "typescript": "~5.7.2",
     "typescript-eslint": "8.46.4"
   }
 }
