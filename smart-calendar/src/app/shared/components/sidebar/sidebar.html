@@ -42,7 +42,7 @@
              aria-label="Calendário">
             <span class="nav-icon"><mat-icon>event</mat-icon></span>
             <span class="nav-text">Calendário</span>
-            <span class="nav-badge" *ngIf="stats.todayEvents > 0" aria-label="{{stats.todayEvents}} eventos hoje">{{ stats.todayEvents }}</span>
+            <span class="nav-badge" *ngIf="stats.todayEvents > 0" [attr.aria-label]="stats.todayEvents + ' eventos hoje'">{{ stats.todayEvents }}</span>
           </a>
         </li>
       </ul>
@@ -72,7 +72,7 @@
              aria-label="Tarefas">
             <span class="nav-icon"><mat-icon>task_alt</mat-icon></span>
             <span class="nav-text">Tarefas</span>
-            <span class="nav-badge" *ngIf="stats.pendingTasks > 0" aria-label="{{stats.pendingTasks}} tarefas pendentes">{{ stats.pendingTasks }}</span>
+            <span class="nav-badge" *ngIf="stats.pendingTasks > 0" [attr.aria-label]="stats.pendingTasks + ' tarefas pendentes'">{{ stats.pendingTasks }}</span>
           </a>
         </li>
       </ul>
@@ -170,7 +170,7 @@
              matTooltipPosition="right"
              aria-label="Notas">
             <span class="nav-icon"><mat-icon>note</mat-icon></span>
-            <span class="nav-text">Notas</span><span class="nav-badge" *ngIf="stats.pendingNotes > 0" aria-label="{{stats.pendingNotes}} notas pendentes">{{ stats.pendingNotes }}</span>
+            <span class="nav-text">Notas</span><span class="nav-badge" *ngIf="stats.pendingNotes && stats.pendingNotes > 0" [attr.aria-label]="stats.pendingNotes + ' notas pendentes'">{{ stats.pendingNotes }}</span>
           </a>
         </li>
         <li role="listitem">

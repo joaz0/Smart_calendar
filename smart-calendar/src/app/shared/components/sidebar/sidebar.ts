@@ -31,6 +31,7 @@ interface UserStats {
   pendingTasks: number;
   completedTasks: number;
   weeklyFocus: number;
+  pendingNotes?: number;
 }
 
 @Component({
@@ -66,6 +67,10 @@ export class SidebarComponent implements OnInit {
   @Input() logoUrl: string = 'assets/images/logo.svg';
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() searchQuery = new EventEmitter<string>();
+
+  get isCollapsed(): boolean {
+    return !this.isOpen;
+  }
 
   searchTerm: string = '';
   notifications: number = 3;

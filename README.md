@@ -51,8 +51,13 @@ npm start
 |-----------|-----------|------|
 | [DOCUMENTATION.md](./smart-calendar/DOCUMENTATION.md) | Padrões, arquitetura e patterns frontend | Desenvolvedores Frontend |
 | [BACKEND_DOCUMENTATION.md](./smart-calendar/backend/BACKEND_DOCUMENTATION.md) | API, endpoints e padrões backend | Desenvolvedores Backend |
-| [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) | Sistema de design e tokens | Designers/Frontend |
+| [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) | Sistema de design, tokens e componentes | Designers/Frontend |
+| [RESPONSIVE_GUIDE.md](./RESPONSIVE_GUIDE.md) | Guia de responsividade mobile-first | Frontend |
 | [ACCESSIBILITY_CHECKLIST.md](./ACCESSIBILITY_CHECKLIST.md) | Checklist WCAG 2.1 AA | QA/Acessibilidade |
+| [API_REFERENCE.md](./API_REFERENCE.md) | Referência completa da API | Desenvolvedores |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Guia de contribuição | Contribuidores |
+| [SECURITY.md](./SECURITY.md) | Políticas de segurança | Todos |
+| [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | Solução de problemas comuns | Todos |
 | [copilot-instructions.md](./.github/copilot-instructions.md) | Instruções para agentes de código | Contribuidores |
 
 ---
@@ -794,10 +799,13 @@ Abra um PR com:
 
 ## 📖 Documentação Adicional
 
-- [Guia de Responsividade](RESPONSIVE_GUIDE.md)
-- [Integração n8n](n8n-nodes-agenda-rapido/README.md)
-- [API Reference](API_REFERENCE.md) *(em breve)*
-- [Contributing Guide](CONTRIBUTING.md) *(em breve)*
+- [API Reference](API_REFERENCE.md)
+- [Contributing Guide](CONTRIBUTING.md)
+- [Security Policy](SECURITY.md)
+- [Troubleshooting](TROUBLESHOOTING.md)
+- [Deploy Guide](DEPLOY_GUIDE.md)
+- [Changelog](CHANGELOG.md)
+- [Integração n8n](smart-calendar/n8n-nodes-agenda-rapido/README.md)
 
 ---
 

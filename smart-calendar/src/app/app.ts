@@ -60,18 +60,17 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isGlobalLoading = isLoading;
       });
 
-    this.themeService.isDarkMode
+    this.themeService.isDarkMode$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(isDark => this.isDarkTheme = isDark);
+      .subscribe((isDark: boolean) => this.isDarkTheme = isDark);
 
-    this.notificationService.notifications
+    this.notificationService.notifications$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(notifications => {
-        this.toastNotifications = notifications.filter(n => !n.read).slice(0, 3);
+      .subscribe((notifications: Notification[]) => {
+        this.toastNotifications = notifications.filter((n: Notification) => !n.read).slice(0, 3);
       });
 
     this.themeService.initializeTheme();
-    this.notificationService.initializeNotifications();
     this.setupOnlineDetection();
     this.checkForPwaUpdate();
   }

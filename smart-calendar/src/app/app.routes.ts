@@ -11,10 +11,14 @@ import { PrivacyLevel, PrivacyContext } from './core/guards/privacy.guard';
 
 // Components - Shared
 import { NotFound } from './shared/components/not-found/not-found';
+import { ErrorComponent } from './shared/components/error/error.component';
 
 export const routes: Routes = [
   // ========== REDIRECT PADRÃO ==========
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
+
+  // ========== ROTAS DE ERRO ==========
+  { path: 'error', component: ErrorComponent },
 
   // ========== ROTAS PÚBLICAS ==========
   {

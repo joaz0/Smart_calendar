@@ -52,7 +52,7 @@ export class EventApiService {
       },
     };
 
-    return this.apiService.get<EventListResponse>('/api/events', params).pipe(
+    return this.apiService.get<EventListResponse>('/events', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -73,7 +73,7 @@ export class EventApiService {
       },
     };
 
-    return this.apiService.get<EventListResponse>('/api/events', params).pipe(
+    return this.apiService.get<EventListResponse>('/events', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -87,7 +87,7 @@ export class EventApiService {
    * Obter evento por ID
    */
   getEventById(id: number): Observable<Event> {
-    return this.apiService.get<Event>(`/api/events/${id}`).pipe(
+    return this.apiService.get<Event>(`/events/${id}`).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -101,7 +101,7 @@ export class EventApiService {
    * Criar novo evento
    */
   createEvent(event: CreateEventRequest): Observable<Event> {
-    return this.apiService.post<Event>('/api/events', event).pipe(
+    return this.apiService.post<Event>('/events', event).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -115,7 +115,7 @@ export class EventApiService {
    * Atualizar evento
    */
   updateEvent(id: number, event: UpdateEventRequest): Observable<Event> {
-    return this.apiService.patch<Event>(`/api/events/${id}`, event).pipe(
+    return this.apiService.patch<Event>(`/events/${id}`, event).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -129,7 +129,7 @@ export class EventApiService {
    * Deletar evento
    */
   deleteEvent(id: number): Observable<void> {
-    return this.apiService.delete<void>(`/api/events/${id}`).pipe(
+    return this.apiService.delete<void>(`/events/${id}`).pipe(
       map((response) => {
         if (response.success) {
           return undefined;
@@ -151,7 +151,7 @@ export class EventApiService {
       },
     };
 
-    return this.apiService.get<EventListResponse>('/api/events/search', params).pipe(
+    return this.apiService.get<EventListResponse>('/events/search', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;

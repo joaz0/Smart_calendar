@@ -3,32 +3,50 @@
     <div class="auth-card">
       <div class="auth-header">
         <img src="assets/images/Logo_dark.png" alt="Logo" class="app-logo" width="200" height="60" loading="eager">
-        <h1>Smart Callendar</h1>
+        <h1>Smart Calendar</h1>
         <p class="auth-subtitle">
           {{ isForgotMode ? 'Redefinir senha' : (isLoginMode ? 'Entre na sua conta' : 'Crie sua conta') }}
         </p>
       </div>
 
       <form [formGroup]="authForm" (ngSubmit)="isForgotMode ? sendResetEmail() : onSubmit()" class="auth-form">
+        <!-- Campo Nome (apenas no cadastro) -->
         <div class="form-group" *ngIf="!isLoginMode && !isForgotMode">
           <label for="name">Nome completo</label>
-          <input type="text" id="name" formControlName="name" placeholder="Seu nome completo">
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name" 
+            placeholder="Seu nome completo"
+            autocomplete="name">
           <div class="error-message" *ngIf="getFieldError('name')">
             {{ getFieldError('name') }}
           </div>
         </div>
 
+        <!-- Campo Email -->
         <div class="form-group">
           <label for="email">E-mail</label>
-          <input type="email" id="email" formControlName="email" placeholder="seu@email.com">
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            placeholder="seu@email.com"
+            autocomplete="email">
           <div class="error-message" *ngIf="getFieldError('email')">
             {{ getFieldError('email') }}
           </div>
         </div>
 
+        <!-- Campo Senha (não aparece no esqueci senha) -->
         <div class="form-group" *ngIf="!isForgotMode">
           <label for="password">Senha</label>
-          <input type="password" id="password" formControlName="password" placeholder="Sua senha">
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password" 
+            placeholder="Sua senha"
+            autocomplete="current-password">
           <div class="error-message" *ngIf="getFieldError('password')">
             {{ getFieldError('password') }}
           </div>

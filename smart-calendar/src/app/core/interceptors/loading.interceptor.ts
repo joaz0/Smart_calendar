@@ -1,13 +1,14 @@
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from '../services/loading.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
   private activeRequests = 0;
-  private loadingService = inject(LoadingService);
+
+  constructor(private loadingService: LoadingService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.activeRequests === 0) {
@@ -25,5 +26,3 @@ export class LoadingInterceptor implements HttpInterceptor {
     );
   }
 }
-
-export const loadingInterceptor = new LoadingInterceptor();

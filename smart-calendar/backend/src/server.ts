@@ -25,6 +25,7 @@ import breaksRoutes from './routes/breaks.routes';
 import windDownRoutes from './routes/wind-down.routes';
 import setupRoutes from './routes/setup.routes';
 import n8nRoutes from './routes/n8n.routes';
+import privacyRoutes from './routes/privacy.routes';
 import { pool } from './config/database';
 import { logger } from './utils/logger';
 import { errorHandler, requestLogger } from './middleware/error-middleware';
@@ -143,6 +144,9 @@ app.use('/api/setup', setupRoutes);
 
 // Rotas de integração
 app.use('/api/n8n', n8nRoutes);
+
+// Rotas de privacidade
+app.use('/api/privacy', privacyRoutes);
 
 // ============================================
 // Health Check & Info

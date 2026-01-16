@@ -50,7 +50,7 @@ export class N8nIntegrationService {
           'X-N8N-API-KEY': this.apiKey,
         },
       });
-      return response.data.data;
+      return (response.data as any).data;
     } catch (error: any) {
       throw new Error(`N8N get workflows error: ${error.message}`);
     }

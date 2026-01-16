@@ -89,6 +89,12 @@ $breakpoints: (
   overflow: hidden;
 }
 
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // Container responsivo
 @mixin container {
   width: 100%;
@@ -242,22 +248,22 @@ $breakpoints: (
 }
 
 // Scrollbar
-@mixin custom-scrollbar {
+@mixin custom-scrollbar($width: 8px, $track-color: rgba(10, 0, 89, 0.3), $thumb-color: var(--primary-500)) {
   scrollbar-width: thin;
-  scrollbar-color: var(--primary-500) rgba(10, 0, 89, 0.3);
+  scrollbar-color: $thumb-color $track-color;
 
   &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: $width;
+    height: $width;
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(10, 0, 89, 0.3);
+    background: $track-color;
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--primary-500);
+    background: $thumb-color;
     border-radius: 4px;
 
     &:hover {
@@ -289,8 +295,8 @@ $breakpoints: (
 }
 
 // Fade in
-@mixin fade-in {
-  animation: fadeIn 0.3s ease-out;
+@mixin fade-in($duration: 0.3s) {
+  animation: fadeIn $duration ease-out;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -319,4 +325,35 @@ $breakpoints: (
   padding: 0.875rem 1.75rem;
   font-size: 1.125rem;
   min-height: 52px;
+}
+
+// Form mixins
+@mixin form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+@mixin form-input {
+  @include input-glow;
+}
+
+@mixin button-base {
+  @include btn-base;
+}
+
+@mixin primary-button {
+  @include btn-primary;
+}
+
+@mixin elevated-card {
+  @include glass-card;
+}
+
+@mixin full-screen-gradient {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background-attachment: fixed;
 }

@@ -44,7 +44,7 @@ export class TaskApiService {
       },
     };
 
-    return this.apiService.get<TaskListResponse>('/api/tasks', params).pipe(
+    return this.apiService.get<TaskListResponse>('/tasks', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -58,7 +58,7 @@ export class TaskApiService {
    * Obter tarefa por ID
    */
   getTaskById(id: number): Observable<Task> {
-    return this.apiService.get<Task>(`/api/tasks/${id}`).pipe(
+    return this.apiService.get<Task>(`/tasks/${id}`).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -80,7 +80,7 @@ export class TaskApiService {
       },
     };
 
-    return this.apiService.get<TaskListResponse>('/api/tasks', params).pipe(
+    return this.apiService.get<TaskListResponse>('/tasks', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -94,7 +94,7 @@ export class TaskApiService {
    * Criar nova tarefa
    */
   createTask(task: CreateTaskRequest): Observable<Task> {
-    return this.apiService.post<Task>('/api/tasks', task).pipe(
+    return this.apiService.post<Task>('/tasks', task).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -108,7 +108,7 @@ export class TaskApiService {
    * Atualizar tarefa
    */
   updateTask(id: number, task: UpdateTaskRequest): Observable<Task> {
-    return this.apiService.patch<Task>(`/api/tasks/${id}`, task).pipe(
+    return this.apiService.patch<Task>(`/tasks/${id}`, task).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -122,7 +122,7 @@ export class TaskApiService {
    * Deletar tarefa
    */
   deleteTask(id: number): Observable<void> {
-    return this.apiService.delete<void>(`/api/tasks/${id}`).pipe(
+    return this.apiService.delete<void>(`/tasks/${id}`).pipe(
       map((response) => {
         if (response.success) {
           return undefined;
@@ -144,7 +144,7 @@ export class TaskApiService {
       },
     };
 
-    return this.apiService.get<TaskListResponse>('/api/tasks/search', params).pipe(
+    return this.apiService.get<TaskListResponse>('/tasks/search', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;

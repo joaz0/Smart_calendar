@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export interface Notification {
   id: string;
@@ -17,9 +19,12 @@ export interface Notification {
 })
 export class NotificationService {
   notifications = signal<Notification[]>([]);
+  notifications$: Observable<Notification[]>;
   unreadCount = signal(0);
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) {
+    this.notifications$ = toObservable(this.notifications);
+  }
 
   initializeNotifications() {
     // Load notifications from localStorage or API
@@ -27,6 +32,12 @@ export class NotificationService {
   }
 
   private loadNotifications() {
+    // Só carrega notificações se houver token (usuário logado)
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+
     // Mock notifications for demo
     const mockNotifications: Notification[] = [
       {

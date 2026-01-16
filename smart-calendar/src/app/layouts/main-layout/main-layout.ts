@@ -11,6 +11,7 @@ import { UserService, UserProfile, UserStats } from '../../core/services/user.se
 import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -64,7 +65,8 @@ export class MainLayout implements OnInit, OnDestroy {
     private userService: UserService,
     private taskService: TaskService,
     private eventService: EventService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -83,6 +85,7 @@ export class MainLayout implements OnInit, OnDestroy {
 
     this.loadUserData();
     this.loadStats();
+    this.initializeNotifications();
   }
 
   ngOnDestroy() {
@@ -141,6 +144,10 @@ export class MainLayout implements OnInit, OnDestroy {
           this.notificationsSignal.set(0);
         }
       });
+  }
+
+  private initializeNotifications() {
+    this.notificationService.initializeNotifications();
   }
 
   setActive(view: string) {

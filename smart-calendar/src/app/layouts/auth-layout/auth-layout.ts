@@ -2,13 +2,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule, 
+    RouterModule, 
+    ReactiveFormsModule, 
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule
+  ],
   templateUrl: './auth-layout.html',
   styleUrls: ['./auth-layout.scss']
 })
@@ -38,8 +51,9 @@ export class AuthLayout {
 
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
+    this.isForgotMode = false;
     this.errorMessage = '';
-    this.authForm.reset();
+    this.authForm.reset({ rememberMe: true });
 
     if (this.isLoginMode) {
       this.authForm.get('name')?.clearValidators();

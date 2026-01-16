@@ -40,7 +40,7 @@ export class AuthApiService {
    * Login do usuário
    */
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.apiService.post<AuthResponse>('/api/auth/login', credentials).pipe(
+    return this.apiService.post<AuthResponse>('/auth/login', credentials).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -54,7 +54,7 @@ export class AuthApiService {
    * Registro de novo usuário
    */
   register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.apiService.post<AuthResponse>('/api/auth/register', data).pipe(
+    return this.apiService.post<AuthResponse>('/auth/register', data).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -68,7 +68,7 @@ export class AuthApiService {
    * Obter dados do usuário atual
    */
   getCurrentUser(): Observable<User> {
-    return this.apiService.get<User>('/api/auth/me').pipe(
+    return this.apiService.get<User>('/auth/me').pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -82,7 +82,7 @@ export class AuthApiService {
    * Solicitar reset de senha
    */
   forgotPassword(request: ForgotPasswordRequest): Observable<{ message: string }> {
-    return this.apiService.post<{ message: string }>('/api/auth/forgot-password', request).pipe(
+    return this.apiService.post<{ message: string }>('/auth/forgot-password', request).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -96,7 +96,7 @@ export class AuthApiService {
    * Reset de senha
    */
   resetPassword(request: ResetPasswordRequest): Observable<{ message: string }> {
-    return this.apiService.post<{ message: string }>('/api/auth/reset-password', request).pipe(
+    return this.apiService.post<{ message: string }>('/auth/reset-password', request).pipe(
       map((response) => {
         if (response.data) {
           return response.data;

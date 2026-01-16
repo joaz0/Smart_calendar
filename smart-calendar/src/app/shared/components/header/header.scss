@@ -23,7 +23,7 @@
   background-origin: border-box;
   background-clip: padding-box, border-box;
   min-height: 64px;
-  z-index: 900;
+  z-index: 999;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:
     0 4px 12px rgba(91, 11, 220, 0.3),

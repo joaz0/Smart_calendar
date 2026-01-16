@@ -1,4 +1,6 @@
 import { Injectable, signal, effect, untracked } from '@angular/core';
+import { Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export type Theme = 'light' | 'dark' | 'auto';
 
@@ -10,8 +12,10 @@ export class ThemeService {
   
   currentTheme = signal<Theme>('auto');
   isDarkMode = signal(false);
+  isDarkMode$: Observable<boolean>;
 
   constructor() {
+    this.isDarkMode$ = toObservable(this.isDarkMode);
     this.initializeTheme();
     
     // Watch for system theme changes
