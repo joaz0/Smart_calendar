@@ -29,8 +29,8 @@ import { AnyObject } from '@core/models/common-interfaces.component';
     MatInputModule,
     FormsModule
 ],
-  templateUrl: './events.html',
-  styleUrls: ['./events.scss']
+  templateUrl: './events.component.html',
+  styleUrls: ['./events.component.scss']
 })
 export class EventsComponent implements OnInit, OnDestroy {
   private router = inject(Router);

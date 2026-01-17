@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-multiple-calendars-manager',
   imports: [],
-  templateUrl: './multiple-calendars-manager.html',
-  styleUrl: './multiple-calendars-manager.scss'
+  templateUrl: './multiple-calendars-manager.component.html',
+  styleUrl: './multiple-calendars-manager.component.scss'
 })
 export class MultipleCalendarsManagerComponent {
 

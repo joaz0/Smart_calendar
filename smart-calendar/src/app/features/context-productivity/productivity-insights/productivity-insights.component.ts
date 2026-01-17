@@ -7,7 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsight, ProductivityPattern } from '../../../core/services/productivity/productivity-insights.service';
 
@@ -24,14 +24,14 @@ import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsig
     MatProgressSpinnerModule,
     MatSelectModule
 ],
-  templateUrl: './productivity-insights.html',
-  styleUrl: './productivity-insights.scss'
+  templateUrl: './productivity-insights.component.html',
+  styleUrl: './productivity-insights.component.scss'
 })
 export class ProductivityInsightsComponent implements OnInit, OnDestroy {
   private productivityService = inject(ProductivityInsightsService);
 
   private destroy$ = new Subject<void>();
-  
+
   metricsData: ProductivityMetricsData | null = null;
   loading = false;
   selectedPeriod: 'week' | 'month' | 'quarter' = 'week';

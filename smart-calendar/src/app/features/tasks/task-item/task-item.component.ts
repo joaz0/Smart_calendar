@@ -42,8 +42,8 @@ interface Task {
     MatTooltipModule,
     PriorityIndicator
   ],
-  templateUrl: './task-item.html',
-  styleUrls: ['./task-item.scss']
+  templateUrl: './task-item.component.html',
+  styleUrls: ['./task-item.component.scss']
 })
 export class TaskItemComponent {
   @Input() task: Task = {};

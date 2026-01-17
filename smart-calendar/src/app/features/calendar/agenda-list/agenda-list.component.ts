@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-agenda-list',
   imports: [],
-  templateUrl: './agenda-list.html',
-  styleUrl: './agenda-list.scss'
+  templateUrl: './agenda-list.component.html',
+  styleUrl: './agenda-list.component.scss'
 })
 export class AgendaListComponent {
 

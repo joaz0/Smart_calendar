@@ -7,8 +7,8 @@ import { TaskItem } from '../task-item/task-item.component';
   selector: 'app-task-list',
   standalone: true,
   imports: [TaskItem],
-  templateUrl: './task-list.html',
-  styleUrl: './task-list.scss',
+  templateUrl: './task-list.component.html',
+  styleUrl: './task-list.component.scss',
 })
 export class TaskListComponent {
   // Lista de tarefas; preenchida por um service em runtime

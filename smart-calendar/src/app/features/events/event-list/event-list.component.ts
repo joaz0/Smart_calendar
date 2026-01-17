@@ -6,8 +6,8 @@ import { DatePipe } from '@angular/common.component';
   selector: 'app-event-list',
   standalone: true,
   imports: [DatePipe],
-  templateUrl: './event-list.html',
-  styleUrl: './event-list.scss',
+  templateUrl: './event-list.component.html',
+  styleUrl: './event-list.component.scss',
 })
 export class EventListComponent {
   events: any[] = [];

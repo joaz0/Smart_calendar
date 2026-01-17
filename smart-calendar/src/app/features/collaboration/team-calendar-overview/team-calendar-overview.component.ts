@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-team-calendar-overview',
   imports: [],
-  templateUrl: './team-calendar-overview.html',
-  styleUrl: './team-calendar-overview.scss'
+  templateUrl: './team-calendar-overview.component.html',
+  styleUrl: './team-calendar-overview.component.scss'
 })
 export class TeamCalendarOverviewComponent {
 

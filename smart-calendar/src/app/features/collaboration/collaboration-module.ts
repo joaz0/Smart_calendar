@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common.component';
+import { CommonModule } from '@angular/common';
 
 import { CollaborationRoutingModule } from './collaboration-routing-module';
 

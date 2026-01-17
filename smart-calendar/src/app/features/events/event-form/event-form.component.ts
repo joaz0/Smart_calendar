@@ -18,8 +18,8 @@ import { AnyObject } from '@core/models/common-interfaces.component';
   selector: 'app-event-form',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './event-form.html',
-  styleUrls: ['./event-form.scss'],
+  templateUrl: './event-form.component.html',
+  styleUrls: ['./event-form.component.scss'],
 })
 export class EventFormComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);

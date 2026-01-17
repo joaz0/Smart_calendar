@@ -32,8 +32,8 @@ import { CollaborationService, TeamMember, SharedEvent, TaskDelegation, Collabor
     MatMenuModule,
     MatDividerModule
   ],
-  templateUrl: './collaboration-dashboard.html',
-  styleUrl: './collaboration-dashboard.scss',
+  templateUrl: './collaboration-dashboard.component.html',
+  styleUrl: './collaboration-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CollaborationDashboardComponent implements OnInit, OnDestroy {

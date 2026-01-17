@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-off-grid-mode-toggle',
   imports: [],
-  templateUrl: './off-grid-mode-toggle.html',
-  styleUrl: './off-grid-mode-toggle.scss'
+  templateUrl: './off-grid-mode-toggle.component.html',
+  styleUrl: './off-grid-mode-toggle.component.scss'
 })
 export class OffGridModeToggleComponent {
 

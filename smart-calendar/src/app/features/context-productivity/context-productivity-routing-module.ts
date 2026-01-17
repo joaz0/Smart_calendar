@@ -4,27 +4,27 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'insights',
-    loadComponent: () => import('./productivity-insights/productivity-insights').then(m => m.ProductivityInsights)
+    loadComponent: () => import('./productivity-insights/productivity-insights.component').then(m => m.ProductivityInsightsComponent)
   },
   {
     path: 'focus',
-    loadComponent: () => import('./focus-mode-manager/focus-mode-manager').then(m => m.FocusModeManager)
+    loadComponent: () => import('./focus-mode-manager/focus-mode-manager.component').then(m => m.FocusModeManagerComponent)
   },
   {
     path: 'pomodoro',
-    loadComponent: () => import('./pomodoro-timer/pomodoro-timer').then(m => m.PomodoroTimer)
+    loadComponent: () => import('./pomodoro-timer/pomodoro-timer.component').then(m => m.PomodoroTimerComponent)
   },
   {
     path: 'templates',
-    loadComponent: () => import('./event-template-library/event-template-library').then(m => m.EventTemplateLibrary)
+    loadComponent: () => import('./event-template-library/event-template-library.component').then(m => m.EventTemplateLibraryComponent)
   },
   {
     path: 'habits',
-    loadComponent: () => import('./habit-tracking-dashboard/habit-tracking-dashboard').then(m => m.HabitTrackingDashboard)
+    loadComponent: () => import('./habit-tracking-dashboard/habit-tracking-dashboard.component').then(m => m.HabitTrackingDashboardComponent)
   },
   {
     path: 'context-blocks',
-    loadComponent: () => import('./context-blocks-editor/context-blocks-editor').then(m => m.ContextBlocksEditor)
+    loadComponent: () => import('./context-blocks-editor/context-blocks-editor.component').then(m => m.ContextBlocksEditorComponent)
   },
   {
     path: '',

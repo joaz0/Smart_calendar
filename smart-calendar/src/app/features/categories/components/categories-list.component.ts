@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
@@ -44,14 +44,14 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   private categoryService = inject(CategoryService);
 
   private destroy$ = new Subject<void>();
-  
+
   items: Category[] = [];
   loading = false;
   currentPage = 0;
   pageSize = 10;
   totalItems = 0;
   pageSizeOptions = [5, 10, 20, 50];
-  
+
   columns: ListColumn[] = [];
   actions: ListAction[] = [];
   displayedColumns: string[] = [];

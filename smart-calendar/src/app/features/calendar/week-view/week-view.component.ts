@@ -26,8 +26,8 @@ import { CalendarEvent } from '../../../core/models/event.model';
     MatMenuModule,
     MatDividerModule
   ],
-  templateUrl: './week-view.html',
-  styleUrl: './week-view.scss',
+  templateUrl: './week-view.component.html',
+  styleUrl: './week-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WeekViewComponent {

@@ -42,8 +42,8 @@ interface ChartData {
     MatTabsModule,
     MatProgressSpinnerModule
 ],
-  templateUrl: './analytics.html',
-  styleUrls: ['./analytics.scss']
+  templateUrl: './analytics.component.html',
+  styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit, OnDestroy {
   private timeAnalyticsService = inject(TimeAnalyticsService);

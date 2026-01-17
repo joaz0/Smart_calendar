@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-map-integration-panel',
   imports: [],
-  templateUrl: './map-integration-panel.html',
-  styleUrl: './map-integration-panel.scss'
+  templateUrl: './map-integration-panel.component.html',
+  styleUrl: './map-integration-panel.component.scss'
 })
 export class MapIntegrationPanelComponent {
 

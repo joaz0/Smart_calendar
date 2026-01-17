@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-meeting-moderator',
   imports: [],
-  templateUrl: './meeting-moderator.html',
-  styleUrl: './meeting-moderator.scss'
+  templateUrl: './meeting-moderator.component.html',
+  styleUrl: './meeting-moderator.component.scss'
 })
 export class MeetingModeratorComponent {
 

@@ -42,8 +42,8 @@ import { DayDetailsDialogComponent } from '../day-details-dialog/day-details-dia
     MatListModule,
     MatTooltipModule
   ],
-  templateUrl: './month-view.html',
-  styleUrls: ['./month-view.scss'],
+  templateUrl: './month-view.component.html',
+  styleUrls: ['./month-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MonthViewComponent implements OnInit, OnDestroy {
@@ -56,7 +56,7 @@ export class MonthViewComponent implements OnInit, OnDestroy {
   @Input() selectedDate: Date = new Date();
   @Output() dateSelected = new EventEmitter<Date>();
   @Output() eventClicked = new EventEmitter<CalendarEvent>();
-  
+
   currentDate: Date = new Date();
   weeks: Date[][] = [];
   calendarWeeks: Date[][] = [];

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common.component';
-
+import { CommonModule } from '@angular/common';
 import { WellnessRoutingModule } from './wellness-routing-module';
 
 
@@ -11,4 +10,6 @@ import { WellnessRoutingModule } from './wellness-routing-module';
     WellnessRoutingModule
   ]
 })
-export class WellnessModule { }
+export class WellnessModule {
+  
+}

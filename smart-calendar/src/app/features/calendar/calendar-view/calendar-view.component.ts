@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-calendar-view',
-  templateUrl: './calendar-view.html',
-  styleUrl: './calendar-view.scss',
+  templateUrl: './calendar-view.component.html',
+  styleUrl: './calendar-view.component.scss',
 })
 export class CalendarViewComponent {
   currentDate: Date = new Date();

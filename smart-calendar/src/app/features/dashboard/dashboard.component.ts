@@ -45,8 +45,8 @@ interface AIInsight {
   selector: 'app-dashboard',
   standalone: true,
   imports: [DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
-  templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.scss']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private router = inject(Router);

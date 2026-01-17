@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   selector: 'app-context-blocks-editor',
   imports: [MatCardModule, MatIconModule],
-  templateUrl: './context-blocks-editor.html',
-  styleUrl: './context-blocks-editor.scss'
+  templateUrl: './context-blocks-editor.component.html',
+  styleUrl: './context-blocks-editor.component.scss'
 })
 export class ContextBlocksEditorComponent {
   blocks = [

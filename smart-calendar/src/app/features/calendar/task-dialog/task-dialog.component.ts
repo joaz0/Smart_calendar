@@ -6,7 +6,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
-} from '@angular/forms.component';
+} from '@angular/forms';
 import { Task } from '../../../core/models/task.model';
 import { TaskService } from '../../../core/services/task.service';
 
@@ -41,8 +41,8 @@ interface DialogData {
     MatIconModule,
     MatDialogModule
 ],
-  templateUrl: './task-dialog.html',
-  styleUrls: ['./task-dialog.scss'],
+  templateUrl: './task-dialog.component.html',
+  styleUrls: ['./task-dialog.component.scss'],
 })
 export class TaskDialogComponent {
   private dialogRef = inject<MatDialogRef<TaskDialogComponent>>(MatDialogRef);

@@ -38,8 +38,8 @@ import { Task } from '../../../core/models/task.model';
     EmptyState,
     LoadingSpinner
   ],
-  templateUrl: './day-view.html',
-  styleUrl: './day-view.scss',
+  templateUrl: './day-view.component.html',
+  styleUrl: './day-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DayViewComponent {

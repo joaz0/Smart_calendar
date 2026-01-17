@@ -7,8 +7,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-travel-time-calculator',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './travel-time-calculator.html',
-  styleUrls: ['./travel-time-calculator.scss'],
+  templateUrl: './travel-time-calculator.component.html',
+  styleUrls: ['./travel-time-calculator.component.scss'],
 })
 export class TravelTimeCalculatorComponent {
   from = '';

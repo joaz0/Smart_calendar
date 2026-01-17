@@ -17,35 +17,24 @@ export interface Category {
 export class CategoryService {
   private categoryApiService = inject(CategoryApiService);
 
-
   getAll(): Observable<Category[]> {
-    return this.categoryApiService.getAllCategories().pipe(
-      map((response) => response.data?.data || [])
-    );
+    return this.categoryApiService.getAllCategories();
   }
 
   getById(id: number): Observable<Category> {
-    return this.categoryApiService.getCategoryById(id).pipe(
-      map((response) => response.data as Category)
-    );
+    return this.categoryApiService.getCategoryById(id);
   }
 
   createCategory(category: Partial<Category>): Observable<Category> {
-    return this.categoryApiService.createCategory(category as any).pipe(
-      map((response) => response.data as Category)
-    );
+    return this.categoryApiService.createCategory(category);
   }
 
   updateCategory(id: number, category: Partial<Category>): Observable<Category> {
-    return this.categoryApiService.updateCategory(id, category as any).pipe(
-      map((response) => response.data as Category)
-    );
+    return this.categoryApiService.updateCategory(id, category);
   }
 
   deleteCategory(id: string | number): Observable<void> {
-    return this.categoryApiService.deleteCategory(Number(id)).pipe(
-      map(() => undefined)
-    );
+    return this.categoryApiService.deleteCategory(Number(id));
   }
 
   getByColor(color: string): Observable<Category[]> {

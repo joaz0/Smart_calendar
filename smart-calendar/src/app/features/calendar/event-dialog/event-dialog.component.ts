@@ -39,8 +39,8 @@ interface DialogData {
     FormsModule,
     RecurrenceSettings
 ],
-  templateUrl: './event-dialog.html',
-  styleUrls: ['./event-dialog.scss'],
+  templateUrl: './event-dialog.component.html',
+  styleUrls: ['./event-dialog.component.scss'],
 })
 export class EventDialogComponent {
   private dialogRef = inject<MatDialogRef<EventDialogComponent>>(MatDialogRef);

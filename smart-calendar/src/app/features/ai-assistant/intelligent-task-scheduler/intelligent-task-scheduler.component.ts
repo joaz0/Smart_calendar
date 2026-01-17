@@ -7,8 +7,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-intelligent-task-scheduler',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './intelligent-task-scheduler.html',
-  styleUrls: ['./intelligent-task-scheduler.scss'],
+  templateUrl: './intelligent-task-scheduler.component.html',
+  styleUrls: ['./intelligent-task-scheduler.component.scss'],
 })
 export class IntelligentTaskSchedulerComponent {
   @Input() suggestions: unknown[] = [];

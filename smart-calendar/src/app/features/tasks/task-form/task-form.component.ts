@@ -37,8 +37,8 @@ interface Subtask {
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  templateUrl: './task-form.html',
-  styleUrls: ['./task-form.scss']
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.scss']
 })
 export class TaskFormComponent {
   private fb = inject(FormBuilder);

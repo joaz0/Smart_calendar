@@ -12,8 +12,8 @@ import { WellnessService, WellnessMetrics, BreakPattern, WellnessRecommendation 
   standalone: true,
   selector: 'app-wellness-report',
   imports: [MatCardModule, MatIconModule, MatChipsModule, MatProgressSpinnerModule, MatProgressBarModule],
-  templateUrl: './wellness-report.html',
-  styleUrl: './wellness-report.scss'
+  templateUrl: './wellness-report.component.html',
+  styleUrl: './wellness-report.component.scss'
 })
 export class WellnessReportComponent implements OnInit, OnDestroy {
   private wellnessService = inject(WellnessService);

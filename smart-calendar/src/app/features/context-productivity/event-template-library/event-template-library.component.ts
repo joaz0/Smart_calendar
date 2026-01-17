@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,20 +24,20 @@ import { EventTemplateService, EventTemplate } from '../../../core/services/temp
     MatInputModule,
     MatDialogModule
 ],
-  templateUrl: './event-template-library.html',
-  styleUrl: './event-template-library.scss'
+  templateUrl: './event-template-library.component.html',
+  styleUrl: './event-template-library.component.scss'
 })
 export class EventTemplateLibraryComponent implements OnInit, OnDestroy {
   private templateService = inject(EventTemplateService);
   private dialog = inject(MatDialog);
 
   private destroy$ = new Subject<void>();
-  
+
   templates: EventTemplate[] = [];
   filteredTemplates: EventTemplate[] = [];
   selectedCategory = 'all';
   searchTerm = '';
-  
+
   categories = [
     { value: 'all', label: 'Todos' },
     { value: 'work', label: 'Trabalho' },
@@ -64,19 +64,19 @@ export class EventTemplateLibraryComponent implements OnInit, OnDestroy {
 
   filterTemplates() {
     let filtered = this.templates;
-    
+
     if (this.selectedCategory !== 'all') {
       filtered = filtered.filter(t => t.category === this.selectedCategory);
     }
-    
+
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(t => 
+      filtered = filtered.filter(t =>
         t.name.toLowerCase().includes(term) ||
         t.description?.toLowerCase().includes(term)
       );
     }
-    
+
     this.filteredTemplates = filtered.sort((a, b) => b.usageCount - a.usageCount);
   }
 

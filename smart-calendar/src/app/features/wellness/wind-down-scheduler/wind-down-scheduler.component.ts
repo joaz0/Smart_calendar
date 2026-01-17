@@ -16,8 +16,8 @@ interface Violation {
   standalone: true,
   selector: 'app-wind-down-scheduler',
   imports: [FormsModule],
-  templateUrl: './wind-down-scheduler.html',
-  styleUrl: './wind-down-scheduler.scss'
+  templateUrl: './wind-down-scheduler.component.html',
+  styleUrl: './wind-down-scheduler.component.scss'
 })
 export class WindDownSchedulerComponent {
   settings = { sleepTime: '22:00', windDownDuration: 60 };

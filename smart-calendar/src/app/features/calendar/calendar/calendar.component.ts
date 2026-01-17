@@ -15,8 +15,8 @@ import { DayView } from '../day-view/day-view.component';
   standalone: true,
   selector: 'app-calendar',
   imports: [FormsModule, MatIconModule, MatButtonModule, MatButtonToggleModule, MatMenuModule, MatCheckboxModule, MonthView, WeekView, DayView],
-  templateUrl: './calendar.html',
-  styleUrl: './calendar.scss'
+  templateUrl: './calendar.component.html',
+  styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent {
   currentView = 'month';

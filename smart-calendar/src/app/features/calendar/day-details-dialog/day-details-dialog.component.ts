@@ -20,8 +20,8 @@ interface DialogData {
   selector: 'app-day-details-dialog',
   standalone: true,
   imports: [CommonModule, DatePipe, MatListModule, MatIconModule, MatCheckboxModule, MatDialogModule, MatButtonModule],
-  templateUrl: './day-details-dialog.html',
-  styleUrls: ['./day-details-dialog.scss'],
+  templateUrl: './day-details-dialog.component.html',
+  styleUrls: ['./day-details-dialog.component.scss'],
 })
 export class DayDetailsDialogComponent {
   private dialogRef = inject<MatDialogRef<DayDetailsDialogComponent>>(MatDialogRef);

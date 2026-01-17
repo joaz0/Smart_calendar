@@ -10,8 +10,8 @@ interface Analysis {
   standalone: true,
   selector: 'app-burnout-detector-dashboard',
   imports: [],
-  templateUrl: './burnout-detector-dashboard.html',
-  styleUrl: './burnout-detector-dashboard.scss'
+  templateUrl: './burnout-detector-dashboard.component.html',
+  styleUrl: './burnout-detector-dashboard.component.scss'
 })
 export class BurnoutDetectorDashboardComponent {
   analysis: Analysis | null = null;

@@ -24,8 +24,8 @@ import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/se
     MatDividerModule,
     MatProgressSpinnerModule
 ],
-  templateUrl: './privacy-control-center.html',
-  styleUrl: './privacy-control-center.scss'
+  templateUrl: './privacy-control-center.component.html',
+  styleUrl: './privacy-control-center.component.scss'
 })
 export class PrivacyControlCenterComponent implements OnInit, OnDestroy {
   private privacyService = inject(PrivacyService);

@@ -41,8 +41,8 @@ interface Task {
     MatSelectModule,
     FormsModule
 ],
-  templateUrl: './tasks.html',
-  styleUrls: ['./tasks.scss']
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

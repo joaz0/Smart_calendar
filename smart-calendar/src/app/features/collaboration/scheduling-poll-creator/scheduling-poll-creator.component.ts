@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms.component';
   standalone: true,
   selector: 'app-scheduling-poll-creator',
   imports: [FormsModule],
-  templateUrl: './scheduling-poll-creator.html',
-  styleUrl: './scheduling-poll-creator.scss'
+  templateUrl: './scheduling-poll-creator.component.html',
+  styleUrl: './scheduling-poll-creator.component.scss'
 })
 export class SchedulingPollCreatorComponent {
   poll = { title: '', duration: 30, timeSlots: [{ date: '', start: '', end: '' }] };

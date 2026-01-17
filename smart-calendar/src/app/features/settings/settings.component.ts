@@ -40,8 +40,8 @@ interface UserSettings {
     MatInputModule,
     MatSelectModule
 ],
-  templateUrl: './settings.html',
-  styleUrls: ['./settings.scss']
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
   private themeService = inject(ThemeService);

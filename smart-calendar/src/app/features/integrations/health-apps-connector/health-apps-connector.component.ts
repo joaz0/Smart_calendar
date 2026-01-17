@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-health-apps-connector',
   imports: [],
-  templateUrl: './health-apps-connector.html',
-  styleUrl: './health-apps-connector.scss'
+  templateUrl: './health-apps-connector.component.html',
+  styleUrl: './health-apps-connector.component.scss'
 })
 export class HealthAppsConnectorComponent {
 

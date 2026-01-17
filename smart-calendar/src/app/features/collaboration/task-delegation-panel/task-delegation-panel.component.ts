@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-task-delegation-panel',
   imports: [],
-  templateUrl: './task-delegation-panel.html',
-  styleUrl: './task-delegation-panel.scss'
+  templateUrl: './task-delegation-panel.component.html',
+  styleUrl: './task-delegation-panel.component.scss'
 })
 export class TaskDelegationPanelComponent {
 

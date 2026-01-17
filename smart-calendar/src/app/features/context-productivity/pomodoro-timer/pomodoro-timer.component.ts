@@ -7,7 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { PomodoroService, PomodoroSession, PomodoroStats, PomodoroSettings } from '../../../core/services/pomodoro/pomodoro.service';
 
@@ -24,14 +24,14 @@ import { PomodoroService, PomodoroSession, PomodoroStats, PomodoroSettings } fro
     MatSlideToggleModule,
     MatDividerModule
 ],
-  templateUrl: './pomodoro-timer.html',
-  styleUrl: './pomodoro-timer.scss'
+  templateUrl: './pomodoro-timer.component.html',
+  styleUrl: './pomodoro-timer.component.scss'
 })
 export class PomodoroTimerComponent implements OnInit, OnDestroy {
   private pomodoroService = inject(PomodoroService);
 
   private destroy$ = new Subject<void>();
-  
+
   isActive = false;
   currentSession: PomodoroSession | null = null;
   timeRemaining = '25:00';

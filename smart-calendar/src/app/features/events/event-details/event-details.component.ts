@@ -7,8 +7,8 @@ import { AnyObject } from '@core/models/common-interfaces.component';
   selector: 'app-event-details',
   standalone: true,
   imports: [CommonModule, DatePipe],
-  templateUrl: './event-details.html',
-  styleUrl: './event-details.scss',
+  templateUrl: './event-details.component.html',
+  styleUrl: './event-details.component.scss',
 })
 export class EventDetailsComponent {
   @Input() event: any | null = null;

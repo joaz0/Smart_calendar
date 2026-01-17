@@ -25,8 +25,8 @@ import { Habit, HabitStats } from '../../../core/models/context/habit.model';
     MatTooltipModule,
     MatDialogModule
 ],
-  templateUrl: './habit-tracking-dashboard.html',
-  styleUrl: './habit-tracking-dashboard.scss'
+  templateUrl: './habit-tracking-dashboard.component.html',
+  styleUrl: './habit-tracking-dashboard.component.scss'
 })
 export class HabitTrackingDashboardComponent implements OnInit, OnDestroy {
   private habitService = inject(HabitTrackerService);

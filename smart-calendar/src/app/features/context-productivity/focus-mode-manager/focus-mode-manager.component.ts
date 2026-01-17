@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,14 +24,14 @@ import { FocusModeService, FocusSession, FocusStats } from '../../../core/servic
     MatProgressSpinnerModule,
     MatDividerModule
 ],
-  templateUrl: './focus-mode-manager.html',
-  styleUrl: './focus-mode-manager.scss'
+  templateUrl: './focus-mode-manager.component.html',
+  styleUrl: './focus-mode-manager.component.scss'
 })
 export class FocusModeManagerComponent implements OnInit, OnDestroy {
   private focusModeService = inject(FocusModeService);
 
   private destroy$ = new Subject<void>();
-  
+
   isActive = false;
   isPaused = false;
   durations = [15, 25, 45, 60, 90];

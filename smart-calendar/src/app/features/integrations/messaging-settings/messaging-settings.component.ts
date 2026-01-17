@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-messaging-settings',
   imports: [],
-  templateUrl: './messaging-settings.html',
-  styleUrl: './messaging-settings.scss'
+  templateUrl: './messaging-settings.component.html',
+  styleUrl: './messaging-settings.component.scss'
 })
 export class MessagingSettingsComponent {
 

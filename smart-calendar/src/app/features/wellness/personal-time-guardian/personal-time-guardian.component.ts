@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'app-personal-time-guardian',
   imports: [],
-  templateUrl: './personal-time-guardian.html',
-  styleUrl: './personal-time-guardian.scss'
+  templateUrl: './personal-time-guardian.component.html',
+  styleUrl: './personal-time-guardian.component.scss'
 })
 export class PersonalTimeGuardianComponent {
 

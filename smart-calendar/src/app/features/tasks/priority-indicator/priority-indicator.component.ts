@@ -4,8 +4,8 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   selector: 'app-priority-indicator',
   imports: [],
-  templateUrl: './priority-indicator.html',
-  styleUrl: './priority-indicator.scss'
+  templateUrl: './priority-indicator.component.html',
+  styleUrl: './priority-indicator.component.scss'
 })
 export class PriorityIndicatorComponent {
   @Input() priority = 'medium';
