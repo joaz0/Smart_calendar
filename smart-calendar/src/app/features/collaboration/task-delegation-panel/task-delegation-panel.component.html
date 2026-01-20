@@ -1,7 +1,157 @@
 <section class="task-delegation-panel" data-component="TaskDelegationPanel">
-	<header>
-		<h3>Delegar Tarefas</h3>
-	</header>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Colaboração</p>
+      <h2>Delegação inteligente</h2>
+      <p class="subtitle">Sugestões baseadas em carga, horário de foco e impacto.</p>
+    </div>
+    <div class="header-metrics">
+      <div class="metric-chip success">
+        <mat-icon>schedule</mat-icon>
+        <div>
+          <span>Capacidade livre</span>
+          <strong>{{ availableCapacity }}h</strong>
+        </div>
+      </div>
+      <div class="metric-chip warning">
+        <mat-icon>warning</mat-icon>
+        <div>
+          <span>Membros sobrecarregados</span>
+          <strong>{{ overloadedMembers }}</strong>
+        </div>
+      </div>
+    </div>
+  </header>
 
-	<div class="delegation-placeholder">Painel de delegação (placeholder)</div>
+  <div class="layout-grid">
+    <article class="panel tasks-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Fila</p>
+          <h3>Tarefas prontas para delegar</h3>
+        </div>
+        <div class="chip subtle">Auto-sugestões ativas</div>
+      </div>
+
+      <div class="tasks-list">
+        @for (task of tasks; track task.id) {
+          <div class="task-card" [class.delegated]="task.assignedTo">
+            <div class="task-head">
+              <div>
+                <p class="eyebrow">{{ task.id }} · {{ task.impact }}</p>
+                <h4>{{ task.title }}</h4>
+                <p class="hint">{{ task.description }}</p>
+              </div>
+              <span class="pill" [class.high]="task.priority === 'high'" [class.medium]="task.priority === 'medium'">
+                {{ task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Média' : 'Baixa' }}
+              </span>
+            </div>
+
+            <div class="task-meta">
+              <span><mat-icon>timer</mat-icon>{{ task.effortHours }}h de esforço</span>
+              <span><mat-icon>event</mat-icon>{{ task.due }}</span>
+              <span><mat-icon>bolt</mat-icon>Sugerido: {{ task.suggested }}</span>
+            </div>
+
+            <div class="tags">
+              @for (tag of task.tags; track tag) {
+                <span class="tag">{{ tag }}</span>
+              }
+            </div>
+
+            @if (task.blockers) {
+              <div class="blocker">
+                <mat-icon>block</mat-icon>
+                <span>{{ task.blockers }}</span>
+              </div>
+            }
+
+            <div class="delegation-row">
+              <div class="recommendation">
+                <p class="eyebrow">Recomendação</p>
+                <div class="suggestion-chip">
+                  <mat-icon>auto_awesome</mat-icon>
+                  <div>
+                    <strong>{{ task.suggested }}</strong>
+                    <span class="hint">Melhor janela de foco e skills compatíveis</span>
+                  </div>
+                </div>
+              </div>
+              <div class="assign">
+                <label>Delegar para</label>
+                <select [(ngModel)]="task.selectedAssignee">
+                  <option [ngValue]="null">Escolha um membro</option>
+                  @for (member of team; track member.name) {
+                    <option [ngValue]="member.name">
+                      {{ member.name }} · {{ member.focusWindow }} · {{ (member.load * 100) | number: '1.0-0' }}% carga
+                    </option>
+                  }
+                </select>
+                <div class="assign-actions">
+                  <button type="button" class="ghost" (click)="delegate(task, task.suggested)">
+                    <mat-icon>lightbulb</mat-icon>
+                    Usar sugestão
+                  </button>
+                  <button type="button" class="primary" (click)="delegate(task)">
+                    <mat-icon>send</mat-icon>
+                    Delegar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            @if (task.assignedTo) {
+              <div class="assignment-state">
+                <mat-icon>check_circle</mat-icon>
+                <div>
+                  <strong>Enviado para {{ task.assignedTo }}</strong>
+                  <p class="hint">{{ task.lastAction }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </article>
+
+    <aside class="panel team-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Equipe</p>
+          <h3>Capacidade e foco</h3>
+        </div>
+      </div>
+
+      <div class="team-list">
+        @for (member of team; track member.name) {
+          <div class="member-card">
+            <div class="member-head">
+              <div>
+                <p class="eyebrow">{{ member.role }} · {{ member.timezone }}</p>
+                <h4>{{ member.name }}</h4>
+                <p class="hint">Foco: {{ member.focusWindow }}</p>
+              </div>
+              <span class="pill" [class.high]="member.risk === 'overloaded'" [class.medium]="member.risk === 'balanced'">Carga {{ (member.load * 100) | number: '1.0-0' }}%</span>
+            </div>
+            <div class="member-meta">
+              <span><mat-icon>schedule</mat-icon>{{ member.capacityLeft }}h livres</span>
+              <span><mat-icon>workspace_premium</mat-icon>{{ member.strengths.join(' · ') }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="reminders">
+        <p class="eyebrow">Diretrizes</p>
+        <ul>
+          @for (tip of workflowReminders; track tip) {
+            <li>
+              <mat-icon>check_circle</mat-icon>
+              <span>{{ tip }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </aside>
+  </div>
 </section>

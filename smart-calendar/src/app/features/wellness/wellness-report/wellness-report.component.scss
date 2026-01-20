@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     font-size: 28px;
   }
 
@@ -16,133 +16,221 @@
     justify-content: center;
     padding: 60px;
   }
+}
 
-  .metrics-grid {
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.status-card {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--background);
+  display: grid;
+  gap: 6px;
+
+  &.risk {
+    border-color: rgba(244, 67, 54, 0.35);
+    background: linear-gradient(120deg, rgba(244, 67, 54, 0.12), transparent);
+  }
+
+  &.recovery {
+    border-color: rgba(33, 150, 243, 0.35);
+    background: linear-gradient(120deg, rgba(33, 150, 243, 0.12), transparent);
+  }
+
+  &.streaks {
+    border-color: rgba(76, 175, 80, 0.35);
+    background: linear-gradient(120deg, rgba(76, 175, 80, 0.12), transparent);
+  }
+
+  &.high {
+    box-shadow: 0 12px 28px rgba(244, 67, 54, 0.18);
+  }
+}
+
+.score {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+
+  mat-card-content {
+    text-align: center;
+    padding: 22px !important;
+
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+
+    .metric-value {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.signals-card .signal-list {
+  display: grid;
+  gap: 12px;
+
+  .signal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+
+    &.risky {
+      border-color: rgba(244, 67, 54, 0.35);
+      background: rgba(244, 67, 54, 0.05);
+    }
+
+    &.positive {
+      border-color: rgba(76, 175, 80, 0.35);
+      background: rgba(76, 175, 80, 0.05);
+    }
+  }
+}
+
+.break-patterns-card {
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .patterns-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-top: 16px;
 
-    mat-card-content {
+    .pattern-day {
       text-align: center;
-      padding: 24px !important;
+      padding: 14px;
+      border-radius: 8px;
+      background: var(--background);
+      border: 1px solid var(--border-color);
 
-      mat-icon {
-        font-size: 40px;
-        width: 40px;
-        height: 40px;
-        color: var(--primary-color);
-        margin-bottom: 12px;
-      }
-
-      .metric-value {
-        font-size: 36px;
-        font-weight: 700;
+      .day-label {
+        font-weight: 600;
         margin-bottom: 8px;
       }
 
-      .metric-label {
-        font-size: 13px;
+      .breaks-count {
+        font-size: 20px;
+        font-weight: 700;
+        color: #4CAF50;
+        margin-bottom: 4px;
+
+        &.below-recommended {
+          color: #F44336;
+        }
+      }
+
+      .avg-duration {
+        font-size: 12px;
         color: var(--text-secondary);
-        margin-bottom: 12px;
-      }
-    }
-  }
-
-  .break-patterns-card {
-    margin-bottom: 24px;
-
-    mat-card-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .patterns-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-
-      .pattern-day {
-        text-align: center;
-        padding: 16px;
-        border-radius: 8px;
-        background: var(--background);
-
-        .day-label {
-          font-weight: 600;
-          margin-bottom: 8px;
-        }
-
-        .breaks-count {
-          font-size: 20px;
-          font-weight: 700;
-          color: #4CAF50;
-          margin-bottom: 4px;
-
-          &.below-recommended {
-            color: #F44336;
-          }
-        }
-
-        .avg-duration {
-          font-size: 12px;
-          color: var(--text-secondary);
-        }
-      }
-    }
-  }
-
-  .recommendations-card {
-    .recommendation-item {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      margin-bottom: 12px;
-
-      mat-icon {
-        font-size: 32px;
-        width: 32px;
-        height: 32px;
-        flex-shrink: 0;
-      }
-
-      .rec-content {
-        flex: 1;
-
-        .rec-title {
-          font-weight: 600;
-          margin-bottom: 4px;
-        }
-
-        .rec-description {
-          font-size: 14px;
-          color: var(--text-secondary);
-        }
-      }
-
-      .priority-chip {
-        color: white;
-        font-weight: 500;
       }
     }
   }
 }
 
+.recommendations-card {
+  .recommendation-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 12px;
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .rec-content {
+      flex: 1;
+
+      .rec-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .rec-description {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+    }
+
+    .priority-chip {
+      color: white;
+      font-weight: 500;
+    }
+  }
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin: 0 0 4px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
 @media (max-width: 768px) {
   .wellness-report {
     padding: 16px;
+  }
 
-    .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .break-patterns-card .patterns-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  .break-patterns-card .patterns-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

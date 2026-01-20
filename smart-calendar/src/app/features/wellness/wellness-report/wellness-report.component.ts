@@ -74,4 +74,25 @@ export class WellnessReportComponent implements OnInit, OnDestroy {
       default: return '#9E9E9E';
     }
   }
+
+  get burnoutRisk(): number {
+    if (!this.metrics) return 0;
+    const stressScore = this.metrics.stressLevel === 'high' ? 85 : this.metrics.stressLevel === 'medium' ? 60 : 30;
+    const overworkScore = Math.min(this.metrics.overworkHours * 10, 100);
+    const recoveryPenalty = Math.max(0, 80 - this.metrics.sleepQuality);
+    return Math.min(100, Math.round((stressScore + overworkScore + recoveryPenalty) / 3));
+  }
+
+  get recoveryScore(): number {
+    if (!this.metrics) return 0;
+    return Math.round((this.metrics.breakFrequency + this.metrics.sleepQuality) / 2);
+  }
+
+  get onTargetBreakDays(): number {
+    return this.breakPatterns.filter(pattern => pattern.breaksTaken >= pattern.recommended).length;
+  }
+
+  get breakDeficit(): number {
+    return this.breakPatterns.reduce((acc, pattern) => acc + Math.max(0, pattern.recommended - pattern.breaksTaken), 0);
+  }
 }

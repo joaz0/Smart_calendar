@@ -1,10 +1,75 @@
 <section class="team-calendar-overview" data-component="TeamCalendarOverview">
-	<header>
-		<h3>Calendários da Equipe</h3>
-	</header>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Colaboração</p>
+      <h3>Visão rápida dos calendários</h3>
+      <p class="subtitle">Identifique janelas de foco, riscos de carga e dependências críticas.</p>
+    </div>
+    <div class="header-chip">
+      <mat-icon>monitoring</mat-icon>
+      <div>
+        <span>Carga média</span>
+        <strong>{{ averageLoad }}%</strong>
+      </div>
+    </div>
+  </header>
 
-	<div class="team-calendars">
-		<!-- Placeholder: substituir por mini-calendar quando componente estiver importado -->
-		<div class="member-calendar">Componente mini-calendar (placeholder)</div>
-	</div>
+  <div class="legend">
+    <span class="legend-item focus">Foco</span>
+    <span class="legend-item meeting">Reunião</span>
+    <span class="legend-item buffer">Buffer</span>
+    <span class="legend-item break">Pausa</span>
+  </div>
+
+  <div class="team-grid">
+    @for (member of teamCalendars; track member.name) {
+      <article class="member-card">
+        <div class="member-header">
+          <div>
+            <p class="eyebrow">{{ member.role }} · {{ member.timezone }}</p>
+            <h4>{{ member.name }}</h4>
+            <p class="hint">{{ member.workPattern }}</p>
+          </div>
+          <div class="load-chip" [class.high]="member.load > 0.75" [class.medium]="member.load > 0.6 && member.load <= 0.75">
+            <mat-icon>speed</mat-icon>
+            <span>{{ (member.load * 100) | number: '1.0-0' }}% carga</span>
+          </div>
+        </div>
+
+        <div class="timeline" aria-label="Distribuição de horas do dia">
+          @for (block of member.blocks; track block.label + block.type) {
+            <div class="block" [ngClass]="block.type" [style.flex]="block.duration">
+              <span class="block-label">{{ block.label }}</span>
+              @if (block.note) {
+                <span class="block-note">{{ block.note }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="meta-row">
+          <span><mat-icon>schedule</mat-icon>Próxima janela livre: {{ member.nextAvailability }}</span>
+          <span><mat-icon>link</mat-icon>Dependência: {{ member.dependency }}</span>
+        </div>
+      </article>
+    }
+  </div>
+
+  <article class="insights-panel">
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Insights</p>
+        <h4>Sugestões rápidas</h4>
+      </div>
+      <div class="chip subtle">Foco intenso: {{ focusHeavyMembers }}</div>
+    </div>
+    <ul>
+      @for (insight of insights; track insight) {
+        <li>
+          <mat-icon>lightbulb</mat-icon>
+          <span>{{ insight }}</span>
+        </li>
+      }
+    </ul>
+  </article>
 </section>

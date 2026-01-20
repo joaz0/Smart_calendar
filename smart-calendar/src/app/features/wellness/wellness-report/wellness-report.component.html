@@ -8,6 +8,24 @@
   }
 
   @if (!loading && metrics) {
+    <section class="status-strip">
+      <div class="status-card risk" [class.high]="burnoutRisk >= 70">
+        <p class="eyebrow">Risco de burnout</p>
+        <div class="score">{{ burnoutRisk }}%</div>
+        <p class="hint">Pondera estresse, horas extras e sono</p>
+      </div>
+      <div class="status-card recovery">
+        <p class="eyebrow">Recuperação</p>
+        <div class="score">{{ recoveryScore }}%</div>
+        <p class="hint">Breaks consistentes + sono reparador</p>
+      </div>
+      <div class="status-card streaks">
+        <p class="eyebrow">Pausas na meta</p>
+        <div class="score">{{ onTargetBreakDays }}/{{ breakPatterns.length }}</div>
+        <p class="hint">Déficit acumulado: {{ breakDeficit }} pausas</p>
+      </div>
+    </section>
+
     <div class="content">
       <div class="metrics-grid">
         <mat-card>
@@ -58,39 +76,82 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <mat-card class="break-patterns-card">
-        <mat-card-header><mat-card-title><mat-icon>timeline</mat-icon> Padrão de Pausas (7 dias)</mat-card-title></mat-card-header>
-        <mat-card-content>
-          <div class="patterns-grid">
-            @for (pattern of breakPatterns; track pattern) {
-              <div class="pattern-day">
-                <div class="day-label">{{pattern.day}}</div>
-                <div class="breaks-count" [class.below-recommended]="pattern.breaksTaken < pattern.recommended">
-                  {{pattern.breaksTaken}} / {{pattern.recommended}}
+
+      <div class="secondary-grid">
+        <mat-card class="signals-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>health_and_safety</mat-icon>
+              Sinais e alertas
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="signal-list">
+              <div class="signal-item" [class.risky]="metrics.overworkHours > 4">
+                <div>
+                  <p class="eyebrow">Carga</p>
+                  <strong>{{metrics.overworkHours}}h extras</strong>
+                  <p class="hint">Limite saudável: até 3h/semana</p>
                 </div>
-                <div class="avg-duration">{{pattern.avgBreakDuration}} min</div>
+                <mat-chip color="warn" selected>Rever agenda</mat-chip>
+              </div>
+              <div class="signal-item" [class.risky]="metrics.sleepQuality < 70">
+                <div>
+                  <p class="eyebrow">Recuperação</p>
+                  <strong>{{metrics.sleepQuality}}% sono</strong>
+                  <p class="hint">Ideal acima de 80%</p>
+                </div>
+                <mat-chip color="primary" selected>Priorizar sono</mat-chip>
+              </div>
+              <div class="signal-item" [class.positive]="metrics.exerciseMinutes >= 150">
+                <div>
+                  <p class="eyebrow">Atividade</p>
+                  <strong>{{metrics.exerciseMinutes}} min</strong>
+                  <p class="hint">Meta OMS atingida</p>
+                </div>
+                <mat-chip color="accent" selected>Manter ritmo</mat-chip>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="break-patterns-card">
+          <mat-card-header>
+            <mat-card-title><mat-icon>timeline</mat-icon> Padrão de Pausas (7 dias)</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="patterns-grid">
+              @for (pattern of breakPatterns; track pattern) {
+                <div class="pattern-day">
+                  <div class="day-label">{{pattern.day}}</div>
+                  <div class="breaks-count" [class.below-recommended]="pattern.breaksTaken < pattern.recommended">
+                    {{pattern.breaksTaken}} / {{pattern.recommended}}
+                  </div>
+                  <div class="avg-duration">{{pattern.avgBreakDuration}} min</div>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="recommendations-card">
+          <mat-card-header><mat-card-title><mat-icon>lightbulb</mat-icon> Recomendações</mat-card-title></mat-card-header>
+          <mat-card-content>
+            @for (rec of recommendations; track rec) {
+              <div class="recommendation-item">
+                <mat-icon [style.color]="getPriorityColor(rec.priority)">{{rec.icon}}</mat-icon>
+                <div class="rec-content">
+                  <div class="rec-title">{{rec.title}}</div>
+                  <div class="rec-description">{{rec.description}}</div>
+                </div>
+                <mat-chip [style.background-color]="getPriorityColor(rec.priority)" class="priority-chip">
+                  {{rec.priority === 'high' ? 'Alta' : rec.priority === 'medium' ? 'Média' : 'Baixa'}}
+                </mat-chip>
               </div>
             }
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <mat-card class="recommendations-card">
-        <mat-card-header><mat-card-title><mat-icon>lightbulb</mat-icon> Recomendações</mat-card-title></mat-card-header>
-        <mat-card-content>
-          @for (rec of recommendations; track rec) {
-            <div class="recommendation-item">
-              <mat-icon [style.color]="getPriorityColor(rec.priority)">{{rec.icon}}</mat-icon>
-              <div class="rec-content">
-                <div class="rec-title">{{rec.title}}</div>
-                <div class="rec-description">{{rec.description}}</div>
-              </div>
-              <mat-chip [style.background-color]="getPriorityColor(rec.priority)" class="priority-chip">
-                {{rec.priority === 'high' ? 'Alta' : rec.priority === 'medium' ? 'Média' : 'Baixa'}}
-              </mat-chip>
-            </div>
-          }
-        </mat-card-content>
-      </mat-card>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   }
 </div>

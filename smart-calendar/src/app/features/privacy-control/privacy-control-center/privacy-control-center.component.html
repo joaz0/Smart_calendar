@@ -4,7 +4,45 @@
   </div>
 
   @if (settings) {
+    <section class="score-banner">
+      <div class="score-card" [class.low]="privacyLevel === 'baixa'" [class.medium]="privacyLevel === 'media'">
+        <p class="eyebrow">Pontuação de privacidade</p>
+        <div class="score">{{ privacyScore }}%</div>
+        <p class="hint">Cálculo baseado em compartilhamento, rastreamento e visibilidade</p>
+      </div>
+      <div class="score-meta">
+        <div>
+          <p class="eyebrow">Nível</p>
+          <span class="pill">{{ privacyLevel === 'alta' ? 'Alta proteção' : privacyLevel === 'media' ? 'Moderada' : 'Em risco' }}</span>
+        </div>
+        @if (lastLog) {
+          <div class="last-log">
+            <p class="eyebrow">Último acesso</p>
+            <strong>{{ formatDate(lastLog.timestamp) }}</strong>
+            <span class="hint">{{ lastLog.resource }} ({{ lastLog.action }})</span>
+          </div>
+        }
+      </div>
+    </section>
+
     <div class="content">
+      <mat-card class="presets-card">
+        <mat-card-header><mat-card-title>Presets rápidos</mat-card-title></mat-card-header>
+        <mat-card-content>
+          <div class="preset-actions">
+            <button mat-stroked-button color="primary" (click)="applyPreset('estrito')">
+              <mat-icon>shield</mat-icon>
+              Máxima privacidade
+            </button>
+            <button mat-stroked-button color="accent" (click)="applyPreset('colaborativo')">
+              <mat-icon>group</mat-icon>
+              Colaboração segura
+            </button>
+          </div>
+          <p class="hint">Você pode personalizar abaixo mesmo após aplicar um preset.</p>
+        </mat-card-content>
+      </mat-card>
+
       <mat-card class="settings-card">
         <mat-card-header><mat-card-title>Configurações de Privacidade</mat-card-title></mat-card-header>
         <mat-card-content>
@@ -42,6 +80,7 @@
           </div>
         </mat-card-content>
       </mat-card>
+
       <mat-card class="notifications-card">
         <mat-card-header><mat-card-title>Preferências de Notificação</mat-card-title></mat-card-header>
         <mat-card-content>
@@ -70,6 +109,7 @@
           </div>
         </mat-card-content>
       </mat-card>
+
       <mat-card class="visibility-card">
         <mat-card-header><mat-card-title>Configurações de Visibilidade</mat-card-title></mat-card-header>
         <mat-card-content>
@@ -107,6 +147,7 @@
           </div>
         </mat-card-content>
       </mat-card>
+
       <mat-card class="access-logs-card">
         <mat-card-header><mat-card-title>Histórico de Acesso aos Dados</mat-card-title></mat-card-header>
         <mat-card-content>
@@ -126,6 +167,7 @@
           }
         </mat-card-content>
       </mat-card>
+
       <mat-card class="danger-zone-card">
         <mat-card-header><mat-card-title><mat-icon>warning</mat-icon> Zona de Perigo</mat-card-title></mat-card-header>
         <mat-card-content>

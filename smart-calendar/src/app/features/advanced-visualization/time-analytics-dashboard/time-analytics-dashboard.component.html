@@ -1,1 +1,169 @@
-<p>time-analytics-dashboard works!</p>
+<section class="time-analytics" data-component="TimeAnalyticsDashboard">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Analytics & Visualização</p>
+      <h1>Radar de uso do tempo</h1>
+      <p class="subtitle">Correlaciona foco, reuniões e interrupções para manter seu flow alto.</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="range-chips">
+        @for (range of timeRanges; track range) {
+          <button class="chip" [class.active]="range === selectedRange" (click)="setRange(range)">
+            {{ range }}
+          </button>
+        }
+      </div>
+      <div class="flow-pill">
+        <mat-icon>auto_graph</mat-icon>
+        <div>
+          <span class="pill-label">Índice de fluxo</span>
+          <strong>{{ averageFlow }}%</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="summary-grid">
+    @for (metric of summaryMetrics; track metric.label) {
+      <article class="summary-card">
+        <div class="metric-header">
+          <span class="icon-badge">
+            <mat-icon>{{ metric.icon }}</mat-icon>
+          </span>
+          <span class="delta" [class.positive]="metric.delta >= 0" [class.negative]="metric.delta < 0">
+            <mat-icon>{{ metric.delta >= 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+            {{ metric.delta }}%
+          </span>
+        </div>
+        <p class="metric-label">{{ metric.label }}</p>
+        <h3>{{ metric.value }}</h3>
+        <p class="hint">{{ metric.hint }}</p>
+      </article>
+    }
+  </section>
+
+  <section class="panels-grid">
+    <article class="panel focus-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Semana</p>
+          <h3>Foco x Reuniões</h3>
+        </div>
+        <div class="chip subtle">Blocos de deep work: {{ totalDeepWorkBlocks }}</div>
+      </div>
+
+      <div class="bars-grid">
+        @for (day of weekTrend; track day.label) {
+          <div class="day-bar">
+            <div class="bar-stack" [title]="day.note">
+              <div
+                class="bar focus"
+                [style.height.%]="(day.focusHours / maxFocusHours) * 100"
+                [attr.data-hours]="day.focusHours + 'h foco'"
+              ></div>
+              <div
+                class="bar meetings"
+                [style.height.%]="(day.meetings / maxFocusHours) * 100"
+                [attr.data-hours]="day.meetings + 'h reuniões'"
+              ></div>
+            </div>
+            <div class="bar-meta">
+              <span class="day-label">{{ day.label }}</span>
+              <span class="flow-score">{{ day.flowScore }}%</span>
+            </div>
+            <p class="note">{{ day.note }}</p>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article class="panel category-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Distribuição</p>
+          <h3>Tempo por categoria</h3>
+        </div>
+        <div class="chip subtle">{{ contextSwitchCount }} trocas de contexto</div>
+      </div>
+
+      <ul class="category-list">
+        @for (category of categories; track category.name) {
+          <li>
+            <div class="cat-header">
+              <span>{{ category.name }}</span>
+              <span class="cat-hours">{{ category.hours }}h / {{ category.target }}h</span>
+            </div>
+            <div class="progress-rail">
+              <div class="progress-fill" [style.width.%]="getCategoryProgress(category)" [style.background]="category.color"></div>
+              <span class="target-marker">Meta</span>
+            </div>
+            <p class="hint">{{ category.trend }}</p>
+          </li>
+        }
+      </ul>
+    </article>
+  </section>
+
+  <section class="panels-grid">
+    <article class="panel rituals-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Rotina</p>
+          <h3>Rituais críticos</h3>
+        </div>
+        <div class="chip success">Proteção ativa</div>
+      </div>
+
+      <div class="rituals-list">
+        @for (ritual of rituals; track ritual.title) {
+          <div class="ritual-item">
+            <div class="ritual-time">{{ ritual.time }}</div>
+            <div class="ritual-body">
+              <div>
+                <h4>{{ ritual.title }}</h4>
+                <p class="hint">{{ ritual.impact }}</p>
+              </div>
+              <div class="adherence">
+                <mat-progress-bar mode="determinate" [value]="ritual.adherence"></mat-progress-bar>
+                <span>{{ ritual.adherence }}% de adesão</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article class="panel insights-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Diagnóstico</p>
+          <h3>Insights acionáveis</h3>
+        </div>
+        <div class="chip neutral">Atualizado em tempo real</div>
+      </div>
+
+      <div class="alerts-grid">
+        @for (alert of alerts; track alert.title) {
+          <div class="alert-card" [class.warning]="alert.severity === 'warning'" [class.critical]="alert.severity === 'critical'" [class.positive]="alert.severity === 'positive'">
+            <div class="alert-header">
+              <span class="badge">{{ alert.severity === 'critical' ? 'Atenção' : alert.severity === 'warning' ? 'Ajustar' : 'Saúde' }}</span>
+              <mat-icon>{{ alert.icon }}</mat-icon>
+            </div>
+            <h4>{{ alert.title }}</h4>
+            <p class="hint">{{ alert.description }}</p>
+          </div>
+        }
+      </div>
+
+      <ul class="micro-actions">
+        @for (tip of microRecommendations; track tip) {
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>{{ tip }}</span>
+          </li>
+        }
+      </ul>
+    </article>
+  </section>
+</section>

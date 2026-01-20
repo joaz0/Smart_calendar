@@ -107,4 +107,48 @@ export class PrivacyControlCenterComponent implements OnInit, OnDestroy {
       default: return 'info';
     }
   }
+
+  applyPreset(preset: 'estrito' | 'colaborativo'): void {
+    if (!this.settings) return;
+    const nextSettings: PrivacySettings = { ...this.settings };
+
+    if (preset === 'estrito') {
+      nextSettings.dataSharing = false;
+      nextSettings.analyticsTracking = false;
+      nextSettings.locationTracking = false;
+      nextSettings.notificationPreferences = { email: true, push: false, sms: false };
+      nextSettings.visibilitySettings = { calendar: 'private', tasks: 'private', profile: 'private' };
+    } else {
+      nextSettings.dataSharing = true;
+      nextSettings.analyticsTracking = true;
+      nextSettings.locationTracking = false;
+      nextSettings.notificationPreferences = { email: true, push: true, sms: false };
+      nextSettings.visibilitySettings = { calendar: 'team', tasks: 'team', profile: 'private' };
+    }
+
+    this.settings = nextSettings;
+    this.updateSettings();
+  }
+
+  get privacyScore(): number {
+    if (!this.settings) return 0;
+    let score = 100;
+    if (this.settings.dataSharing) score -= 20;
+    if (this.settings.analyticsTracking) score -= 8;
+    if (this.settings.locationTracking) score -= 18;
+    if (this.settings.visibilitySettings.calendar !== 'private') score -= 8;
+    if (this.settings.visibilitySettings.tasks !== 'private') score -= 6;
+    if (this.settings.visibilitySettings.profile !== 'private') score -= 6;
+    return Math.max(0, score);
+  }
+
+  get privacyLevel(): 'alta' | 'media' | 'baixa' {
+    if (this.privacyScore >= 75) return 'alta';
+    if (this.privacyScore >= 50) return 'media';
+    return 'baixa';
+  }
+
+  get lastLog(): DataAccessLog | undefined {
+    return this.accessLogs[0];
+  }
 }
