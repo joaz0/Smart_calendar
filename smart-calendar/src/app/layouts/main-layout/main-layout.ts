@@ -12,7 +12,8 @@ import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { NotificationService } from '../../core/services/notification.service';
-
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-main-layout',
@@ -21,7 +22,9 @@ import { NotificationService } from '../../core/services/notification.service';
     RouterModule,
     HeaderComponent,
     SidebarComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    CommonModule,
+    RouterOutlet
 ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],
@@ -37,6 +40,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private notificationService = inject(NotificationService);
   private cdr = inject(ChangeDetectorRef);
 
+
   private destroy$ = new Subject<void>();
   private timeInterval: number | undefined;
   currentActive = 'calendar';
@@ -45,6 +49,10 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   sidebarOpen = true;
   isLoading = false;
   isMobile = false;
+
+  // Estado reativo para a sidebar
+  sidebarCollapsed = signal(false);
+
   userStats: {
     todayEvents: number;
     pendingTasks: number;
@@ -184,7 +192,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private updateActiveTabFromRoute(url: string) {
     const routeMap: Record<string, string> = {
       '/app/calendar': 'calendar',
-      '/app/tasks': 'tasks', 
+      '/app/tasks': 'tasks',
       '/app/ai-assistant': 'ai',
       '/app/productivity': 'productivity',
       '/app/events': 'events',
@@ -213,7 +221,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   }
 
   toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
+    this.sidebarCollapsed.update(value => !value);
   }
 
   logout() {

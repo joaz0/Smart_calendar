@@ -139,14 +139,16 @@ $breakpoints: (
 // Botões
 @mixin btn-base {
   @include touch-target;
-  border: none;
-  border-radius: clamp(8px, 1.5vw, 12px);
-  padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
-  font-weight: 600;
-  font-size: clamp(0.875rem, 2vw, 1rem);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-decoration: none;
+  & {
+    border: none;
+    border-radius: clamp(8px, 1.5vw, 12px);
+    padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+    font-weight: 600;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
 
   &:focus-visible {
     @include focus-ring;

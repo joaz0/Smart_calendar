@@ -72,8 +72,10 @@
   .sidebar-toggle {
     @include ghost-button;
     @include touch-target;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
+    & {
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+    }
 
     @media (min-width: 1200px) {
       display: none;
@@ -319,9 +321,11 @@
   .mat-menu-panel.user-menu,
   .mat-menu-panel.notifications-panel {
     @include elevated-card;
-    margin-top: 0.5rem;
-    max-width: 320px;
-    border-radius: 0.5rem;
+    & {
+      margin-top: 0.5rem;
+      max-width: 320px;
+      border-radius: 0.5rem;
+    }
 
     .mat-menu-content {
       padding: 0.5rem !important;

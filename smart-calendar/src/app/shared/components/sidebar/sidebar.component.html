@@ -2,7 +2,7 @@
 
   <!-- Header da Sidebar -->
   <header class="sidebar-header">
-    <a routerLink="/" class="brand" aria-label="Ir para o início - SmartCalendar">
+    <a routerLink="/app/dashboard" class="brand" aria-label="Ir para o início - SmartCalendar">
       <span class="brand-text">SmartCalendar</span>
     </a>
 
@@ -23,7 +23,7 @@
       <h2 id="section-overview" class="section-label">Visão Geral</h2>
       <ul class="nav-list" role="list">
         <li role="listitem">
-          <a routerLink="/dashboard.html"
+          <a routerLink="/app/dashboard"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Dashboard' : ''"
@@ -34,7 +34,7 @@
           </a>
         </li>
         <li role="listitem">
-          <a routerLink="/calendar.html"
+          <a routerLink="/app/calendar"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Calendário' : ''"
@@ -55,7 +55,7 @@
       <h2 id="section-time-management" class="section-label">Gestão de Tempo</h2>
       <ul class="nav-list" role="list">
         <li role="listitem">
-          <a routerLink="/agenda.html"
+          <a routerLink="/app/calendar"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Minha Agenda' : ''"
@@ -67,7 +67,7 @@
         </li>
         <li role="listitem">
           <a class="nav-item"
-            routerLink="/app/tasks.html"
+            routerLink="/app/tasks"
             routerLinkActive="active"
             [matTooltip]="!isOpen ? 'Tarefas' : ''"
             matTooltipPosition="right"
@@ -87,7 +87,7 @@
       <h2 id="section-events" class="section-label">Eventos & Lembretes</h2>
       <ul class="nav-list" role="list">
         <li role="listitem">
-          <a routerLink="/events.html"
+          <a routerLink="/app/events"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Meus Eventos' : ''"
@@ -98,7 +98,7 @@
           </a>
         </li>
         <li role="listitem">
-          <a routerLink="/reminders.html"
+          <a routerLink="/app/coming-soon/lembretes"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Lembretes' : ''"
@@ -109,7 +109,7 @@
           </a>
         </li>
         <li role="listitem">
-          <a routerLink="/alerts.html"
+          <a routerLink="/app/coming-soon/alertas"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Alertas' : ''"
@@ -127,7 +127,7 @@
       <h2 id="section-collaboration" class="section-label">Colaboração</h2>
       <ul class="nav-list" role="list">
         <li role="listitem">
-          <a routerLink="/community.html"
+          <a routerLink="/app/collaboration"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Comunidade' : ''"
@@ -138,7 +138,7 @@
           </a>
         </li>
         <li role="listitem">
-          <a routerLink="/relationships.html"
+          <a routerLink="/app/collaboration"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Relacionamentos' : ''"
@@ -149,7 +149,7 @@
           </a>
         </li>
         <li role="listitem">
-          <a routerLink="/contacts.html"
+          <a routerLink="/app/integrations"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Contatos' : ''"
@@ -167,7 +167,7 @@
       <h2 id="section-organization" class="section-label">Organização</h2>
       <ul class="nav-list" role="list">
         <li role="listitem">
-          <a routerLink="/notes.html"
+        <a routerLink="/app/coming-soon/notas"
             routerLinkActive="active"
             class="nav-item"
             [matTooltip]="!isOpen ? 'Notas' : ''"
@@ -180,7 +180,7 @@
         </a>
       </li>
       <li role="listitem">
-        <a routerLink="/projects.html"
+        <a routerLink="/app/productivity"
           routerLinkActive="active"
           class="nav-item"
           [matTooltip]="!isOpen ? 'Projetos' : ''"
@@ -191,7 +191,7 @@
         </a>
       </li>
       <li role="listitem">
-        <a routerLink="/tags.html"
+        <a routerLink="/app/coming-soon/tags"
           routerLinkActive="active"
           class="nav-item"
           [matTooltip]="!isOpen ? 'Tags' : ''"
@@ -202,7 +202,7 @@
         </a>
       </li>
       <li role="listitem">
-        <a routerLink="/categories.html"
+        <a routerLink="/app/categories"
           routerLinkActive="active"
           class="nav-item"
           [matTooltip]="!isOpen ? 'Categorias' : ''"
@@ -220,7 +220,7 @@
     <h2 id="section-analytics" class="section-label">Analytics</h2>
     <ul class="nav-list" role="list">
       <li role="listitem">
-        <a routerLink="/analytics.html"
+        <a routerLink="/app/analytics"
           routerLinkActive="active"
           class="nav-item"
           [matTooltip]="!isOpen ? 'Análises' : ''"
@@ -231,7 +231,7 @@
         </a>
       </li>
       <li role="listitem">
-        <a routerLink="/reports.html"
+        <a routerLink="/app/analytics"
           routerLinkActive="active"
           class="nav-item"
           [matTooltip]="!isOpen ? 'Relatórios' : ''"
@@ -250,7 +250,7 @@
 @if (isOpen) {
   <footer class="sidebar-footer" role="contentinfo">
     <div class="footer-content">
-      <a routerLink="/settings.html"
+      <a routerLink="/app/settings"
         routerLinkActive="active"
         class="footer-item"
         [matTooltip]="!isOpen ? 'Configurações' : ''"
@@ -277,9 +277,10 @@
 
 <!-- Overlay para mobile -->
 <div class="sidebar-overlay"
-  [class.active]="!isOpen"
+  [class.active]="isOpen"
   (click)="onToggleSidebar()"
+  (keydown)="onOverlayKeydown($event)"
   role="button"
   tabindex="0"
-  [attr.aria-label]="'Fechar menu de navegação'">
+  aria-label="Fechar menu lateral">
 </div>

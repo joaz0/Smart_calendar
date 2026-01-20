@@ -1,6 +1,5 @@
 @use '../../../../assets/styles/_variables' as *;
 @use '../../../../assets/styles/_mixins' as *;
-@use '../../../../assets/styles/_breakpoints' as *;
 
 .month-view {
   @include glass-card;

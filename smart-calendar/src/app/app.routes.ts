@@ -16,6 +16,11 @@ import { ErrorComponent } from './shared/components/error/error.component';
 export const routes: Routes = [
   // ========== REDIRECT PADRÃO ==========
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: 'dashboard', redirectTo: '/app/dashboard', pathMatch: 'full' },
+  { path: 'calendar', redirectTo: '/app/calendar', pathMatch: 'full' },
+  { path: 'tasks', redirectTo: '/app/tasks', pathMatch: 'full' },
+  { path: 'auth/login', redirectTo: '/auth', pathMatch: 'full' },
+  { path: 'auth/register', redirectTo: '/auth', pathMatch: 'full' },
 
   // ========== ROTAS DE ERRO ==========
   { path: 'error', component: ErrorComponent },
@@ -129,6 +134,11 @@ export const routes: Routes = [
         path: 'settings',
         loadComponent: () =>
           import('./features/settings/settings.component').then((m) => m.SettingsComponent),
+        canActivate: [privacyGuard],
+        data: {
+          privacyLevel: PrivacyLevel.PRIVATE,
+          context: PrivacyContext.PERSONAL_INSIGHTS,
+        },
       },
 
       // ========== NÍVEL CONFIDENTIAL ==========
@@ -152,7 +162,9 @@ export const routes: Routes = [
       {
         path: 'health-integration',
         loadComponent: () =>
-          import('./features/integrations/health/health-module').then((m) => m.HealthHomeComponent),
+          import('./features/integrations/health/health-home.component').then(
+            (m) => m.HealthHomeComponent
+          ),
         canActivate: [privacyGuard],
         data: {
           privacyLevel: PrivacyLevel.CONFIDENTIAL,
@@ -185,6 +197,20 @@ export const routes: Routes = [
         data: {
           privacyLevel: PrivacyLevel.SHARED,
         },
+      },
+      {
+        path: 'coming-soon',
+        loadComponent: () =>
+          import('./shared/components/coming-soon/coming-soon.component').then(
+            (m) => m.ComingSoonComponent
+          ),
+      },
+      {
+        path: 'coming-soon/:feature',
+        loadComponent: () =>
+          import('./shared/components/coming-soon/coming-soon.component').then(
+            (m) => m.ComingSoonComponent
+          ),
       },
 
       // ========== NOT FOUND ==========

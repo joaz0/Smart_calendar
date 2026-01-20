@@ -281,9 +281,10 @@ smart-calendar/
 │   │   └── 📂 styles/            # SCSS global
 │   └── 📂 environments/          # Configurações de ambiente
 │
-├── 📂 n8n-nodes-agenda-rapido/   # Integração n8n
-│   ├── 📂 credentials/
-│   └── 📂 nodes/
+├── 📂 tools/
+│   └── 📂 n8n-nodes-agenda-rapido/   # Integração n8n
+│       ├── 📂 credentials/
+│       └── 📂 nodes/
 │
 ├── 📂 public/                     # Assets públicos
 ├── angular.json                   # Config Angular
@@ -805,7 +806,7 @@ Abra um PR com:
 - [Troubleshooting](TROUBLESHOOTING.md)
 - [Deploy Guide](DEPLOY_GUIDE.md)
 - [Changelog](CHANGELOG.md)
-- [Integração n8n](smart-calendar/n8n-nodes-agenda-rapido/README.md)
+- [Integração n8n](tools/n8n-nodes-agenda-rapido/README.md)
 
 ---
 

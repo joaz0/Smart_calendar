@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { ThemeService } from '../../../core/services/theme.service';
 
 
 interface User {
@@ -73,6 +74,7 @@ interface Breadcrumb {
 export class HeaderComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private themeService = inject(ThemeService);
 
   // Configurações básicas
   @Input() user: User = {
@@ -123,7 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.updateTime();
     this.updateGreeting();
-    this.loadThemePreference();
+    this.setupThemeListener();
     this.setupTimeUpdater();
     this.setupOnlineDetection();
     this.setupScrollDetection();
@@ -217,13 +219,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .replace(/\b\w/g, l => l.toUpperCase());
   }
 
-  private loadThemePreference(): void {
-    const saved = localStorage.getItem('theme');
-    this.isDarkTheme = saved === 'dark';
-  }
-
-  private saveThemePreference(): void {
-    localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
+  private setupThemeListener(): void {
+    this.isDarkTheme = this.themeService.isDarkMode();
+    this.themeService.isDarkMode$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isDark) => {
+        this.isDarkTheme = isDark;
+        this.cdr.markForCheck();
+      });
   }
 
   // Ações do header
@@ -232,10 +235,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onToggleTheme(): void {
-    this.isDarkTheme = !this.isDarkTheme;
-    this.saveThemePreference();
     this.themeToggle.emit();
-    this.cdr.markForCheck();
   }
 
   onNotificationClick(notification: Notification): void {
@@ -299,7 +299,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       localStorage.removeItem('loginTime');
 
       this.logout.emit();
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth']);
     }
   }
 

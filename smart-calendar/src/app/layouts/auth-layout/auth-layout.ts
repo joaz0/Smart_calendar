@@ -75,7 +75,7 @@ export class AuthLayoutComponent {
 
     if (this.isLoginMode) {
       this.authService.login(formData.email, formData.password).subscribe({
-        next: () => this.router.navigate(['/app/calendar']),
+        next: () => this.router.navigate(['/app/dashboard']),
         error: (error) => {
           this.errorMessage = error.error?.message || 'Credenciais inválidas';
           this.isLoading = false;
@@ -84,7 +84,7 @@ export class AuthLayoutComponent {
       });
     } else {
       this.authService.register(formData).subscribe({
-        next: () => this.router.navigate(['/app/calendar']),
+        next: () => this.router.navigate(['/app/dashboard']),
         error: (error) => {
           this.errorMessage = error.error?.message || 'Erro no cadastro';
           this.isLoading = false;
@@ -141,7 +141,7 @@ export class AuthLayoutComponent {
   loginWithGoogle() {
     this.isLoading = true;
     this.authService.loginWithGoogle().subscribe({
-      next: () => this.router.navigate(['/app/calendar']),
+      next: () => this.router.navigate(['/app/dashboard']),
       error: () => {
         this.errorMessage = 'Erro no login com Google';
         this.isLoading = false;
@@ -153,7 +153,7 @@ export class AuthLayoutComponent {
   loginWithMicrosoft() {
     this.isLoading = true;
     this.authService.loginWithMicrosoft().subscribe({
-      next: () => this.router.navigate(['/app/calendar']),
+      next: () => this.router.navigate(['/app/dashboard']),
       error: () => {
         this.errorMessage = 'Erro no login com Microsoft';
         this.isLoading = false;

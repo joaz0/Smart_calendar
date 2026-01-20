@@ -1,33 +1,15 @@
-<div class="main-layout" [class.sidebar-collapsed]="!sidebarOpen">
-  <!-- Sidebar -->
-  <aside class="sidebar-container">
-    <app-sidebar
-      [isOpen]="sidebarOpen"
-      [stats]="userStats"
-      [user]="currentUser"
-      (toggleSidebar)="toggleSidebar()">
-    </app-sidebar>
+<div class="layout-wrapper" [class.sidebar-collapsed]="sidebarCollapsed()">
+  <aside class="layout-sidebar">
+    <app-sidebar [collapsed]="sidebarCollapsed()"></app-sidebar>
   </aside>
 
-  <!-- Main Content Area -->
-  <div class="main-content">
-    <!-- Header -->
-    <header class="main-header">
-      <app-header
-        [user]="currentUser"
-        [sidebarOpen]="sidebarOpen"
-        (sidebarToggle)="toggleSidebar()"
-        (themeToggle)="toggleTheme()"
-        (profileClick)="openProfile()"
-        (notificationClick)="openNotifications()">
-      </app-header>
-    </header>
+  <main class="layout-main">
+    <app-header (toggleSidebar)="toggleSidebar()"></app-header>
 
-    <!-- Content -->
-    <main class="content-area">
+    <div class="layout-content">
       <router-outlet></router-outlet>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <!-- Loading Overlay -->
   @if (isLoading) {

@@ -1,1 +1,88 @@
-<p>energy-week-calendar works!</p>
+<section class="energy-week">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">Visualização avançada</p>
+      <h1>Calendário de Energia da Semana</h1>
+      <p class="subtitle">Cruza eventos, sono e blocos de foco para prever burnout.</p>
+    </div>
+    <div class="score-chip" [class]="getEnergyLevel(averageEnergy)">
+      <mat-icon>bolt</mat-icon>
+      <span>Energia média: {{ averageEnergy }}%</span>
+    </div>
+  </header>
+
+  <div class="summary-grid">
+    <article class="summary-card">
+      <p class="eyebrow">Pico</p>
+      <h3>{{ bestDay.label }} · {{ bestDay.energyScore }}%</h3>
+      <p class="hint">{{ bestDay.note }}</p>
+    </article>
+    <article class="summary-card warning">
+      <p class="eyebrow">Alerta</p>
+      <h3>{{ lowEnergyDay.label }} · {{ lowEnergyDay.energyScore }}%</h3>
+      <p class="hint">{{ lowEnergyDay.note }}</p>
+    </article>
+    <article class="summary-card">
+      <p class="eyebrow">Carga da semana</p>
+      <h3>{{ averageEnergy }}% energia média</h3>
+      <p class="hint">Balanceada entre reuniões, sono e blocos de deep work.</p>
+    </article>
+  </div>
+
+  <div class="week-grid">
+    @for (day of week; track day.label) {
+      <article class="day-card" [class.level-high]="getEnergyLevel(day.energyScore) === 'high'" [class.level-medium]="getEnergyLevel(day.energyScore) === 'medium'" [class.level-low]="getEnergyLevel(day.energyScore) === 'low'">
+        <header class="day-header">
+          <div>
+            <p class="eyebrow">{{ day.dateLabel }}</p>
+            <h4>{{ day.label }}</h4>
+          </div>
+          <div class="score-chip">
+            <mat-icon>bolt</mat-icon>
+            <span>{{ day.energyScore }}%</span>
+          </div>
+        </header>
+
+        <div class="energy-meter">
+          <div class="fill" [style.width.%]="day.energyScore" [class]="getEnergyLevel(day.energyScore)"></div>
+        </div>
+
+        <dl class="stat-list">
+          <div>
+            <dt>Blocos de foco</dt>
+            <dd>{{ day.focusBlocks }}</dd>
+          </div>
+          <div>
+            <dt>Deep work</dt>
+            <dd>{{ day.deepWorkHours }}h</dd>
+          </div>
+          <div>
+            <dt>Reuniões</dt>
+            <dd>{{ day.meetings }}</dd>
+          </div>
+          <div>
+            <dt>Recuperação</dt>
+            <dd>{{ day.recoveryHours }}h de sono</dd>
+          </div>
+        </dl>
+
+        <p class="hint">{{ day.note }}</p>
+      </article>
+    }
+  </div>
+
+  <article class="insights-card">
+    <div class="insights-header">
+      <h3>Insights rápidos</h3>
+      <span class="eyebrow">IA</span>
+    </div>
+    <ul>
+      @for (insight of insights; track insight) {
+        <li>
+          <mat-icon>auto_awesome</mat-icon>
+          <span>{{ insight }}</span>
+        </li>
+      }
+    </ul>
+  </article>
+</section>

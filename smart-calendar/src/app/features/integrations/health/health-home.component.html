@@ -1,0 +1,134 @@
+<section class="health-home">
+  <header class="page-header">
+    <div class="title">
+      <mat-icon>favorite</mat-icon>
+      <div>
+        <p class="eyebrow">Integrações de bem-estar</p>
+        <h1>Central de Saúde</h1>
+      </div>
+    </div>
+
+    <div class="status-pill" [class.active]="connectedProviders > 0">
+      <mat-icon>{{ connectedProviders ? 'check_circle' : 'health_and_safety' }}</mat-icon>
+      <span>{{ connectedProviders }} integrações ativas</span>
+    </div>
+  </header>
+
+  @if (errorMessage) {
+    <div class="alert error" role="alert">
+      <mat-icon>error</mat-icon>
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div class="grid">
+    <mat-card class="integration-card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Atividade + Sono</p>
+          <h2>Google Fit</h2>
+          <p class="subtitle">Sincronize passos, batimentos e descanso para gerar insights.</p>
+        </div>
+
+        <div class="status-chip" [class.connected]="status.googleFit">
+          <mat-icon>{{ status.googleFit ? 'link' : 'link_off' }}</mat-icon>
+          <span>{{ status.googleFit ? 'Conectado' : 'Desconectado' }}</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        @if (status.googleFit) {
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="disconnect('googlefit')"
+            [disabled]="activeAction === 'googlefit'">
+            <mat-icon>logout</mat-icon>
+            Desconectar
+          </button>
+        } @else {
+          <button mat-raised-button color="primary" (click)="connectGoogleFit()">
+            <mat-icon>favorite</mat-icon>
+            Conectar Google Fit
+          </button>
+        }
+        <p class="helper">Abrirá a autorização oficial do Google.</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="integration-card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">iOS + watchOS</p>
+          <h2>Apple Health</h2>
+          <p class="subtitle">Use os dados do HealthKit para calibrar recomendações de energia.</p>
+        </div>
+
+        <div class="status-chip" [class.connected]="status.appleHealth">
+          <mat-icon>{{ status.appleHealth ? 'link' : 'link_off' }}</mat-icon>
+          <span>{{ status.appleHealth ? 'Conectado' : 'Desconectado' }}</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        @if (status.appleHealth) {
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="disconnect('applehealth')"
+            [disabled]="activeAction === 'applehealth'">
+            <mat-icon>logout</mat-icon>
+            Desconectar
+          </button>
+        } @else {
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="connectAppleHealth()"
+            [disabled]="activeAction === 'applehealth'">
+            <mat-icon>health_and_safety</mat-icon>
+            Conectar Apple Health
+          </button>
+        }
+        <p class="helper">
+          @if (activeAction === 'applehealth') {
+            Sincronizando com o HealthKit...
+          } @else {
+            Solicitará permissão para leitura de atividade e sono.
+          }
+        </p>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-header">
+        <p class="eyebrow">Por que conectar?</p>
+        <h2>Benefícios</h2>
+      </div>
+      <ul class="benefits">
+        <li>
+          <mat-icon>bolt</mat-icon>
+          Recomendações de foco baseadas em energia real.
+        </li>
+        <li>
+          <mat-icon>hotel</mat-icon>
+          Alertas de descanso quando o sono está curto.
+        </li>
+        <li>
+          <mat-icon>insights</mat-icon>
+          Relatórios semanais combinando hábitos e eventos.
+        </li>
+      </ul>
+
+      <div class="refresh-row">
+        <button mat-button color="primary" (click)="loadStatus()" [disabled]="isLoading">
+          <mat-icon>refresh</mat-icon>
+          Atualizar status
+        </button>
+        @if (isLoading) {
+          <span class="helper">Verificando integrações...</span>
+        }
+      </div>
+    </mat-card>
+  </div>
+</section>

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, inject } from '@angular/core';
 
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -61,6 +61,7 @@ interface UserStats {
   standalone: true,
   imports: [
     FormsModule,
+    RouterModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
@@ -75,6 +76,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
+  @Input() collapsed = false;
   @Input() isOpen = true;
   @Input() currentActive = 'calendar';
   @Input() stats: UserStats = {
@@ -112,87 +114,87 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       label: 'Dashboard',
       icon: 'dashboard',
-      route: '/app/dashboard.html',
+      route: '/app/dashboard',
     },
     {
       label: 'Calendário',
       icon: 'calendar_today',
-      route: '/app/calendar.html',
+      route: '/app/calendar',
       badge: 0,
     },
     {
       label: 'Tarefas',
       icon: 'task_alt',
-      route: '/app/tasks.html',
+      route: '/app/tasks',
       badge: 0,
     },
     {
       label: 'Eventos',
       icon: 'event',
-      route: '/app/events.html',
+      route: '/app/events',
     },
     {
       label: 'Assistente IA',
       icon: 'smart_toy',
-      route: '/app/ai-assistant.html',
+      route: '/app/ai-assistant',
     },
     {
       label: 'Colaboração',
       icon: 'groups',
-      route: '/app/collaboration.html',
+      route: '/app/collaboration',
       isExpanded: false,
       children: [
-        { label: 'Dashboard', icon: 'analytics', route: '/app/collaboration/dashboard.html' },
-        { label: 'Equipe', icon: 'group', route: '/app/collaboration/team.html' },
-        { label: 'Disponibilidade', icon: 'schedule', route: '/app/collaboration/availability.html' },
-        { label: 'Reuniões', icon: 'videocam', route: '/app/collaboration/meetings.html' },
+        { label: 'Dashboard', icon: 'analytics', route: '/app/collaboration' },
+        { label: 'Equipe', icon: 'group', route: '/app/collaboration' },
+        { label: 'Disponibilidade', icon: 'schedule', route: '/app/collaboration' },
+        { label: 'Reuniões', icon: 'videocam', route: '/app/collaboration' },
       ],
     },
     {
       label: 'Produtividade',
       icon: 'trending_up',
-      route: '/app/productivity.html',
+      route: '/app/productivity',
       isExpanded: false,
       children: [
-        { label: 'Foco', icon: 'center_focus_strong', route: '/app/productivity/focus.html' },
-        { label: 'Hábitos', icon: 'repeat', route: '/app/productivity/habits.html' },
-        { label: 'Templates', icon: 'description', route: '/app/productivity/templates.html' },
-        { label: 'Pomodoro', icon: 'timer', route: '/app/productivity/pomodoro.html' },
+        { label: 'Foco', icon: 'center_focus_strong', route: '/app/productivity' },
+        { label: 'Hábitos', icon: 'repeat', route: '/app/productivity' },
+        { label: 'Templates', icon: 'description', route: '/app/productivity' },
+        { label: 'Pomodoro', icon: 'timer', route: '/app/productivity' },
       ],
     },
     {
       label: 'Bem-estar',
       icon: 'favorite',
-      route: '/app/wellness.html',
+      route: '/app/wellness',
       isExpanded: false,
       children: [
-        { label: 'Dashboard', icon: 'insights', route: '/app/wellness/dashboard.html' },
-        { label: 'Pausas', icon: 'coffee', route: '/app/wellness/breaks.html' },
-        { label: 'Meditação', icon: 'spa', route: '/app/wellness/meditation.html' },
-        { label: 'Sono', icon: 'bedtime', route: '/app/wellness/sleep.html' },
+        { label: 'Dashboard', icon: 'insights', route: '/app/wellness' },
+        { label: 'Pausas', icon: 'coffee', route: '/app/wellness' },
+        { label: 'Meditação', icon: 'spa', route: '/app/wellness' },
+        { label: 'Sono', icon: 'bedtime', route: '/app/wellness' },
       ],
     },
     {
       label: 'Analytics',
       icon: 'pie_chart',
-      route: '/app/analytics.html',
+      route: '/app/analytics',
       isExpanded: false,
       children: [
-        { label: 'Tempo', icon: 'schedule', route: '/app/analytics/time.html' },
-        { label: 'Produtividade', icon: 'show_chart', route: '/app/analytics/productivity.html' },
-        { label: 'Insights', icon: 'lightbulb', route: '/app/analytics/insights.html' },
-        { label: 'Relatórios', icon: 'assignment', route: '/app/analytics/reports.html' },
+        { label: 'Tempo', icon: 'schedule', route: '/app/analytics' },
+        { label: 'Produtividade', icon: 'show_chart', route: '/app/analytics' },
+        { label: 'Insights', icon: 'lightbulb', route: '/app/analytics' },
+        { label: 'Relatórios', icon: 'assignment', route: '/app/analytics' },
       ],
     },
     {
       label: 'Integrações',
       icon: 'extension',
-      route: '/app/integrations.html',
+      route: '/app/integrations',
     },
     {
       label: 'Configurações',
       icon: 'settings',
-      route: '/app/settings.html',
+      route: '/app/settings',
     },
   ];
 
@@ -360,7 +362,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   navigateToProductivity() {
-    this.router.navigate(['/app/productivity/dashboard']);
+    this.router.navigate(['/app/productivity/insights']);
+  }
+
+  onOverlayKeydown(event: KeyboardEvent): void {
+    const key = event.key;
+
+    if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+      event.preventDefault();
+      this.onToggleSidebar();
+      return;
+    }
+
+    if (key === 'Escape') {
+      this.onToggleSidebar();
+    }
   }
 
   openNotifications() {

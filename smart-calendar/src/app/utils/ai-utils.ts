@@ -1,15 +1,13 @@
-interface Task {
-  completed: boolean;
-}
+import { Task } from '../core/models/task.model';
+import { Habit } from '../core/models/context/habit.model';
 
-interface Habit {
-  streak: number;
-}
+type AITask = Pick<Task, 'completed'>;
+type AIHabit = Pick<Habit, 'streak'>;
 
 interface SuggestionContext {
   events?: Record<string, unknown>[];
-  tasks?: Task[];
-  habits?: Habit;
+  tasks?: AITask[];
+  habits?: AIHabit;
 }
 
 export function extractIntent(text: string): string {
