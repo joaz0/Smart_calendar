@@ -12,7 +12,7 @@ import { RouterOutlet } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LoadingSpinner } from './shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 
 
 @Component({
@@ -20,7 +20,13 @@ import { LoadingSpinner } from './shared/components/loading-spinner/loading-spin
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
   standalone: true,
-  imports: [RouterOutlet, MatProgressSpinnerModule, MatIconModule, MatButtonModule, LoadingSpinner],
+  imports: [
+    RouterOutlet,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    LoadingSpinnerComponent
+  ],
   animations: [
     trigger('slideInOut', [
       transition(':enter', [

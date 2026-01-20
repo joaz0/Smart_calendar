@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, interval, of } from 'rxjs';
+import { Observable, BehaviorSubject, interval, of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
@@ -59,7 +59,7 @@ export class PomodoroService {
   public sessionsCompleted$ = this.sessionsCompletedSubject.asObservable();
   public settings$ = this.settingsSubject.asObservable();
   
-  private timerSubscription: ReturnType<typeof setInterval> | null = null;
+  private timerSubscription: Subscription | null = null;
   private sessionCount = 0;
 
   constructor() {

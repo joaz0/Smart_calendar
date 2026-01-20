@@ -29,6 +29,13 @@ import { EventDialogComponent } from '../event-dialog/event-dialog.component';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { DayDetailsDialogComponent } from '../day-details-dialog/day-details-dialog.component';
 
+interface CalendarDay {
+  date: Date;
+  isCurrentMonth: boolean;
+  isToday: boolean;
+  isSelected: boolean;
+  events: CalendarEvent[];
+}
 
 @Component({
   selector: 'app-month-view',
@@ -58,8 +65,7 @@ export class MonthViewComponent implements OnInit, OnDestroy {
   @Output() eventClicked = new EventEmitter<CalendarEvent>();
 
   currentDate: Date = new Date();
-  weeks: Date[][] = [];
-  calendarWeeks: Date[][] = [];
+  calendarWeeks: CalendarDay[][] = [];
   tasks: Task[] = [];
   weekdays: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   maxEventsPerDay = 3;
@@ -75,66 +81,85 @@ export class MonthViewComponent implements OnInit, OnDestroy {
   }
 
   generateCalendarDays() {
-    const firstDayOfMonth = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth(),
-      1
-    );
-    const lastDayOfMonth = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth() + 1,
-      0
-    );
+    const year = this.currentDate.getFullYear();
+    const month = this.currentDate.getMonth();
 
-    // Ajusta para começar no domingo
-    const firstDayOfCalendar = new Date(firstDayOfMonth);
-    firstDayOfCalendar.setDate(firstDayOfCalendar.getDate() - firstDayOfMonth.getDay());
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const firstDayOfWeek = firstDay.getDay();
 
-    // Gera as semanas
-    this.weeks = [];
-    let currentWeek: Date[] = [];
+    const weeks: CalendarDay[][] = [];
+    let currentWeek: CalendarDay[] = [];
 
-    for (
-      let day = new Date(firstDayOfCalendar);
-      day <= lastDayOfMonth || currentWeek.length > 0;
+    // Dias do mês anterior
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+      const date = new Date(year, month, -i);
+      currentWeek.push(this.createCalendarDay(date, false));
+    }
 
-    ) {
+    // Dias do mês atual
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+      const date = new Date(year, month, day);
+      currentWeek.push(this.createCalendarDay(date, true));
+
       if (currentWeek.length === 7) {
-        this.weeks.push(currentWeek);
+        weeks.push(currentWeek);
         currentWeek = [];
       }
-
-      currentWeek.push(new Date(day));
-      day.setDate(day.getDate() + 1);
     }
 
-    // Completa a última semana se necessário
+    // Dias do próximo mês
     if (currentWeek.length > 0) {
+      let nextMonthDay = 1;
       while (currentWeek.length < 7) {
-        const nextDay = new Date(currentWeek[currentWeek.length - 1]);
-        nextDay.setDate(nextDay.getDate() + 1);
-        currentWeek.push(nextDay);
+        const date = new Date(year, month + 1, nextMonthDay);
+        currentWeek.push(this.createCalendarDay(date, false));
+        nextMonthDay++;
       }
-      this.weeks.push(currentWeek);
+      weeks.push(currentWeek);
     }
+
+    this.calendarWeeks = weeks;
+  }
+
+  private createCalendarDay(date: Date, isCurrentMonth: boolean): CalendarDay {
+    return {
+      date,
+      isCurrentMonth,
+      isToday: this.isToday(date),
+      isSelected: this.isSelectedDate(date),
+      events: this.getEventsForDay(date)
+    };
+  }
+
+  private isSelectedDate(date: Date): boolean {
+    if (!this.selectedDate) return false;
+    return this.calendarService.isSameDay(date, this.selectedDate);
   }
 
   loadEvents() {
-    const startDate = this.weeks[0][0];
-    const endDate = this.weeks[this.weeks.length - 1][6];
+    if (this.calendarWeeks.length === 0) return;
+
+    const startDate = this.calendarWeeks[0][0].date;
+    const endDate = this.calendarWeeks[this.calendarWeeks.length - 1][6].date;
 
     this.eventService
       .getEventsByDateRange(startDate, endDate)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (events) => (this.events = events),
+        next: (events) => {
+          this.events = events;
+          this.generateCalendarDays(); // Regenerar para atualizar eventos
+        },
         error: (error) => console.error('Erro ao carregar eventos:', error),
       });
   }
 
   loadTasks() {
-    const startDate = this.weeks[0][0];
-    const endDate = this.weeks[this.weeks.length - 1][6];
+    if (this.calendarWeeks.length === 0) return;
+
+    const startDate = this.calendarWeeks[0][0].date;
+    const endDate = this.calendarWeeks[this.calendarWeeks.length - 1][6].date;
 
     this.taskService
       .getAllTasks()
@@ -273,14 +298,6 @@ export class MonthViewComponent implements OnInit, OnDestroy {
     this.openEventDialog(undefined, this.currentDate);
   }
 
-  trackByWeek(index: number): number {
-    return index;
-  }
-
-  trackByDay(index: number, day: Date): number {
-    return day.getTime();
-  }
-
   trackByEvent(index: number, event: CalendarEvent): string {
     return event?.id || index.toString();
   }
@@ -320,10 +337,6 @@ export class MonthViewComponent implements OnInit, OnDestroy {
     this.openEventDialog(undefined, date);
   }
 
-  getDayIndicators(date: Date): string[] {
-    return [];
-  }
-
   getEventTooltip(evt: CalendarEvent): string {
     return evt.title || '';
   }
@@ -342,9 +355,9 @@ export class MonthViewComponent implements OnInit, OnDestroy {
     this.openTaskDialog(task);
   }
 
-  showMoreEvents(_day: Date, event?: Event) {
+  showMoreEvents(day: CalendarDay, event?: Event) {
     if (event) event.stopPropagation();
-    this.showAllDayItems(_day);
+    this.showAllDayItems(day.date);
   }
 
   showMoreTasks(date: Date) {

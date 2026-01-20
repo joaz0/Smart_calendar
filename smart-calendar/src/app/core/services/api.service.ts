@@ -4,7 +4,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, timeout, finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { logger } from '../utils/logger';
-import { HttpOptions, AnyObject } from '../models/common-interfaces';
+import { HttpOptions } from '../models/common-interfaces';
 
 
 export interface ApiResponse<T> {
@@ -39,21 +39,21 @@ export class ApiService {
   /**
    * POST request
    */
-  post<T>(endpoint: string, body: AnyObject, options?: HttpOptions): Observable<ApiResponse<T>> {
+  post<T>(endpoint: string, body: unknown, options?: HttpOptions): Observable<ApiResponse<T>> {
     return this.request<T>('POST', endpoint, body, options);
   }
 
   /**
    * PUT request
    */
-  put<T>(endpoint: string, body: AnyObject, options?: HttpOptions): Observable<ApiResponse<T>> {
+  put<T>(endpoint: string, body: unknown, options?: HttpOptions): Observable<ApiResponse<T>> {
     return this.request<T>('PUT', endpoint, body, options);
   }
 
   /**
    * PATCH request
    */
-  patch<T>(endpoint: string, body: AnyObject, options?: HttpOptions): Observable<ApiResponse<T>> {
+  patch<T>(endpoint: string, body: unknown, options?: HttpOptions): Observable<ApiResponse<T>> {
     return this.request<T>('PATCH', endpoint, body, options);
   }
 
@@ -70,7 +70,7 @@ export class ApiService {
   private request<T>(
     method: string,
     endpoint: string,
-    body: AnyObject | null = null,
+    body: unknown | null = null,
     options: HttpOptions = {}
   ): Observable<ApiResponse<T>> {
     const url = `${this.apiUrl}${endpoint}`;
@@ -111,20 +111,19 @@ export class ApiService {
   /**
    * Configurar headers HTTP
    */
-  private getHttpOptions(options: HttpOptions): { headers: HttpHeaders } {
+  private getHttpOptions(options: HttpOptions): { headers: HttpHeaders } & Omit<HttpOptions, 'headers'> {
     const token = localStorage.getItem('token');
+    const { headers: extraHeaders = {}, ...rest } = options;
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      ...extraHeaders,
     });
 
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
 
-    return {
-      headers,
-      ...options,
-    };
+    return { headers, ...rest };
   }
 
   /**

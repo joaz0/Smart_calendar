@@ -43,7 +43,7 @@ export class PrivacyManagerService {
   }
 
   private loadPrivacySettings(): void {
-    this.http.get(`${environment.apiUrl}/privacy/settings`).subscribe({
+    this.http.get<PrivacySettings>(`${environment.apiUrl}/privacy/settings`).subscribe({
       next: (settings) => this.privacySettingsSubject.next(settings),
       error: () => this.privacySettingsSubject.next(this.getDefaultSettings())
     });

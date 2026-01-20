@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Task } from '../models/task.model';
 import { TaskApiService } from './task-api.service';
@@ -33,7 +33,6 @@ export class TaskService {
 
   getAllTasks(page = 1, limit = 50): Observable<Task[]> {
     return this.taskApiService.getAllTasks(page, limit).pipe(
-      map((response) => response.data),
       catchError((error) => {
         this.logger.error('Erro ao buscar todas as tarefas', error);
         return of([]);
@@ -56,7 +55,6 @@ export class TaskService {
     limit = 50
   ): Observable<Task[]> {
     return this.taskApiService.getTasksByStatus(status, page, limit).pipe(
-      map((response) => response.data),
       catchError((error) => {
         this.logger.error('Erro ao buscar tarefas por status', error);
         return of([]);
@@ -80,11 +78,7 @@ export class TaskService {
 
   updateTask(id: string, task: Partial<Task>): Observable<Task> {
     this.logger.info('Atualizando tarefa', { id });
-    const updateRequest = {
-      ...task,
-      dueDate: task.dueDate instanceof Date ? task.dueDate.toISOString() : task.dueDate,
-    };
-    return this.taskApiService.updateTask(Number(id), updateRequest).pipe(
+    return this.taskApiService.updateTask(Number(id), task).pipe(
       tap((updatedTask) => {
         this.logger.info('Tarefa atualizada com sucesso', { id });
         const currentTasks = this.tasksSubject.value;
@@ -119,7 +113,6 @@ export class TaskService {
   searchTasks(query: string, page = 1, limit = 50): Observable<Task[]> {
     this.logger.info('Buscando tarefas', { query });
     return this.taskApiService.searchTasks(query, page, limit).pipe(
-      map((response) => response.data),
       catchError((error) => {
         this.logger.error('Erro ao buscar tarefas', error);
         return of([]);

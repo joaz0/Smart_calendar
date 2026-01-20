@@ -10,7 +10,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { TaskService } from '../../core/services/task.service';
 

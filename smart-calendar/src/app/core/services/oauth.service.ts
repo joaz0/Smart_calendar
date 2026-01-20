@@ -1,11 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
-import { oauthConfig } from '../../../environments/oauth.config.component';
+import { oauthConfig } from '../../../environments/oauth.config';
 
+type GoogleCredentialResponse = { credential?: string };
+type GooglePromptNotification = {
+  isNotDisplayed: () => boolean;
+  isSkippedMoment: () => boolean;
+};
+
+interface GoogleAccountsId {
+  initialize: (config: {
+    client_id: string;
+    callback: (response: GoogleCredentialResponse) => void;
+    auto_select?: boolean;
+    cancel_on_tap_outside?: boolean;
+  }) => void;
+  prompt: (callback: (notification: GooglePromptNotification) => void) => void;
+}
+
+interface GoogleAccountsOauth2 {
+  initTokenClient: (config: {
+    client_id: string;
+    scope: string;
+    callback: (response: unknown) => void;
+  }) => { requestAccessToken: () => void };
+}
+
+interface GoogleIdentityServices {
+  accounts: {
+    id: GoogleAccountsId;
+    oauth2: GoogleAccountsOauth2;
+  };
+}
 
 declare global {
   interface Window {
-    google: Record<string, unknown>;
+    google?: GoogleIdentityServices;
     Microsoft: Record<string, unknown>;
   }
 }
@@ -22,7 +52,12 @@ export class OAuthService {
   initializeGoogleAuth(): Observable<unknown> {
     return from(this.loadGoogleScript().then(() => {
       return new Promise((resolve) => {
-        (window.google as Record<string, Record<string, Record<string, unknown>>>).accounts.id.initialize({
+        const google = window.google;
+        if (!google) {
+          resolve(null);
+          return;
+        }
+        google.accounts.id.initialize({
           client_id: oauthConfig.google.clientId,
           callback: resolve,
           auto_select: false,
@@ -45,11 +80,15 @@ export class OAuthService {
   }
 
   private performGoogleLogin(resolve: (value: unknown) => void, reject: (reason?: unknown) => void) {
-    const google = window.google as Record<string, Record<string, Record<string, (config: Record<string, unknown>) => void>>>;
+    const google = window.google;
+    if (!google) {
+      reject('Google SDK não disponível');
+      return;
+    }
     google.accounts.id.initialize({
       client_id: oauthConfig.google.clientId,
-      callback: (response: Record<string, unknown>) => {
-        if (response.credential) {
+      callback: (response: GoogleCredentialResponse) => {
+        if (response?.credential) {
           resolve(response);
         } else {
           reject('Login cancelado');
@@ -57,10 +96,10 @@ export class OAuthService {
       }
     });
     
-    (google.accounts.id as Record<string, (callback: (notification: Record<string, () => boolean>) => void) => void>).prompt((notification: Record<string, () => boolean>) => {
+    google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
         // Fallback para popup
-        (google.accounts.oauth2 as Record<string, (config: Record<string, unknown>) => { requestAccessToken: () => void }>).initTokenClient({
+        google.accounts.oauth2.initTokenClient({
           client_id: oauthConfig.google.clientId,
           scope: 'email profile',
           callback: resolve

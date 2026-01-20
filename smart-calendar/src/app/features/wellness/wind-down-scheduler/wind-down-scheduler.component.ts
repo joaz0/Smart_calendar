@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 
 interface Category {
   id: string;

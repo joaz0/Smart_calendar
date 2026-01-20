@@ -6,12 +6,12 @@ import {
   Validators,
   ReactiveFormsModule,
   FormControl,
-} from '@angular/forms.component';
+} from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarEvent } from '../../../core/models/event.model';
-import { AnyObject } from '@core/models/common-interfaces.component';
+import { AnyObject } from '../../../core/models/common-interfaces';
 
 
 @Component({

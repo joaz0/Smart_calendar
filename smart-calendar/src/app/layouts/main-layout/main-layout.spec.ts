@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing.component';
-import { MainLayout } from './main-layout.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MainLayoutComponent } from './main-layout';
 import { Router } from '@angular/router';
 
-describe('MainLayout', () => {
-  let component: MainLayout;
-  let fixture: ComponentFixture<MainLayout>;
+describe('MainLayoutComponent', () => {
+  let component: MainLayoutComponent;
+  let fixture: ComponentFixture<MainLayoutComponent>;
   let mockRouter: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
-      imports: [MainLayout],
+      imports: [MainLayoutComponent],
       providers: [
         { provide: Router, useValue: mockRouter }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MainLayout);
+    fixture = TestBed.createComponent(MainLayoutComponent);
     component = fixture.componentInstance;
   });
 

@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { SearchBar } from '../search-bar/search-bar.component';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 
 interface User {
@@ -64,7 +64,7 @@ interface Breadcrumb {
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
-    SearchBar
+    SearchBarComponent
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

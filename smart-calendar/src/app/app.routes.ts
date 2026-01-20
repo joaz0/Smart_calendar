@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
 // Layouts
-import { MainLayout } from './layouts/main-layout/main-layout.component';
-import { AuthLayout } from './layouts/auth-layout/auth-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout';
 
 // Guards
 import { authGuard } from './core/guards/auth.guard';
@@ -10,7 +10,7 @@ import { privacyGuard } from './core/guards/privacy.guard';
 import { PrivacyLevel, PrivacyContext } from './core/guards/privacy.guard';
 
 // Components - Shared
-import { NotFound } from './shared/components/not-found/not-found.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ErrorComponent } from './shared/components/error/error.component';
 
 export const routes: Routes = [
@@ -23,7 +23,7 @@ export const routes: Routes = [
   // ========== ROTAS PÚBLICAS ==========
   {
     path: 'auth',
-    component: AuthLayout,
+    component: AuthLayoutComponent,
   },
   {
     path: 'auth/callback/google',
@@ -39,7 +39,7 @@ export const routes: Routes = [
   // ========== ROTAS PROTEGIDAS ==========
   {
     path: 'app',
-    component: MainLayout,
+    component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
       // Redirect padrão
@@ -49,7 +49,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/dashboard/dashboard').then((m) => m.DashboardComponent),
+          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
 
       // ========== NÍVEL PUBLIC ==========
@@ -68,7 +68,8 @@ export const routes: Routes = [
       },
       {
         path: 'events',
-        loadComponent: () => import('./features/events/events').then((m) => m.EventsComponent),
+        loadComponent: () =>
+          import('./features/events/events.component').then((m) => m.EventsComponent),
       },
       {
         path: 'collaboration',
@@ -86,7 +87,8 @@ export const routes: Routes = [
       // ========== NÍVEL PRIVATE ==========
       {
         path: 'tasks',
-        loadComponent: () => import('./features/tasks/tasks').then((m) => m.TasksComponent),
+        loadComponent: () =>
+          import('./features/tasks/tasks.component').then((m) => m.TasksComponent),
       },
       {
         path: 'categories',
@@ -126,14 +128,16 @@ export const routes: Routes = [
       {
         path: 'settings',
         loadComponent: () =>
-          import('./features/settings/settings').then((m) => m.SettingsComponent),
+          import('./features/settings/settings.component').then((m) => m.SettingsComponent),
       },
 
       // ========== NÍVEL CONFIDENTIAL ==========
       {
         path: 'ai-assistant',
         loadComponent: () =>
-          import('./features/ai-assistant/ai-assistant').then((m) => m.AiAssistantComponent),
+          import('./features/ai-assistant/ai-assistant.component').then(
+            (m) => m.AiAssistantComponent
+          ),
       },
       {
         path: 'wellness',
@@ -186,7 +190,7 @@ export const routes: Routes = [
       // ========== NOT FOUND ==========
       {
         path: '404',
-        component: NotFound,
+        component: NotFoundComponent,
       },
       {
         path: '**',

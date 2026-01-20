@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms.component';
-import { BaseFormComponent, FormField } from '@core/components/base-form.component';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BaseFormComponent, FormField } from '../../../core/components/base-form.component';
 import { CategoryService } from '../services/category.service';
-import * as CustomValidators from '@core/validators/custom.validators.component';
 
 
 @Component({
@@ -16,7 +15,7 @@ export class CategoryFormComponent extends BaseFormComponent {
   constructor() {
     const fb = inject(FormBuilder);
 
-    super(fb, 'CategoryFormComponent');
+    super(fb);
   }
 
   protected initialize(): void {
@@ -27,7 +26,7 @@ export class CategoryFormComponent extends BaseFormComponent {
         type: 'text',
         required: true,
         placeholder: 'Ex: Trabalho, Pessoal, Saúde',
-        validators: [CustomValidators.required, CustomValidators.minLength(3)],
+        validators: [Validators.required, Validators.minLength(3)],
         errorMessages: {
           required: 'Nome é obrigatório',
           minlength: 'Mínimo 3 caracteres',

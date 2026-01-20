@@ -6,15 +6,25 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MonthView } from '../month-view/month-view.component';
-import { WeekView } from '../week-view/week-view.component';
-import { DayView } from '../day-view/day-view.component';
+import { MonthViewComponent } from '../month-view/month-view.component';
+import { WeekViewComponent } from '../week-view/week-view.component';
+import { DayViewComponent } from '../day-view/day-view.component';
 
 
 @Component({
   standalone: true,
   selector: 'app-calendar',
-  imports: [FormsModule, MatIconModule, MatButtonModule, MatButtonToggleModule, MatMenuModule, MatCheckboxModule, MonthView, WeekView, DayView],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MonthViewComponent,
+    WeekViewComponent,
+    DayViewComponent
+  ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })

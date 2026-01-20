@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms.component';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Event } from '../../../core/models/event.model';
 import { EventService } from '../../../core/services/event.service';
 
@@ -13,8 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
-import { FormsModule, FormArray } from '@angular/forms.component';
-import { RecurrenceSettings } from '../../events/recurrence-settings/recurrence-settings.component';
+import { FormsModule, FormArray } from '@angular/forms';
+import { RecurrenceSettingsComponent } from '../../events/recurrence-settings/recurrence-settings.component';
 
 
 interface DialogData {
@@ -37,7 +37,7 @@ interface DialogData {
     MatDialogModule,
     MatChipsModule,
     FormsModule,
-    RecurrenceSettings
+    RecurrenceSettingsComponent
 ],
   templateUrl: './event-dialog.component.html',
   styleUrls: ['./event-dialog.component.scss'],
@@ -161,7 +161,7 @@ export class EventDialogComponent {
     }
   }
 
-  removeAttendee(_attendee: {email: string}) {
+  removeAttendee(attendee: {email: string}) {
     const index = this.attendees.indexOf(attendee);
     if (index >= 0) {
       this.attendees.splice(index, 1);

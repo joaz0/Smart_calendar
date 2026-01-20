@@ -1,8 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService } from './api.service';
+import { ApiService, ApiResponse } from './api.service';
 import { Task } from '../models/task.model';
+
+type TaskListResponse = ApiResponse<Task[]>;
 
 @Injectable({
   providedIn: 'root',

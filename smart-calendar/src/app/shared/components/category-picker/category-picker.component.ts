@@ -1,6 +1,6 @@
 import { Component, forwardRef, HostListener, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, ElementRef, inject } from '@angular/core';
 
-import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms.component';
+import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';

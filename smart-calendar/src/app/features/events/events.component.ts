@@ -9,10 +9,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { EventService } from '../../core/services/event.service';
-import { AnyObject } from '@core/models/common-interfaces.component';
+import { AnyObject } from '../../core/models/common-interfaces';
 
 
 @Component({

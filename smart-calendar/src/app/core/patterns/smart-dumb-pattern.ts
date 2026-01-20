@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common.component';
+import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BaseComponent } from '../../core/components/base.component';
 import { ListColumn, ListAction } from '../components/base-list.component';
 import { EventService } from '../services/event.service';
-import { AnyObject } from '../models/common-interfaces.component';
+import { AnyObject } from '../models/common-interfaces';
 
 
 /**

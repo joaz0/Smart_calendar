@@ -81,12 +81,7 @@ export class EventService {
 
   updateEvent(id: string, event: Partial<Event>): Observable<Event> {
     this.logger.info('Atualizando evento', { id });
-    const updateRequest = {
-      ...event,
-      startDate: event.startDate instanceof Date ? event.startDate.toISOString() : event.startDate,
-      endDate: event.endDate instanceof Date ? event.endDate.toISOString() : event.endDate,
-    };
-    return this.eventApiService.updateEvent(Number(id), updateRequest).pipe(
+    return this.eventApiService.updateEvent(Number(id), event).pipe(
       tap((updatedEvent) => {
         this.logger.info('Evento atualizado com sucesso', { id });
         const currentEvents = this.eventsSubject.value;

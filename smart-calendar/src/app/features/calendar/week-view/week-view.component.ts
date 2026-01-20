@@ -2,7 +2,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 // Angular Common
-import { DatePipe } from '@angular/common.component';
+import { DatePipe } from '@angular/common';
 
 // Angular Material
 import { MatIconModule } from '@angular/material/icon';

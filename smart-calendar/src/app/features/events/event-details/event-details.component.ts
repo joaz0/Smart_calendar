@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common.component';
-import { AnyObject } from '@core/models/common-interfaces.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import { AnyObject } from '../../../core/models/common-interfaces';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DatePipe } from '@angular/common.component';
+import { DatePipe } from '@angular/common';
 
 
 @Component({

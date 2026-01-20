@@ -3,9 +3,9 @@ import { Component, OnInit, OnDestroy, signal, ChangeDetectorRef, ChangeDetectio
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil, catchError } from 'rxjs/operators';
 import { Subject, of } from 'rxjs';
-import { Header } from '../../shared/components/header/header.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { LoadingSpinner } from '../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService, UserProfile, UserStats } from '../../core/services/user.service';
 import { TaskService } from '../../core/services/task.service';
@@ -19,9 +19,9 @@ import { NotificationService } from '../../core/services/notification.service';
   standalone: true,
   imports: [
     RouterModule,
-    Header,
+    HeaderComponent,
     SidebarComponent,
-    LoadingSpinner
+    LoadingSpinnerComponent
 ],
   templateUrl: './main-layout.html',
   styleUrls: ['./main-layout.scss'],

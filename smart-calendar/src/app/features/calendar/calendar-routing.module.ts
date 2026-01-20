@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MonthView } from './month-view/month-view.component';
+import { MonthViewComponent } from './month-view/month-view.component';
 
 const routes: Routes = [
   {
@@ -9,11 +9,11 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        component: MonthView,
+        component: MonthViewComponent,
       },
       {
         path: 'month',
-        component: MonthView,
+        component: MonthViewComponent,
       },
     ],
   },

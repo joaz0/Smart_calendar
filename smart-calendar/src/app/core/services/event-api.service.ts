@@ -1,8 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService } from './api.service';
+import { ApiService, ApiResponse } from './api.service';
 import { Event } from '../models/event.model';
+
+type EventListResponse = ApiResponse<Event[]>;
 
 @Injectable({
   providedIn: 'root',

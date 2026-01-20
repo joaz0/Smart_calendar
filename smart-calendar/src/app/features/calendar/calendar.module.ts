@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common.component';
-import { ReactiveFormsModule } from '@angular/forms.component';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Material Imports
 import { MatButtonModule } from '@angular/material/button';
@@ -15,10 +15,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
 
 // Routing
-import { CalendarRoutingModule } from './calendar-routing.module.component';
+import { CalendarRoutingModule } from './calendar-routing.module';
 
 // Components
-import { MonthView } from './month-view/month-view.component';
+import { MonthViewComponent } from './month-view/month-view.component';
 import { EventDialogComponent } from './event-dialog/event-dialog.component';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { DayDetailsDialogComponent } from './day-details-dialog/day-details-dialog.component';
@@ -39,7 +39,7 @@ import { DayDetailsDialogComponent } from './day-details-dialog/day-details-dial
     MatSelectModule,
     MatCheckboxModule,
     MatListModule,
-    MonthView,
+    MonthViewComponent,
     EventDialogComponent,
     TaskDialogComponent,
     DayDetailsDialogComponent,

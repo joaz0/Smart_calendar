@@ -2,10 +2,10 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 // Angular Common
-import { CommonModule, DatePipe } from '@angular/common.component';
+import { CommonModule, DatePipe } from '@angular/common';
 
 // Angular Forms
-import { FormsModule } from '@angular/forms.component';
+import { FormsModule } from '@angular/forms';
 
 // Angular Material
 import { MatIconModule } from '@angular/material/icon';
@@ -15,8 +15,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 
 // Shared Components
-import { EmptyState } from '../../../shared/components/empty-state/empty-state.component';
-import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 
 // Models
 import { CalendarEvent } from '../../../core/models/event.model';
@@ -35,8 +35,8 @@ import { Task } from '../../../core/models/task.model';
     MatButtonModule,
     MatMenuModule,
     MatDividerModule,
-    EmptyState,
-    LoadingSpinner
+    EmptyStateComponent,
+    LoadingSpinnerComponent
   ],
   templateUrl: './day-view.component.html',
   styleUrl: './day-view.component.scss',

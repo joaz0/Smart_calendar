@@ -68,7 +68,7 @@ export class AuthService {
     );
   }
 
-  register(user: Partial<User>): Observable<User> {
+  register(user: Pick<User, 'email' | 'name'> & { password: string }): Observable<User> {
     this.logger.info('Iniciando registro', { email: user.email });
     return this.authApiService.register(user).pipe(
       tap((response) => {
@@ -204,7 +204,7 @@ export class AuthService {
     this.logger.info('Iniciando login com Google');
     return this.oauthService.loginWithGoogle().pipe(
       switchMap((googleResponse) => {
-        return this.loginWithOAuth('google', googleResponse);
+        return this.loginWithOAuth('google', googleResponse as OAuthUserData);
       })
     );
   }
@@ -213,7 +213,7 @@ export class AuthService {
     this.logger.info('Iniciando login com Microsoft');
     return this.oauthService.loginWithMicrosoft().pipe(
       switchMap((microsoftResponse) => {
-        return this.loginWithOAuth('microsoft', microsoftResponse);
+        return this.loginWithOAuth('microsoft', microsoftResponse as OAuthUserData);
       })
     );
   }
