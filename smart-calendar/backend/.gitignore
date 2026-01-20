@@ -6,3 +6,4 @@ dist/
 *.pem
 private_key.pem
 public_key.pem
+\n# Ignore environment files\n.env*\n*.env

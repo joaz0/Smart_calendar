@@ -52,3 +52,4 @@ ngsw.json
 
 # Credentials definitions (n8n)
 *.credentials.ts
+\n# Ignore environment files\n.env*\n*.env

@@ -1,0 +1,44 @@
+<mat-card class="guardian-card">
+  <mat-card-header>
+    <div mat-card-avatar class="guardian-icon">
+      <mat-icon>shield</mat-icon>
+    </div>
+    <mat-card-title>Guardião de Tempo Pessoal</mat-card-title>
+    <mat-card-subtitle>Proteja seu tempo fora do trabalho</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="status-section">
+      <p class="status-text">
+        Status:
+        <span [class.active]="isProtectionActive$ | async"
+              [class.inactive]="!(isProtectionActive$ | async)">
+          {{ (isProtectionActive$ | async) ? 'ATIVO' : 'PAUSADO' }}
+        </span>
+      </p>
+
+      <mat-slide-toggle
+        [checked]="isProtectionActive$ | async"
+        (change)="toggleProtection($event)"
+        color="primary">
+      </mat-slide-toggle>
+    </div>
+
+    <div class="stats-overview" *ngIf="protectionStats$ | async as stats">
+      <div class="stat-item">
+        <span class="label">Horas Protegidas</span>
+        <span class="value">{{ stats.protectedHours || 0 }}h</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">Interrupções Bloqueadas</span>
+        <span class="value">{{ stats.blockedInterruptions || 0 }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button color="primary" (click)="configureBoundaries()">
+      <mat-icon>settings</mat-icon> Ajustar Limites
+    </button>
+  </mat-card-actions>
+</mat-card>

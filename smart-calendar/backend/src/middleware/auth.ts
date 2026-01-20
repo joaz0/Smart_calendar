@@ -3,12 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { query } from '../config/database';
 import { jwtConfig } from '../config/jwt';
 
-interface AuthRequest extends Request {
-  user?: any;
-  headers: any;
-}
-
-export const authenticateToken = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 

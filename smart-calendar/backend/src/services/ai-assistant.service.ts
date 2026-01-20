@@ -103,7 +103,7 @@ export class AIAssistantService {
     return null;
   }
 
-  async processUserCommand(userId: string, command: string, context: any) {
+  async processUserCommand(userId: number, command: string, context: any) {
 
     console.log(`Processando comando para ${userId}: ${command}`);
     return {
@@ -113,7 +113,7 @@ export class AIAssistantService {
     };
   }
 
-  async generateSuggestions(userId: string, context: any) {
+  async generateSuggestions(userId: number, context: any) {
     return [
       "Agendar reunião para amanhã",
       "Resumo da minha semana",
@@ -121,7 +121,7 @@ export class AIAssistantService {
     ];
   }
 
-  async getHistory(userId: string) {
+  async getHistory(userId: number) {
     const { rows } = await pool.query(
       `SELECT id, raw_text, intent, entities, confidence, created_at
        FROM ai_commands

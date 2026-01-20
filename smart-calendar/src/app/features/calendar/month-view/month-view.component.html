@@ -32,7 +32,7 @@
             <!-- Events -->
             @if (day.events.length > 0) {
               <div class="day-events">
-                @for (event of day.events | slice:0:maxEventsPerDay; track trackByEvent($index, event)) {
+                @for (event of day.events | slice:0:maxEventsPerDay; track event.id) {
                   <div class="event-item"
                     [style.background-color]="$any(event).category?.color"
                     [class.all-day]="$any(event).allDay"

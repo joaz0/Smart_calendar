@@ -10,10 +10,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "src/types/express/index.d.ts"],
   "exclude": [
     "node_modules",
     "dist",

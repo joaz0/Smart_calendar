@@ -39,6 +39,12 @@ async function setupDatabase() {
       await new Promise(resolve => setTimeout(resolve, 3000));
     }
   }
+
+  // Adicionar verificação para garantir que o cliente está definido
+  if (!client) {
+    throw new Error('Não foi possível conectar ao banco de dados após várias tentativas.');
+  }
+
   try {
     console.log('\n🔧 ========================================');
     console.log('   Configurando banco de dados completo...');
