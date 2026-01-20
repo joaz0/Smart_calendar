@@ -64,7 +64,7 @@ export const routes: Routes = [
       {
         path: 'calendar',
         loadChildren: () =>
-          import('./features/calendar/calendar-module').then((m) => m.CalendarModule),
+          import('./features/calendar/calendar.module').then((m) => m.CalendarModule),
         canActivate: [privacyGuard],
         data: {
           privacyLevel: PrivacyLevel.SHARED,
@@ -79,7 +79,7 @@ export const routes: Routes = [
       {
         path: 'collaboration',
         loadChildren: () =>
-          import('./features/collaboration/collaboration-module').then(
+          import('./features/collaboration/collaboration.module').then(
             (m) => m.CollaborationModule
           ),
         canActivate: [privacyGuard],
@@ -108,7 +108,7 @@ export const routes: Routes = [
       {
         path: 'productivity',
         loadChildren: () =>
-          import('./features/context-productivity/context-productivity-module').then(
+          import('./features/context-productivity/context-productivity.module').then(
             (m) => m.ContextProductivityModule
           ),
         canActivate: [privacyGuard],
@@ -120,7 +120,7 @@ export const routes: Routes = [
       {
         path: 'analytics',
         loadChildren: () =>
-          import('./features/advanced-visualization/advanced-visualization-module').then(
+          import('./features/advanced-visualization/advanced-visualization.module').then(
             (m) => m.AdvancedVisualizationModule
           ),
         canActivate: [privacyGuard],
@@ -152,7 +152,7 @@ export const routes: Routes = [
       {
         path: 'wellness',
         loadChildren: () =>
-          import('./features/wellness/wellness-module').then((m) => m.WellnessModule),
+          import('./features/wellness/wellness.module').then((m) => m.WellnessModule),
         canActivate: [privacyGuard],
         data: {
           privacyLevel: PrivacyLevel.CONFIDENTIAL,
@@ -177,7 +177,7 @@ export const routes: Routes = [
       {
         path: 'privacy',
         loadChildren: () =>
-          import('./features/privacy-control/privacy-control-module').then(
+          import('./features/privacy-control/privacy-control.module').then(
             (m) => m.PrivacyControlModule
           ),
         canActivate: [privacyGuard],
@@ -192,7 +192,7 @@ export const routes: Routes = [
       {
         path: 'integrations',
         loadChildren: () =>
-          import('./features/integrations/integrations-module').then((m) => m.IntegrationsModule),
+          import('./features/integrations/integrations.module').then((m) => m.IntegrationsModule),
         canActivate: [privacyGuard],
         data: {
           privacyLevel: PrivacyLevel.SHARED,

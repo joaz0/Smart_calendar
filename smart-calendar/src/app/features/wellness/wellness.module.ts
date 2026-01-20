@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { PrivacyControlRoutingModule } from './privacy-control-routing-module';
+import { WellnessRoutingModule } from './wellness-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    PrivacyControlRoutingModule
+    WellnessRoutingModule
   ]
 })
-export class PrivacyControlModule { }
+export class WellnessModule {
+  
+}

@@ -20,6 +20,7 @@
     "**/*.test.ts",
     "**/__tests__/**",
     "src/**/*.test.ts",
-    "src/**/__tests__/**"
+    "src/**/__tests__/**",
+    "../tools/n8n-nodes-agenda-rapido"
   ]
 }

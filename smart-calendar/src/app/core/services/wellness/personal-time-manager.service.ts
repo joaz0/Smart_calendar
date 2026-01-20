@@ -14,7 +14,7 @@ export interface PersonalTimeBlock {
 }
 
 @Injectable({ providedIn: 'root' })
-export class PersonalTimeGuardService {
+export class PersonalTimeManagerService {
   private http = inject(HttpClient);
 
   private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/wellness/personal-time`;

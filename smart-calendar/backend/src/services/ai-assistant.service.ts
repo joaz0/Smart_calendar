@@ -102,4 +102,35 @@ export class AIAssistantService {
     }
     return null;
   }
+
+  async processUserCommand(userId: string, command: string, context: any) {
+
+    console.log(`Processando comando para ${userId}: ${command}`);
+    return {
+      action: 'analyze_calendar',
+      response: `Entendi, você quer ajuda com: "${command}". (Lógica de IA em desenvolvimento)`,
+      entities: []
+    };
+  }
+
+  async generateSuggestions(userId: string, context: any) {
+    return [
+      "Agendar reunião para amanhã",
+      "Resumo da minha semana",
+      "Bloquear tempo de foco"
+    ];
+  }
+
+  async getHistory(userId: string) {
+    const { rows } = await pool.query(
+      `SELECT id, raw_text, intent, entities, confidence, created_at
+       FROM ai_commands
+       WHERE user_id = $1
+       ORDER BY created_at DESC
+       LIMIT 50`,
+      [userId]
+    );
+
+    return rows;
+  }
 }

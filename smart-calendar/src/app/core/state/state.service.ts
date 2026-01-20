@@ -1,6 +1,7 @@
 // State Management Base
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 
 /**
@@ -56,10 +57,19 @@ export abstract class StateService<T extends State> {
    * Observa uma propriedade específica do estado
    */
   selectProperty<K extends keyof T>(key: K): Observable<T[K]> {
-    return new Observable((observer) => {
-      this.state$.subscribe((state) => {
-        observer.next(state[key]);
-      });
-    });
+    return this.state$.pipe(
+      map((state) => state[key]),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Seleciona uma projeção do estado com deduplicação
+   */
+  select<K>(selector: (state: T) => K): Observable<K> {
+    return this.state$.pipe(
+      map(selector),
+      distinctUntilChanged()
+    );
   }
 }

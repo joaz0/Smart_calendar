@@ -9,6 +9,7 @@
     "build": "tsc",
     "migrate": "npx ts-node src/scripts/migrate.ts",
     "migrate-full": "npx ts-node src/scripts/setup-database.ts",
+    "create-privacy-table": "npx ts-node src/scripts/create-privacy-table.ts",
     "add-test-user": "npx ts-node src/scripts/add-test-user.ts",
     "create-test-user": "npx ts-node src/scripts/create-test-user.ts",
     "ensure-test-user": "npx ts-node src/scripts/ensure-test-user.ts",

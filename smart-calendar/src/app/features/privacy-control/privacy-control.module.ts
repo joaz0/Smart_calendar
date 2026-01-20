@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CollaborationRoutingModule } from './collaboration-routing-module';
+import { PrivacyControlRoutingModule } from './privacy-control-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    CollaborationRoutingModule
+    PrivacyControlRoutingModule
   ]
 })
-export class CollaborationModule { }
+export class PrivacyControlModule { }

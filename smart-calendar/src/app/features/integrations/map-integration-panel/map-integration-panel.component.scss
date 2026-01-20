@@ -1,0 +1,57 @@
+<div class="map-panel-container">
+  <div class="panel-header">
+    <div class="header-content">
+      <h2>📍 Integração de Mapas</h2>
+      <p class="subtitle">Visualize seus eventos e calcule rotas inteligentes.</p>
+    </div>
+    <button class="btn-refresh" (click)="retryConnection()" [disabled]="isLoading">
+      <i class="fas fa-sync-alt" [class.spinning]="isLoading"></i> Atualizar
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="state-container loading">
+    <div class="spinner"></div>
+    <p>Conectando ao serviço de mapas...</p>
+  </div>
+
+  <div *ngIf="!isLoading && hasError" class="state-container error">
+    <div class="icon-warning">⚠️</div>
+    <h3>Não foi possível carregar o mapa</h3>
+    <p>{{ errorMessage }}</p>
+    <button class="btn-primary" (click)="retryConnection()">Tentar Novamente</button>
+  </div>
+
+  <div *ngIf="!isLoading && !hasError" class="map-content">
+    <div class="map-placeholder">
+      <div class="map-grid">
+        <div class="grid-line horizontal" *ngFor="let i of [1,2,3,4,5]"></div>
+        <div class="grid-line vertical" *ngFor="let i of [1,2,3,4,5]"></div>
+
+        <div class="marker" *ngFor="let loc of activeLocations"
+             [title]="loc.name"
+             [class.type-work]="loc.type === 'work'"
+             [class.type-home]="loc.type === 'home'">
+          <span class="marker-pin"></span>
+          <span class="marker-label">{{ loc.name }}</span>
+        </div>
+      </div>
+
+      <div class="map-overlay-info">
+        <p>Integração Ativa: <strong>Google Maps API</strong></p>
+      </div>
+    </div>
+
+    <div class="locations-list">
+      <h3>Locais Salvos</h3>
+      <ul>
+        <li *ngFor="let loc of activeLocations">
+          <span class="icon">{{ loc.type === 'work' ? '🏢' : '🏠' }}</span>
+          <div class="info">
+            <span class="name">{{ loc.name }}</span>
+            <span class="coords">{{ loc.coords.lat }}, {{ loc.coords.lng }}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

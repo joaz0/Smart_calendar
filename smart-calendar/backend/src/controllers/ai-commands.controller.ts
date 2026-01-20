@@ -1,46 +1,84 @@
 import { Request, Response } from 'express';
-import { query } from '../config/database';
+import { AIAssistantService } from '../services/ai-assistant.service';
+import { sendSuccess, sendError } from '../utils/response-formatter'; // Importação corrigida
 
 export class AiCommandsController {
-  async create(req: Request, res: Response) {
-    try {
-      const { user_id, raw_text, intent, entities, confidence } = req.body;
-      if (!raw_text) return res.status(400).json({ error: 'raw_text é obrigatório' });
+  private aiService: AIAssistantService;
 
-      const result = await query(
-        `INSERT INTO ai_commands (user_id, raw_text, intent, entities, confidence) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-        [
-          user_id || null,
-          raw_text,
-          intent || null,
-          entities ? JSON.stringify(entities) : null,
-          confidence || null,
-        ]
-      );
-      res.status(201).json(result.rows[0]);
-    } catch (error) {
-      console.error('Error creating ai command:', error);
-      res.status(500).json({ error: 'Erro ao criar ai command' });
-    }
+  constructor() {
+    this.aiService = new AIAssistantService();
   }
 
-  async list(req: Request, res: Response) {
+  /**
+   * Processa um comando de linguagem natural enviado pelo usuário
+   */
+  processCommand = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-      const { userId } = req.query;
-      if (userId) {
-        const result = await query(
-          'SELECT * FROM ai_commands WHERE user_id = $1 ORDER BY created_at DESC',
-          [userId]
-        );
-        return res.json(result.rows);
+      const { command, context } = req.body;
+      const userId = req.user?.id;
+
+      if (!command) {
+        // Correção: Envia res, mensagem e status code 400
+        return sendError(res, 'O comando é obrigatório', 400);
       }
-      const result = await query('SELECT * FROM ai_commands ORDER BY created_at DESC');
-      res.json(result.rows);
-    } catch (error) {
-      console.error('Error listing ai commands:', error);
-      res.status(500).json({ error: 'Erro ao listar ai commands' });
-    }
-  }
-}
 
-export default new AiCommandsController();
+      if (!userId) {
+        // Correção: Envia res, mensagem e status code 401
+        return sendError(res, 'Usuário não autenticado', 401);
+      }
+
+      const result = await this.aiService.processUserCommand(userId, command, context);
+
+      // Correção: Usa sendSuccess passando res e o resultado
+      // O quarto parâmetro é opcional para metadados (como mensagens extras)
+      return sendSuccess(res, result, 200, { message: 'Comando processado com sucesso' });
+
+    } catch (error) {
+      console.error('Erro ao processar comando de IA:', error);
+      // Correção: Envia erro 500 (padrão da função se omitido, mas explicito aqui)
+      return sendError(res, 'Falha interna ao processar comando', 500, error);
+    }
+  };
+
+  /**
+   * Gera sugestões de comandos baseados no contexto atual
+   */
+  getCommandSuggestions = async (req: Request, res: Response): Promise<Response | void> => {
+    try {
+      const userId = req.user?.id;
+      const { currentScreen, timeOfDay } = req.body;
+
+      if (!userId) {
+        return sendError(res, 'Usuário não autenticado', 401);
+      }
+
+      const suggestions = await this.aiService.generateSuggestions(userId, { currentScreen, timeOfDay });
+
+      return sendSuccess(res, suggestions, 200, { message: 'Sugestões geradas' });
+
+    } catch (error) {
+      console.error('Erro ao gerar sugestões:', error);
+      return sendError(res, 'Erro ao obter sugestões');
+    }
+  };
+
+  /**
+   * Recupera o histórico de comandos do usuário
+   */
+  getCommandHistory = async (req: Request, res: Response): Promise<Response | void> => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return sendError(res, 'Usuário não autenticado', 401);
+      }
+
+      const history = await this.aiService.getHistory(userId);
+
+      return sendSuccess(res, history);
+
+    } catch (error) {
+      console.error('Erro ao buscar histórico:', error);
+      return sendError(res, 'Erro ao recuperar histórico');
+    }
+  };
+}

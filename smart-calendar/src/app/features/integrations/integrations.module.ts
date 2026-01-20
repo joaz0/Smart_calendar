@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { EventsRoutingModule } from './events-routing-module';
+import { IntegrationsRoutingModule } from './integrations-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    EventsRoutingModule
+    IntegrationsRoutingModule
   ]
 })
-export class EventsModule { }
+export class IntegrationsModule { }

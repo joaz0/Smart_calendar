@@ -49,3 +49,6 @@ coverage/
 # PWA
 service-worker.js
 ngsw.json
+
+# Credentials definitions (n8n)
+*.credentials.ts

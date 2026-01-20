@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AiAssistantRoutingModule } from './ai-assistant-routing-module';
+import { AiAssistantRoutingModule } from './ai-assistant-routing.module';
 
 
 @NgModule({
