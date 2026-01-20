@@ -22,6 +22,7 @@ interface User {
   name: string;
   email: string;
   avatar: string | null;
+  role?: string;
 }
 
 interface Notification {

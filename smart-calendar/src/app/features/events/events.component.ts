@@ -12,7 +12,14 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { EventService } from '../../core/services/event.service';
-import { AnyObject } from '../../core/models/common-interfaces';
+import { Event } from '../../core/models/event.model';
+
+type EventItem = Omit<Partial<Event>, 'category'> & {
+  id: string;
+  title: string;
+  category?: Event['category'] | string;
+  attendees?: string[];
+};
 
 
 @Component({
@@ -37,38 +44,38 @@ export class EventsComponent implements OnInit, OnDestroy {
   private eventService = inject(EventService);
 
   private destroy$ = new Subject<void>();
-  
-  events: AnyObject[] = [];
-  filteredEvents: AnyObject[] = [];
+
+  events: EventItem[] = [];
+  filteredEvents: EventItem[] = [];
   searchTerm = '';
   selectedFilter = 'all';
   isLoading = false;
-  
+
   filters = [
     { value: 'all', label: 'Todos' },
     { value: 'today', label: 'Hoje' },
     { value: 'week', label: 'Esta Semana' },
     { value: 'month', label: 'Este Mês' }
   ];
-  
+
   ngOnInit() {
     this.loadEvents();
   }
-  
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
   loadEvents() {
     this.isLoading = true;
-    
+
     // Carregar eventos dos últimos 30 dias e próximos 90 dias
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 30);
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 90);
-    
+
     this.eventService.getEventsByDateRange(startDate, endDate)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -85,15 +92,15 @@ export class EventsComponent implements OnInit, OnDestroy {
         }
       });
   }
-  
-  getMockEvents() {
+
+  getMockEvents(): EventItem[] {
     const today = new Date();
     return [
       {
         id: '1',
         title: 'Reunião de equipe',
         description: 'Reunião semanal da equipe de desenvolvimento',
-        startDate: new Date(today.getTime() + 2 * 60 * 60 * 1000), // 2 horas a partir de agora
+        startDate: new Date(today.getTime() + 2 * 60 * 60 * 1000),
         endDate: new Date(today.getTime() + 3 * 60 * 60 * 1000),
         location: 'Sala de conferências A',
         category: 'meeting',
@@ -104,7 +111,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         id: '2',
         title: 'Apresentação do projeto',
         description: 'Apresentar resultados do trimestre para a diretoria',
-        startDate: new Date(today.getTime() + 24 * 60 * 60 * 1000), // amanhã
+        startDate: new Date(today.getTime() + 24 * 60 * 60 * 1000),
         endDate: new Date(today.getTime() + 25 * 60 * 60 * 1000),
         location: 'Auditório principal',
         category: 'presentation',
@@ -124,80 +131,88 @@ export class EventsComponent implements OnInit, OnDestroy {
       }
     ];
   }
-  
+
   applyFilters() {
     let filtered = [...this.events];
-    
+
     // Filtro por texto
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(event => 
-        event.title.toLowerCase().includes(term) ||
-        event.description?.toLowerCase().includes(term) ||
-        event.location?.toLowerCase().includes(term)
-      );
+      filtered = filtered.filter((event) => {
+        const title = event.title.toLowerCase();
+        const description = event.description?.toLowerCase() || '';
+        const location = event.location?.toLowerCase() || '';
+        return title.includes(term) || description.includes(term) || location.includes(term);
+      });
     }
-    
+
     // Filtro por data
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    
+
     switch (this.selectedFilter) {
       case 'today':
       {
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
-        filtered = filtered.filter(event => 
-          event.startDate >= today && event.startDate < tomorrow
-        );
+        filtered = filtered.filter((event) => {
+          const startDate = event.startDate;
+          return startDate ? startDate >= today && startDate < tomorrow : false;
+        });
         break;
       }
       case 'week':
       {
         const weekEnd = new Date(today);
         weekEnd.setDate(weekEnd.getDate() + 7);
-        filtered = filtered.filter(event => 
-          event.startDate >= today && event.startDate < weekEnd
-        );
+        filtered = filtered.filter((event) => {
+          const startDate = event.startDate;
+          return startDate ? startDate >= today && startDate < weekEnd : false;
+        });
         break;
       }
       case 'month':
       {
         const monthEnd = new Date(today);
         monthEnd.setMonth(monthEnd.getMonth() + 1);
-        filtered = filtered.filter(event => 
-          event.startDate >= today && event.startDate < monthEnd
-        );
+        filtered = filtered.filter((event) => {
+          const startDate = event.startDate;
+          return startDate ? startDate >= today && startDate < monthEnd : false;
+        });
         break;
       }
     }
-    
+
     // Ordenar por data
-    filtered.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
-    
+    filtered.sort((a, b) => {
+      const startA = a.startDate?.getTime() ?? 0;
+      const startB = b.startDate?.getTime() ?? 0;
+      return startA - startB;
+    });
+
     this.filteredEvents = filtered;
   }
-  
+
   onSearch() {
     this.applyFilters();
   }
-  
+
   onFilterChange(filter: string) {
     this.selectedFilter = filter;
     this.applyFilters();
   }
-  
+
   createEvent() {
     this.router.navigate(['/app/calendar'], { queryParams: { action: 'create' } });
   }
-  
-  editEvent(evt: AnyObject) {
-    this.router.navigate(['/app/calendar'], { 
-      queryParams: { action: 'edit', eventId: evt.id } 
+
+  editEvent(evt: EventItem) {
+    this.router.navigate(['/app/calendar'], {
+      queryParams: { action: 'edit', eventId: evt.id }
     });
   }
-  
-  deleteEvent(evt: AnyObject) {
+
+  deleteEvent(evt: EventItem) {
     if (confirm(`Tem certeza que deseja excluir o evento "${evt.title}"?`)) {
       this.eventService.deleteEvent(evt.id)
         .pipe(takeUntil(this.destroy$))
@@ -214,20 +229,20 @@ export class EventsComponent implements OnInit, OnDestroy {
         });
     }
   }
-  
-  viewEvent(evt: AnyObject) {
-    this.router.navigate(['/app/calendar'], { 
-      queryParams: { eventId: evt.id } 
+
+  viewEvent(evt: EventItem) {
+    this.router.navigate(['/app/calendar'], {
+      queryParams: { eventId: evt.id }
     });
   }
-  
-  getEventStatus(evt: AnyObject): string {
+
+  getEventStatus(evt: EventItem): string {
     const now = new Date();
-    if (evt.endDate < now) return 'past';
-    if (evt.startDate <= now && evt.endDate >= now) return 'ongoing';
+    if (evt.endDate && evt.endDate < now) return 'past';
+    if (evt.startDate && evt.endDate && evt.startDate <= now && evt.endDate >= now) return 'ongoing';
     return 'upcoming';
   }
-  
+
   getStatusColor(status: string): string {
     switch (status) {
       case 'past': return '#757575';
@@ -236,7 +251,7 @@ export class EventsComponent implements OnInit, OnDestroy {
       default: return '#757575';
     }
   }
-  
+
   getStatusLabel(status: string): string {
     switch (status) {
       case 'past': return 'Finalizado';
@@ -245,8 +260,12 @@ export class EventsComponent implements OnInit, OnDestroy {
       default: return '';
     }
   }
-  
-  getCategoryLabel(category: string): string {
+
+  getCategoryLabel(category: EventItem['category']): string {
+    if (!category) return 'Outro';
+    if (typeof category !== 'string') {
+      return category.name || 'Outro';
+    }
     switch (category) {
       case 'meeting': return 'Reunião';
       case 'presentation': return 'Apresentação';
@@ -255,8 +274,9 @@ export class EventsComponent implements OnInit, OnDestroy {
       default: return 'Outro';
     }
   }
-  
-  formatDateTime(date: Date): string {
+
+  formatDateTime(date?: Date): string {
+    if (!date) return '';
     return date.toLocaleString('pt-BR', {
       day: '2-digit',
       month: '2-digit',
@@ -265,8 +285,9 @@ export class EventsComponent implements OnInit, OnDestroy {
       minute: '2-digit'
     });
   }
-  
-  formatTime(date: Date): string {
+
+  formatTime(date?: Date): string {
+    if (!date) return '';
     return date.toLocaleTimeString('pt-BR', {
       hour: '2-digit',
       minute: '2-digit'
@@ -285,7 +306,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         <h1><i class="fas fa-bookmark"></i> Eventos</h1>
         <button class="add-btn"><i class="fas fa-plus"></i> Novo Evento</button>
       </div>
-      
+
       <div class="events-content">
         <div class="event-item">
           <div class="event-time">09:00</div>
@@ -295,7 +316,7 @@ export class EventsComponent implements OnInit, OnDestroy {
           </div>
           <div class="event-category meeting">Reunião</div>
         </div>
-        
+
         <div class="event-item">
           <div class="event-time">14:30</div>
           <div class="event-details">
@@ -304,7 +325,7 @@ export class EventsComponent implements OnInit, OnDestroy {
           </div>
           <div class="event-category presentation">Apresentação</div>
         </div>
-        
+
         <div class="event-item">
           <div class="event-time">16:00</div>
           <div class="event-details">
@@ -322,13 +343,13 @@ export class EventsComponent implements OnInit, OnDestroy {
       max-width: 800px;
       margin: 0 auto;
     }
-    
+
     .events-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
-      
+
       h1 {
         color: #6d3bf7;
         margin: 0;
@@ -336,7 +357,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         align-items: center;
         gap: 0.5rem;
       }
-      
+
       .add-btn {
         background: #6d3bf7;
         color: white;
@@ -349,7 +370,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         gap: 0.5rem;
       }
     }
-    
+
     .event-item {
       display: flex;
       align-items: center;
@@ -360,33 +381,33 @@ export class EventsComponent implements OnInit, OnDestroy {
       margin-bottom: 0.5rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    
+
     .event-time {
       font-weight: bold;
       color: #6d3bf7;
       min-width: 60px;
     }
-    
+
     .event-details {
       flex: 1;
-      
+
       h3 {
         margin: 0 0 0.25rem 0;
         color: #333;
       }
-      
+
       p {
         margin: 0;
         color: #666;
         font-size: 0.9rem;
       }
     }
-    
+
     .event-category {
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
       font-size: 0.8rem;
-      
+
       &.meeting { background: #e3f2fd; color: #1976d2; }
       &.presentation { background: #f3e5f5; color: #7b1fa2; }
       &.call { background: #e8f5e8; color: #388e3c; }

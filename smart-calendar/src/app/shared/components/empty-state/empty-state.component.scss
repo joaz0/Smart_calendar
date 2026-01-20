@@ -1,6 +1,6 @@
-@import '../../../../assets/styles/variables';
-@import '../../../../assets/styles/mixins';
-@import '../../../../assets/styles/breakpoints';
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
+@use '../../../../assets/styles/breakpoints' as *;
 
 // Note: This file appears to style a search bar, not an empty state.
 .search-bar-container {

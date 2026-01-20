@@ -1,5 +1,5 @@
 // Advanced Responsive System
-@import 'breakpoints';
+@use 'breakpoints' as *;
 
 // Container Queries (Modern approach)
 @mixin container-query($min-width) {

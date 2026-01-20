@@ -1,10 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService, ApiResponse } from './api.service';
+import { ApiService } from './api.service';
 import { Task } from '../models/task.model';
-
-type TaskListResponse = ApiResponse<Task[]>;
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +24,7 @@ export class TaskApiService {
       },
     };
 
-    return this.apiService.get<TaskListResponse>('/tasks', params).pipe(
+    return this.apiService.get<Task[]>('/tasks', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -62,7 +60,7 @@ export class TaskApiService {
       },
     };
 
-    return this.apiService.get<TaskListResponse>('/tasks', params).pipe(
+    return this.apiService.get<Task[]>('/tasks', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -126,7 +124,7 @@ export class TaskApiService {
       },
     };
 
-    return this.apiService.get<TaskListResponse>('/tasks/search', params).pipe(
+    return this.apiService.get<Task[]>('/tasks/search', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;

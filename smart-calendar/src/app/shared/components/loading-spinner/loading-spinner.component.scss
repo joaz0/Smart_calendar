@@ -1,5 +1,5 @@
-@import '../../../../assets/styles/variables';
-@import '../../../../assets/styles/mixins';
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
 
 @keyframes spin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -386,7 +386,9 @@
 
   .skeleton-line, .skeleton-circle {
     @include skeleton;
-    border-radius: var(--radius-sm);
+    & {
+      border-radius: var(--radius-sm);
+    }
   }
   
   .skeleton-line {

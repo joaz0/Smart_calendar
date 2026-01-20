@@ -388,7 +388,7 @@ export interface EncryptedData {
 export interface HttpOptions {
   headers?: Record<string, string>;
   params?: Record<string, string | number | boolean>;
-  responseType?: 'json' | 'text' | 'blob';
+  responseType?: 'json';
   withCredentials?: boolean;
 }
 

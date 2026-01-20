@@ -1,4 +1,4 @@
-@import './tokens';
+@use './tokens' as *;
 
 // Breakpoints
 $breakpoints: (
@@ -56,11 +56,13 @@ $breakpoints: (
 }
 
 @mixin touch-target {
-  min-width: 44px;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  & {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 // Flex helpers
@@ -145,7 +147,7 @@ $breakpoints: (
   cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none;
-  
+
   &:focus-visible {
     @include focus-ring;
   }
@@ -163,9 +165,11 @@ $breakpoints: (
 
 @mixin btn-primary {
   @include btn-base;
-  background: linear-gradient(135deg, #5b0bdc 0%, #8b3dff 100%);
-  color: white;
-  box-shadow: 0 4px 16px rgba(91, 11, 220, 0.3);
+  & {
+    background: linear-gradient(135deg, #5b0bdc 0%, #8b3dff 100%);
+    color: white;
+    box-shadow: 0 4px 16px rgba(91, 11, 220, 0.3);
+  }
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
@@ -179,9 +183,11 @@ $breakpoints: (
 
 @mixin btn-secondary {
   @include btn-base;
-  background: transparent;
-  color: var(--primary-400);
-  border: 2px solid var(--primary-400);
+  & {
+    background: transparent;
+    color: var(--primary-400);
+    border: 2px solid var(--primary-400);
+  }
 
   &:hover:not(:disabled) {
     background: rgba(91, 11, 220, 0.1);
@@ -191,8 +197,10 @@ $breakpoints: (
 
 @mixin ghost-button {
   @include btn-base;
-  background: transparent;
-  color: var(--text-secondary);
+  & {
+    background: transparent;
+    color: var(--text-secondary);
+  }
 
   &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.05);
@@ -316,9 +324,11 @@ $breakpoints: (
 
 // Button sizes
 @mixin button-sm {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  min-height: 36px;
+  & {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    min-height: 36px;
+  }
 }
 
 @mixin button-lg {

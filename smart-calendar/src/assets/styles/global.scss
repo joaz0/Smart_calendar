@@ -1,8 +1,8 @@
-@import './tokens';
-@import './components';
-@import './variables';
-@import './mixins';
-@import './accessibility';
+@use './tokens' as *;
+@use './components' as *;
+@use './variables' as *;
+@use './mixins' as *;
+@use './accessibility' as *;
 
 * {
   box-sizing: border-box;

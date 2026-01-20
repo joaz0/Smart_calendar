@@ -1,6 +1,6 @@
-@import '../../../../assets/styles/variables';
-@import '../../../../assets/styles/mixins';
-@import '../../../../assets/styles/breakpoints';
+@use '../../../../assets/styles/variables' as *;
+@use '../../../../assets/styles/mixins' as *;
+@use '../../../../assets/styles/breakpoints' as *;
 
 .search-bar-container {
   position: relative;
@@ -295,7 +295,9 @@
     button {
       @include ghost-button;
       @include button-sm;
-      font-size: var(--font-size-xs);
+      & {
+        font-size: var(--font-size-xs);
+      }
     }
   }
 

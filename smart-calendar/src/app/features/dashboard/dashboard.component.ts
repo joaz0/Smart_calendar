@@ -12,10 +12,11 @@ import { UserService } from '../../core/services/user.service';
 import { EventService } from '../../core/services/event.service';
 import { TaskService } from '../../core/services/task.service';
 
-interface User {
+interface DashboardUser {
   name: string;
   email?: string;
-  id?: number;
+  id?: string;
+  avatar?: string;
 }
 
 interface Event {
@@ -56,7 +57,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   
-  user: User = { name: 'Usuário' };
+  user: DashboardUser = { name: 'Usuário' };
   currentDate = new Date();
   
   todayStats = {
@@ -96,7 +97,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (profile) => {
-          this.user = profile;
+          this.user = {
+            id: profile.id,
+            name: profile.name,
+            email: profile.email,
+            avatar: profile.avatar
+          };
         },
         error: () => {
           this.user = { name: 'Usuário' };
@@ -116,7 +122,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: (events) => {
           this.todayEvents = events.map(event => ({
             ...event,
-            startTime: event.startDate,
+            startTime: event.startDate ?? new Date(),
             category: { color: '#4facfe' }
           }));
           this.todayStats.events = events.length;
@@ -184,7 +190,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   addTask() {
     const title = prompt('Digite o título da tarefa:');
     if (title) {
-      const newTask = {
+      const newTask: Task = {
         id: Date.now().toString(),
         title,
         completed: false,

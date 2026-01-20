@@ -18,7 +18,7 @@ interface User {
   id?: string;
   name?: string;
   email?: string;
-  avatar?: string;
+  avatar?: string | null;
   role?: string;
   status?: 'online' | 'away' | 'busy' | 'offline';
 }

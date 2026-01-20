@@ -1,6 +1,6 @@
-@import '../../../../assets/styles/_variables';
-@import '../../../../assets/styles/_mixins';
-@import '../../../../assets/styles/_breakpoints';
+@use '../../../../assets/styles/_variables' as *;
+@use '../../../../assets/styles/_mixins' as *;
+@use '../../../../assets/styles/_breakpoints' as *;
 
 .event-form {
   background: var(--bg-primary);

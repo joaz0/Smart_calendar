@@ -45,23 +45,26 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   sidebarOpen = true;
   isLoading = false;
   isMobile = false;
-  userStats: UserStats = {
-    events_today: 0,
-    pending_tasks: 0,
-    completed_tasks: 0,
-    productivity_score: 0
+  userStats: {
+    todayEvents: number;
+    pendingTasks: number;
+    completedTasks: number;
+    weeklyFocus: number;
+  } = {
+    todayEvents: 0,
+    pendingTasks: 0,
+    completedTasks: 0,
+    weeklyFocus: 0
   };
-  currentUser: UserProfile = {
+  currentUser: { name: string; email: string; avatar: string | null } = {
     name: 'Carregando...',
     email: '',
-    avatar: null,
-    preferences: {}
+    avatar: null
   };
-  user: UserProfile = {
+  user: { name: string; email: string; avatar: string | null } = {
     name: 'Carregando...',
     email: '',
-    avatar: null,
-    preferences: {}
+    avatar: null
   };
 
   stats = {
@@ -111,7 +114,10 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
             name: 'Usuário',
             email: '',
             avatar: null,
-            preferences: {}
+            preferences: {},
+            id: '',
+            createdAt: new Date(),
+            updatedAt: new Date()
           } as UserProfile);
         })
       )
@@ -120,8 +126,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
           this.user = {
             name: profile.name || 'Usuário',
             email: profile.email,
-            avatar: profile.avatar || '👤',
-            preferences: profile.preferences || {}
+            avatar: profile.avatar ?? null
           };
           this.currentUser = this.user;
           this.cdr.markForCheck();

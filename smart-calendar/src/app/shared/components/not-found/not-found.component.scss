@@ -1,5 +1,5 @@
-@import '../../../../assets/styles/_variables';
-@import '../../../../assets/styles/_mixins';
+@use '../../../../assets/styles/_variables' as *;
+@use '../../../../assets/styles/_mixins' as *;
 
 .not-found {
   @include full-screen-gradient;
@@ -29,9 +29,11 @@
 
   .back-button {
     @include primary-button;
-    padding: $spacing-md $spacing-xl;
-    font-size: 1.1rem;
-    text-decoration: none;
-    display: inline-block;
+    & {
+      padding: $spacing-md $spacing-xl;
+      font-size: 1.1rem;
+      text-decoration: none;
+      display: inline-block;
+    }
   }
 }

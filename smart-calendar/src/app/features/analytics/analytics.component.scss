@@ -1,5 +1,5 @@
-@import '../../../assets/styles/_variables';
-@import '../../../assets/styles/_mixins';
+@use '../../../assets/styles/_variables' as *;
+@use '../../../assets/styles/_mixins' as *;
 
 .analytics-container {
   padding: clamp(1rem, 3vw, 2rem);

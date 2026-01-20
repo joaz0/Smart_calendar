@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges, SimpleChanges, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -190,8 +190,8 @@ export class SearchBarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   // Quando results são atualizados externamente
-  ngOnChanges(changes: Record<string, unknown>): void {
-    if (changes.results && this.results) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['results'] && this.results) {
       this.searchResults = this.results;
       this.updateGroupedResults();
       this.isSearching = false;

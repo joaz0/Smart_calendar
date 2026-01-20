@@ -1,12 +1,14 @@
-@import '../../../../assets/styles/_variables';
-@import '../../../../assets/styles/_mixins';
-@import '../../../../assets/styles/_breakpoints';
+@use '../../../../assets/styles/_variables' as *;
+@use '../../../../assets/styles/_mixins' as *;
+@use '../../../../assets/styles/_breakpoints' as *;
 
 .month-view {
   @include glass-card;
-  border: 1px solid rgba(255,255,255,0.1);
-  width: 100%;
-  overflow: hidden;
+  & {
+    border: 1px solid rgba(255,255,255,0.1);
+    width: 100%;
+    overflow: hidden;
+  }
   
   @include desktop-only {
     margin: $spacing-md;

@@ -74,7 +74,10 @@ export class ApiService {
     options: HttpOptions = {}
   ): Observable<ApiResponse<T>> {
     const url = `${this.apiUrl}${endpoint}`;
-    const httpOptions = this.getHttpOptions(options);
+    const httpOptions = {
+      ...this.getHttpOptions(options),
+      responseType: 'json' as const,
+    };
 
     this.isLoading$.next(true);
 

@@ -32,23 +32,25 @@
 
 .auth-card {
   @include mixins.glass-card;
-  padding: var(--space-6);
-  width: 100%;
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border: 2px solid transparent;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%),
-              linear-gradient(135deg, rgba(91, 11, 220, 0.8) 0%, rgba(139, 61, 255, 0.4) 50%, rgba(91, 11, 220, 0.8) 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  box-shadow:
-    0 8px 32px rgba(91, 11, 220, 0.6),
-    0 0 80px rgba(91, 11, 220, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.1),
-    inset 0 -1px 1px rgba(91, 11, 220, 0.2);
-  animation: slideUp var(--transition-normal) ease-out, crystalShimmer 3s ease-in-out infinite;
-  position: relative;
-  overflow: hidden;
+  & {
+    padding: var(--space-6);
+    width: 100%;
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%),
+                linear-gradient(135deg, rgba(91, 11, 220, 0.8) 0%, rgba(139, 61, 255, 0.4) 50%, rgba(91, 11, 220, 0.8) 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow:
+      0 8px 32px rgba(91, 11, 220, 0.6),
+      0 0 80px rgba(91, 11, 220, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+    animation: slideUp var(--transition-normal) ease-out, crystalShimmer 3s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
 
   &::before {
     content: '';

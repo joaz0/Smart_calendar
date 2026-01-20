@@ -1,6 +1,6 @@
 // Advanced Responsive Utilities
-@import 'breakpoints';
-@import 'variables';
+@use 'breakpoints' as *;
+@use 'variables' as *;
 
 // Responsive Visibility Classes
 .show-mobile {

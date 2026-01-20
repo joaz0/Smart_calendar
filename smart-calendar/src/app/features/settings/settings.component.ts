@@ -48,7 +48,7 @@ export class SettingsComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  user: { name: string; email: string; avatar: string | null } = {
+  user: { name: string; email: string; avatar?: string | null } = {
     name: 'Usuário',
     email: 'user@example.com',
     avatar: null

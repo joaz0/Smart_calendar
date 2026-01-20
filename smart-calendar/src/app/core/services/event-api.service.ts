@@ -1,10 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService, ApiResponse } from './api.service';
+import { ApiService } from './api.service';
 import { Event } from '../models/event.model';
-
-type EventListResponse = ApiResponse<Event[]>;
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +31,7 @@ export class EventApiService {
       },
     };
 
-    return this.apiService.get<EventListResponse>('/events', params).pipe(
+    return this.apiService.get<Event[]>('/events', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -54,7 +52,7 @@ export class EventApiService {
       },
     };
 
-    return this.apiService.get<EventListResponse>('/events', params).pipe(
+    return this.apiService.get<Event[]>('/events', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
@@ -132,7 +130,7 @@ export class EventApiService {
       },
     };
 
-    return this.apiService.get<EventListResponse>('/events/search', params).pipe(
+    return this.apiService.get<Event[]>('/events/search', params).pipe(
       map((response) => {
         if (response.data) {
           return response.data;
