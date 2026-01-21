@@ -6,7 +6,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { LoadingService } from './core/services/loading.service';
 import { NotificationService, Notification } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
-import { ApiMapperInitService } from './core/services/api-mapper-init.service';
 import { environment } from '../environments/environment';
 import { RouterOutlet } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -43,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private loadingService = inject(LoadingService);
   private notificationService = inject(NotificationService);
   private themeService = inject(ThemeService);
-  private apiMapperInit = inject(ApiMapperInitService);
 
   private destroy$ = new Subject<void>();
   

@@ -7,7 +7,7 @@ class EventController {
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 10;
     const offset = (page - 1) * limit;
-    const userId = req.user?.id;
+    const userId = (req.user as { id: number })?.id;
 
     if (!userId) {
       return res.status(401).json({ success: false, error: 'Não autorizado' });
@@ -48,7 +48,7 @@ class EventController {
   async getById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const userId = req.user?.id;
+      const userId = (req.user as { id: number })?.id;
 
       if (!userId) {
         return res.status(401).json({ success: false, error: 'Não autorizado' });
@@ -79,7 +79,7 @@ class EventController {
   async create(req: Request, res: Response) {
     try {
       const { title, description, start_time, end_time, location, category_id, is_all_day } = req.body;
-      const userId = req.user?.id;
+      const userId = (req.user as { id: number })?.id;
 
       if (!userId) {
         return res.status(401).json({ success: false, error: 'Não autorizado' });
@@ -142,7 +142,7 @@ class EventController {
     try {
       const { id } = req.params;
       const { title, description, start_time, end_time, location, category_id, is_all_day } = req.body;
-      const userId = req.user?.id;
+      const userId = (req.user as { id: number })?.id;
 
       if (!userId) {
         return res.status(401).json({ success: false, error: 'Não autorizado' });
@@ -219,7 +219,7 @@ class EventController {
   async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const userId = req.user?.id;
+      const userId = (req.user as { id: number })?.id;
 
       if (!userId) {
         return res.status(401).json({ success: false, error: 'Não autorizado' });
@@ -249,7 +249,7 @@ class EventController {
   async search(req: Request, res: Response) {
     try {
       const { q } = req.query;
-      const userId = req.user?.id;
+      const userId = (req.user as { id: number })?.id;
 
       if (!userId) {
         return res.status(401).json({ success: false, error: 'Não autorizado' });

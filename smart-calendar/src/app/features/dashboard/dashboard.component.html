@@ -78,12 +78,12 @@
           <div class="event-list">
             @for (event of todayEvents; track event) {
               <div class="event-item">
-                <div class="event-time">{{ event.startTime | date:'shortTime' }}</div>
+                <div class="event-time">{{ event.startDate | date:'shortTime' }}</div>
                 <div class="event-details">
                   <h4>{{ event.title }}</h4>
                   <p>{{ event.description }}</p>
                 </div>
-                <div class="event-category" [style.background-color]="event.category.color"></div>
+                <div class="event-category" [style.background-color]="event.category?.color"></div>
               </div>
             }
           </div>

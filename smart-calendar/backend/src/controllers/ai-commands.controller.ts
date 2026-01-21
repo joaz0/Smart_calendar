@@ -15,7 +15,7 @@ export class AiCommandsController {
   processCommand = async (req: Request, res: Response): Promise<Response | void> => {
     try {
       const { command, context } = req.body;
-      const userId = req.user?.id;
+      const userId = (req.user as { id: number })?.id;
 
       if (!command) {
         // Correção: Envia res, mensagem e status code 400

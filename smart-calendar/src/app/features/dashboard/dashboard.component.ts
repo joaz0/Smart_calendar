@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,18 +7,19 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-import { UserService } from '../../core/services/user.service';
+import { UserService, UserProfile } from '../../core/services/user.service';
 import { EventService } from '../../core/services/event.service';
 import { TaskService } from '../../core/services/task.service';
 import { PersonalTimeGuardianComponent } from '../wellness/personal-time-guardian/personal-time-guardian.component';
+import { CalendarEvent } from '../../core/models/event.model';
+import { Task } from '../../core/models/task.model';
 
-interface DashboardUser {
-  name: string;
-  email?: string;
-  id?: string;
-  avatar?: string;
+interface AIInsight {
+  icon: string;
+  title: string;
+  description: string;
 }
----
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   
-  user: DashboardUser = { name: 'Usuário' };
+  user: Partial<UserProfile> = { name: 'Usuário' };
   currentDate = new Date();
   
   todayStats = {
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     wellness: 'Bom'
   };
   
-  todayEvents: Event[] = [];
+  todayEvents: CalendarEvent[] = [];
   quickTasks: Task[] = [];
   aiInsights: AIInsight[] = [
     {
@@ -98,11 +98,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (events) => {
-          this.todayEvents = events.map(event => ({
-            ...event,
-            startTime: event.startDate ?? new Date(),
-            category: { color: '#4facfe' }
-          }));
+          this.todayEvents = events;
           this.todayStats.events = events.length;
         },
         error: () => {
@@ -132,27 +128,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private loadTasks() {
     // Simular carregamento de tarefas
     this.quickTasks = [
-      { id: '1', title: 'Revisar relatório mensal', completed: false, priority: 'high' },
-      { id: '2', title: 'Preparar apresentação', completed: false, priority: 'medium' },
-      { id: '3', title: 'Responder emails', completed: true, priority: 'low' }
+      { id: '1', title: 'Revisar relatório mensal', completed: false, priority: 'high', status: 'pending', category: 'general', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+      { id: '2', title: 'Preparar apresentação', completed: false, priority: 'medium', status: 'pending', category: 'general', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+      { id: '3', title: 'Responder emails', completed: true, priority: 'low', status: 'completed', category: 'general', created_at: new Date().toISOString(), updated_at: new Date().toISOString() }
     ];
   }
   
-  private getMockEvents() {
+  private getMockEvents(): CalendarEvent[] {
+    const now = new Date();
     return [
       {
         id: '1',
         title: 'Reunião de equipe',
         description: 'Reunião semanal da equipe',
-        startTime: new Date(new Date().setHours(9, 0)),
-        category: { color: '#4facfe' }
+        startDate: new Date(new Date().setHours(9, 0)),
+        endDate: new Date(new Date().setHours(10, 0)),
+        allDay: false,
+        location: 'Sala 1',
+        createdBy: 'system',
+        createdAt: now,
+        updatedAt: now,
+        category: { id: '1', name: 'Trabalho', color: '#4caf50', createdBy: 'system', createdAt: now, updatedAt: now }
       },
       {
         id: '2',
         title: 'Apresentação do projeto',
         description: 'Apresentar resultados do trimestre',
-        startTime: new Date(new Date().setHours(14, 30)),
-        category: { color: '#ff6b6b' }
+        startDate: new Date(new Date().setHours(14, 30)),
+        endDate: new Date(new Date().setHours(15, 30)),
+        allDay: false,
+        location: 'Auditório',
+        createdBy: 'system',
+        createdAt: now,
+        updatedAt: now,
+        category: { id: '2', name: 'Apresentação', color: '#ff9800', createdBy: 'system', createdAt: now, updatedAt: now }
       }
     ];
   }
@@ -172,7 +181,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         id: Date.now().toString(),
         title,
         completed: false,
-        priority: 'medium'
+        priority: 'medium',
+        status: 'pending',
+        category: 'general',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
       this.quickTasks.unshift(newTask);
       this.todayStats.tasks++;
@@ -206,7 +219,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 }
-
 // Componente legado mantido para compatibilidade
 @Component({
   selector: 'app-dashboard-legacy',

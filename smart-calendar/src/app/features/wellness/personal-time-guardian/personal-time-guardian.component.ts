@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card'; // Assumindo Material ou
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { PersonalTimeManagerService, PersonalTimeStats } from '../../../../core/services/wellness/personal-time-manager.service';
+import { PersonalTimeManagerService, PersonalTimeStats } from '../../../core/services/wellness/personal-time-manager.service';
 import { Observable } from 'rxjs';
 
 @Component({

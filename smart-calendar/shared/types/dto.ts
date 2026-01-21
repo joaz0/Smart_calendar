@@ -50,3 +50,17 @@ export interface CalendarEvent {
   created_at: string; // ISO 8601 date string
   updated_at: string; // ISO 8601 date string
 }
+
+/**
+ * Representa a estrutura de uma tarefa.
+ */
+export interface Task {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority: 'high' | 'medium' | 'low';
+  dueDate?: string; // ISO 8601 date string
+  userId: number;
+  createdAt: string; // ISO 8601 date string
+  updatedAt: string; // ISO 8601 date string
+}
