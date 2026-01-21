@@ -14,7 +14,7 @@
   <div class="calendar-grid">
     @for (week of calendarWeeks; track week) {
       <div class="calendar-week">
-        @for (day of week; track day) {
+        @for (day of week; track day.date) {
           <div class="calendar-day"
             [class.other-month]="!day.isCurrentMonth"
             [class.today]="day.isToday"

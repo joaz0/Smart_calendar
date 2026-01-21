@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MonthViewComponent } from '../month-view/month-view.component';
 import { WeekViewComponent } from '../week-view/week-view.component';
 import { DayViewComponent } from '../day-view/day-view.component';
+import { CalendarEvent } from '@shared/types/dto';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class CalendarComponent {
   currentView = 'month';
   currentPeriodTitle = 'Janeiro 2024';
   selectedDate = new Date();
-  filteredEvents: unknown[] = [];
+  filteredEvents: CalendarEvent[] = [];
   categories: { name: string; color: string; visible: boolean }[] = [
     { name: 'Trabalho', color: '#3B82F6', visible: true },
     { name: 'Pessoal', color: '#10B981', visible: true }
@@ -62,12 +63,14 @@ export class CalendarComponent {
     this.selectedDate = date; 
   }
   
-  onEventClicked(_event: unknown): void {
+  onEventClicked(event: CalendarEvent): void {
     // TODO: Implementar ação ao clicar no evento
+    console.log('Event clicked:', event);
   }
   applyFilters() {
-    this.filteredEvents = this.filteredEvents.filter(e => 
-      this.categories.find(c => c.name === e.category)?.visible
-    );
+    // This logic is flawed, as it filters an already filtered list.
+    // It should filter the original source of events.
+    // Also, `e.category` does not exist on CalendarEvent. It's `category_id`.
+    // This will be fixed when the event service is implemented.
   }
 }

@@ -11,6 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { EventService } from '../../core/services/event.service';
 import { TaskService } from '../../core/services/task.service';
+import { PersonalTimeGuardianComponent } from '../wellness/personal-time-guardian/personal-time-guardian.component';
 
 interface DashboardUser {
   name: string;
@@ -18,34 +19,11 @@ interface DashboardUser {
   id?: string;
   avatar?: string;
 }
-
-interface Event {
-  id: string;
-  title: string;
-  description?: string;
-  startTime: Date;
-  startDate?: Date;
-  category: { color: string };
-}
-
-interface Task {
-  id: string;
-  title: string;
-  completed: boolean;
-  priority: 'high' | 'medium' | 'low';
-}
-
-interface AIInsight {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-
+---
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule],
+  imports: [DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule, PersonalTimeGuardianComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

@@ -11,9 +11,17 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "@shared/*": ["../../shared/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/types/express/index.d.ts"],
+  "include": [
+    "src/**/*.ts", 
+    "src/types/express/index.d.ts", 
+    "../shared/types/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "dist",

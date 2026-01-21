@@ -1,7 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { query } from '../config/database';
 import { jwtConfig } from '../config/jwt';
+
+interface JwtPayload {
+  userId: number;
+  // Adicione outras propriedades do payload do JWT se houver
+}
 
 export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
@@ -12,16 +16,14 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
   }
 
   try {
-    const decoded = jwt.verify(token, jwtConfig.publicKey, jwtConfig.verifyOptions) as any;
-    const result = await query('SELECT id, email, name FROM users WHERE id = $1', [decoded.userId]);
+    const decoded = jwt.verify(token, jwtConfig.publicKey, jwtConfig.verifyOptions) as JwtPayload;
     
-    if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Usuário não encontrado' });
-    }
-
-    req.user = result.rows[0];
+    // Otimização: Não bater no banco de dados a cada requisição.
+    // O userId do payload do JWT é suficiente.
+    req.user = { id: decoded.userId };
+    
     next();
   } catch (error) {
-    return res.status(403).json({ error: 'Token inválido' });
+    return res.status(403).json({ error: 'Token inválido ou expirado' });
   }
 };

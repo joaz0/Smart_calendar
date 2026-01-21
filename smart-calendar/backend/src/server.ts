@@ -30,7 +30,6 @@ import { pool } from './config/database';
 import { logger } from './utils/logger';
 import { errorHandler, requestLogger } from './middleware/error-middleware';
 import { RATE_LIMITS } from './config/constants';
-import aicommandsRoutes from './routes/ai-commands.routes';
 
 dotenv.config();
 

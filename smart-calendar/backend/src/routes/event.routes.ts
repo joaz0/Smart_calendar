@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import eventController from '../controllers/event.controller';
+import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 router.get('/', (req, res) => eventController.getAll(req, res));
 router.get('/search', (req, res) => eventController.search(req, res));
