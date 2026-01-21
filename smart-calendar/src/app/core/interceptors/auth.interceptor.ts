@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, Injector } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
@@ -15,7 +15,7 @@ import { Logger } from '../utils/logger.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private authService = inject(AuthService);
+  private injector = inject(Injector);
   private router = inject(Router);
 
   private logger = new Logger('AuthInterceptor');
@@ -31,10 +31,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error) => {
+        // Resolver o AuthService sob demanda para evitar ciclo com HTTP_INTERCEPTORS
+        const authService = this.injector.get(AuthService, null as any);
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
             this.logger.warn('Token inválido ou expirado');
-            this.authService.logout();
+            authService?.logout?.();
             this.router.navigate(['/auth/login']);
             return throwError(() => new Error('Sessão expirada. Por favor, faça login novamente.'));
           }
