@@ -1,10 +1,22 @@
 import { Request, Response } from 'express';
 import { query } from '../config/database';
 
+interface AuthenticatedRequest extends Request {
+  user?: { id: number };
+}
+
 class TaskController {
-  async getAll(req: Request, res: Response) {
+  async getAll(req: AuthenticatedRequest, res: Response) {
     try {
-      const result = await query('SELECT * FROM tasks ORDER BY created_at DESC');
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
+      const result = await query(
+        'SELECT * FROM tasks WHERE user_id = $1 ORDER BY created_at DESC',
+        [userId]
+      );
       res.json({
         success: true,
         data: {
@@ -26,10 +38,15 @@ class TaskController {
     }
   }
 
-  async getById(req: Request, res: Response) {
+  async getById(req: AuthenticatedRequest, res: Response) {
     try {
       const { id } = req.params;
-      const result = await query('SELECT * FROM tasks WHERE id = $1', [id]);
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
+      const result = await query('SELECT * FROM tasks WHERE id = $1 AND user_id = $2', [id, userId]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ 
@@ -51,9 +68,17 @@ class TaskController {
     }
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: AuthenticatedRequest, res: Response) {
     try {
       const { title, description, category_id, priority, status, due_date, is_completed } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ 
+          success: false,
+          error: 'Não autorizado' 
+        });
+      }
       
       if (!title || typeof title !== 'string' || title.trim().length === 0) {
         return res.status(400).json({ 
@@ -87,10 +112,10 @@ class TaskController {
       }
       
       const result = await query(
-        `INSERT INTO tasks (title, description, category_id, priority, status, due_date, is_completed)
-          VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `INSERT INTO tasks (title, description, category_id, priority, status, due_date, is_completed, user_id)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
           RETURNING *`,
-            [title.trim(), description?.trim(), category_id, priority || 'medium', status || 'pending', due_date, is_completed || false]
+            [title.trim(), description?.trim(), category_id, priority || 'medium', status || 'pending', due_date, is_completed || false, userId]
       );
       res.status(201).json({
         success: true,
@@ -111,10 +136,15 @@ class TaskController {
     }
   }
 
-  async update(req: Request, res: Response) {
+  async update(req: AuthenticatedRequest, res: Response) {
     try {
       const { id } = req.params;
       const { title, description, category_id, priority, status, due_date, is_completed } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
 
       const result = await query(
         `UPDATE tasks
@@ -126,9 +156,9 @@ class TaskController {
              due_date = COALESCE($6, due_date),
              is_completed = COALESCE($7, is_completed),
              updated_at = CURRENT_TIMESTAMP
-         WHERE id = $8
+         WHERE id = $8 AND user_id = $9
          RETURNING *`,
-        [title, description, category_id, priority, status, due_date, is_completed, id]
+        [title, description, category_id, priority, status, due_date, is_completed, id, userId]
       );
 
       if (result.rows.length === 0) {
@@ -151,10 +181,16 @@ class TaskController {
     }
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: AuthenticatedRequest, res: Response) {
     try {
       const { id } = req.params;
-      const result = await query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
+      const result = await query('DELETE FROM tasks WHERE id = $1 AND user_id = $2 RETURNING *', [id, userId]);
       if (result.rows.length === 0) {
         return res.status(404).json({ 
           success: false,
@@ -173,9 +209,15 @@ class TaskController {
     }
   }
 
-  async search(req: Request, res: Response) {
+  async search(req: AuthenticatedRequest, res: Response) {
     try {
       const { q } = req.query;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
       if (!q || typeof q !== 'string') {
         return res.status(400).json({ 
           success: false,
@@ -183,8 +225,8 @@ class TaskController {
         });
       }
       const result = await query(
-        `SELECT * FROM tasks WHERE title ILIKE $1 OR description ILIKE $1 ORDER BY created_at DESC LIMIT 20`,
-        [`%${q}%`]
+        `SELECT * FROM tasks WHERE user_id = $1 AND (title ILIKE $2 OR description ILIKE $2) ORDER BY created_at DESC LIMIT 20`,
+        [userId, `%${q}%`]
       );
       res.json({
         success: true,

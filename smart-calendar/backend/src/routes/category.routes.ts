@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import categoryController from '../controllers/category.controller';
+import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 router.get('/', (req, res) => categoryController.getAll(req, res));
 router.get('/:id', (req, res) => categoryController.getById(req, res));

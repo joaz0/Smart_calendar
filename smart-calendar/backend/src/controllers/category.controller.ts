@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
 import { query } from '../config/database';
 
+interface AuthenticatedRequest extends Request {
+  user?: { id: number };
+}
+
 class CategoryController {
-  async getAll(req: Request, res: Response) {
+  async getAll(req: AuthenticatedRequest, res: Response) {
     try {
-      const result = await query('SELECT * FROM categories ORDER BY name ASC');
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
+      const result = await query('SELECT * FROM categories WHERE user_id = $1 ORDER BY name ASC', [userId]);
       res.json({
         success: true,
         data: result.rows || []
@@ -18,10 +27,15 @@ class CategoryController {
     }
   }
 
-  async getById(req: Request, res: Response) {
+  async getById(req: AuthenticatedRequest, res: Response) {
     try {
       const { id } = req.params;
-      const result = await query('SELECT * FROM categories WHERE id = $1', [id]);
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
+      const result = await query('SELECT * FROM categories WHERE id = $1 AND user_id = $2', [id, userId]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ 
@@ -43,9 +57,14 @@ class CategoryController {
     }
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: AuthenticatedRequest, res: Response) {
     try {
       const { name, color, description } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
 
       if (!name || typeof name !== 'string' || name.trim().length === 0) {
         return res.status(400).json({ 
@@ -62,8 +81,8 @@ class CategoryController {
       }
 
       const result = await query(
-        'INSERT INTO categories (name, color, description) VALUES ($1, $2, $3) RETURNING *',
-        [name.trim(), color, description?.trim()]
+        'INSERT INTO categories (name, color, description, user_id) VALUES ($1, $2, $3, $4) RETURNING *',
+        [name.trim(), color, description?.trim(), userId]
       );
 
       res.status(201).json({
@@ -79,10 +98,15 @@ class CategoryController {
     }
   }
 
-  async update(req: Request, res: Response) {
+  async update(req: AuthenticatedRequest, res: Response) {
     try {
       const { id } = req.params;
       const { name, color, description } = req.body;
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
 
       const result = await query(
         `UPDATE categories 
@@ -90,9 +114,9 @@ class CategoryController {
              color = COALESCE($2, color), 
              description = COALESCE($3, description), 
              updated_at = CURRENT_TIMESTAMP 
-         WHERE id = $4 
+         WHERE id = $4 AND user_id = $5
          RETURNING *`,
-        [name?.trim(), color, description?.trim(), id]
+        [name?.trim(), color, description?.trim(), id, userId]
       );
 
       if (result.rows.length === 0) {
@@ -115,10 +139,16 @@ class CategoryController {
     }
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: AuthenticatedRequest, res: Response) {
     try {
       const { id } = req.params;
-      const result = await query('DELETE FROM categories WHERE id = $1 RETURNING id', [id]);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res.status(401).json({ success: false, error: 'Não autorizado' });
+      }
+
+      const result = await query('DELETE FROM categories WHERE id = $1 AND user_id = $2 RETURNING id', [id, userId]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({ 
