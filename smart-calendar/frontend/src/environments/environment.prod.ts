@@ -6,7 +6,7 @@ export const environment = {
   // OAuth
   googleClientId: 'YOUR_GOOGLE_CLIENT_ID',
   googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
-  oauthRedirectUri: 'https://your-production-domain.com/oauth/callback',
+  oauthRedirectUri: 'https://smart-calendar-brown.vercel.app',
 
   // Video Conference
   zoomClientId: 'YOUR_ZOOM_CLIENT_ID',

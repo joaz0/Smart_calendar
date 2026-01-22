@@ -51,7 +51,7 @@ export class SyncService {
   syncAll(): Observable<SyncData> {
     this.updateSyncStatus({ syncing: true, error: null });
     
-    return this.http.get<SyncData>(`${environment.apiUrl}/api/sync`).pipe(
+    return this.http.get<SyncData>(`${environment.apiUrl}/sync`).pipe(
       tap(data => {
         this.updateSyncStatus({
           lastSync: new Date(),
@@ -72,7 +72,7 @@ export class SyncService {
   }
 
   pushChanges(changes: Partial<SyncData>): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/api/sync/push`, changes).pipe(
+    return this.http.post<void>(`${environment.apiUrl}/sync/push`, changes).pipe(
       tap(() => {
         this.updateSyncStatus({ pendingChanges: 0 });
       })

@@ -34,7 +34,7 @@ export class BackupService {
   private readonly BACKUP_VERSION = '1.0.0';
 
   createBackup(): Observable<BackupData> {
-    return this.http.get<BackupData>(`${environment.apiUrl}/api/backup/create`).pipe(
+    return this.http.get<BackupData>(`${environment.apiUrl}/backup/create`).pipe(
       tap(data => {
         const filename = generateBackupFilename('smart-calendar');
         exportToJSON(data, filename);
@@ -57,23 +57,23 @@ export class BackupService {
     const formData = new FormData();
     formData.append('backup', file);
     
-    return this.http.post<void>(`${environment.apiUrl}/api/backup/restore`, formData);
+    return this.http.post<void>(`${environment.apiUrl}/backup/restore`, formData);
   }
 
   listBackups(): Observable<BackupMetadata[]> {
-    return this.http.get<BackupMetadata[]>(`${environment.apiUrl}/api/backup/list`);
+    return this.http.get<BackupMetadata[]>(`${environment.apiUrl}/backup/list`);
   }
 
   deleteBackup(backupId: string): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/api/backup/${backupId}`);
+    return this.http.delete<void>(`${environment.apiUrl}/backup/${backupId}`);
   }
 
   scheduleAutomaticBackup(frequency: 'daily' | 'weekly' | 'monthly'): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/api/backup/schedule`, { frequency });
+    return this.http.post<void>(`${environment.apiUrl}/backup/schedule`, { frequency });
   }
 
   exportAllData(): Observable<BackupData> {
-    return this.http.get<BackupData>(`${environment.apiUrl}/api/backup/export-all`).pipe(
+    return this.http.get<BackupData>(`${environment.apiUrl}/backup/export-all`).pipe(
       tap(data => {
         this.createLocalBackup(data);
       })
