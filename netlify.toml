@@ -1,6 +1,7 @@
 [build]
-  command = "cd smart-calendar && npm install && npx ng build --configuration=production"
-  publish = "smart-calendar/dist/smart-calendar/browser"
+  base = "smart-calendar/frontend"
+  command = "npm install && npx ng build --configuration=production"
+  publish = "dist/smart-calendar/browser"
   functions = "functions"
 
 [build.environment]

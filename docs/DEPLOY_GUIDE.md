@@ -56,9 +56,9 @@ RATE_LIMIT_MAX_REQUESTS=100
 2. Connect to Git provider: GitHub
 3. Pick repository: `smart-calendar`
 4. Configure:
-   - Base directory: `smart-calendar`
+   - Base directory: `smart-calendar/frontend`
    - Build command: `npm install && npx ng build --configuration=production`
-   - Publish directory: `smart-calendar/dist/smart-calendar/browser`
+   - Publish directory: `dist/smart-calendar/browser`
 
 ### 3. Configurar Environment Variables
 ```bash

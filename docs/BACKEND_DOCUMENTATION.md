@@ -416,7 +416,7 @@ npm run migrate:rollback
 ### Build
 
 ```bash
-cd backend
+cd smart-calendar/backend
 npm run build
 ```
 

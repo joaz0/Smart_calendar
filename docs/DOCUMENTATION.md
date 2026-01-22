@@ -5,7 +5,7 @@
 
 ### Instalar e Rodar
 ```bash
-cd smart-calendar
+cd smart-calendar/frontend
 npm install
 npm start
 ```

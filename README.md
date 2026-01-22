@@ -35,7 +35,7 @@ npm run migrate
 npm run dev &
 
 # Frontend
-cd ..
+cd ../frontend
 npm install
 npm start
 ```
@@ -49,8 +49,8 @@ npm start
 
 | Documento | Descrição | Para |
 |-----------|-----------|------|
-| [DOCUMENTATION.md](./smart-calendar/DOCUMENTATION.md) | Padrões, arquitetura e patterns frontend | Desenvolvedores Frontend |
-| [BACKEND_DOCUMENTATION.md](./smart-calendar/backend/BACKEND_DOCUMENTATION.md) | API, endpoints e padrões backend | Desenvolvedores Backend |
+| [DOCUMENTATION.md](./docs/DOCUMENTATION.md) | Padrões, arquitetura e patterns frontend | Desenvolvedores Frontend |
+| [BACKEND_DOCUMENTATION.md](./docs/BACKEND_DOCUMENTATION.md) | API, endpoints e padrões backend | Desenvolvedores Backend |
 | [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) | Sistema de design, tokens e componentes | Designers/Frontend |
 | [RESPONSIVE_GUIDE.md](./RESPONSIVE_GUIDE.md) | Guia de responsividade mobile-first | Frontend |
 | [ACCESSIBILITY_CHECKLIST.md](./ACCESSIBILITY_CHECKLIST.md) | Checklist WCAG 2.1 AA | QA/Acessibilidade |
@@ -237,58 +237,61 @@ smart-calendar/
 │   ├── package.json
 │   └── tsconfig.json
 │
-├── 📂 src/                        # Frontend Angular
-│   ├── 📂 app/
-│   │   ├── 📂 core/              # Serviços core e guards
-│   │   │   ├── 📂 guards/        # Auth, Privacy guards
-│   │   │   ├── 📂 interceptors/  # HTTP interceptors
-│   │   │   ├── 📂 models/        # 40+ interfaces TypeScript
-│   │   │   │   ├── 📂 ai/
-│   │   │   │   ├── 📂 collaboration/
-│   │   │   │   ├── 📂 visualization/
-│   │   │   │   └── 📂 wellness/
-│   │   │   └── 📂 services/      # 50+ serviços organizados
-│   │   │       ├── 📂 ai/
-│   │   │       ├── 📂 collaboration/
-│   │   │       ├── 📂 context/
-│   │   │       ├── 📂 integrations/
-│   │   │       ├── 📂 privacy/
-│   │   │       ├── 📂 visualization/
-│   │   │       └── 📂 wellness/
+├── 📂 frontend/                   # Frontend Angular
+│   ├── 📂 src/
+│   │   ├── 📂 app/
+│   │   │   ├── 📂 core/              # Serviços core e guards
+│   │   │   │   ├── 📂 guards/        # Auth, Privacy guards
+│   │   │   │   ├── 📂 interceptors/  # HTTP interceptors
+│   │   │   │   ├── 📂 models/        # 40+ interfaces TypeScript
+│   │   │   │   │   ├── 📂 ai/
+│   │   │   │   │   ├── 📂 collaboration/
+│   │   │   │   │   ├── 📂 visualization/
+│   │   │   │   │   └── 📂 wellness/
+│   │   │   │   └── 📂 services/      # 50+ serviços organizados
+│   │   │   │       ├── 📂 ai/
+│   │   │   │       ├── 📂 collaboration/
+│   │   │   │       ├── 📂 context/
+│   │   │   │       ├── 📂 integrations/
+│   │   │   │       ├── 📂 privacy/
+│   │   │   │       ├── 📂 visualization/
+│   │   │   │       └── 📂 wellness/
+│   │   │   │
+│   │   │   ├── 📂 features/          # Módulos de funcionalidades
+│   │   │   │   ├── 📂 calendar/      # Views do calendário
+│   │   │   │   ├── 📂 ai-assistant/  # IA e assistente
+│   │   │   │   ├── 📂 collaboration/ # Ferramentas de equipe
+│   │   │   │   ├── 📂 wellness/      # Bem-estar
+│   │   │   │   ├── 📂 privacy-control/ # Privacidade
+│   │   │   │   ├── 📂 context-productivity/ # Produtividade
+│   │   │   │   ├── 📂 advanced-visualization/ # Analytics
+│   │   │   │   ├── 📂 integrations/  # Integrações externas
+│   │   │   │   ├── 📂 tasks/         # Gerenciamento de tarefas
+│   │   │   │   └── 📂 events/        # Gerenciamento de eventos
+│   │   │   │
+│   │   │   ├── 📂 shared/            # Componentes compartilhados
+│   │   │   │   ├── 📂 components/    # UI components
+│   │   │   │   ├── 📂 directives/    # Diretivas customizadas
+│   │   │   │   └── 📂 pipes/         # Pipes customizados
+│   │   │   │
+│   │   │   ├── 📂 layouts/           # Layouts da aplicação
+│   │   │   └── 📂 utils/             # Utilitários diversos
 │   │   │
-│   │   ├── 📂 features/          # Módulos de funcionalidades
-│   │   │   ├── 📂 calendar/      # Views do calendário
-│   │   │   ├── 📂 ai-assistant/  # IA e assistente
-│   │   │   ├── 📂 collaboration/ # Ferramentas de equipe
-│   │   │   ├── 📂 wellness/      # Bem-estar
-│   │   │   ├── 📂 privacy-control/ # Privacidade
-│   │   │   ├── 📂 context-productivity/ # Produtividade
-│   │   │   ├── 📂 advanced-visualization/ # Analytics
-│   │   │   ├── 📂 integrations/  # Integrações externas
-│   │   │   ├── 📂 tasks/         # Gerenciamento de tarefas
-│   │   │   └── 📂 events/        # Gerenciamento de eventos
-│   │   │
-│   │   ├── 📂 shared/            # Componentes compartilhados
-│   │   │   ├── 📂 components/    # UI components
-│   │   │   ├── 📂 directives/    # Diretivas customizadas
-│   │   │   └── 📂 pipes/         # Pipes customizados
-│   │   │
-│   │   ├── 📂 layouts/           # Layouts da aplicação
-│   │   └── 📂 utils/             # Utilitários diversos
+│   │   ├── 📂 assets/                # Assets estáticos
+│   │   │   ├── 📂 images/
+│   │   │   └── 📂 styles/            # SCSS global
+│   │   └── 📂 environments/          # Configurações de ambiente
 │   │
-│   ├── 📂 assets/                # Assets estáticos
-│   │   ├── 📂 images/
-│   │   └── 📂 styles/            # SCSS global
-│   └── 📂 environments/          # Configurações de ambiente
+│   ├── 📂 public/                 # Assets públicos
+│   ├── angular.json               # Config Angular
+│   ├── package.json               # Dependências
+│   └── tsconfig.json
 │
 ├── 📂 tools/
 │   └── 📂 n8n-nodes-agenda-rapido/   # Integração n8n
 │       ├── 📂 credentials/
 │       └── 📂 nodes/
 │
-├── 📂 public/                     # Assets públicos
-├── angular.json                   # Config Angular
-├── package.json                   # Dependências
 └── README.md                      # Este arquivo
 ```
 
@@ -316,14 +319,14 @@ cd smart-calendar
 
 #### Frontend
 ```bash
+cd smart-calendar/frontend
 npm install
 ```
 
 #### Backend
 ```bash
-cd backend
+cd smart-calendar/backend
 npm install
-cd ..
 ```
 
 ---
@@ -346,7 +349,7 @@ CREATE DATABASE smart_calendar;
 
 #### Backend (.env)
 ```bash
-cd backend
+cd smart-calendar/backend
 cp .env.example .env
 ```
 
@@ -396,7 +399,7 @@ export const environment = {
 ### 3. Execute as Migrações
 
 ```bash
-cd backend
+cd smart-calendar/backend
 npm run migrate
 ```
 
@@ -413,7 +416,7 @@ npm run create-test-user
 ### Inicie o Backend
 
 ```bash
-cd backend
+cd smart-calendar/backend
 npm run dev
 ```
 
@@ -422,7 +425,7 @@ O servidor estará rodando em `http://localhost:3000`
 ### Inicie o Frontend
 
 ```bash
-# Em outro terminal, na raiz do projeto
+cd smart-calendar/frontend
 ng serve
 ```
 
@@ -432,6 +435,7 @@ A aplicação estará disponível em `http://localhost:4200`
 
 #### Frontend
 ```bash
+cd smart-calendar/frontend
 npm start              # Inicia em modo desenvolvimento
 npm run build          # Build de produção
 npm run watch          # Build em modo watch
@@ -440,6 +444,7 @@ npm test               # Roda testes
 
 #### Backend
 ```bash
+cd smart-calendar/backend
 npm run dev            # Desenvolvimento com nodemon
 npm start              # Produção
 npm run migrate        # Roda migrações
@@ -458,8 +463,8 @@ npm run lint           # Verifica código
 
 2. **Novo Web Service**
    - Connect repository
-   - Build Command: `cd backend && npm install`
-   - Start Command: `cd backend && npm start`
+   - Build Command: `cd smart-calendar/backend && npm install`
+   - Start Command: `cd smart-calendar/backend && npm start`
    - Environment: Node
 
 3. **Configure PostgreSQL**
@@ -488,12 +493,14 @@ npm run lint           # Verifica código
 
 1. **Build Local**
    ```bash
+   cd smart-calendar/frontend
    ng build --configuration=production
    ```
 
 2. **Deploy no Netlify**
    - Conecte repositório
-   - Build command: `ng build --configuration=production`
+   - Base directory: `smart-calendar/frontend`
+   - Build command: `npm install && npx ng build --configuration=production`
    - Publish directory: `dist/smart-calendar/browser`
 
 3. **Configure Variáveis**
@@ -717,6 +724,7 @@ wellness_data (id, user_id, metrics, ...)
 ### Frontend
 
 ```bash
+cd smart-calendar/frontend
 # Testes unitários
 npm test
 
@@ -730,7 +738,7 @@ npm run e2e
 ### Backend
 
 ```bash
-cd backend
+cd smart-calendar/backend
 
 # Testes unitários
 npm test

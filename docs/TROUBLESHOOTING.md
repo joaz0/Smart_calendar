@@ -204,6 +204,7 @@ npm run test:coverage
 #### Service Worker não registra
 ```typescript
 // Verificar em production build
+cd smart-calendar/frontend
 ng build --configuration=production
 
 // Servir localmente

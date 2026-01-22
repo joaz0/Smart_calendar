@@ -19,7 +19,7 @@ npm run migrate
 npm run dev
 
 # Frontend
-cd ..
+cd ../frontend
 npm install
 npm start
 ```
