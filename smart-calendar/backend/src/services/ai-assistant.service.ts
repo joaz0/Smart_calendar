@@ -1,4 +1,5 @@
 import { pool } from '../config/database';
+import { AppConfig } from '../config/app.config';
 
 interface ParsedEvent {
   text: string;
@@ -104,13 +105,27 @@ export class AIAssistantService {
   }
 
   async processUserCommand(userId: number, command: string, context: any) {
+    if (AppConfig.isDemo) {
+      console.log('🤖 [DEMO MODE] Retornando resposta mockada da IA.');
+      return {
+        text: 'Esta é uma resposta de demonstração. No modo produção, o Claude analisaria sua agenda real. Por enquanto, sugiro que você agende uma reunião de Review às 14h.',
+        suggestedActions: [
+          { type: 'schedule_event', title: 'Review de Projeto', time: '14:00' }
+        ]
+      };
+    }
 
-    console.log(`Processando comando para ${userId}: ${command}`);
-    return {
-      action: 'analyze_calendar',
-      response: `Entendi, você quer ajuda com: "${command}". (Lógica de IA em desenvolvimento)`,
-      entities: []
-    };
+    try {
+      console.log(`Processando comando para ${userId}: ${command}`);
+      return {
+        action: 'analyze_calendar',
+        response: `Entendi, você quer ajuda com: "${command}". (Lógica de IA em desenvolvimento)`,
+        entities: []
+      };
+    } catch (error) {
+      console.error('Erro na IA:', error);
+      throw error;
+    }
   }
 
   async generateSuggestions(userId: number, context: any) {

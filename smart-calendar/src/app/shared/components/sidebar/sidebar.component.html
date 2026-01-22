@@ -1,286 +1,73 @@
-<aside class="sidebar" [class.collapsed]="!isOpen" [class.open]="isOpen" aria-label="Navegação principal">
+<div class="sidebar-container" [class.collapsed]="isCollapsed">
+  <nav class="activity-bar">
+    <div class="activity-top">
+      <button
+        *ngFor="let tab of tabs"
+        [class.active]="activeTab === tab.id"
+        (click)="setActiveTab(tab.id)"
+        [attr.aria-pressed]="activeTab === tab.id"
+        type="button"
+        [title]="tab.label">
+        <mat-icon>{{ tab.icon }}</mat-icon>
+      </button>
+    </div>
 
-  <!-- Header da Sidebar -->
-  <header class="sidebar-header">
-    <a routerLink="/app/dashboard" class="brand" aria-label="Ir para o início - SmartCalendar">
-      <span class="brand-text">SmartCalendar</span>
-    </a>
-
-    <button class="toggle-btn"
-      (click)="onToggleSidebar()"
-      [attr.aria-label]="isOpen ? 'Recolher menu de navegação' : 'Expandir menu de navegação'"
-      [attr.aria-expanded]="isOpen"
-      type="button">
-      <mat-icon>{{ isOpen ? 'menu_open' : 'menu' }}</mat-icon>
-    </button>
-  </header>
-
-  <!-- Navegação Principal -->
-  <nav class="sidebar-nav" role="navigation" aria-label="Navegação principal">
-
-    <!-- === SEÇÃO 1: VISÃO GERAL === -->
-    <section class="nav-section" aria-labelledby="section-overview">
-      <h2 id="section-overview" class="section-label">Visão Geral</h2>
-      <ul class="nav-list" role="list">
-        <li role="listitem">
-          <a routerLink="/app/dashboard"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Dashboard' : ''"
-            matTooltipPosition="right"
-            aria-label="Dashboard">
-            <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
-            <span class="nav-text">Dashboard</span>
-          </a>
-        </li>
-        <li role="listitem">
-          <a routerLink="/app/calendar"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Calendário' : ''"
-            matTooltipPosition="right"
-            aria-label="Calendário">
-            <span class="nav-icon"><mat-icon>event</mat-icon></span>
-            <span class="nav-text">Calendário</span>
-            @if (stats.todayEvents > 0) {
-              <span class="nav-badge" [attr.aria-label]="stats.todayEvents + ' eventos hoje'">{{ stats.todayEvents }}</span>
-            }
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <!-- === SEÇÃO 2: GESTÃO DE TEMPO === -->
-    <section class="nav-section" aria-labelledby="section-time-management">
-      <h2 id="section-time-management" class="section-label">Gestão de Tempo</h2>
-      <ul class="nav-list" role="list">
-        <li role="listitem">
-          <a routerLink="/app/calendar"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Minha Agenda' : ''"
-            matTooltipPosition="right"
-            aria-label="Minha Agenda">
-            <span class="nav-icon"><mat-icon>view_agenda</mat-icon></span>
-            <span class="nav-text">Minha Agenda</span>
-          </a>
-        </li>
-        <li role="listitem">
-          <a class="nav-item"
-            routerLink="/app/tasks"
-            routerLinkActive="active"
-            [matTooltip]="!isOpen ? 'Tarefas' : ''"
-            matTooltipPosition="right"
-            aria-label="Tarefas">
-            <span class="nav-icon"><mat-icon>task_alt</mat-icon></span>
-            <span class="nav-text">Tarefas</span>
-            @if (stats.pendingTasks > 0) {
-              <span class="nav-badge" [attr.aria-label]="stats.pendingTasks + ' tarefas pendentes'">{{ stats.pendingTasks }}</span>
-            }
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <!-- === SEÇÃO 3: EVENTOS E LEMBRETES === -->
-    <section class="nav-section" aria-labelledby="section-events">
-      <h2 id="section-events" class="section-label">Eventos & Lembretes</h2>
-      <ul class="nav-list" role="list">
-        <li role="listitem">
-          <a routerLink="/app/events"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Meus Eventos' : ''"
-            matTooltipPosition="right"
-            aria-label="Meus Eventos">
-            <span class="nav-icon"><mat-icon>event_available</mat-icon></span>
-            <span class="nav-text">Meus Eventos</span>
-          </a>
-        </li>
-        <li role="listitem">
-          <a routerLink="/app/coming-soon/lembretes"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Lembretes' : ''"
-            matTooltipPosition="right"
-            aria-label="Lembretes">
-            <span class="nav-icon"><mat-icon>notifications</mat-icon></span>
-            <span class="nav-text">Lembretes</span>
-          </a>
-        </li>
-        <li role="listitem">
-          <a routerLink="/app/coming-soon/alertas"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Alertas' : ''"
-            matTooltipPosition="right"
-            aria-label="Alertas">
-            <span class="nav-icon"><mat-icon>notifications_active</mat-icon></span>
-            <span class="nav-text">Alertas</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <!-- === SEÇÃO 4: COLABORAÇÃO === -->
-    <section class="nav-section" aria-labelledby="section-collaboration">
-      <h2 id="section-collaboration" class="section-label">Colaboração</h2>
-      <ul class="nav-list" role="list">
-        <li role="listitem">
-          <a routerLink="/app/collaboration"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Comunidade' : ''"
-            matTooltipPosition="right"
-            aria-label="Comunidade">
-            <span class="nav-icon"><mat-icon>groups</mat-icon></span>
-            <span class="nav-text">Comunidade</span>
-          </a>
-        </li>
-        <li role="listitem">
-          <a routerLink="/app/collaboration"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Relacionamentos' : ''"
-            matTooltipPosition="right"
-            aria-label="Relacionamentos">
-            <span class="nav-icon"><mat-icon>person_add</mat-icon></span>
-            <span class="nav-text">Relacionamentos</span>
-          </a>
-        </li>
-        <li role="listitem">
-          <a routerLink="/app/integrations"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Contatos' : ''"
-            matTooltipPosition="right"
-            aria-label="Contatos">
-            <span class="nav-icon"><mat-icon>people</mat-icon></span>
-            <span class="nav-text">Contatos</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <!-- === SEÇÃO 5: ORGANIZAÇÃO === -->
-    <section class="nav-section" aria-labelledby="section-organization">
-      <h2 id="section-organization" class="section-label">Organização</h2>
-      <ul class="nav-list" role="list">
-        <li role="listitem">
-        <a routerLink="/app/coming-soon/notas"
-            routerLinkActive="active"
-            class="nav-item"
-            [matTooltip]="!isOpen ? 'Notas' : ''"
-            matTooltipPosition="right"
-            aria-label="Notas">
-            <span class="nav-icon"><mat-icon>note</mat-icon></span>
-            <span class="nav-text">Notas</span>@if (stats.pendingNotes && stats.pendingNotes > 0) {
-            <span class="nav-badge" [attr.aria-label]="stats.pendingNotes + ' notas pendentes'">{{ stats.pendingNotes }}</span>
-          }
-        </a>
-      </li>
-      <li role="listitem">
-        <a routerLink="/app/productivity"
-          routerLinkActive="active"
-          class="nav-item"
-          [matTooltip]="!isOpen ? 'Projetos' : ''"
-          matTooltipPosition="right"
-          aria-label="Projetos">
-          <span class="nav-icon"><mat-icon>folder</mat-icon></span>
-          <span class="nav-text">Projetos</span>
-        </a>
-      </li>
-      <li role="listitem">
-        <a routerLink="/app/coming-soon/tags"
-          routerLinkActive="active"
-          class="nav-item"
-          [matTooltip]="!isOpen ? 'Tags' : ''"
-          matTooltipPosition="right"
-          aria-label="Tags">
-          <span class="nav-icon"><mat-icon>label</mat-icon></span>
-          <span class="nav-text">Tags</span>
-        </a>
-      </li>
-      <li role="listitem">
-        <a routerLink="/app/categories"
-          routerLinkActive="active"
-          class="nav-item"
-          [matTooltip]="!isOpen ? 'Categorias' : ''"
-          matTooltipPosition="right"
-          aria-label="Categorias">
-          <span class="nav-icon"><mat-icon>category</mat-icon></span>
-          <span class="nav-text">Categorias</span>
-        </a>
-      </li>
-    </ul>
-  </section>
-
-  <!-- === SEÇÃO 6: ANALYTICS === -->
-  <section class="nav-section" aria-labelledby="section-analytics">
-    <h2 id="section-analytics" class="section-label">Analytics</h2>
-    <ul class="nav-list" role="list">
-      <li role="listitem">
-        <a routerLink="/app/analytics"
-          routerLinkActive="active"
-          class="nav-item"
-          [matTooltip]="!isOpen ? 'Análises' : ''"
-          matTooltipPosition="right"
-          aria-label="Análises">
-          <span class="nav-icon"><mat-icon>analytics</mat-icon></span>
-          <span class="nav-text">Análises</span>
-        </a>
-      </li>
-      <li role="listitem">
-        <a routerLink="/app/analytics"
-          routerLinkActive="active"
-          class="nav-item"
-          [matTooltip]="!isOpen ? 'Relatórios' : ''"
-          matTooltipPosition="right"
-          aria-label="Relatórios">
-          <span class="nav-icon"><mat-icon>assessment</mat-icon></span>
-          <span class="nav-text">Relatórios</span>
-        </a>
-      </li>
-    </ul>
-  </section>
-
-</nav>
-
-<!-- Footer da Sidebar -->
-@if (isOpen) {
-  <footer class="sidebar-footer" role="contentinfo">
-    <div class="footer-content">
-      <a routerLink="/app/settings"
-        routerLinkActive="active"
-        class="footer-item"
-        [matTooltip]="!isOpen ? 'Configurações' : ''"
-        matTooltipPosition="right"
-        aria-label="Configurações">
+    <div class="activity-bottom">
+      <button (click)="toggleCollapse()" type="button" title="Alternar sidebar">
+        <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
+      <button type="button" title="Configurações">
         <mat-icon>settings</mat-icon>
-        <span>Configurações</span>
-      </a>
-      <!-- Informações do Usuário (opcional) -->
-      @if (user) {
-        <div class="user-info">
-          <img [src]="user.avatar" alt="{{user.name}}" class="user-avatar">
-          <div class="user-details">
-            <p class="user-name">{{user.name}}</p>
-            <p class="user-role">{{user.role}}</p>
+      </button>
+    </div>
+  </nav>
+
+  <aside class="side-panel" *ngIf="!isCollapsed">
+    <div class="panel-header">
+      <span class="panel-title">{{ getActiveLabel() | uppercase }}</span>
+      <div class="panel-actions">
+        <button type="button" title="Novo item"><mat-icon>add</mat-icon></button>
+        <button type="button" title="Colapsar tudo"><mat-icon>indeterminate_check_box</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="panel-content scrollbar-hide">
+      <ng-container *ngIf="activeTab === 'calendar'">
+        <div class="tree-item folder open">
+          <div class="tree-header">
+            <mat-icon>expand_more</mat-icon> 📂 2026
+          </div>
+          <div class="tree-children">
+            <div class="tree-item file active">
+              <mat-icon>event</mat-icon> Janeiro
+            </div>
+            <div class="tree-item file">
+              <mat-icon>event</mat-icon> Fevereiro
+            </div>
           </div>
         </div>
-      }
+      </ng-container>
+
+      <ng-container *ngIf="activeTab === 'projects'">
+        <div class="tree-item folder">
+          <div class="tree-header">
+            <mat-icon>chevron_right</mat-icon> 🚀 Projeto Alpha
+          </div>
+        </div>
+        <div class="tree-item folder open">
+          <div class="tree-header">
+            <mat-icon>expand_more</mat-icon> 📝 Pessoal
+          </div>
+          <div class="tree-children">
+            <div class="tree-item file">
+              <span class="dot high-priority"></span> Comprar Ração
+            </div>
+            <div class="tree-item file">
+              <span class="dot medium-priority"></span> Pagar Internet
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
-  </footer>
-}
-
-</aside>
-
-<!-- Overlay para mobile -->
-<div class="sidebar-overlay"
-  [class.active]="isOpen"
-  (click)="onToggleSidebar()"
-  (keydown)="onOverlayKeydown($event)"
-  role="button"
-  tabindex="0"
-  aria-label="Fechar menu lateral">
+  </aside>
 </div>

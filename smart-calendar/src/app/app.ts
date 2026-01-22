@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private themeService = inject(ThemeService);
 
   private destroy$ = new Subject<void>();
-  
+
   isLoading$ = new BehaviorSubject<boolean>(false);
   isDarkTheme = false;
   isGlobalLoading = false;
@@ -54,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   env = environment;
   currentRoute = '';
+isDemo: any;
 
   ngOnInit() {
     this.loadingService.isLoading$
@@ -80,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private setupOnlineDetection() {
     if (typeof window === 'undefined') return;
-    
+
     merge(
       of(navigator.onLine),
       fromEvent(window, 'online').pipe(map(() => true)),

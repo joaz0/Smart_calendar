@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
@@ -13,6 +13,7 @@ import { TaskService } from '../../core/services/task.service';
 import { PersonalTimeGuardianComponent } from '../wellness/personal-time-guardian/personal-time-guardian.component';
 import { CalendarEvent } from '../../core/models/event.model';
 import { Task } from '../../core/models/task.model';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 
 interface AIInsight {
   icon: string;
@@ -23,7 +24,16 @@ interface AIInsight {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatCheckboxModule, FormsModule, PersonalTimeGuardianComponent],
+  imports: [
+    DatePipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    FormsModule,
+    PersonalTimeGuardianComponent,
+    SidebarComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
