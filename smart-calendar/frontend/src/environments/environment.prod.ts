@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'intimate-molli-ldigitallabs-2a7a9a31.koyeb.app/api',
+  apiUrl: 'https://intimate-molli-ldigitallabs-2a7a9a31.koyeb.app/api',
   demoMode: true,
 
   // OAuth
