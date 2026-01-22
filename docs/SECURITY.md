@@ -115,6 +115,6 @@ CORS_ORIGIN=https://smart-calendar.netlify.app
 - Snyk: Configurar (opcional)
 
 ## Última Atualização
-Data: 2025-01-XX
+Data: 2026-01-X20
 Responsável: Dev Team
 Status: Mitigações aplicadas, vulnerabilidades conhecidas documentadas
