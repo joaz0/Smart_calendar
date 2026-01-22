@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject, takeUntil } from 'rxjs';
 import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/services/privacy/privacy.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   standalone: true,
@@ -29,17 +30,23 @@ import { PrivacyService, PrivacySettings, DataAccessLog } from '../../../core/se
 })
 export class PrivacyControlCenterComponent implements OnInit, OnDestroy {
   private privacyService = inject(PrivacyService);
+  private authService = inject(AuthService);
 
   private destroy$ = new Subject<void>();
   
   settings: PrivacySettings | null = null;
   accessLogs: DataAccessLog[] = [];
   loading = false;
+  isDemoUser = false;
 
   ngOnInit() {
     this.privacyService.settings$
       .pipe(takeUntil(this.destroy$))
       .subscribe(settings => this.settings = settings);
+
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => this.isDemoUser = user?.email === 'demo@smartcalendar.app');
     
     this.loadAccessLogs();
   }
@@ -84,6 +91,11 @@ export class PrivacyControlCenterComponent implements OnInit, OnDestroy {
   }
 
   deleteAccount() {
+    if (this.isDemoUser) {
+      alert('⚠️ Esta ação está bloqueada no modo demonstração.');
+      return;
+    }
+
     if (confirm('ATENÇÃO: Esta ação é irreversível. Todos os seus dados serão permanentemente excluídos. Tem certeza?')) {
       this.privacyService.deleteAccount()
         .pipe(takeUntil(this.destroy$))

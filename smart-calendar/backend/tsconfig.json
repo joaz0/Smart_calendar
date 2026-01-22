@@ -14,13 +14,13 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
-      "@shared/*": ["../../shared/*"]
+      "@shared/*": ["../../frontend/shared/*"]
     }
   },
   "include": [
     "src/**/*.ts", 
     "src/types/express/index.d.ts", 
-    "../shared/types/*.ts"
+    "../frontend/shared/types/*.ts"
   ],
   "exclude": [
     "node_modules",

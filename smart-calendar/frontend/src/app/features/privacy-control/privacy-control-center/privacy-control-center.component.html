@@ -188,10 +188,17 @@
                 <div class="action-title">Excluir Conta</div>
                 <div class="action-description">Excluir permanentemente sua conta e todos os dados</div>
               </div>
-              <button mat-stroked-button color="warn" (click)="deleteAccount()">
-                <mat-icon>delete_forever</mat-icon>
-                Excluir Conta
-              </button>
+              @if (!isDemoUser) {
+                <button mat-stroked-button color="warn" (click)="deleteAccount()">
+                  <mat-icon>delete_forever</mat-icon>
+                  Excluir Conta
+                </button>
+              }
+              @if (isDemoUser) {
+                <div class="demo-warning">
+                  🔒 Configurações de conta bloqueadas na Demo
+                </div>
+              }
             </div>
           </div>
         </mat-card-content>

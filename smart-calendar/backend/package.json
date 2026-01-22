@@ -5,10 +5,11 @@
   "main": "src/server.js",
   "scripts": {
     "start": "npm run build && node dist/scripts/migrate.js && node start.js",
-    "dev": "npx ts-node src/server.ts",
+    "dev": "npx ts-node --files src/server.ts",
     "build": "tsc",
     "migrate": "npx ts-node src/scripts/migrate.ts",
     "migrate-full": "npx ts-node src/scripts/setup-database.ts",
+    "seed:demo": "npx ts-node src/scripts/seed-portfolio.ts",
     "create-privacy-table": "npx ts-node src/scripts/create-privacy-table.ts",
     "add-test-user": "npx ts-node src/scripts/add-test-user.ts",
     "create-test-user": "npx ts-node src/scripts/create-test-user.ts",

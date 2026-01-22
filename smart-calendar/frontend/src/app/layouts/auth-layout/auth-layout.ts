@@ -161,4 +161,27 @@ export class AuthLayoutComponent {
       complete: () => this.isLoading = false
     });
   }
+
+  loginAsDemo() {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const demoCreds = {
+      email: 'demo@smartcalendar.app',
+      password: 'demo123'
+    };
+
+    this.authService.login(demoCreds.email, demoCreds.password).subscribe({
+      next: () => {
+        console.log('Login demo realizado');
+        this.router.navigate(['/app/dashboard']);
+      },
+      error: (error) => {
+        console.error('Erro no login demo', error);
+        this.isLoading = false;
+        alert('Erro ao entrar no modo demo. Verifique se o backend está rodando.');
+      },
+      complete: () => this.isLoading = false
+    });
+  }
 }
