@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { query } from '../config/database';
-import { CalendarEvent } from '@shared/types/dto';
+import { CalendarEvent } from '../types/dto';
 
 class EventController {
   async getAll(req: Request, res: Response) {
