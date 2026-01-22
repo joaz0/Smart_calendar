@@ -43,11 +43,13 @@
 
   .clear-btn {
     @include touch-target;
-    color: var(--text-tertiary);
-    margin-left: var(--space-2);
-    padding: var(--space-1);
-    border-radius: var(--radius-full);
-    transition: all var(--transition-fast);
+    & {
+      color: var(--text-tertiary);
+      margin-left: var(--space-2);
+      padding: var(--space-1);
+      border-radius: var(--radius-full);
+      transition: all var(--transition-fast);
+    }
 
     &:hover {
       color: var(--text-secondary);

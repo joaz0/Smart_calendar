@@ -152,8 +152,10 @@
 
     .toast-close {
       @include touch-target;
-      color: var(--text-tertiary);
-      flex-shrink: 0;
+      & {
+        color: var(--text-tertiary);
+        flex-shrink: 0;
+      }
 
       &:hover {
         color: var(--text-secondary);

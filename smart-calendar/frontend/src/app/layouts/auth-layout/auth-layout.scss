@@ -349,16 +349,18 @@
 
 .social-btn {
   @include mixins.button-base;
-  background: rgba(0, 0, 0, 0.4);
-  color: #ffffff;
-  border: 2px solid rgba(91, 11, 220, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  transition: all var(--transition-fast);
+  & {
+    background: rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    border: 2px solid rgba(91, 11, 220, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    transition: all var(--transition-fast);
+  }
 
   &:hover:not(:disabled) {
     background: rgba(91, 11, 220, 0.2);
