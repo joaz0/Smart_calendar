@@ -44,7 +44,7 @@ async function initDatabase() {
 }
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // ============================================
@@ -199,7 +199,7 @@ app.use(errorHandler);
 async function startServer() {
   await initDatabase();
 
-  const server = app.listen(PORT, () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     logger.info('🚀 Smart Calendar API iniciado', {
       port: PORT,
       environment: NODE_ENV,
