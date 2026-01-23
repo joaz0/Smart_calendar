@@ -42,7 +42,7 @@ async function createTestUser() {
 
     // 3. Inserir o usuário
     const result = await client.query(
-      `INSERT INTO users (name, email, password, created_at, updated_at)
+      `INSERT INTO users (name, email, password_hash, created_at, updated_at)
        VALUES ($1, $2, $3, NOW(), NOW())
        RETURNING id, name, email`,
       [name, email, hashedPassword]
