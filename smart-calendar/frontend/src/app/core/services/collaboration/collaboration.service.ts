@@ -1,143 +1,156 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ApiService, ApiResponse } from '../api.service';
+import type {
+  TeamMember,
+  SharedEvent,
+  TaskDelegation,
+  CollaborationStats,
+} from '../../types/collaboration.types';
 
-export interface TeamMember {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-  role: 'owner' | 'admin' | 'member' | 'viewer';
-  status: 'online' | 'offline' | 'busy' | 'away';
-  availability: {
-    start: string;
-    end: string;
-  };
-}
-
-export interface SharedEvent {
-  id: string;
-  title: string;
-  start: Date;
-  end: Date;
-  attendees: string[];
-  organizer: string;
-  status: 'confirmed' | 'pending' | 'cancelled';
-  type: 'meeting' | 'deadline' | 'milestone' | 'other';
-}
-
-export interface TaskDelegation {
-  id: string;
-  taskId: string;
-  taskTitle: string;
-  fromUser: string;
-  toUser: string;
-  delegatedAt: Date;
-  dueDate: Date;
-  status: 'pending' | 'accepted' | 'rejected' | 'completed';
-  priority: 'high' | 'medium' | 'low';
-  notes?: string;
-}
-
-export interface CollaborationStats {
-  totalMembers: number;
-  activeMembers: number;
-  sharedEvents: number;
-  pendingDelegations: number;
-  completedTasks: number;
-}
+export type {
+  TeamMember,
+  SharedEvent,
+  TaskDelegation,
+  CollaborationStats,
+  TeamUpdate,
+} from '../../types/collaboration.types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CollaborationService {
-  private http = inject(HttpClient);
+  private readonly basePath = 'collaboration';
+  private readonly defaultTeamId = 'current-team';
 
-  private apiUrl = `${environment.apiUrl || 'http://localhost:3000/api'}/collaboration`;
+  private statsSubject = new BehaviorSubject<CollaborationStats | null>(null);
+  stats$ = this.statsSubject.asObservable();
+
   private teamMembersSubject = new BehaviorSubject<TeamMember[]>([]);
-  public teamMembers$ = this.teamMembersSubject.asObservable();
+  teamMembers$ = this.teamMembersSubject.asObservable();
 
-  constructor() {
-    this.loadTeamMembers();
+  private availabilitySubject = new BehaviorSubject<TeamMember['availability'][]>([]);
+  availability$ = this.availabilitySubject.asObservable();
+
+  constructor(private apiService: ApiService) {}
+
+  loadDashboardData(teamId = this.defaultTeamId): void {
+    this.getCollaborationStats().subscribe();
+    this.getTeamMembers(teamId).subscribe();
+    this.getSharedEvents().subscribe();
+    this.getDelegations().subscribe();
   }
 
-  loadTeamMembers(): void {
-    this.http.get<TeamMember[]>(`${this.apiUrl}/team`).pipe(
-      catchError(() => of(this.getMockTeamMembers()))
-    ).subscribe(members => {
-      this.teamMembersSubject.next(members);
-    });
+  getCollaborationStats(): Observable<CollaborationStats> {
+    return this.apiService.get<CollaborationStats>(`${this.basePath}/stats`).pipe(
+      map((response: ApiResponse<CollaborationStats>) => response.data || this.getEmptyStats()),
+      tap((stats) => this.statsSubject.next(stats)),
+      catchError((error) => {
+        console.error('Erro ao buscar stats', error);
+        const stats = this.getEmptyStats();
+        this.statsSubject.next(stats);
+        return of(stats);
+      })
+    );
   }
 
-  getTeamMembers(): Observable<TeamMember[]> {
-    return this.teamMembers$;
+  getTeamMembers(teamId = this.defaultTeamId): Observable<TeamMember[]> {
+    return this.apiService.get<TeamMember[]>(`teams/${teamId}/members`).pipe(
+      map((response: ApiResponse<TeamMember[]>) => response.data || []),
+      tap((members) => {
+        this.teamMembersSubject.next(members);
+        this.availabilitySubject.next(members.map((member) => member.availability));
+      }),
+      catchError((error) => {
+        console.error('Erro ao buscar membros do time', error);
+        const members = this.getMockTeamMembers();
+        this.teamMembersSubject.next(members);
+        this.availabilitySubject.next(members.map((member) => member.availability));
+        return of(members);
+      })
+    );
   }
 
   getSharedEvents(): Observable<SharedEvent[]> {
-    return this.http.get<SharedEvent[]>(`${this.apiUrl}/events`).pipe(
-      catchError(() => of(this.getMockSharedEvents()))
+    return this.apiService.get<SharedEvent[]>(`${this.basePath}/events`).pipe(
+      map((response: ApiResponse<SharedEvent[]>) => response.data || []),
+      catchError((error) => {
+        console.error('Erro ao buscar eventos compartilhados', error);
+        return of(this.getMockSharedEvents());
+      })
     );
   }
 
   getDelegations(): Observable<TaskDelegation[]> {
-    return this.http.get<TaskDelegation[]>(`${this.apiUrl}/delegations`).pipe(
-      catchError(() => of(this.getMockDelegations()))
-    );
-  }
-
-  getCollaborationStats(): Observable<CollaborationStats> {
-    return this.http.get<CollaborationStats>(`${this.apiUrl}/stats`).pipe(
-      catchError(() => of(this.getMockStats()))
-    );
-  }
-
-  delegateTask(taskId: string, toUserId: string, notes?: string): Observable<TaskDelegation> {
-    return this.http.post<TaskDelegation>(`${this.apiUrl}/delegate`, {
-      taskId,
-      toUserId,
-      notes
-    }).pipe(
-      catchError(() => of(this.createMockDelegation(taskId, toUserId, notes)))
-    );
-  }
-
-  acceptDelegation(delegationId: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/delegations/${delegationId}/accept`, {});
-  }
-
-  rejectDelegation(delegationId: string, reason?: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/delegations/${delegationId}/reject`, { reason });
-  }
-
-  inviteTeamMember(email: string, role: TeamMember['role']): Observable<TeamMember> {
-    return this.http.post<TeamMember>(`${this.apiUrl}/team/invite`, { email, role }).pipe(
-      tap(member => {
-        const currentMembers = this.teamMembersSubject.value;
-        this.teamMembersSubject.next([...currentMembers, member]);
+    return this.apiService.get<TaskDelegation[]>(`${this.basePath}/delegations`).pipe(
+      map((response: ApiResponse<TaskDelegation[]>) => response.data || []),
+      catchError((error) => {
+        console.error('Erro ao buscar delegacoes', error);
+        return of(this.getMockDelegations());
       })
     );
   }
 
-  removeTeamMember(memberId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/team/${memberId}`).pipe(
+  acceptDelegation(delegationId: string | number): Observable<void> {
+    const id = String(delegationId);
+    return this.apiService.post<void>(`${this.basePath}/delegations/${id}/accept`, {}).pipe(
+      map(() => undefined),
       tap(() => {
-        const currentMembers = this.teamMembersSubject.value;
-        this.teamMembersSubject.next(currentMembers.filter(m => m.id !== memberId));
-      })
+        this.getDelegations().subscribe();
+      }),
+      catchError(() => of(undefined))
     );
+  }
+
+  rejectDelegation(delegationId: string | number, reason?: string): Observable<void> {
+    const id = String(delegationId);
+    return this.apiService.post<void>(`${this.basePath}/delegations/${id}/reject`, { reason }).pipe(
+      map(() => undefined),
+      tap(() => {
+        this.getDelegations().subscribe();
+      }),
+      catchError(() => of(undefined))
+    );
+  }
+
+  inviteTeamMember(teamId: string, email: string): Observable<boolean> {
+    return this.apiService.post<void>(`teams/${teamId}/invite`, { email }).pipe(
+      map((response) => response.success),
+      catchError(() => of(false))
+    );
+  }
+
+  removeTeamMember(teamId: string, memberId: string): Observable<boolean> {
+    return this.apiService.delete<void>(`teams/${teamId}/members/${memberId}`).pipe(
+      map((response) => response.success),
+      tap(() => {
+        const current = this.teamMembersSubject.value;
+        this.teamMembersSubject.next(current.filter((member) => member.id !== memberId));
+      }),
+      catchError(() => of(false))
+    );
+  }
+
+  private getEmptyStats(): CollaborationStats {
+    return {
+      totalMembers: 0,
+      activeMembers: 0,
+      sharedEvents: 0,
+      pendingDelegations: 0,
+      completedTasks: 0,
+    };
   }
 
   private getMockTeamMembers(): TeamMember[] {
     return [
       {
         id: '1',
-        name: 'João Silva',
+        name: 'Joao Silva',
         email: 'joao.silva@example.com',
         role: 'owner',
         status: 'online',
-        availability: { start: '09:00', end: '18:00' }
+        availability: { start: '09:00', end: '18:00' },
       },
       {
         id: '2',
@@ -145,7 +158,7 @@ export class CollaborationService {
         email: 'maria.santos@example.com',
         role: 'admin',
         status: 'online',
-        availability: { start: '08:00', end: '17:00' }
+        availability: { start: '08:00', end: '17:00' },
       },
       {
         id: '3',
@@ -153,7 +166,7 @@ export class CollaborationService {
         email: 'pedro.oliveira@example.com',
         role: 'member',
         status: 'busy',
-        availability: { start: '10:00', end: '19:00' }
+        availability: { start: '10:00', end: '19:00' },
       },
       {
         id: '4',
@@ -161,8 +174,8 @@ export class CollaborationService {
         email: 'ana.costa@example.com',
         role: 'member',
         status: 'away',
-        availability: { start: '09:00', end: '18:00' }
-      }
+        availability: { start: '09:00', end: '18:00' },
+      },
     ];
   }
 
@@ -170,13 +183,13 @@ export class CollaborationService {
     return [
       {
         id: '1',
-        title: 'Reunião de Sprint Planning',
+        title: 'Reuniao de Sprint Planning',
         start: new Date(Date.now() + 2 * 60 * 60 * 1000),
         end: new Date(Date.now() + 3 * 60 * 60 * 1000),
         attendees: ['1', '2', '3'],
         organizer: '1',
         status: 'confirmed',
-        type: 'meeting'
+        type: 'meeting',
       },
       {
         id: '2',
@@ -186,7 +199,7 @@ export class CollaborationService {
         attendees: ['1', '2', '3', '4'],
         organizer: '2',
         status: 'confirmed',
-        type: 'deadline'
+        type: 'deadline',
       },
       {
         id: '3',
@@ -196,8 +209,8 @@ export class CollaborationService {
         attendees: ['1', '2'],
         organizer: '1',
         status: 'pending',
-        type: 'meeting'
-      }
+        type: 'meeting',
+      },
     ];
   }
 
@@ -206,62 +219,26 @@ export class CollaborationService {
       {
         id: '1',
         taskId: 'task-1',
-        taskTitle: 'Revisar documentação técnica',
+        taskTitle: 'Revisar documentacao tecnica',
         fromUser: '1',
         toUser: '2',
         delegatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
         dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
         status: 'accepted',
-        priority: 'high'
+        priority: 'high',
       },
       {
         id: '2',
         taskId: 'task-2',
-        taskTitle: 'Atualizar testes unitários',
+        taskTitle: 'Atualizar testes unitarios',
         fromUser: '2',
         toUser: '3',
         delegatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000),
         status: 'pending',
         priority: 'medium',
-        notes: 'Focar nos testes de integração'
+        notes: 'Preciso disso antes do merge',
       },
-      {
-        id: '3',
-        taskId: 'task-3',
-        taskTitle: 'Implementar nova feature',
-        fromUser: '1',
-        toUser: '4',
-        delegatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-        dueDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-        status: 'completed',
-        priority: 'high'
-      }
     ];
-  }
-
-  private getMockStats(): CollaborationStats {
-    return {
-      totalMembers: 4,
-      activeMembers: 3,
-      sharedEvents: 3,
-      pendingDelegations: 1,
-      completedTasks: 5
-    };
-  }
-
-  private createMockDelegation(taskId: string, toUserId: string, notes?: string): TaskDelegation {
-    return {
-      id: `delegation-${Date.now()}`,
-      taskId,
-      taskTitle: 'Nova Tarefa Delegada',
-      fromUser: 'current-user',
-      toUser: toUserId,
-      delegatedAt: new Date(),
-      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      status: 'pending',
-      priority: 'medium',
-      notes
-    };
   }
 }

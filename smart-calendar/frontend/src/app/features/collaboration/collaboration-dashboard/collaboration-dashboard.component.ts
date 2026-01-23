@@ -150,7 +150,7 @@ export class CollaborationDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  acceptDelegation(delegationId: string) {
+  acceptDelegation(delegationId: string | number) {
     this.collaborationService.acceptDelegation(delegationId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -161,7 +161,7 @@ export class CollaborationDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  rejectDelegation(delegationId: string) {
+  rejectDelegation(delegationId: string | number) {
     this.collaborationService.rejectDelegation(delegationId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -199,14 +199,14 @@ export class CollaborationDashboardComponent implements OnInit, OnDestroy {
   }
 
   trackByMember(index: number, member: TeamMember): string {
-    return member.id;
+    return String(member.id);
   }
 
   trackByEvent(index: number, event: SharedEvent): string {
-    return event.id;
+    return String(event.id);
   }
 
   trackByDelegation(index: number, delegation: TaskDelegation): string {
-    return delegation.id;
+    return String(delegation.id);
   }
 }
