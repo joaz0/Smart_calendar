@@ -109,8 +109,9 @@ export class MeetingModeratorService {
   }
 
   private getMockAgenda(_duration: number): MeetingAgendaItem[] {
-    const itemCount = Math.max(3, Math.floor(duration / 15));
-    const itemDuration = Math.floor(duration / itemCount);
+    const durationMinutes = _duration;
+    const itemCount = Math.max(3, Math.floor(durationMinutes / 15));
+    const itemDuration = Math.floor(durationMinutes / itemCount);
 
     return Array.from({ length: itemCount }, (_, i) => ({
       id: `item-${i + 1}`,

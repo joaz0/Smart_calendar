@@ -208,7 +208,7 @@ export class Converters {
     const flattened: any = {};
 
     for (const key in obj) {
-      if (objObject.prototype.hasOwnProperty.call(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         const value = obj[key];
         const newKey = prefix ? `${prefix}.${key}` : key;
 
@@ -230,7 +230,7 @@ export class Converters {
     const result: any = {};
 
     for (const key in obj) {
-      if (objObject.prototype.hasOwnProperty.call(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         const keys = key.split('.');
         let current = result;
 
