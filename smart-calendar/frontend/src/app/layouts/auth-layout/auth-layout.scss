@@ -5,7 +5,7 @@
 .auth-layout {
   height: 100vh;
   height: 100dvh;
-  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background: var(--gradient-primary);
   background-attachment: fixed;
   display: flex;
   align-items: center;

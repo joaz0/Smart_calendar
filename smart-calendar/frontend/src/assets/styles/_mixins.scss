@@ -366,6 +366,6 @@ $breakpoints: (
 
 @mixin full-screen-gradient {
   min-height: 100vh;
-  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background: var(--gradient-primary);
   background-attachment: fixed;
 }

@@ -4,7 +4,7 @@
 .app-container {
   min-height: 100vh;
   min-height: 100dvh;
-  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background: var(--gradient-primary);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

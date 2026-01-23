@@ -36,14 +36,14 @@ html, body {
 body {
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   color: var(--text-primary);
-  background: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
+  background: var(--gradient-primary);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 [data-theme='light'] body {
-  background: linear-gradient(135deg, #ffffff 0%, #DAC8F7 100%);
+  background: var(--gradient-primary);
   color: var(--text-primary);
 }
 
@@ -126,5 +126,4 @@ body {
     background: linear-gradient(135deg, #7b2bfc 0%, #5b0bdc 100%);
   }
 }
-
 

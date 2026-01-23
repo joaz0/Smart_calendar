@@ -2,16 +2,6 @@
 @use '../../../assets/styles/variables' as *;
 @use '../../../assets/styles/breakpoints' as breakpoints;
 
-// --- Configurações Visuais (Suas Cores) ---
-:root {
-  --app-gradient: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
-  --sidebar-glass: rgba(10, 0, 20, 0.6); // Vidro escuro para sidebar
-  --header-glass: rgba(10, 0, 20, 0.4);  // Vidro mais leve para header
-  --border-glass: rgba(91, 11, 220, 0.3); // Borda roxa suave
-  --text-primary: #ffffff;
-}
-
-
 .layout-wrapper {
   display: flex;
   width: 100vw;
@@ -19,8 +9,7 @@
   height: 100dvh;
   overflow: hidden;
 
-
-  background: var(--app-gradient);
+  background: var(--gradient-primary);
   background-attachment: fixed;
   color: var(--text-primary);
   position: relative;
@@ -32,9 +21,9 @@
   height: 100%;
 
   // Efeito de Vidro Escuro
-  background: var(--sidebar-glass);
+  background: var(--surface-secondary);
   backdrop-filter: blur(12px);
-  border-right: 1px solid var(--border-glass);
+  border-right: 1px solid var(--border-primary);
 
   flex-shrink: 0;
   z-index: 100;
@@ -110,9 +99,9 @@
 }
 
 ::ng-deep app-header {
-  background: var(--header-glass);
+  background: var(--surface-primary);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-primary);
   position: sticky;
   top: 0;
   z-index: 90;
