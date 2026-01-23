@@ -38,15 +38,14 @@
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
     border: 2px solid transparent;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%),
-                linear-gradient(135deg, rgba(91, 11, 220, 0.8) 0%, rgba(139, 61, 255, 0.4) 50%, rgba(91, 11, 220, 0.8) 100%);
+    background: var(--gradient-card), var(--gradient-button);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     box-shadow:
-      0 8px 32px rgba(91, 11, 220, 0.6),
-      0 0 80px rgba(91, 11, 220, 0.3),
+      var(--shadow-xl),
+      var(--shadow-glow),
       inset 0 1px 1px rgba(255, 255, 255, 0.1),
-      inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+      inset 0 -1px 1px var(--border-secondary);
     animation: slideUp var(--transition-normal) ease-out, crystalShimmer 3s ease-in-out infinite;
     position: relative;
     overflow: hidden;
@@ -135,8 +134,8 @@
   input {
     @include mixins.form-input;
     & {
-      border: 2px solid rgba(91, 11, 220, 0.5);
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(91, 11, 220, 0.2) 100%);
+      border: 2px solid var(--border-secondary);
+      background: var(--surface-primary);
       backdrop-filter: blur(10px);
       color: #ffffff;
       font-size: 0.875rem;
@@ -144,26 +143,26 @@
       position: relative;
       box-shadow:
         inset 0 1px 2px rgba(0, 0, 0, 0.5),
-        inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+        inset 0 -1px 1px var(--border-secondary);
     }
 
     &:focus {
-      border-color: #5b0bdc;
+      border-color: var(--primary-500);
       outline: none;
       box-shadow:
-        0 0 0 3px rgba(91, 11, 220, 0.3),
-        0 0 20px rgba(91, 11, 220, 0.4),
+        0 0 0 3px var(--border-secondary),
+        0 0 20px var(--border-glow),
         inset 0 1px 2px rgba(0, 0, 0, 0.5),
-        inset 0 -1px 1px rgba(91, 11, 220, 0.3);
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(91, 11, 220, 0.3) 100%);
+        inset 0 -1px 1px var(--border-secondary);
+      background: var(--surface-secondary);
     }
 
     &:hover:not(:focus) {
-      border-color: rgba(91, 11, 220, 0.7);
+      border-color: var(--border-glow);
       box-shadow:
-        0 0 15px rgba(91, 11, 220, 0.2),
+        0 0 15px var(--border-secondary),
         inset 0 1px 2px rgba(0, 0, 0, 0.5),
-        inset 0 -1px 1px rgba(91, 11, 220, 0.2);
+        inset 0 -1px 1px var(--border-secondary);
     }
   }
 }
@@ -214,12 +213,12 @@
     }
 
     &:checked {
-      background-color: #5b0bdc;
-      border-color: #5b0bdc;
+      background-color: var(--primary-500);
+      border-color: var(--primary-500);
     }
 
     &:focus-visible {
-      outline: 2px solid #5b0bdc;
+      outline: 2px solid var(--primary-500);
       outline-offset: 2px;
     }
   }
@@ -233,7 +232,7 @@
 .forgot-password {
   background: none;
   border: none;
-  color: #8b3dff;
+  color: var(--primary-400);
   cursor: pointer;
   font-size: var(--font-size-sm);
   padding: var(--space-1) var(--space-2);
@@ -242,12 +241,12 @@
   font-weight: 500;
 
   &:hover {
-    background: rgba(91, 11, 220, 0.2);
-    color: #5b0bdc;
+    background: var(--surface-hover);
+    color: var(--primary-500);
   }
 
   &:focus-visible {
-    outline: 2px solid #5b0bdc;
+    outline: 2px solid var(--primary-500);
     outline-offset: 2px;
   }
 
@@ -258,7 +257,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #5b0bdc 0%, #3d0894 100%);
+  background: var(--gradient-button);
   color: white;
   border: 2px solid transparent;
   background-origin: border-box;
@@ -274,8 +273,8 @@
   position: relative;
   overflow: hidden;
   box-shadow:
-    0 4px 12px rgba(91, 11, 220, 0.5),
-    0 0 20px rgba(91, 11, 220, 0.2),
+    var(--shadow-md),
+    var(--shadow-glow),
     inset 0 1px 1px rgba(255, 255, 255, 0.2);
 
   &::before {
@@ -290,13 +289,13 @@
   }
 
   &:hover:not(:disabled) {
-    background: linear-gradient(135deg, #7b2bfc 0%, #5b0bdc 100%);
+    background: var(--gradient-primary);
     transform: translateY(-2px);
     box-shadow:
-      0 6px 20px rgba(91, 11, 220, 0.7),
-      0 0 40px rgba(91, 11, 220, 0.4),
+      var(--shadow-lg),
+      var(--shadow-glow),
       inset 0 1px 1px rgba(255, 255, 255, 0.3);
-    border-color: rgba(139, 61, 255, 0.5);
+    border-color: var(--border-glow);
 
     &::before {
       left: 100%;
@@ -334,15 +333,15 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: rgba(91, 11, 220, 0.3);
+    background: var(--border-secondary);
   }
 
   span {
     position: relative;
     z-index: 1;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(91, 11, 220, 0.3) 100%);
+    background: var(--gradient-card);
     padding: 0 var(--space-4);
-    color: #c0b3db;
+    color: var(--text-tertiary);
     font-size: var(--font-size-sm);
   }
 }
@@ -350,9 +349,9 @@
 .social-btn {
   @include mixins.button-base;
   & {
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--surface-primary);
     color: #ffffff;
-    border: 2px solid rgba(91, 11, 220, 0.5);
+    border: 2px solid var(--border-primary);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     display: flex;
@@ -363,11 +362,11 @@
   }
 
   &:hover:not(:disabled) {
-    background: rgba(91, 11, 220, 0.2);
-    border-color: #5b0bdc;
+    background: var(--surface-hover);
+    border-color: var(--primary-500);
     color: #ffffff;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(91, 11, 220, 0.4);
+    box-shadow: var(--shadow-md);
   }
 
   &:active {
@@ -386,7 +385,7 @@
   text-align: center;
   margin-top: var(--space-4);
   padding-top: var(--space-4);
-  border-top: 1px solid rgba(91, 11, 220, 0.3);
+  border-top: 1px solid var(--border-secondary);
 
   p {
     margin: 0;
@@ -398,7 +397,7 @@
 .switch-btn {
   background: none;
   border: none;
-  color: #8b3dff;
+  color: var(--primary-400);
   cursor: pointer;
   font-weight: var(--font-semibold);
   font-size: var(--font-size-sm);
@@ -407,12 +406,12 @@
   transition: all var(--transition-fast);
 
   &:hover {
-    background: rgba(91, 11, 220, 0.2);
-    color: #5b0bdc;
+    background: var(--surface-hover);
+    color: var(--primary-500);
   }
 
   &:focus-visible {
-    outline: 2px solid #5b0bdc;
+    outline: 2px solid var(--primary-500);
     outline-offset: 2px;
   }
 }
