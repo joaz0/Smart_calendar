@@ -11,6 +11,7 @@
   --primary-700: #7b1fa2;
   --primary-800: #6a1b9a;
   --primary-900: #4a148c;
+  --primary-dark: #4a148c;
 
   // Cores Secundárias (Azul Neon)
   --secondary-400: #4facfe;
@@ -59,6 +60,7 @@
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-tertiary: rgba(255, 255, 255, 0.5);
   --text-disabled: rgba(255, 255, 255, 0.3);
+  --text-light: rgba(255, 255, 255, 0.75);
 
   // Neutros e cinzas de apoio
   --neutral-50: #f5f5f5;
@@ -71,6 +73,9 @@
   --neutral-900: #1a1a1a;
   --gray-200: #e5e7eb;
   --gray-300: #e4e4e7;
+  --gray-300-rgb: 228, 228, 231;
+  --gray-300-t60: rgba(var(--gray-300-rgb), 0.6);
+  --gray-300-t70: rgba(var(--gray-300-rgb), 0.7);
 
   // Slate (base para dashboards escuros)
   --slate-50: #f8fafc;

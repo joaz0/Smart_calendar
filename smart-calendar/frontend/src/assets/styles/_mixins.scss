@@ -197,6 +197,31 @@ $breakpoints: (
   }
 }
 
+// Substitui darken/lighten por color-mix para evitar erros com variáveis CSS
+@mixin button-variant($bg-color, $text-color: #ffffff) {
+  background-color: $bg-color;
+  color: $text-color;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: color-mix(in srgb, $bg-color, black 10%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: color-mix(in srgb, $bg-color, black 20%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--surface-disabled);
+  }
+}
+
 @mixin ghost-button {
   @include btn-base;
   & {

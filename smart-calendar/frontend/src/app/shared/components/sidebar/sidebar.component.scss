@@ -135,11 +135,11 @@ $border-color: var(--border-primary);
     }
   }
 
-  &.file.active {
-    background-color: color.adjust($accent-color, $alpha: -0.85);
-    color: color.adjust($accent-color, $lightness: 10%);
-    border-left-color: $accent-color;
-  }
+    &.file.active {
+      background-color: rgba(91, 11, 220, 0.15);
+      color: var(--text-primary);
+      border-left-color: $accent-color;
+    }
 
   .tree-children {
     padding-left: 12px;

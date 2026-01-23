@@ -6,6 +6,22 @@ $primary-color: var(--primary-500);
 $secondary-color: var(--secondary-500);
 $text-primary: var(--text-primary); // Agora pega a opacidade correta do token
 $text-secondary: var(--text-secondary);
+$text-shadow: rgba(0, 0, 0, 0.35);
+$primary-dark: var(--primary-dark);
+$text-light: var(--text-light);
+$primary-hover: var(--primary-400);
+$primary-light: var(--primary-300);
+$primary-purple: #5b0bdc;
+$border-radius-sm: var(--radius-sm);
+
+$spacing-xs: var(--space-1);
+$spacing-sm: var(--space-2);
+$spacing-md: var(--space-4);
+$spacing-lg: var(--space-6);
+$spacing-xl: var(--space-8);
+$transition-fast: var(--transition-fast);
+$transition-base: var(--transition-base);
+$transition-slow: var(--transition-slow);
 
 // Breakpoints e outras variaveis estaticas do SASS podem ficar aqui
 $breakpoints: (
