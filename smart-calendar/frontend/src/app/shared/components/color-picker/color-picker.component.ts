@@ -8,11 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
-
-interface ColorPalette {
-  name: string;
-  colors: string[];
-}
+import { ColorPalette, COLOR_NAME_MAP, COLOR_PICKER_PALETTES, DEFAULT_EVENT_COLOR } from '../../tokens/color-tokens';
 
 @Component({
   selector: 'app-color-picker',
@@ -44,7 +40,7 @@ export class ColorPickerComponentComponent implements ControlValueAccessor, OnIn
   @ViewChild('customColorInput') customColorInput?: ElementRef<HTMLInputElement>;
   @ViewChild('paletteContainer') paletteContainer?: ElementRef<HTMLDivElement>;
 
-  @Input() selectedColor = '#3B82F6';
+  @Input() selectedColor = DEFAULT_EVENT_COLOR;
   @Input() disabled = false;
   @Input() allowCustom = true;
   @Input() allowTransparent = false;
@@ -59,44 +55,7 @@ export class ColorPickerComponentComponent implements ControlValueAccessor, OnIn
   recentColors: string[] = [];
 
   // Paletas de cores organizadas
-  palettes: ColorPalette[] = [
-    {
-      name: 'Principais',
-      colors: [
-        '#EF4444', '#F97316', '#F59E0B', '#EAB308',
-        '#84CC16', '#22C55E', '#10B981', '#14B8A6',
-        '#06B6D4', '#0EA5E9', '#3B82F6', '#6366F1',
-        '#8B5CF6', '#A855F7', '#D946EF', '#EC4899'
-      ]
-    },
-    {
-      name: 'Tons Pastel',
-      colors: [
-        '#FCA5A5', '#FDBA74', '#FCD34D', '#FDE047',
-        '#BEF264', '#86EFAC', '#6EE7B7', '#5EEAD4',
-        '#7DD3FC', '#93C5FD', '#A5B4FC', '#C4B5FD',
-        '#D8B4FE', '#F0ABFC', '#F9A8D4', '#FBB6CE'
-      ]
-    },
-    {
-      name: 'Tons Escuros',
-      colors: [
-        '#B91C1C', '#C2410C', '#B45309', '#A16207',
-        '#4D7C0F', '#15803D', '#047857', '#115E59',
-        '#075985', '#1E40AF', '#1E3A8A', '#3730A3',
-        '#5B21B6', '#6B21A8', '#86198F', '#9F1239'
-      ]
-    },
-    {
-      name: 'Neutros',
-      colors: [
-        '#FFFFFF', '#F8FAFC', '#F1F5F9', '#E2E8F0',
-        '#CBD5E1', '#94A3B8', '#64748B', '#475569',
-        '#334155', '#1E293B', '#0F172A', '#020617',
-        '#000000', '#18181B', '#27272A', '#3F3F46'
-      ]
-    }
-  ];
+  palettes: ColorPalette[] = COLOR_PICKER_PALETTES;
 
   // ControlValueAccessor
   private onChange: (value: string) => void = () => {
@@ -368,29 +327,7 @@ export class ColorPickerComponentComponent implements ControlValueAccessor, OnIn
 
   // Accessibility
   getColorName(color: string): string {
-    // Mapear cores comuns para nomes
-    const colorNames: Record<string, string> = {
-      '#FFFFFF': 'Branco',
-      '#000000': 'Preto',
-      '#EF4444': 'Vermelho',
-      '#F97316': 'Laranja',
-      '#F59E0B': 'Âmbar',
-      '#EAB308': 'Amarelo',
-      '#84CC16': 'Lima',
-      '#22C55E': 'Verde',
-      '#10B981': 'Esmeralda',
-      '#14B8A6': 'Verde-água',
-      '#06B6D4': 'Ciano',
-      '#0EA5E9': 'Azul céu',
-      '#3B82F6': 'Azul',
-      '#6366F1': 'Índigo',
-      '#8B5CF6': 'Violeta',
-      '#A855F7': 'Roxo',
-      '#D946EF': 'Fúcsia',
-      '#EC4899': 'Rosa'
-    };
-
-    return colorNames[color] || color;
+    return COLOR_NAME_MAP[color] || color;
   }
 
   getColorAriaLabel(color: string): string {

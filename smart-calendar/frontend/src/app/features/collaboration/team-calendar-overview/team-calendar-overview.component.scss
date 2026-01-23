@@ -7,10 +7,10 @@
   flex-direction: column;
   gap: 1rem;
   padding: clamp(1rem, 3vw, 1.5rem);
-  background: linear-gradient(135deg, #0b1220, #0f172a 60%, #0b182f);
+  background: linear-gradient(135deg, var(--slate-950), var(--slate-900) 60%, var(--slate-800));
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  color: #e5e7eb;
+  color: var(--gray-200);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
@@ -27,7 +27,7 @@
 
   .subtitle {
     margin: 0.25rem 0 0;
-    color: #cbd5e1;
+    color: var(--slate-300);
   }
 }
 
@@ -36,7 +36,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--slate-400);
 }
 
 .header-chip {
@@ -51,7 +51,7 @@
   span {
     display: block;
     font-size: 0.9rem;
-    color: #cbd5e1;
+    color: var(--slate-300);
   }
 
   strong {
@@ -121,7 +121,7 @@
 
 .hint {
   margin: 0;
-  color: #94a3b8;
+  color: var(--slate-400);
 }
 
 .load-chip {
@@ -162,26 +162,26 @@
   gap: 0.35rem;
   align-items: center;
   justify-items: start;
-  color: #0f172a;
+  color: var(--slate-900);
 
   &.focus {
-    background: linear-gradient(135deg, #22c55e, #4ade80);
+    background: linear-gradient(135deg, var(--success-500), var(--success-500));
   }
 
   &.meeting {
-    background: linear-gradient(135deg, #f43f5e, #fb7185);
+    background: var(--gradient-category-alert);
   }
 
   &.buffer {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    background: var(--gradient-category-ops);
   }
 
   &.break {
-    background: linear-gradient(135deg, #38bdf8, #22d3ee);
+    background: linear-gradient(135deg, var(--secondary-400), var(--secondary-500));
   }
 
   &.blocked {
-    background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+    background: linear-gradient(135deg, var(--slate-400), var(--slate-300));
   }
 }
 
@@ -191,7 +191,7 @@
 
 .block-note {
   font-size: 0.85rem;
-  color: #0f172a;
+  color: var(--slate-900);
   opacity: 0.85;
 }
 
@@ -200,7 +200,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   flex-wrap: wrap;
-  color: #cbd5e1;
+  color: var(--slate-300);
 
   span {
     display: inline-flex;
@@ -229,7 +229,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    color: #e5e7eb;
+    color: var(--gray-200);
   }
 
   .chip {

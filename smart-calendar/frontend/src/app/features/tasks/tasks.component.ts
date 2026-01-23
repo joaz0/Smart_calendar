@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { TaskService } from '../../core/services/task.service';
+import { STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 
 
 interface Task {
@@ -261,10 +262,10 @@ export class TasksComponent implements OnInit, OnDestroy {
   
   getPriorityColor(priority: string): string {
     switch (priority) {
-      case 'high': return '#f44336';
-      case 'medium': return '#ff9800';
-      case 'low': return '#4caf50';
-      default: return '#757575';
+      case 'high': return STATUS_COLOR_VARS.error;
+      case 'medium': return STATUS_COLOR_VARS.warning;
+      case 'low': return STATUS_COLOR_VARS.success;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
   
@@ -305,4 +306,3 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
 }
-

@@ -6,7 +6,7 @@
       <div class="risk-score">
         <div class="score-circle">
           <svg viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#e0e0e0" stroke-width="8"/>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--placeholder-border)" stroke-width="8"/>
             <circle cx="50" cy="50" r="45" fill="none" [attr.stroke]="getRiskColor()" stroke-width="8"
                     [style.stroke-dasharray]="283" [style.stroke-dashoffset]="283 - (283 * analysis.riskScore)"/>
           </svg>

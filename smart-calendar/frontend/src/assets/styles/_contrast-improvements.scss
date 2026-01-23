@@ -355,8 +355,8 @@ footer,
 // Ensures minimum contrast ratios (4.5:1 for normal text, 3:1 for large text)
 @media (prefers-contrast: high) {
   :root {
-    --text-tertiary: #6b7280;
-    --text-muted: #8b8b8b;
+    --text-tertiary: var(--slate-500);
+    --text-muted: var(--slate-400);
   }
 
   * {

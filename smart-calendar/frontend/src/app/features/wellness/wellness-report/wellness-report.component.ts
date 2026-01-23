@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Subject, takeUntil, forkJoin } from 'rxjs';
 import { WellnessService, WellnessMetrics, BreakPattern, WellnessRecommendation } from '../../../core/services/wellness/wellness.service';
+import { STATUS_COLOR_VARS } from '../../../shared/tokens/color-tokens';
 
 @Component({
   standalone: true,
@@ -52,26 +53,26 @@ export class WellnessReportComponent implements OnInit, OnDestroy {
   }
 
   getScoreColor(score: number): string {
-    if (score >= 80) return '#4CAF50';
-    if (score >= 60) return '#FF9800';
-    return '#F44336';
+    if (score >= 80) return STATUS_COLOR_VARS.success;
+    if (score >= 60) return STATUS_COLOR_VARS.warning;
+    return STATUS_COLOR_VARS.error;
   }
 
   getStressColor(level: string): string {
     switch (level) {
-      case 'low': return '#4CAF50';
-      case 'medium': return '#FF9800';
-      case 'high': return '#F44336';
-      default: return '#9E9E9E';
+      case 'low': return STATUS_COLOR_VARS.success;
+      case 'medium': return STATUS_COLOR_VARS.warning;
+      case 'high': return STATUS_COLOR_VARS.error;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 
   getPriorityColor(priority: string): string {
     switch (priority) {
-      case 'high': return '#F44336';
-      case 'medium': return '#FF9800';
-      case 'low': return '#4CAF50';
-      default: return '#9E9E9E';
+      case 'high': return STATUS_COLOR_VARS.error;
+      case 'medium': return STATUS_COLOR_VARS.warning;
+      case 'low': return STATUS_COLOR_VARS.success;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 

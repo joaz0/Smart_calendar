@@ -17,7 +17,7 @@
     input {
       width: 100%;
       padding: 0.75rem;
-      border: 1px solid #ddd;
+      border: 1px solid var(--neutral-200);
       border-radius: 6px;
     }
   }
@@ -31,14 +31,14 @@
       gap: 0.5rem;
       margin-bottom: 0.5rem;
 
-      input { padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px; }
-      button { padding: 0.5rem 1rem; background: #f44336; color: white; border: none; border-radius: 6px; cursor: pointer; }
+      input { padding: 0.5rem; border: 1px solid var(--neutral-200); border-radius: 6px; }
+      button { padding: 0.5rem 1rem; background: var(--error-500); color: white; border: none; border-radius: 6px; cursor: pointer; }
     }
 
     .btn-add {
       margin-top: 1rem;
       padding: 0.75rem;
-      background: #2196F3;
+      background: var(--info-500);
       color: white;
       border: none;
       border-radius: 6px;
@@ -49,7 +49,7 @@
   .btn-primary {
     width: 100%;
     padding: 1rem;
-    background: #4CAF50;
+    background: var(--success-500);
     color: white;
     border: none;
     border-radius: 8px;
@@ -60,7 +60,7 @@
   .poll-link {
     margin-top: 2rem;
     padding: 1.5rem;
-    background: #e8f5e9;
+    background: var(--surface-success-subtle);
     border-radius: 8px;
 
     .link-box {
@@ -71,13 +71,13 @@
       input {
         flex: 1;
         padding: 0.75rem;
-        border: 1px solid #ddd;
+        border: 1px solid var(--neutral-200);
         border-radius: 6px;
       }
 
       button {
         padding: 0.75rem 1.5rem;
-        background: #4CAF50;
+        background: var(--success-500);
         color: white;
         border: none;
         border-radius: 6px;

@@ -171,10 +171,10 @@
 }
 
 .danger-zone-card {
-  border: 2px solid #F44336;
+  border: 2px solid var(--error-500);
 
   mat-card-title {
-    color: #F44336;
+    color: var(--error-500);
   }
 
   .danger-actions .action-item {
@@ -203,7 +203,7 @@
   border-radius: 999px;
   border: 1px solid rgba(244, 67, 54, 0.35);
   background: rgba(244, 67, 54, 0.1);
-  color: #F44336;
+  color: var(--error-500);
   font-size: 12px;
   font-weight: 600;
 }

@@ -258,7 +258,7 @@
 
         mat-icon {
           font-size: 1.75rem;
-          color: #FFC107;
+          color: var(--warning-500);
           flex-shrink: 0;
         }
 
@@ -315,7 +315,7 @@
 
           mat-icon {
             font-size: 2.5rem;
-            color: #FF9800;
+            color: var(--warning-500);
           }
 
           span {

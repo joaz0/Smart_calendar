@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductivityInsightsService, ProductivityMetricsData, ProductivityInsight, ProductivityPattern } from '../../../core/services/productivity/productivity-insights.service';
+import { STATUS_COLOR_VARS } from '../../../shared/tokens/color-tokens';
 
 @Component({
   standalone: true,
@@ -88,17 +89,17 @@ export class ProductivityInsightsComponent implements OnInit, OnDestroy {
   }
 
   getScoreColor(score: number): string {
-    if (score >= 80) return '#4CAF50';
-    if (score >= 60) return '#FF9800';
-    return '#F44336';
+    if (score >= 80) return STATUS_COLOR_VARS.success;
+    if (score >= 60) return STATUS_COLOR_VARS.warning;
+    return STATUS_COLOR_VARS.error;
   }
 
   getImpactColor(impact: string): string {
     switch (impact) {
-      case 'high': return '#F44336';
-      case 'medium': return '#FF9800';
-      case 'low': return '#4CAF50';
-      default: return '#9E9E9E';
+      case 'high': return STATUS_COLOR_VARS.error;
+      case 'medium': return STATUS_COLOR_VARS.warning;
+      case 'low': return STATUS_COLOR_VARS.success;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 
@@ -113,10 +114,10 @@ export class ProductivityInsightsComponent implements OnInit, OnDestroy {
 
   getPatternColor(type: string): string {
     switch (type) {
-      case 'peak': return '#4CAF50';
-      case 'low': return '#F44336';
-      case 'consistent': return '#2196F3';
-      default: return '#9E9E9E';
+      case 'peak': return STATUS_COLOR_VARS.success;
+      case 'low': return STATUS_COLOR_VARS.error;
+      case 'consistent': return STATUS_COLOR_VARS.info;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 

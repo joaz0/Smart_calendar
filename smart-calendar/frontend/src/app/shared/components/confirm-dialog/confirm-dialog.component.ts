@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output, HostListener, ViewChild, Elemen
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { STATUS_COLOR_VARS } from '../../tokens/color-tokens';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
@@ -345,15 +346,15 @@ export class ConfirmDialogComponentComponent implements AfterViewInit, OnDestroy
 
   getIconColor(): string {
     const colorMap: Record<string, string> = {
-      default: '#6366f1',
-      destructive: '#ef4444',
-      warning: '#f59e0b',
-      danger: '#dc2626',
-      success: '#10b981',
-      info: '#3b82f6'
+      default: 'var(--primary-color)',
+      destructive: STATUS_COLOR_VARS.error,
+      warning: STATUS_COLOR_VARS.warning,
+      danger: STATUS_COLOR_VARS.error,
+      success: STATUS_COLOR_VARS.success,
+      info: STATUS_COLOR_VARS.info,
     };
 
-    return colorMap[this.type] || '#6366f1';
+    return colorMap[this.type] || colorMap.default;
   }
 
   getConfirmButtonClass(): string {

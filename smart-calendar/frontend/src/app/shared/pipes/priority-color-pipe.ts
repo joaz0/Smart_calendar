@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { STATUS_COLOR_VARS } from '../tokens/color-tokens';
 
 @Pipe({
   name: 'priorityColor'
@@ -6,12 +7,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PriorityColorPipe implements PipeTransform {
   transform(priority: string): string {
     const colors: Record<string, string> = {
-      'high': '#ef4444',    // Vermelho
-      'medium': '#f59e0b',  // Amarelo/Laranja
-      'low': '#10b981',     // Verde
-      'none': '#6b7280'     // Cinza
+      high: STATUS_COLOR_VARS.error,
+      medium: STATUS_COLOR_VARS.warning,
+      low: STATUS_COLOR_VARS.success,
+      none: STATUS_COLOR_VARS.neutral,
     };
 
-    return colors[priority.toLowerCase()] || colors['none'];
+    return colors[priority.toLowerCase()] || colors.none;
   }
 }

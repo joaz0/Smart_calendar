@@ -22,8 +22,8 @@
         <div class="stats-row">
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #E3F2FD;">
-                <mat-icon style="color: #2196F3;">group</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-info-subtle);">
+                <mat-icon style="color: var(--info-500);">group</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.totalMembers}}</div>
@@ -33,8 +33,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #E8F5E9;">
-                <mat-icon style="color: #4CAF50;">check_circle</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-success-subtle);">
+                <mat-icon style="color: var(--success-500);">check_circle</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.activeMembers}}</div>
@@ -44,8 +44,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #FFF3E0;">
-                <mat-icon style="color: #FF9800;">event</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-warning-subtle);">
+                <mat-icon style="color: var(--warning-500);">event</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.sharedEvents}}</div>
@@ -55,8 +55,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #FCE4EC;">
-                <mat-icon style="color: #E91E63;">assignment</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-accent-subtle);">
+                <mat-icon style="color: var(--accent-color);">assignment</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value" [matBadge]="stats.pendingDelegations" matBadgeColor="warn">{{stats.completedTasks}}</div>
@@ -134,7 +134,7 @@
                   <div
                     class="event-item"
                     [class.today]="isEventToday(event)">
-                    <mat-icon [style.color]="isEventToday(event) ? '#4CAF50' : '#2196F3'">
+                    <mat-icon [style.color]="isEventToday(event) ? 'var(--success-500)' : 'var(--info-500)'">
                       {{getEventTypeIcon(event.type)}}
                     </mat-icon>
                     <div class="event-info">

@@ -4,7 +4,7 @@
       <mat-icon>center_focus_strong</mat-icon>
       Modo Foco
     </h2>
-    <mat-chip [style.background-color]="isActive ? '#4CAF50' : '#9E9E9E'">
+    <mat-chip [style.background-color]="isActive ? 'var(--success-500)' : 'var(--neutral-500)'">
       <mat-icon>{{isActive ? 'play_circle' : 'stop_circle'}}</mat-icon>
       {{isActive ? 'Ativo' : 'Inativo'}}
     </mat-chip>
@@ -22,8 +22,8 @@
         <div class="stats-row">
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #E3F2FD;">
-                <mat-icon style="color: #2196F3;">timer</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-info-subtle);">
+                <mat-icon style="color: var(--info-500);">timer</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.totalSessions}}</div>
@@ -33,8 +33,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #E8F5E9;">
-                <mat-icon style="color: #4CAF50;">schedule</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-success-subtle);">
+                <mat-icon style="color: var(--success-500);">schedule</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.totalFocusTime}}h</div>
@@ -44,8 +44,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #FFF3E0;">
-                <mat-icon style="color: #FF9800;">check_circle</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-warning-subtle);">
+                <mat-icon style="color: var(--warning-500);">check_circle</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.tasksCompleted}}</div>
@@ -55,8 +55,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #FCE4EC;">
-                <mat-icon style="color: #E91E63;">local_fire_department</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-accent-subtle);">
+                <mat-icon style="color: var(--accent-color);">local_fire_department</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.currentStreak}}</div>
@@ -118,11 +118,11 @@
                 <div class="circular-timer">
                   <svg width="240" height="240" viewBox="0 0 240 240">
                     <circle cx="120" cy="120" r="110"
-                      stroke="#e0e0e0"
+                      stroke="var(--placeholder-border)"
                       stroke-width="12"
                       fill="none"/>
                     <circle cx="120" cy="120" r="110"
-                      stroke="#6A1B9A"
+                      stroke="var(--primary-800)"
                       stroke-width="12"
                       fill="none"
                       stroke-linecap="round"

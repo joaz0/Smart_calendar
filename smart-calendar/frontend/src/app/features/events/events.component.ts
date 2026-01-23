@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { EventService } from '../../core/services/event.service';
 import { Event } from '../../core/models/event.model';
+import { MATERIAL_COLORS, STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 
 type EventItem = Omit<Partial<Event>, 'category'> & {
   id: string;
@@ -104,7 +105,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         endDate: new Date(today.getTime() + 3 * 60 * 60 * 1000),
         location: 'Sala de conferências A',
         category: 'meeting',
-        color: '#1976d2',
+        color: MATERIAL_COLORS.blue,
         attendees: ['joao@empresa.com', 'maria@empresa.com']
       },
       {
@@ -115,7 +116,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         endDate: new Date(today.getTime() + 25 * 60 * 60 * 1000),
         location: 'Auditório principal',
         category: 'presentation',
-        color: '#7b1fa2',
+        color: MATERIAL_COLORS.deepPurple,
         attendees: ['diretor@empresa.com']
       },
       {
@@ -126,7 +127,7 @@ export class EventsComponent implements OnInit, OnDestroy {
         endDate: new Date(today.getTime() + 5 * 60 * 60 * 1000),
         location: 'Online - Zoom',
         category: 'call',
-        color: '#388e3c',
+        color: MATERIAL_COLORS.green,
         attendees: ['cliente@empresa.com']
       }
     ];
@@ -245,10 +246,10 @@ export class EventsComponent implements OnInit, OnDestroy {
 
   getStatusColor(status: string): string {
     switch (status) {
-      case 'past': return '#757575';
-      case 'ongoing': return '#4caf50';
-      case 'upcoming': return '#2196f3';
-      default: return '#757575';
+      case 'past': return STATUS_COLOR_VARS.neutral;
+      case 'ongoing': return STATUS_COLOR_VARS.success;
+      case 'upcoming': return STATUS_COLOR_VARS.info;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 
@@ -351,7 +352,7 @@ export class EventsComponent implements OnInit, OnDestroy {
       margin-bottom: 2rem;
 
       h1 {
-        color: #6d3bf7;
+        color: var(--primary-color);
         margin: 0;
         display: flex;
         align-items: center;
@@ -359,7 +360,7 @@ export class EventsComponent implements OnInit, OnDestroy {
       }
 
       .add-btn {
-        background: #6d3bf7;
+        background: var(--primary-color);
         color: white;
         border: none;
         padding: 0.75rem 1rem;
@@ -384,7 +385,7 @@ export class EventsComponent implements OnInit, OnDestroy {
 
     .event-time {
       font-weight: bold;
-      color: #6d3bf7;
+      color: var(--primary-color);
       min-width: 60px;
     }
 
@@ -393,12 +394,12 @@ export class EventsComponent implements OnInit, OnDestroy {
 
       h3 {
         margin: 0 0 0.25rem 0;
-        color: #333;
+        color: var(--slate-900);
       }
 
       p {
         margin: 0;
-        color: #666;
+        color: var(--slate-500);
         font-size: 0.9rem;
       }
     }
@@ -408,9 +409,9 @@ export class EventsComponent implements OnInit, OnDestroy {
       border-radius: 4px;
       font-size: 0.8rem;
 
-      &.meeting { background: #e3f2fd; color: #1976d2; }
-      &.presentation { background: #f3e5f5; color: #7b1fa2; }
-      &.call { background: #e8f5e8; color: #388e3c; }
+      &.meeting { background: var(--badge-meeting-bg); color: var(--badge-meeting-fg); }
+      &.presentation { background: var(--badge-presentation-bg); color: var(--badge-presentation-fg); }
+      &.call { background: var(--badge-call-bg); color: var(--badge-call-fg); }
     }
   `]
 })

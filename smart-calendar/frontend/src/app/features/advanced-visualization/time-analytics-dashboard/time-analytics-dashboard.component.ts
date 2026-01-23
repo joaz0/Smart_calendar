@@ -98,10 +98,10 @@ export class TimeAnalyticsDashboardComponent {
   ];
 
   readonly categories: CategoryBreakdown[] = [
-    { name: 'Deep work', hours: 9.5, target: 8, color: 'linear-gradient(90deg, #22d3ee, #6366f1)', trend: '+1.2h vs semana passada' },
-    { name: 'Reuniões', hours: 11.1, target: 9, color: 'linear-gradient(90deg, #fb7185, #f472b6)', trend: 'Reduzir 1 reunião na quarta' },
-    { name: 'Operacional', hours: 6.4, target: 7, color: 'linear-gradient(90deg, #fbbf24, #f59e0b)', trend: 'Dentro do limite' },
-    { name: 'Pausas e pausas ativas', hours: 4.2, target: 4.5, color: 'linear-gradient(90deg, #34d399, #10b981)', trend: 'Consistência quase ideal' },
+    { name: 'Deep work', hours: 9.5, target: 8, color: 'var(--gradient-category-focus)', trend: '+1.2h vs semana passada' },
+    { name: 'Reuniões', hours: 11.1, target: 9, color: 'var(--gradient-category-meetings)', trend: 'Reduzir 1 reunião na quarta' },
+    { name: 'Operacional', hours: 6.4, target: 7, color: 'var(--gradient-category-ops)', trend: 'Dentro do limite' },
+    { name: 'Pausas e pausas ativas', hours: 4.2, target: 4.5, color: 'var(--gradient-category-breaks)', trend: 'Consistência quase ideal' },
   ];
 
   readonly rituals: Ritual[] = [

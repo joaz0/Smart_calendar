@@ -2,8 +2,8 @@
 
 $bg-activity-bar: var(--surface-primary);
 $bg-side-panel: var(--surface-secondary);
-$text-color: #e4e4e7;
-$accent-color: #5b0bdc;
+$text-color: var(--gray-300);
+$accent-color: var(--primary-color);
 $hover-bg: var(--surface-glass);
 $border-color: var(--border-primary);
 
@@ -47,12 +47,12 @@ $border-color: var(--border-primary);
     transition: all 0.2s;
 
     &:hover {
-      color: #fff;
+      color: var(--text-primary);
       background-color: $hover-bg;
     }
 
     &.active {
-      color: #fff;
+      color: var(--text-primary);
 
       &::before {
         content: '';
@@ -105,7 +105,7 @@ $border-color: var(--border-primary);
     margin-left: 8px;
 
     &:hover {
-      color: #fff;
+      color: var(--text-primary);
     }
   }
 }
@@ -159,10 +159,10 @@ $border-color: var(--border-primary);
   display: inline-block;
 
   &.high-priority {
-    background-color: #ff5555;
+    background-color: var(--error-500);
   }
   &.medium-priority {
-    background-color: #ffb86c;
+    background-color: var(--warning-500);
   }
 }
 

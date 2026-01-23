@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BaseFormComponent, FormField } from '../../../core/components/base-form.component';
 import { CategoryService } from '../services/category.service';
+import { CATEGORY_FORM_OPTIONS } from '../../../shared/tokens/color-tokens';
 
 
 @Component({
@@ -43,13 +44,7 @@ export class CategoryFormComponent extends BaseFormComponent {
         name: 'color',
         label: 'Cor',
         type: 'select',
-        options: [
-          { label: '🔴 Vermelho', value: '#ef4444' },
-          { label: '🔵 Azul', value: '#3b82f6' },
-          { label: '🟢 Verde', value: '#22c55e' },
-          { label: '🟣 Roxo', value: '#a855f7' },
-          { label: '🟡 Amarelo', value: '#f59e0b' },
-        ],
+        options: CATEGORY_FORM_OPTIONS,
       },
     ];
 

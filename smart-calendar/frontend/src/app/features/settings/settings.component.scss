@@ -13,7 +13,7 @@
   margin-bottom: 2rem;
   
   h1 {
-    color: var(--primary-color, #1976d2);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,7 +27,7 @@
   }
   
   p {
-    color: var(--text-secondary, #666);
+    color: var(--text-secondary);
     margin: 0;
   }
 }
@@ -41,7 +41,7 @@
 .settings-section {
   mat-card-header {
     mat-card-title {
-      color: var(--primary-color, #1976d2);
+      color: var(--primary-color);
       font-size: 1.2rem;
     }
   }
@@ -71,7 +71,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--gradient-feature-card);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -103,7 +103,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--neutral-100);
     
     &:last-child {
       border-bottom: none;
@@ -111,7 +111,7 @@
     
     span {
       font-weight: 500;
-      color: var(--text-primary, #333);
+      color: var(--text-primary);
     }
   }
   
@@ -130,7 +130,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--neutral-100);
     
     &:last-child {
       border-bottom: none;
@@ -138,7 +138,7 @@
     
     span {
       font-weight: 500;
-      color: var(--text-primary, #333);
+      color: var(--text-primary);
     }
   }
 }

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Event } from '../../../core/models/event.model';
 import { EventService } from '../../../core/services/event.service';
+import { MATERIAL_COLORS } from '../../../shared/tokens/color-tokens';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -59,8 +60,8 @@ export class EventDialogComponent {
   isRecurring = false;
   recurrenceRule: any = null;
   categories = [
-    { id: '1', name: 'Pessoal', color: '#2196f3' },
-    { id: '2', name: 'Trabalho', color: '#4caf50' },
+    { id: '1', name: 'Pessoal', color: MATERIAL_COLORS.blue },
+    { id: '2', name: 'Trabalho', color: MATERIAL_COLORS.green },
   ];
 
   constructor() {

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { MATERIAL_COLORS } from '../../../shared/tokens/color-tokens';
 
 export interface EventTemplate {
   id: string;
@@ -140,7 +141,7 @@ export class EventTemplateService {
         description: 'Reunião diária de alinhamento da equipe',
         reminders: [5],
         recurrence: { frequency: 'daily', interval: 1 },
-        color: '#2196F3',
+        color: MATERIAL_COLORS.blue,
         isDefault: true,
         usageCount: 45,
         createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -155,7 +156,7 @@ export class EventTemplateService {
         location: 'Smart Fit',
         reminders: [30, 5],
         recurrence: { frequency: 'weekly', interval: 3 },
-        color: '#4CAF50',
+        color: MATERIAL_COLORS.green,
         usageCount: 38,
         createdAt: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
         updatedAt: new Date()
@@ -167,7 +168,7 @@ export class EventTemplateService {
         duration: 30,
         description: 'Revisão de código do time',
         reminders: [15],
-        color: '#FF9800',
+        color: MATERIAL_COLORS.orange,
         usageCount: 22,
         createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000),
         updatedAt: new Date()
@@ -180,7 +181,7 @@ export class EventTemplateService {
         description: 'Prática de mindfulness',
         reminders: [5],
         recurrence: { frequency: 'daily', interval: 1 },
-        color: '#9C27B0',
+        color: MATERIAL_COLORS.purple,
         usageCount: 18,
         createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
         updatedAt: new Date()
@@ -192,7 +193,7 @@ export class EventTemplateService {
         duration: 90,
         description: 'Aula de desenvolvimento web',
         recurrence: { frequency: 'weekly', interval: 2 },
-        color: '#3F51B5',
+        color: MATERIAL_COLORS.indigo,
         usageCount: 12,
         createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
         updatedAt: new Date()
@@ -205,7 +206,7 @@ export class EventTemplateService {
         description: 'Encontro social',
         location: 'Restaurante',
         reminders: [60, 30],
-        color: '#E91E63',
+        color: MATERIAL_COLORS.pink,
         usageCount: 8,
         createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
         updatedAt: new Date()

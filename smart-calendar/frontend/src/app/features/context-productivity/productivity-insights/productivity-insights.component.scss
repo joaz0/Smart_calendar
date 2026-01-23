@@ -45,7 +45,7 @@
       margin-bottom: 24px;
 
       mat-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--gradient-feature-card);
         color: white;
 
         .score-display {
@@ -153,13 +153,13 @@
           }
 
           .success-chip {
-            background-color: #e8f5e9;
-            color: #2e7d32;
+            background-color: var(--surface-success-subtle);
+            color: var(--success-500);
           }
 
           .warning-chip {
-            background-color: #fff3e0;
-            color: #e65100;
+            background-color: var(--surface-warning-subtle);
+            color: var(--warning-500);
           }
         }
       }

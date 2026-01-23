@@ -14,6 +14,7 @@ import { PersonalTimeGuardianComponent } from '../wellness/personal-time-guardia
 import { CalendarEvent } from '../../core/models/event.model';
 import { Task } from '../../core/models/task.model';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { MATERIAL_COLORS, STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 
 interface AIInsight {
   icon: string;
@@ -158,7 +159,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         createdBy: 'system',
         createdAt: now,
         updatedAt: now,
-        category: { id: '1', name: 'Trabalho', color: '#4caf50', createdBy: 'system', createdAt: now, updatedAt: now }
+        category: { id: '1', name: 'Trabalho', color: MATERIAL_COLORS.green, createdBy: 'system', createdAt: now, updatedAt: now }
       },
       {
         id: '2',
@@ -171,7 +172,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         createdBy: 'system',
         createdAt: now,
         updatedAt: now,
-        category: { id: '2', name: 'Apresentação', color: '#ff9800', createdBy: 'system', createdAt: now, updatedAt: now }
+        category: { id: '2', name: 'Apresentação', color: MATERIAL_COLORS.orange, createdBy: 'system', createdAt: now, updatedAt: now }
       }
     ];
   }
@@ -213,10 +214,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   
   getPriorityColor(priority: string): string {
     switch (priority) {
-      case 'high': return '#f44336';
-      case 'medium': return '#ff9800';
-      case 'low': return '#4caf50';
-      default: return '#757575';
+      case 'high': return STATUS_COLOR_VARS.error;
+      case 'medium': return STATUS_COLOR_VARS.warning;
+      case 'low': return STATUS_COLOR_VARS.success;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
   
@@ -407,7 +408,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       margin-bottom: 1rem;
       
       i {
-        color: #4facfe;
+        color: var(--secondary-400);
         font-size: 1.2rem;
         
         @media (max-width: 767px) {
@@ -432,7 +433,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .metric {
         display: block;
         font-weight: bold;
-        color: #4facfe;
+        color: var(--secondary-400);
         margin-bottom: 0.25rem;
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         

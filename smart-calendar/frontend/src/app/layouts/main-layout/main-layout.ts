@@ -11,6 +11,7 @@ import { UserService, UserProfile, UserStats } from '../../core/services/user.se
 import { TaskService } from '../../core/services/task.service';
 import { EventService } from '../../core/services/event.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 import { NotificationService } from '../../core/services/notification.service';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
@@ -230,9 +231,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   }
 
   getProductivityColor(): string {
-    if (this.stats.weeklyFocus >= 80) return '#4CAF50';
-    if (this.stats.weeklyFocus >= 60) return '#FF9800';
-    return '#F44336';
+    if (this.stats.weeklyFocus >= 80) return STATUS_COLOR_VARS.success;
+    if (this.stats.weeklyFocus >= 60) return STATUS_COLOR_VARS.warning;
+    return STATUS_COLOR_VARS.error;
   }
 
   getGreeting(): string {

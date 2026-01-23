@@ -23,7 +23,7 @@
   .welcome-section {
     h1 {
       margin: 0 0 0.5rem 0;
-      color: var(--primary-color, #1976d2);
+      color: var(--primary-color);
       font-size: 2rem;
       
       @media (max-width: 768px) {
@@ -32,7 +32,7 @@
     }
     
     .date-info {
-      color: var(--text-secondary, #666);
+      color: var(--text-secondary);
       margin: 0;
     }
   }
@@ -82,7 +82,7 @@
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-feature-card);
     color: white;
     
     mat-icon {
@@ -97,12 +97,12 @@
       margin: 0 0 0.25rem 0;
       font-size: 1.75rem;
       font-weight: 600;
-      color: var(--primary-color, #1976d2);
+      color: var(--primary-color);
     }
     
     p {
       margin: 0;
-      color: var(--text-secondary, #666);
+      color: var(--text-secondary);
       font-size: 0.9rem;
     }
   }
@@ -133,7 +133,7 @@
     mat-card-title {
       font-size: 1.1rem;
       font-weight: 600;
-      color: var(--primary-color, #1976d2);
+      color: var(--primary-color);
     }
   }
 }
@@ -148,7 +148,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--neutral-100);
   
   &:last-child {
     border-bottom: none;
@@ -156,7 +156,7 @@
   
   .event-time {
     font-weight: 600;
-    color: var(--primary-color, #1976d2);
+    color: var(--primary-color);
     min-width: 60px;
     font-size: 0.9rem;
   }
@@ -167,13 +167,13 @@
     h4 {
       margin: 0 0 0.25rem 0;
       font-size: 0.95rem;
-      color: var(--text-primary, #333);
+      color: var(--text-primary);
     }
     
     p {
       margin: 0;
       font-size: 0.85rem;
-      color: var(--text-secondary, #666);
+      color: var(--text-secondary);
     }
   }
   
@@ -209,14 +209,14 @@
   align-items: flex-start;
   gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--neutral-100);
   
   &:last-child {
     border-bottom: none;
   }
   
   mat-icon {
-    color: var(--primary-color, #1976d2);
+    color: var(--primary-color);
     margin-top: 0.25rem;
   }
   
@@ -226,13 +226,13 @@
     h4 {
       margin: 0 0 0.5rem 0;
       font-size: 0.95rem;
-      color: var(--text-primary, #333);
+      color: var(--text-primary);
     }
     
     p {
       margin: 0;
       font-size: 0.85rem;
-      color: var(--text-secondary, #666);
+      color: var(--text-secondary);
       line-height: 1.4;
     }
   }
@@ -241,7 +241,7 @@
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: var(--text-secondary, #666);
+  color: var(--text-secondary);
   
   mat-icon {
     font-size: 48px;
@@ -256,5 +256,5 @@
 }
 
 .ai-icon {
-  color: #ff6b6b !important;
+  color: var(--error-500) !important;
 }

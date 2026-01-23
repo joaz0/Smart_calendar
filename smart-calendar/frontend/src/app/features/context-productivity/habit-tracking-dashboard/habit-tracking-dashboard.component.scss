@@ -40,7 +40,7 @@
         display: inline-flex;
         flex-direction: column;
         align-items: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--gradient-feature-card);
         color: white;
         padding: 0.5rem 1rem;
         border-radius: 8px;
@@ -55,19 +55,19 @@
 
         .progress-bar {
           height: 8px;
-          background: #e0e0e0;
+          background: var(--placeholder-border);
           border-radius: 4px;
           overflow: hidden;
           margin-bottom: 0.25rem;
 
           .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            background: linear-gradient(90deg, var(--success-500), var(--success-600));
             transition: width 0.3s;
           }
         }
 
-        span { font-size: 0.85rem; color: #666; }
+        span { font-size: 0.85rem; color: var(--text-secondary); }
       }
     }
 
@@ -79,7 +79,7 @@
 
       .day-cell {
         aspect-ratio: 1;
-        border: 2px solid #e0e0e0;
+        border: 2px solid var(--placeholder-border);
         border-radius: 8px;
         display: flex;
         flex-direction: column;
@@ -88,11 +88,11 @@
         cursor: pointer;
         transition: all 0.2s;
 
-        &:hover { border-color: #999; }
+        &:hover { border-color: var(--neutral-500); }
 
         &.completed {
-          background: #4CAF50;
-          border-color: #4CAF50;
+          background: var(--success-500);
+          border-color: var(--success-500);
           color: white;
 
           &::after {
@@ -116,12 +116,12 @@
         flex: 1;
         padding: 0.5rem;
         border: none;
-        background: #f5f5f5;
+        background: var(--placeholder-surface);
         border-radius: 6px;
         cursor: pointer;
         transition: background 0.2s;
 
-        &:hover { background: #e0e0e0; }
+        &:hover { background: var(--placeholder-border); }
       }
     }
   }

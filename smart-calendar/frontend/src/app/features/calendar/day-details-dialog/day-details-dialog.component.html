@@ -27,7 +27,7 @@
               class="event-item"
               [class.all-day]="event.allDay"
               (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
-              <div class="event-indicator" [style.background-color]="event.color || '#6d3bf7'"></div>
+              <div class="event-indicator" [style.background-color]="event.color || 'var(--primary-color)'"></div>
               <div class="event-content">
                 <div class="event-header">
                   @if (!event.allDay) {

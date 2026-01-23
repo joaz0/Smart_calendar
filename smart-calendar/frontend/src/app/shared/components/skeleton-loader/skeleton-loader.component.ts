@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
   `,
   styles: [`
     .skeleton {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background: var(--skeleton-gradient);
       background-size: 200% 100%;
       animation: loading 1.5s infinite;
       border-radius: 4px;
@@ -27,7 +27,7 @@ import { Component, Input } from '@angular/core';
 
     @media (prefers-color-scheme: dark) {
       .skeleton {
-        background: linear-gradient(90deg, #2a2a2a 25%, #1a1a1a 50%, #2a2a2a 75%);
+        background: var(--skeleton-gradient);
         background-size: 200% 100%;
       }
     }

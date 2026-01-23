@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { DEFAULT_EVENT_COLOR } from '../../../shared/tokens/color-tokens';
 
 
 interface DialogData {
@@ -79,7 +80,7 @@ export class DayDetailsDialogComponent {
   }
 
   getCategoryColor(category: any): string {
-    return category?.color || '#6366f1';
+    return category?.color || DEFAULT_EVENT_COLOR;
   }
 
   getCategoryName(category: any): string {

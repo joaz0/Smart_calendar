@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { MATERIAL_COLORS } from '../../../shared/tokens/color-tokens';
 
 
 export interface Calendar {
@@ -122,7 +123,7 @@ export class MultipleCalendarsService {
         id: 'cal-1',
         name: 'Trabalho',
         description: 'Eventos e tarefas profissionais',
-        color: '#3F51B5',
+        color: MATERIAL_COLORS.indigo,
         privacyLevel: 'private',
         owner: 'currentUser',
         shared: false,
@@ -132,7 +133,7 @@ export class MultipleCalendarsService {
         id: 'cal-2',
         name: 'Pessoal',
         description: 'Compromissos pessoais e familiares',
-        color: '#4CAF50',
+        color: MATERIAL_COLORS.green,
         privacyLevel: 'confidential',
         owner: 'currentUser',
         shared: false,
@@ -142,7 +143,7 @@ export class MultipleCalendarsService {
         id: 'cal-3',
         name: 'Projetos',
         description: 'Marcos e entregas de projetos',
-        color: '#FF9800',
+        color: MATERIAL_COLORS.orange,
         privacyLevel: 'public',
         owner: 'currentUser',
         shared: true,
@@ -157,7 +158,7 @@ export class MultipleCalendarsService {
         id: 'cal-4',
         name: 'Feriados',
         description: 'Feriados nacionais e regionais',
-        color: '#F44336',
+        color: MATERIAL_COLORS.red,
         privacyLevel: 'public',
         owner: 'system',
         shared: true,

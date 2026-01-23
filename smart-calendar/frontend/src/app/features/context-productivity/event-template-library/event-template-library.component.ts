@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventTemplateService, EventTemplate } from '../../../core/services/templates/event-template.service';
+import { TEMPLATE_CATEGORY_COLORS } from '../../../shared/tokens/color-tokens';
 
 @Component({
   standalone: true,
@@ -108,15 +109,7 @@ export class EventTemplateLibraryComponent implements OnInit, OnDestroy {
   }
 
   getCategoryColor(category: string): string {
-    const colors: Record<string, string> = {
-      work: '#2196F3',
-      personal: '#9C27B0',
-      health: '#4CAF50',
-      social: '#E91E63',
-      education: '#3F51B5',
-      other: '#9E9E9E'
-    };
-    return colors[category] || '#9E9E9E';
+    return TEMPLATE_CATEGORY_COLORS[category as keyof typeof TEMPLATE_CATEGORY_COLORS] || TEMPLATE_CATEGORY_COLORS.other;
   }
 
   trackByTemplate(index: number, template: EventTemplate): string {

@@ -105,61 +105,61 @@
                     <div class="breakdown-item">
                       <div class="breakdown-header">
                         <span class="breakdown-label">
-                          <span class="color-dot" style="background: #FF6384;"></span>
+                          <span class="color-dot" style="background: var(--chart-pink);"></span>
                           Reuniões
                         </span>
                         <span class="breakdown-value">{{ formatHours(analytics.breakdown.meetings) }}</span>
                       </div>
                       <div class="breakdown-bar">
-                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.meetings / analytics.totalHours) * 100" style="background: #FF6384;"></div>
+                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.meetings / analytics.totalHours) * 100" style="background: var(--chart-pink);"></div>
                       </div>
                     </div>
                     <div class="breakdown-item">
                       <div class="breakdown-header">
                         <span class="breakdown-label">
-                          <span class="color-dot" style="background: #36A2EB;"></span>
+                          <span class="color-dot" style="background: var(--chart-blue);"></span>
                           Tempo de Foco
                         </span>
                         <span class="breakdown-value">{{ formatHours(analytics.breakdown.focusTime) }}</span>
                       </div>
                       <div class="breakdown-bar">
-                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.focusTime / analytics.totalHours) * 100" style="background: #36A2EB;"></div>
+                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.focusTime / analytics.totalHours) * 100" style="background: var(--chart-blue);"></div>
                       </div>
                     </div>
                     <div class="breakdown-item">
                       <div class="breakdown-header">
                         <span class="breakdown-label">
-                          <span class="color-dot" style="background: #FFCE56;"></span>
+                          <span class="color-dot" style="background: var(--chart-yellow);"></span>
                           Pausas
                         </span>
                         <span class="breakdown-value">{{ formatHours(analytics.breakdown.breaks) }}</span>
                       </div>
                       <div class="breakdown-bar">
-                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.breaks / analytics.totalHours) * 100" style="background: #FFCE56;"></div>
+                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.breaks / analytics.totalHours) * 100" style="background: var(--chart-yellow);"></div>
                       </div>
                     </div>
                     <div class="breakdown-item">
                       <div class="breakdown-header">
                         <span class="breakdown-label">
-                          <span class="color-dot" style="background: #4BC0C0;"></span>
+                          <span class="color-dot" style="background: var(--chart-teal);"></span>
                           Tempo Pessoal
                         </span>
                         <span class="breakdown-value">{{ formatHours(analytics.breakdown.personal) }}</span>
                       </div>
                       <div class="breakdown-bar">
-                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.personal / analytics.totalHours) * 100" style="background: #4BC0C0;"></div>
+                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.personal / analytics.totalHours) * 100" style="background: var(--chart-teal);"></div>
                       </div>
                     </div>
                     <div class="breakdown-item">
                       <div class="breakdown-header">
                         <span class="breakdown-label">
-                          <span class="color-dot" style="background: #9966FF;"></span>
+                          <span class="color-dot" style="background: var(--chart-purple);"></span>
                           Outros
                         </span>
                         <span class="breakdown-value">{{ formatHours(analytics.breakdown.other) }}</span>
                       </div>
                       <div class="breakdown-bar">
-                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.other / analytics.totalHours) * 100" style="background: #9966FF;"></div>
+                        <div class="bar-fill" [style.width.%]="(analytics.breakdown.other / analytics.totalHours) * 100" style="background: var(--chart-purple);"></div>
                       </div>
                     </div>
                   </div>

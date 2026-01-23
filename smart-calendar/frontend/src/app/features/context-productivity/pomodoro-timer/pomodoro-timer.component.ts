@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { PomodoroService, PomodoroSession, PomodoroStats, PomodoroSettings } from '../../../core/services/pomodoro/pomodoro.service';
+import { POMODORO_MODE_COLORS } from '../../../shared/tokens/color-tokens';
 
 @Component({
   standalone: true,
@@ -155,10 +156,10 @@ export class PomodoroTimerComponent implements OnInit, OnDestroy {
 
   getSessionTypeColor(type: string): string {
     switch (type) {
-      case 'work': return '#E91E63';
-      case 'shortBreak': return '#4CAF50';
-      case 'longBreak': return '#2196F3';
-      default: return '#9E9E9E';
+      case 'work': return POMODORO_MODE_COLORS.work;
+      case 'shortBreak': return POMODORO_MODE_COLORS.shortBreak;
+      case 'longBreak': return POMODORO_MODE_COLORS.longBreak;
+      default: return POMODORO_MODE_COLORS.idle;
     }
   }
 

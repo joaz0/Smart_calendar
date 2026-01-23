@@ -4,10 +4,10 @@
 
 .time-analytics {
   padding: clamp(1.25rem, 3vw, 2rem);
-  background: radial-gradient(120% 140% at 10% 10%, rgba(99, 102, 241, 0.16), transparent 40%), radial-gradient(120% 140% at 90% 10%, rgba(14, 165, 233, 0.16), transparent 45%), linear-gradient(135deg, #0b1220, #0d1326 55%, #0b182f);
+  background: radial-gradient(120% 140% at 10% 10%, rgba(99, 102, 241, 0.16), transparent 40%), radial-gradient(120% 140% at 90% 10%, rgba(14, 165, 233, 0.16), transparent 45%), linear-gradient(135deg, var(--slate-950), var(--slate-900) 55%, var(--slate-800));
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 18px;
-  color: #e5e7eb;
+  color: var(--gray-200);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 
@@ -25,7 +25,7 @@
 
   .subtitle {
     margin: 0.25rem 0 0;
-    color: #cbd5e1;
+    color: var(--slate-300);
   }
 }
 
@@ -34,7 +34,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--slate-400);
 }
 
 .header-actions {
@@ -55,7 +55,7 @@
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.04);
-  color: #e2e8f0;
+  color: var(--slate-200);
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -72,7 +72,7 @@
   &.success {
     background: rgba(34, 197, 94, 0.12);
     border-color: rgba(34, 197, 94, 0.4);
-    color: #bbf7d0;
+    color: var(--success-500);
   }
 
   &.neutral {
@@ -93,7 +93,7 @@
   .pill-label {
     display: block;
     font-size: 0.8rem;
-    color: #cbd5e1;
+    color: var(--slate-300);
   }
 
   strong {
@@ -145,17 +145,17 @@
   background: rgba(255, 255, 255, 0.04);
 
   &.positive {
-    color: #22c55e;
+    color: var(--success-500);
   }
 
   &.negative {
-    color: #f87171;
+    color: var(--error-500);
   }
 }
 
 .metric-label {
   margin: 0.6rem 0 0;
-  color: #cbd5e1;
+  color: var(--slate-300);
 }
 
 .summary-card h3 {
@@ -165,7 +165,7 @@
 
 .hint {
   margin: 0;
-  color: #94a3b8;
+  color: var(--slate-400);
 }
 
 .panels-grid {
@@ -235,11 +235,11 @@
 }
 
 .bar.focus {
-  background: linear-gradient(180deg, #22d3ee, #6366f1);
+  background: var(--gradient-category-focus-vertical);
 }
 
 .bar.meetings {
-  background: linear-gradient(180deg, #fb7185, #f472b6);
+  background: var(--gradient-category-meetings-vertical);
 }
 
 .bar-meta {
@@ -247,7 +247,7 @@
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  color: #cbd5e1;
+  color: var(--slate-300);
 }
 
 .flow-score {
@@ -258,7 +258,7 @@
 
 .note {
   margin: 0;
-  color: #94a3b8;
+  color: var(--slate-400);
   font-size: 0.85rem;
 }
 
@@ -277,11 +277,11 @@
 .cat-header {
   display: flex;
   justify-content: space-between;
-  color: #cbd5e1;
+  color: var(--slate-300);
 }
 
 .cat-hours {
-  color: #e5e7eb;
+  color: var(--gray-200);
   font-weight: 600;
 }
 
@@ -304,7 +304,7 @@
   position: absolute;
   inset: -18px 0 auto auto;
   font-size: 0.72rem;
-  color: #94a3b8;
+  color: var(--slate-400);
 }
 
 .rituals-list {
@@ -343,7 +343,7 @@
 
   span {
     font-size: 0.9rem;
-    color: #e5e7eb;
+    color: var(--gray-200);
   }
 }
 
@@ -389,7 +389,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.06);
   font-size: 0.8rem;
-  color: #cbd5e1;
+  color: var(--slate-300);
 }
 
 .micro-actions {
@@ -403,11 +403,11 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    color: #e5e7eb;
+    color: var(--gray-200);
   }
 
   mat-icon {
-    color: #22c55e;
+    color: var(--success-500);
   }
 }
 

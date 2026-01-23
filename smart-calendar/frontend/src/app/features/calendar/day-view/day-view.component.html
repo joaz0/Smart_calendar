@@ -102,7 +102,7 @@
         @for (event of allDayEvents; track trackByEvent($index, event)) {
           <div
             class="all-day-event"
-            [style.background-color]="event.color || '#6d3bf7'"
+            [style.background-color]="event.color || 'var(--primary-color)'"
             [attr.title]="getEventTooltip(event)"
             (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
             <div class="event-content">
@@ -164,7 +164,7 @@
             @for (event of getEventsForHour(hour); track trackByEvent($index, event)) {
               <div
                 class="day-event"
-                [style.background-color]="event.color || '#6d3bf7'"
+                [style.background-color]="event.color || 'var(--primary-color)'"
                 [style.height.px]="getEventHeight(event)"
                 [style.top.px]="getEventTop(event)"
                 [class.conflicting]="hasTimeConflict(event)"

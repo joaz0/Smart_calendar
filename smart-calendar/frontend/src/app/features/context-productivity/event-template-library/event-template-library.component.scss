@@ -67,7 +67,7 @@
             display: flex;
             align-items: center;
             gap: 0.25rem;
-            color: #FF9800;
+            color: var(--warning-500);
             font-size: 0.875rem;
             font-weight: 500;
 
@@ -83,7 +83,7 @@
       mat-card-content {
         .template-info {
           .description {
-            color: var(--text-secondary, #666);
+            color: var(--text-secondary);
             margin: 0 0 1rem 0;
           }
 
@@ -97,7 +97,7 @@
               display: flex;
               align-items: center;
               gap: 0.25rem;
-              color: var(--text-secondary, #666);
+              color: var(--text-secondary);
               font-size: 0.875rem;
 
               mat-icon {
@@ -112,9 +112,9 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--text-secondary, #666);
+            color: var(--text-secondary);
             font-size: 0.875rem;
-            background: var(--background-secondary, #f5f5f5);
+            background: var(--background-secondary);
             padding: 0.5rem;
             border-radius: 4px;
 
@@ -138,7 +138,7 @@
       grid-column: 1 / -1;
       text-align: center;
       padding: 4rem 2rem;
-      color: var(--text-secondary, #666);
+      color: var(--text-secondary);
 
       mat-icon {
         font-size: 4rem;

@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { HabitTrackerService } from '../../../core/services/context/habit-tracker.service';
 import { Habit, HabitStats } from '../../../core/models/context/habit.model';
+import { HABIT_STREAK_COLORS } from '../../../shared/tokens/color-tokens';
 
 @Component({
   standalone: true,
@@ -134,9 +135,9 @@ export class HabitTrackingDashboardComponent implements OnInit, OnDestroy {
   }
 
   getStreakColor(streak: number): string {
-    if (streak >= 30) return '#FF6B00';
-    if (streak >= 7) return '#FF9800';
-    return '#FFC107';
+    if (streak >= 30) return HABIT_STREAK_COLORS.intense;
+    if (streak >= 7) return HABIT_STREAK_COLORS.strong;
+    return HABIT_STREAK_COLORS.mild;
   }
 
   getCategoryIcon(category: string): string {

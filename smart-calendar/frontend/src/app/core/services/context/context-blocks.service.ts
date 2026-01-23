@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { MATERIAL_COLORS } from '../../../shared/tokens/color-tokens';
 
 export interface ContextBlock {
   id: string;
@@ -30,7 +31,7 @@ export class ContextBlocksService {
         name: 'Foco Profundo',
         startTime: new Date(),
         endTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-        color: '#2196F3',
+        color: MATERIAL_COLORS.blue,
         activities: ['desenvolvimento', 'design'],
         focusLevel: 'deep',
         allowInterruptions: false

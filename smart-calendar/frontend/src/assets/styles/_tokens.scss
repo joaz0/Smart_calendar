@@ -17,18 +17,37 @@
   --secondary-500: #00f2fe;
   --secondary-600: #43e97b;
 
+  // Aliases de marca
+  --primary-color: var(--primary-500);
+  --accent-color: var(--accent-500);
+
   // Gradientes
   --gradient-primary: linear-gradient(135deg, #000000 0%, #5b0bdc 100%);
   --gradient-card: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(91, 11, 220, 0.85) 100%);
   --gradient-button: linear-gradient(135deg, #5b0bdc 0%, #8b3dff 100%);
   --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --gradient-feature-card: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-category-focus: linear-gradient(90deg, #22d3ee, #6366f1);
+  --gradient-category-focus-vertical: linear-gradient(180deg, #22d3ee, #6366f1);
+  --gradient-category-meetings: linear-gradient(90deg, #fb7185, #f472b6);
+  --gradient-category-meetings-vertical: linear-gradient(180deg, #fb7185, #f472b6);
+  --gradient-category-ops: linear-gradient(90deg, #fbbf24, #f59e0b);
+  --gradient-category-breaks: linear-gradient(90deg, #34d399, #10b981);
+  --gradient-category-alert: linear-gradient(135deg, #f43f5e, #fb7185);
+  --gradient-category-critical: linear-gradient(90deg, #ef4444, #f97316);
 
   // Superfícies
   --surface-primary: rgba(18, 0, 119, 0.4);
   --surface-secondary: rgba(10, 0, 89, 0.3);
   --surface-glass: rgba(255, 255, 255, 0.05);
   --surface-hover: rgba(91, 11, 220, 0.2);
+  --background-secondary: #f5f5f5;
+  --surface-info-subtle: #e3f2fd;
+  --surface-success-subtle: #e8f5e9;
+  --surface-warning-subtle: #fff3e0;
+  --surface-accent-subtle: #fce4ec;
+  --surface-danger-subtle: #fecdd3;
 
   // Bordas
   --border-primary: rgba(42, 0, 255, 0.3);
@@ -41,11 +60,44 @@
   --text-tertiary: rgba(255, 255, 255, 0.5);
   --text-disabled: rgba(255, 255, 255, 0.3);
 
+  // Neutros e cinzas de apoio
+  --neutral-50: #f5f5f5;
+  --neutral-100: #f0f0f0;
+  --neutral-200: #e0e0e0;
+  --neutral-500: #9e9e9e;
+  --neutral-600: #757575;
+  --neutral-700: #737373;
+  --neutral-800: #2a2a2a;
+  --neutral-900: #1a1a1a;
+  --gray-200: #e5e7eb;
+  --gray-300: #e4e4e7;
+
+  // Slate (base para dashboards escuros)
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #020617;
+
   // Status
   --success-500: #43e97b;
+  --success-600: #8bc34a;
   --warning-500: #ffa726;
   --error-500: #ef5350;
   --info-500: #29b6f6;
+
+  // Paleta de gráficos
+  --chart-pink: #ff6384;
+  --chart-blue: #36a2eb;
+  --chart-yellow: #ffce56;
+  --chart-teal: #4bc0c0;
+  --chart-purple: #9966ff;
 
   // Sombras
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -53,6 +105,20 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
   --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.25);
   --shadow-glow: 0 0 30px rgba(91, 11, 220, 0.5);
+
+  // Placeholders / skeletons
+  --skeleton-gradient: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  --placeholder-surface: #f5f5f5;
+  --placeholder-border: #e0e0e0;
+  --placeholder-muted: #cbd5e1;
+
+  // Badges leves (legacy)
+  --badge-meeting-bg: #e3f2fd;
+  --badge-meeting-fg: #1976d2;
+  --badge-presentation-bg: #f3e5f5;
+  --badge-presentation-fg: #7b1fa2;
+  --badge-call-bg: #e8f5e8;
+  --badge-call-fg: #388e3c;
 
   // Espaçamentos
   --space-1: 0.25rem;
@@ -82,6 +148,10 @@
 [data-theme='dark'] {
   --bg-primary: #000000;
   --bg-secondary: #0a0059;
+  --skeleton-gradient: linear-gradient(90deg, #2a2a2a 25%, #1a1a1a 50%, #2a2a2a 75%);
+  --placeholder-surface: #2a2a2a;
+  --placeholder-border: #1a1a1a;
+  --placeholder-muted: #3f3f46;
 }
 
 // Light theme

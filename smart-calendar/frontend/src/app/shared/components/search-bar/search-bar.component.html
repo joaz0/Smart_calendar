@@ -49,7 +49,7 @@
                     (click)="selectResult(item)" (keydown.enter)="selectResult(item)" (keydown.space)="selectResult(item)" tabindex="0" role="button"
                     (mouseenter)="highlightResult(i)">
                     <div class="result-icon">
-                      <mat-icon [style.color]="item.color || '#666'">{{ item.icon }}</mat-icon>
+                      <mat-icon [style.color]="item.color || 'var(--text-secondary)'">{{ item.icon }}</mat-icon>
                     </div>
                     <div class="result-content">
                       <div class="result-title" [innerHTML]="highlightSearchTerm(item.title)"></div>

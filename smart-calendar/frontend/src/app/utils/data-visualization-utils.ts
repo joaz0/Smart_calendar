@@ -1,3 +1,5 @@
+import { CHART_COLORS } from '../shared/tokens/color-tokens';
+
 export interface ChartData {
   labels: string[];
   datasets: ChartDataset[];
@@ -21,8 +23,8 @@ export function prepareTimeSeriesData(
     datasets: [{
       label: 'Valor',
       data: Object.values(grouped),
-      backgroundColor: '#3B82F6',
-      borderColor: '#2563EB'
+      backgroundColor: CHART_COLORS.blue,
+      borderColor: CHART_COLORS.blueBorder,
     }]
   };
 }

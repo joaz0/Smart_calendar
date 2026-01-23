@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarEvent } from '../../../core/models/event.model';
 import { AnyObject } from '../../../core/models/common-interfaces';
+import { DEFAULT_EVENT_COLOR } from '../../../shared/tokens/color-tokens';
 
 
 @Component({
@@ -69,7 +70,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       title: ['', [Validators.required, Validators.minLength(1)]],
       description: [''],
       category: [''],
-      color: ['#3b82f6'],
+      color: [DEFAULT_EVENT_COLOR],
       location: [''],
 
       // Horário Tab
@@ -97,7 +98,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       title: this.eventData.title || '',
       description: this.eventData.description || '',
       category: this.eventData.category || '',
-      color: this.eventData.color || '#3b82f6',
+      color: this.eventData.color || DEFAULT_EVENT_COLOR,
       location: this.eventData.location || '',
       startDate: this.formatDateForInput(this.eventData.startDate) || this.getTodayDate(),
       startTime: this.formatTimeForInput(this.eventData.startDate) || '09:00',

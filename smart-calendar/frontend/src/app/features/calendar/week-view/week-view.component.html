@@ -74,7 +74,7 @@
               @for (event of getAllDayEventsForDay(day); track trackByEvent($index, event)) {
                 <div
                   class="all-day-event"
-                  [style.background-color]="event.color || '#6d3bf7'"
+                  [style.background-color]="event.color || 'var(--primary-color)'"
                   [attr.title]="getEventTooltip(event)"
                   (click)="openEvent(event)" (keydown.enter)="openEvent(event)" (keydown.space)="openEvent(event)" tabindex="0" role="button">
                   <span class="event-title">{{ event.title }}</span>
@@ -159,7 +159,7 @@
                 @for (event of getEventsForSlot(day, hour); track trackByEvent($index, event)) {
                   <div
                     class="week-event"
-                    [style.background-color]="event.color || '#6d3bf7'"
+                    [style.background-color]="event.color || 'var(--primary-color)'"
                     [style.height.px]="getEventHeight(event)"
                     [style.top.px]="getEventTop(event)"
                     [style.left.px]="getEventLeft(event)"

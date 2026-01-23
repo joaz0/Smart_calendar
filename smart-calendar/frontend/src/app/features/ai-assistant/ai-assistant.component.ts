@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Subject, takeUntil } from 'rxjs';
 import { AIAssistantService, ChatMessage, AISuggestion } from '../../core/services/ai/ai-assistant.service';
+import { STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 
 @Component({
   selector: 'app-ai-assistant',
@@ -166,11 +167,11 @@ export class AiAssistantComponent implements OnInit, OnDestroy, AfterViewChecked
 
   getSuggestionColor(priority: string): string {
     const colors: Record<string, string> = {
-      high: '#F44336',
-      medium: '#FF9800',
-      low: '#4CAF50'
+      high: STATUS_COLOR_VARS.error,
+      medium: STATUS_COLOR_VARS.warning,
+      low: STATUS_COLOR_VARS.success,
     };
-    return colors[priority] || '#9E9E9E';
+    return colors[priority] || STATUS_COLOR_VARS.neutral;
   }
 
   private scrollToBottom(): void {

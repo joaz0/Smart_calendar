@@ -17,6 +17,7 @@ import { Subject, takeUntil, forkJoin } from 'rxjs';
 
 // Services
 import { CollaborationService, TeamMember, SharedEvent, TaskDelegation, CollaborationStats } from '../../../core/services/collaboration/collaboration.service';
+import { STATUS_COLOR_VARS } from '../../../shared/tokens/color-tokens';
 
 @Component({
   standalone: true,
@@ -83,11 +84,11 @@ export class CollaborationDashboardComponent implements OnInit, OnDestroy {
 
   getStatusColor(status: string): string {
     switch (status) {
-      case 'online': return '#4CAF50';
-      case 'busy': return '#F44336';
-      case 'away': return '#FF9800';
-      case 'offline': return '#9E9E9E';
-      default: return '#9E9E9E';
+      case 'online': return STATUS_COLOR_VARS.success;
+      case 'busy': return STATUS_COLOR_VARS.error;
+      case 'away': return STATUS_COLOR_VARS.warning;
+      case 'offline': return STATUS_COLOR_VARS.neutral;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 
@@ -113,10 +114,10 @@ export class CollaborationDashboardComponent implements OnInit, OnDestroy {
 
   getPriorityColor(priority: string): string {
     switch (priority) {
-      case 'high': return '#F44336';
-      case 'medium': return '#FF9800';
-      case 'low': return '#4CAF50';
-      default: return '#9E9E9E';
+      case 'high': return STATUS_COLOR_VARS.error;
+      case 'medium': return STATUS_COLOR_VARS.warning;
+      case 'low': return STATUS_COLOR_VARS.success;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 
@@ -131,11 +132,11 @@ export class CollaborationDashboardComponent implements OnInit, OnDestroy {
 
   getDelegationStatusColor(status: string): string {
     switch (status) {
-      case 'pending': return '#FF9800';
-      case 'accepted': return '#2196F3';
-      case 'rejected': return '#F44336';
-      case 'completed': return '#4CAF50';
-      default: return '#9E9E9E';
+      case 'pending': return STATUS_COLOR_VARS.warning;
+      case 'accepted': return STATUS_COLOR_VARS.info;
+      case 'rejected': return STATUS_COLOR_VARS.error;
+      case 'completed': return STATUS_COLOR_VARS.success;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 

@@ -117,16 +117,16 @@
       }
 
       @if (isLoginMode && !isForgotMode) {
-        <div class="demo-login-container" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+        <div class="demo-login-container" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--neutral-200);">
           <button
             type="button"
             (click)="loginAsDemo()"
             [disabled]="isLoading"
-            style="width: 100%; padding: 12px; background: #7c3aed; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            style="width: 100%; padding: 12px; background: var(--primary-500); color: var(--text-primary); border: none; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;">
             <span>🚀</span>
             <span>Acessar Demonstração (Sem Senha)</span>
           </button>
-          <p style="text-align: center; font-size: 0.8rem; color: #666; margin-top: 8px;">
+          <p style="text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-top: 8px;">
             Acesso instantâneo ao portfólio completo
           </p>
         </div>

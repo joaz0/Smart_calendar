@@ -4,6 +4,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Habit, HabitCompletion, HabitStats } from '../../models/context/habit.model';
+import { MATERIAL_COLORS } from '../../../shared/tokens/color-tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class HabitTrackerService {
       goalCount: habit.goalCount,
       reminderTime: habit.reminderTime,
       icon: habit.icon || 'check_circle',
-      color: habit.color || '#4CAF50',
+      color: habit.color || MATERIAL_COLORS.green,
       createdAt: new Date(),
       streak: 0,
       bestStreak: 0,
@@ -226,7 +227,7 @@ export class HabitTrackerService {
         category: 'health',
         frequency: 'daily',
         icon: 'spa',
-        color: '#4CAF50',
+        color: MATERIAL_COLORS.green,
         createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
         streak: 5,
         bestStreak: 12,
@@ -241,7 +242,7 @@ export class HabitTrackerService {
         category: 'learning',
         frequency: 'daily',
         icon: 'menu_book',
-        color: '#2196F3',
+        color: MATERIAL_COLORS.blue,
         createdAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
         streak: 3,
         bestStreak: 18,
@@ -256,7 +257,7 @@ export class HabitTrackerService {
         category: 'health',
         frequency: 'daily',
         icon: 'fitness_center',
-        color: '#FF9800',
+        color: MATERIAL_COLORS.orange,
         createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000),
         streak: 2,
         bestStreak: 7,

@@ -92,7 +92,7 @@
   margin-bottom: var(--space-4);
 
   h1 {
-    color: #ffffff;
+    color: var(--text-primary);
     margin: var(--space-4) 0;
     font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: var(--font-bold);
@@ -110,7 +110,7 @@
 }
 
 .auth-subtitle {
-  color: #ffffff;
+  color: var(--text-primary);
   text-shadow: 0 2px 8px rgba(91, 11, 220, 0.8);
   margin: 0;
   font-size: clamp(var(--font-size-sm), 3vw, var(--font-size-base));
@@ -127,7 +127,7 @@
 
   label {
     @include mixins.form-label;
-    color: #ffffff;
+    color: var(--text-primary);
     font-weight: 600;
   }
 
@@ -137,7 +137,7 @@
       border: 2px solid var(--border-secondary);
       background: var(--surface-primary);
       backdrop-filter: blur(10px);
-      color: #ffffff;
+      color: var(--text-primary);
       font-size: 0.875rem;
       margin-top: 0.25rem;
       position: relative;
@@ -168,7 +168,7 @@
 }
 
 .error-message {
-  color: #e74c3c;
+  color: var(--error-500);
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
@@ -176,10 +176,10 @@
 .global-error {
   text-align: center;
   padding: 0.75rem;
-  background: #fee2e2;
+  background: var(--surface-danger-subtle);
   border-radius: 0.5rem;
-  border-left: 4px solid #ef4444;
-  color: #991b1b;
+  border-left: 4px solid var(--error-500);
+  color: var(--error-500);
 }
 
 .form-options {
@@ -204,7 +204,7 @@
     width: 18px;
     height: 18px;
     cursor: pointer;
-    border: 2px solid #d1d5db;
+    border: 2px solid var(--slate-300);
     border-radius: 4px;
 
     @media (pointer: coarse) {
@@ -224,7 +224,7 @@
   }
 
   span {
-    color: #e4e4e7;
+    color: var(--gray-300);
     font-size: var(--font-size-sm);
   }
 }
@@ -307,7 +307,7 @@
   }
 
   &:disabled {
-    background: #3d3d3d;
+    background: var(--neutral-800);
     cursor: not-allowed;
     opacity: 0.6;
     box-shadow: none;
@@ -350,7 +350,7 @@
   @include mixins.button-base;
   & {
     background: var(--surface-primary);
-    color: #ffffff;
+    color: var(--text-primary);
     border: 2px solid var(--border-primary);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -364,7 +364,7 @@
   &:hover:not(:disabled) {
     background: var(--surface-hover);
     border-color: var(--primary-500);
-    color: #ffffff;
+    color: var(--text-primary);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
@@ -389,7 +389,7 @@
 
   p {
     margin: 0;
-    color: #e4e4e7;
+    color: var(--gray-300);
     font-size: var(--font-size-sm);
   }
 }

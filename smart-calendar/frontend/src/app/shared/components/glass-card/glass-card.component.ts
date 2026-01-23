@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class GlassCardComponent {
   @Input() title?: string;
   @Input() icon?: string;
-  @Input() iconColor = '#a855f7';
+  @Input() iconColor = 'var(--accent-color)';
   @Input() hoverable = true;
   @Input() clickable = false;
   @Input() hasFooter = false;

@@ -1,3 +1,5 @@
+import { CATEGORY_COLORS } from '../shared/tokens/color-tokens';
+
 export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
@@ -48,13 +50,13 @@ export function generateColorPalette(baseColor: string, count = 5): string[] {
 
 export function getCategoryColor(category: string): string {
   const colors: Record<string, string> = {
-    work: '#3B82F6',
-    personal: '#10B981',
-    health: '#EF4444',
-    social: '#8B5CF6',
-    learning: '#F59E0B',
-    default: '#6B7280'
+    work: CATEGORY_COLORS.blue,
+    personal: CATEGORY_COLORS.green,
+    health: CATEGORY_COLORS.red,
+    social: CATEGORY_COLORS.violet,
+    learning: CATEGORY_COLORS.amber,
+    default: CATEGORY_COLORS.gray,
   };
-  
-  return colors[category.toLowerCase()] || colors['default'];
+
+  return colors[category.toLowerCase()] || colors.default;
 }

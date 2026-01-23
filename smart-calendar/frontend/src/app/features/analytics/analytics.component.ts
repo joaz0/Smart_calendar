@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { TimeAnalyticsService } from '../../core/services/visualization/time-analytics.service';
 import { TimeAnalytics } from '../../core/models/visualization/time-analytics.model';
+import { CHART_COLORS, CHART_SERIES_COLORS, STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 
 interface ChartData {
   labels: string[];
@@ -135,13 +136,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
           breakdown.personal,
           breakdown.other
         ],
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF'
-        ]
+        backgroundColor: [...CHART_SERIES_COLORS]
       }]
     };
   }
@@ -157,8 +152,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       datasets: [{
         label: 'Score de Produtividade',
         data: scores,
-        borderColor: '#36A2EB',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: CHART_COLORS.blue,
+        backgroundColor: CHART_COLORS.blueFill,
         borderWidth: 2
       }]
     };
@@ -177,12 +172,12 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         {
           label: 'Horas de Foco',
           data: focusHours,
-          backgroundColor: '#36A2EB'
+          backgroundColor: CHART_COLORS.blue
         },
         {
           label: 'Horas em Reuniões',
           data: meetingHours,
-          backgroundColor: '#FF6384'
+          backgroundColor: CHART_COLORS.pink
         }
       ]
     };
@@ -215,9 +210,9 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   }
 
   getProductivityColor(score: number): string {
-    if (score >= 80) return '#4CAF50';
-    if (score >= 60) return '#FF9800';
-    return '#F44336';
+    if (score >= 80) return STATUS_COLOR_VARS.success;
+    if (score >= 60) return STATUS_COLOR_VARS.warning;
+    return STATUS_COLOR_VARS.error;
   }
 
   getTrendIcon(direction: 'up' | 'down' | 'stable'): string {
@@ -230,9 +225,9 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
 
   getTrendColor(direction: 'up' | 'down' | 'stable'): string {
     switch (direction) {
-      case 'up': return '#4CAF50';
-      case 'down': return '#F44336';
-      default: return '#9E9E9E';
+      case 'up': return STATUS_COLOR_VARS.success;
+      case 'down': return STATUS_COLOR_VARS.error;
+      default: return STATUS_COLOR_VARS.neutral;
     }
   }
 

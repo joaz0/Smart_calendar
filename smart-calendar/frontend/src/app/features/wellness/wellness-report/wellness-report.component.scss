@@ -153,11 +153,11 @@
       .breaks-count {
         font-size: 20px;
         font-weight: 700;
-        color: #4CAF50;
+        color: var(--success-500);
         margin-bottom: 4px;
 
         &.below-recommended {
-          color: #F44336;
+          color: var(--error-500);
         }
       }
 

@@ -10,6 +10,7 @@ import { MonthViewComponent } from '../month-view/month-view.component';
 import { WeekViewComponent } from '../week-view/week-view.component';
 import { DayViewComponent } from '../day-view/day-view.component';
 import { CalendarEvent } from '@shared/types/dto';
+import { CATEGORY_COLORS } from '../../../shared/tokens/color-tokens';
 
 
 @Component({
@@ -35,8 +36,8 @@ export class CalendarComponent {
   selectedDate = new Date();
   filteredEvents: CalendarEvent[] = [];
   categories: { name: string; color: string; visible: boolean }[] = [
-    { name: 'Trabalho', color: '#3B82F6', visible: true },
-    { name: 'Pessoal', color: '#10B981', visible: true }
+    { name: 'Trabalho', color: CATEGORY_COLORS.blue, visible: true },
+    { name: 'Pessoal', color: CATEGORY_COLORS.green, visible: true }
   ];
 
   previousPeriod(): void {

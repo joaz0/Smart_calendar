@@ -5,7 +5,7 @@
       Pomodoro Timer
     </h2>
     <div class="session-counter">
-      <mat-chip [style.background-color]="'#E91E63'" style="color: white;">
+      <mat-chip [style.background-color]="'var(--accent-color)'" style="color: white;">
         <mat-icon>check_circle</mat-icon>
         {{sessionsCompleted}} / {{settings?.sessionsBeforeLongBreak || 4}}
       </mat-chip>
@@ -24,8 +24,8 @@
         <div class="stats-row">
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #FCE4EC;">
-                <mat-icon style="color: #E91E63;">event_available</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-accent-subtle);">
+                <mat-icon style="color: var(--accent-color);">event_available</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.todaySessions}}</div>
@@ -35,8 +35,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #E3F2FD;">
-                <mat-icon style="color: #2196F3;">schedule</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-info-subtle);">
+                <mat-icon style="color: var(--info-500);">schedule</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{getTotalHours(stats.totalWorkTime)}}h</div>
@@ -46,8 +46,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #E8F5E9;">
-                <mat-icon style="color: #4CAF50;">done_all</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-success-subtle);">
+                <mat-icon style="color: var(--success-500);">done_all</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.completedSessions}}</div>
@@ -57,8 +57,8 @@
           </mat-card>
           <mat-card class="stat-card">
             <mat-card-content>
-              <div class="stat-icon" style="background-color: #FFF3E0;">
-                <mat-icon style="color: #FF9800;">local_fire_department</mat-icon>
+              <div class="stat-icon" style="background-color: var(--surface-warning-subtle);">
+                <mat-icon style="color: var(--warning-500);">local_fire_department</mat-icon>
               </div>
               <div class="stat-info">
                 <div class="stat-value">{{stats.currentStreak}}</div>
@@ -105,7 +105,7 @@
                 <div class="circular-timer">
                   <svg width="280" height="280" viewBox="0 0 280 280">
                     <circle cx="140" cy="140" r="130"
-                      stroke="#e0e0e0"
+                      stroke="var(--placeholder-border)"
                       stroke-width="16"
                       fill="none"/>
                     <circle cx="140" cy="140" r="130"

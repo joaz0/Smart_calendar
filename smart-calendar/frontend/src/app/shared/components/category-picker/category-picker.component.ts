@@ -6,6 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
 import { Subject } from 'rxjs';
+import { CATEGORY_COLOR_OPTIONS, DEFAULT_CATEGORY_COLORS } from '../../tokens/color-tokens';
 
 
 interface Category {
@@ -61,7 +62,7 @@ export class CategoryPickerComponent implements ControlValueAccessor, OnInit, On
   editingCategory: Category | null = null;
   categoryName = '';
   categoryDescription = '';
-  selectedColor = '#3b82f6';
+  selectedColor = DEFAULT_CATEGORY_COLORS.work;
   selectedIcon = 'folder';
 
   // Validação
@@ -72,24 +73,7 @@ export class CategoryPickerComponent implements ControlValueAccessor, OnInit, On
   highlightedIndex = -1;
 
   // Paleta de cores expandida
-  colorPalette = [
-    { name: 'Azul', value: '#3b82f6' },
-    { name: 'Azul Claro', value: '#06b6d4' },
-    { name: 'Verde', value: '#10b981' },
-    { name: 'Verde Lima', value: '#84cc16' },
-    { name: 'Vermelho', value: '#ef4444' },
-    { name: 'Rosa', value: '#ec4899' },
-    { name: 'Laranja', value: '#f97316' },
-    { name: 'Amarelo', value: '#eab308' },
-    { name: 'Roxo', value: '#8b5cf6' },
-    { name: 'Violeta', value: '#a855f7' },
-    { name: 'Índigo', value: '#6366f1' },
-    { name: 'Ciano', value: '#14b8a6' },
-    { name: 'Slate', value: '#64748b' },
-    { name: 'Cinza', value: '#6b7280' },
-    { name: 'Neutro', value: '#737373' },
-    { name: 'Pedra', value: '#78716c' }
-  ];
+  colorPalette = CATEGORY_COLOR_OPTIONS;
 
   // Ícones disponíveis
   availableIcons = [
@@ -104,7 +88,7 @@ export class CategoryPickerComponent implements ControlValueAccessor, OnInit, On
     {
       id: 'work',
       name: 'Trabalho',
-      color: '#3b82f6',
+      color: DEFAULT_CATEGORY_COLORS.work,
       icon: 'work',
       count: 0,
       isDefault: true,
@@ -113,7 +97,7 @@ export class CategoryPickerComponent implements ControlValueAccessor, OnInit, On
     {
       id: 'personal',
       name: 'Pessoal',
-      color: '#10b981',
+      color: DEFAULT_CATEGORY_COLORS.personal,
       icon: 'home',
       count: 0,
       isDefault: true,
@@ -122,7 +106,7 @@ export class CategoryPickerComponent implements ControlValueAccessor, OnInit, On
     {
       id: 'health',
       name: 'Saúde',
-      color: '#ef4444',
+      color: DEFAULT_CATEGORY_COLORS.health,
       icon: 'local_hospital',
       count: 0,
       isDefault: true,
@@ -131,7 +115,7 @@ export class CategoryPickerComponent implements ControlValueAccessor, OnInit, On
     {
       id: 'education',
       name: 'Educação',
-      color: '#f59e0b',
+      color: DEFAULT_CATEGORY_COLORS.education,
       icon: 'school',
       count: 0,
       isDefault: true,

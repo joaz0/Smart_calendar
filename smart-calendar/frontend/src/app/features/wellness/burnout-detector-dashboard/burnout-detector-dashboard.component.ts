@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { STATUS_COLOR_VARS } from '../../../shared/tokens/color-tokens';
 
 interface Analysis {
   riskLevel: string;
@@ -16,7 +17,7 @@ interface Analysis {
 export class BurnoutDetectorDashboardComponent {
   analysis: Analysis | null = null;
 
-  getRiskColor(): string { return '#ff0000'; }
+  getRiskColor(): string { return STATUS_COLOR_VARS.error; }
   getRiskLabel(): string { return 'Alto'; }
   analyze(): void { 
     console.log('Analyzing burnout risk');

@@ -23,7 +23,7 @@
   .title-section {
     h1 {
       margin: 0 0 0.5rem 0;
-      color: var(--primary-color, #1976d2);
+      color: var(--primary-color);
       font-size: 2rem;
       display: flex;
       align-items: center;
@@ -36,7 +36,7 @@
     }
     
     p {
-      color: var(--text-secondary, #666);
+      color: var(--text-secondary);
       margin: 0;
     }
   }
@@ -86,7 +86,7 @@
 .loading-state, .empty-state {
   text-align: center;
   padding: 3rem;
-  color: var(--text-secondary, #666);
+  color: var(--text-secondary);
   
   mat-icon {
     font-size: 64px;
@@ -96,7 +96,7 @@
   
   h3 {
     margin: 1rem 0 0.5rem 0;
-    color: var(--text-primary, #333);
+    color: var(--text-primary);
   }
   
   p {
@@ -121,7 +121,7 @@
   
   &.completed {
     opacity: 0.7;
-    border-left-color: #4caf50;
+    border-left-color: var(--success-500);
     
     .task-content {
       .task-header h3,
@@ -132,7 +132,7 @@
   }
   
   &.overdue {
-    border-left-color: #f44336;
+    border-left-color: var(--error-500);
     background-color: rgba(244, 67, 54, 0.02);
   }
   
@@ -162,10 +162,10 @@
         h3 {
           margin: 0;
           font-size: 1.1rem;
-          color: var(--text-primary, #333);
+          color: var(--text-primary);
           
           &.completed-text {
-            color: var(--text-secondary, #666);
+            color: var(--text-secondary);
           }
         }
         
@@ -181,8 +181,8 @@
           }
           
           .category-chip {
-            background-color: #e3f2fd;
-            color: #1976d2;
+            background-color: var(--badge-meeting-bg);
+            color: var(--badge-meeting-fg);
             font-size: 0.75rem;
           }
         }
@@ -193,7 +193,7 @@
         
         p {
           margin: 0;
-          color: var(--text-secondary, #666);
+          color: var(--text-secondary);
           font-size: 0.9rem;
           line-height: 1.4;
           
@@ -214,18 +214,18 @@
           align-items: center;
           gap: 0.25rem;
           font-size: 0.9rem;
-          color: var(--text-secondary, #666);
+          color: var(--text-secondary);
           
           mat-icon {
             font-size: 18px;
             
             &.overdue-icon {
-              color: #f44336;
+              color: var(--error-500);
             }
           }
           
           .overdue-text {
-            color: #f44336;
+            color: var(--error-500);
             font-weight: 500;
           }
         }
@@ -236,8 +236,8 @@
           flex-wrap: wrap;
           
           .tag-chip {
-            background-color: #f5f5f5;
-            color: var(--text-secondary, #666);
+            background-color: var(--placeholder-surface);
+            color: var(--text-secondary);
             font-size: 0.7rem;
             padding: 0.2rem 0.4rem;
           }
@@ -253,10 +253,10 @@
 }
 
 .delete-option {
-  color: #f44336 !important;
+  color: var(--error-500) !important;
   
   mat-icon {
-    color: #f44336 !important;
+    color: var(--error-500) !important;
   }
 }
 
