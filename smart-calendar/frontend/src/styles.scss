@@ -1,5 +1,6 @@
 // 1. Configuração do Angular Material Customizado + Design System
 @use '@angular/material' as mat;
+@use '@angular/material/core/m2' as matm;
 @use 'assets/styles/tokens'; // Carrega as variáveis CSS oficiais
 @use 'assets/styles/variables';
 @use 'assets/styles/contrast-improvements';
@@ -39,18 +40,18 @@ $custom-purple-palette: (
 );
 
 // Configure as cores do tema usando sua paleta
-$my-primary: mat.define-palette($custom-purple-palette, 500);
-$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-$my-warn: mat.define-palette(mat.$red-palette);
+$my-primary: matm.define-palette($custom-purple-palette, 500);
+$my-accent: matm.define-palette(matm.$pink-palette, A200, A100, A400);
+$my-warn: matm.define-palette(matm.$red-palette);
 
 // Cria o tema Dark
-$my-theme: mat.define-dark-theme((
+$my-theme: matm.define-dark-theme((
   color: (
     primary: $my-primary,
     accent: $my-accent,
     warn: $my-warn,
   ),
-  typography: mat.define-typography-config(),
+  typography: matm.define-typography-config(),
   density: 0
 ));
 

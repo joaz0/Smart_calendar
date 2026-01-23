@@ -1,20 +1,46 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AppComponent } from './app.component';
 import { LoadingService } from './core/services/loading.service';
-import { NotificationService } from './core/services/notification.service';
+import { NotificationService, Notification } from './core/services/notification.service';
 import { ThemeService } from './core/services/theme.service';
-import { ApiMapperInitService } from './core/services/api-mapper-init.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
+  let loadingServiceMock: { isLoading$: BehaviorSubject<boolean> };
+  let notificationServiceMock: {
+    notifications$: Observable<Notification[]>;
+    markAsRead: jasmine.Spy;
+    initializeNotifications: jasmine.Spy;
+  };
+  let themeServiceMock: {
+    isDarkMode$: Observable<boolean>;
+    initializeTheme: jasmine.Spy;
+  };
+
   beforeEach(async () => {
+    loadingServiceMock = {
+      isLoading$: new BehaviorSubject(false)
+    };
+
+    const notificationSubject = new BehaviorSubject<Notification[]>([]);
+    notificationServiceMock = {
+      notifications$: notificationSubject.asObservable(),
+      markAsRead: jasmine.createSpy('markAsRead'),
+      initializeNotifications: jasmine.createSpy('initializeNotifications')
+    };
+
+    themeServiceMock = {
+      isDarkMode$: of(false),
+      initializeTheme: jasmine.createSpy('initializeTheme')
+    };
+
     await TestBed.configureTestingModule({
       imports: [AppComponent, BrowserAnimationsModule],
       providers: [
-        { provide: LoadingService, useValue: { isLoading$: { subscribe: () => { /* Mock vazio */ } } } },
-        { provide: NotificationService, useValue: { initializeNotifications: () => { /* Mock vazio */ } } },
-        { provide: ThemeService, useValue: { initializeTheme: () => { /* Mock vazio */ } } },
-        { provide: ApiMapperInitService, useValue: {} }
+        { provide: LoadingService, useValue: loadingServiceMock },
+        { provide: NotificationService, useValue: notificationServiceMock },
+        { provide: ThemeService, useValue: themeServiceMock }
       ]
     }).compileComponents();
   });

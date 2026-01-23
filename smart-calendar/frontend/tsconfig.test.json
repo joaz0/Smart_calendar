@@ -1,0 +1,49 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": [
+        "shared/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "strict": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": false,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "types": [
+      "jasmine"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [
+    "src/test.ts"
+  ],
+  "include": [
+    "src/test.ts",
+    "src/app/app.component.ts",
+    "src/app/app.spec.ts",
+    "src/app/core/services/loading.service.ts",
+    "src/app/core/services/notification.service.ts",
+    "src/app/core/services/theme.service.ts",
+    "src/app/shared/components/loading-spinner/loading-spinner.component.ts",
+    "src/environments/environment.ts"
+  ],
+  "exclude": [
+    "src/**/*.backup.*/**"
+  ]
+}

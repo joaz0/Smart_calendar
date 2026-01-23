@@ -1,0 +1,54 @@
+<!-- Demo Mode Banner -->
+<div
+  *ngIf="isDemo"
+  style="background: var(--warning-500); color: var(--neutral-900); text-align: center; padding: 4px; font-weight: bold; font-size: 12px;"
+>
+  ⚠️ MODO DEMONSTRAÇÃO - DADOS FICTÍCIOS
+</div>
+
+<!-- App Container -->
+<div class="app-container" [class.dark-theme]="isDarkTheme">
+  <router-outlet></router-outlet>
+
+  <!-- Global Loading Indicator -->
+  <div *ngIf="isGlobalLoading" class="global-loading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div *ngIf="toastNotifications.length > 0" class="toast-container">
+    <div
+      class="toast-notification"
+      *ngFor="let notification of toastNotifications; trackBy: trackByNotification"
+      [ngClass]="'toast-' + notification.type"
+      [@slideInOut]
+    >
+      <mat-icon class="toast-icon">{{ getNotificationIcon(notification.type) }}</mat-icon>
+      <div class="toast-content">
+        <div class="toast-title">{{ notification.title }}</div>
+        <div class="toast-message">{{ notification.message }}</div>
+      </div>
+      <button mat-icon-button (click)="dismissNotification(notification.id)" class="toast-close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- PWA Update Available -->
+  <div *ngIf="showPwaUpdate" class="pwa-update-banner" [@slideInOut]>
+    <div class="update-content">
+      <mat-icon>system_update</mat-icon>
+      <span>Nova versão disponível!</span>
+    </div>
+    <div class="update-actions">
+      <button mat-button (click)="dismissPwaUpdate()">Depois</button>
+      <button mat-raised-button color="primary" (click)="updatePwa()">Atualizar</button>
+    </div>
+  </div>
+
+  <!-- Offline Indicator -->
+  <div *ngIf="!isOnline" class="offline-indicator" [@slideInOut]>
+    <mat-icon>cloud_off</mat-icon>
+    <span>Você está offline. Algumas funcionalidades podem estar limitadas.</span>
+  </div>
+</div>
