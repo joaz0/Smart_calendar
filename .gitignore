@@ -20,8 +20,6 @@ build/
 
 # IDE
 .vscode/
-.amazonq/
-.amazonq/rules/
 .idea/
 *.swp
 *.swo
