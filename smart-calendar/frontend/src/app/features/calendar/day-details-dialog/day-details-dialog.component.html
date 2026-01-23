@@ -67,8 +67,8 @@
                     }
                     @if (event.category) {
                       <span class="event-category">
-                        <span class="category-dot" [style.background-color]="event.category.color"></span>
-                        {{ event.category.name }}
+                        <span class="category-dot" [style.background-color]="event.category?.color"></span>
+                        {{ event.category?.name || 'Outro' }}
                       </span>
                     }
                   </div>

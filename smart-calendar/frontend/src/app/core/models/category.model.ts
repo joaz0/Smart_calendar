@@ -1,9 +1,11 @@
-export interface Category {
-  id: string;
+import { Entity } from './common-interfaces';
+
+export interface Category extends Entity {
   name: string;
   color: string;
+  icon?: string;
   description?: string;
-  createdBy: string;
-  createdAt: Date;
-  updatedAt: Date;
+  isDefault?: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 }

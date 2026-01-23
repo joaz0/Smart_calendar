@@ -299,7 +299,8 @@ export class MonthViewComponent implements OnInit, OnDestroy {
   }
 
   trackByEvent(index: number, event: CalendarEvent): string {
-    return event?.id || index.toString();
+    const id = event?.id ?? index;
+    return String(id);
   }
 
   trackByTask(index: number, task: Task): string {

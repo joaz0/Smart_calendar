@@ -2,16 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CategoryApiService } from '../../../core/services/category-api.service';
+import { Category as CoreCategory } from '../../../core/models/category.model';
 
-export interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  color?: string;
-  icon?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type Category = CoreCategory;
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {

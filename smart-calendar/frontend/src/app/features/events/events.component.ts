@@ -16,7 +16,7 @@ import { Event } from '../../core/models/event.model';
 import { MATERIAL_COLORS, STATUS_COLOR_VARS } from '../../shared/tokens/color-tokens';
 
 type EventItem = Omit<Partial<Event>, 'category'> & {
-  id: string;
+  id: string | number;
   title: string;
   category?: Event['category'] | string;
   attendees?: string[];
@@ -152,32 +152,29 @@ export class EventsComponent implements OnInit, OnDestroy {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     switch (this.selectedFilter) {
-      case 'today':
-      {
+      case 'today': {
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
         filtered = filtered.filter((event) => {
-          const startDate = event.startDate;
+          const startDate = this.parseDate(event.startDate);
           return startDate ? startDate >= today && startDate < tomorrow : false;
         });
         break;
       }
-      case 'week':
-      {
+      case 'week': {
         const weekEnd = new Date(today);
         weekEnd.setDate(weekEnd.getDate() + 7);
         filtered = filtered.filter((event) => {
-          const startDate = event.startDate;
+          const startDate = this.parseDate(event.startDate);
           return startDate ? startDate >= today && startDate < weekEnd : false;
         });
         break;
       }
-      case 'month':
-      {
+      case 'month': {
         const monthEnd = new Date(today);
         monthEnd.setMonth(monthEnd.getMonth() + 1);
         filtered = filtered.filter((event) => {
-          const startDate = event.startDate;
+          const startDate = this.parseDate(event.startDate);
           return startDate ? startDate >= today && startDate < monthEnd : false;
         });
         break;
@@ -186,8 +183,8 @@ export class EventsComponent implements OnInit, OnDestroy {
 
     // Ordenar por data
     filtered.sort((a, b) => {
-      const startA = a.startDate?.getTime() ?? 0;
-      const startB = b.startDate?.getTime() ?? 0;
+      const startA = this.parseDate(a.startDate)?.getTime() ?? 0;
+      const startB = this.parseDate(b.startDate)?.getTime() ?? 0;
       return startA - startB;
     });
 
@@ -239,8 +236,10 @@ export class EventsComponent implements OnInit, OnDestroy {
 
   getEventStatus(evt: EventItem): string {
     const now = new Date();
-    if (evt.endDate && evt.endDate < now) return 'past';
-    if (evt.startDate && evt.endDate && evt.startDate <= now && evt.endDate >= now) return 'ongoing';
+    const startDate = this.parseDate(evt.startDate);
+    const endDate = this.parseDate(evt.endDate);
+    if (endDate && endDate < now) return 'past';
+    if (startDate && endDate && startDate <= now && endDate >= now) return 'ongoing';
     return 'upcoming';
   }
 
@@ -276,9 +275,10 @@ export class EventsComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatDateTime(date?: Date): string {
-    if (!date) return '';
-    return date.toLocaleString('pt-BR', {
+  formatDateTime(date?: Date | string): string {
+    const parsed = this.parseDate(date);
+    if (!parsed) return '';
+    return parsed.toLocaleString('pt-BR', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -287,12 +287,18 @@ export class EventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  formatTime(date?: Date): string {
-    if (!date) return '';
-    return date.toLocaleTimeString('pt-BR', {
+  formatTime(date?: Date | string): string {
+    const parsed = this.parseDate(date);
+    if (!parsed) return '';
+    return parsed.toLocaleTimeString('pt-BR', {
       hour: '2-digit',
       minute: '2-digit'
     });
+  }
+
+  private parseDate(value?: Date | string | null): Date | null {
+    if (!value) return null;
+    return typeof value === 'string' ? new Date(value) : value;
   }
 }
 

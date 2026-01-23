@@ -11,6 +11,12 @@ export type AnyObject = Record<string, unknown>;
 export type AnyFunction = (...args: unknown[]) => unknown;
 export type AnyArray = unknown[];
 
+export interface Entity {
+  id: string | number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+}
+
 // ============================================
 // HTTP & API
 // ============================================

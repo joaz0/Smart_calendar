@@ -1,14 +1,14 @@
+import { Entity } from './common-interfaces';
 import { Recurrence } from './recurrence.model';
 import { Category } from './category.model';
 import { Reminder } from './notification.model';
 
-export interface Event {
-  id: string;
+export interface CalendarEvent extends Entity {
   title: string;
   description?: string;
-  startDate?: Date;
-  endDate?: Date;
-  allDay: boolean;
+  startDate: Date | string;
+  endDate: Date | string;
+  allDay?: boolean;
   location?: string;
   url?: string;
   color?: string;
@@ -16,10 +16,9 @@ export interface Event {
   category?: Category;
   reminders?: Reminder[];
   participants?: string[];
-  createdBy: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
-// Alias para compatibilidade com imports antigos
-export type CalendarEvent = Event;
+// Alias para compatibilidade com importações antigas
+export type Event = CalendarEvent;
