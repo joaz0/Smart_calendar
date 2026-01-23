@@ -63,7 +63,7 @@
     justify-content: flex-start;
     gap: var(--space-3);
     padding: var(--space-4);
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(91, 11, 220, 0.85) 100%);
+    background: var(--gradient-card);
     border: 2px solid transparent;
     background-origin: border-box;
     background-clip: padding-box, border-box;

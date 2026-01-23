@@ -115,17 +115,17 @@ $breakpoints: (
 
 // Glass card
 @mixin glass-card {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(91, 11, 220, 0.85) 100%);
-  border: 1px solid rgba(42, 0, 255, 0.3);
+  background: var(--gradient-card);
+  border: 1px solid var(--border-primary);
   border-radius: clamp(12px, 2vw, 16px);
   backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 30px rgba(91, 11, 220, 0.5);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
   transition: all 0.25s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), 0 0 40px rgba(91, 11, 220, 0.6);
-    border-color: #5b0bdc;
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+    border-color: var(--primary-500);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -168,14 +168,14 @@ $breakpoints: (
 @mixin btn-primary {
   @include btn-base;
   & {
-    background: linear-gradient(135deg, #5b0bdc 0%, #8b3dff 100%);
+    background: var(--gradient-button);
     color: white;
-    box-shadow: 0 4px 16px rgba(91, 11, 220, 0.3);
+    box-shadow: var(--shadow-md);
   }
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(91, 11, 220, 0.5);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
   }
 
   &:active:not(:disabled) {
@@ -192,7 +192,7 @@ $breakpoints: (
   }
 
   &:hover:not(:disabled) {
-    background: rgba(91, 11, 220, 0.1);
+    background: var(--surface-hover);
     border-color: var(--primary-300);
   }
 }
@@ -205,7 +205,7 @@ $breakpoints: (
   }
 
   &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface-glass);
     color: var(--text-primary);
   }
 }
@@ -213,8 +213,8 @@ $breakpoints: (
 // Input
 @mixin input-glow {
   width: 100%;
-  background: rgba(18, 0, 119, 0.4);
-  border: 2px solid rgba(42, 0, 255, 0.3);
+  background: var(--surface-primary);
+  border: 2px solid var(--border-primary);
   border-radius: clamp(8px, 1.5vw, 12px);
   padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
   color: var(--text-primary);
@@ -224,12 +224,12 @@ $breakpoints: (
   &:focus {
     outline: none;
     border-color: var(--primary-500);
-    box-shadow: 0 0 0 4px rgba(91, 11, 220, 0.2);
-    background: rgba(18, 0, 119, 0.6);
+    box-shadow: 0 0 0 4px var(--border-secondary);
+    background: var(--surface-secondary);
   }
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-tertiary);
   }
 
   &:disabled {
@@ -258,7 +258,7 @@ $breakpoints: (
 }
 
 // Scrollbar
-@mixin custom-scrollbar($width: 8px, $track-color: rgba(10, 0, 89, 0.3), $thumb-color: var(--primary-500)) {
+@mixin custom-scrollbar($width: 8px, $track-color: var(--surface-secondary), $thumb-color: var(--primary-500)) {
   scrollbar-width: thin;
   scrollbar-color: $thumb-color $track-color;
 
@@ -286,9 +286,9 @@ $breakpoints: (
 @mixin skeleton {
   background: linear-gradient(
     90deg,
-    rgba(18, 0, 119, 0.4) 25%,
-    rgba(91, 11, 220, 0.2) 50%,
-    rgba(18, 0, 119, 0.4) 75%
+    var(--surface-primary) 25%,
+    var(--surface-hover) 50%,
+    var(--surface-primary) 75%
   );
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;

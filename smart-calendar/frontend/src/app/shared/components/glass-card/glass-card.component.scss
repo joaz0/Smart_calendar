@@ -1,15 +1,15 @@
 .glass-card {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(91, 11, 220, 0.85) 100%);
-  border: 1px solid rgba(42, 0, 255, 0.3);
+  background: var(--gradient-card);
+  border: 1px solid var(--border-primary);
   border-radius: clamp(12px, 2vw, 16px);
   backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 30px rgba(91, 11, 220, 0.5);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
   transition: all 0.25s ease;
 
   &.hoverable:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), 0 0 40px rgba(91, 11, 220, 0.6);
-    border-color: #5b0bdc;
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+    border-color: var(--primary-500);
   }
 
   &.clickable {
@@ -35,13 +35,13 @@
   align-items: center;
   gap: clamp(0.5rem, 1.5vw, 0.75rem);
   padding: clamp(0.75rem, 2vw, 1rem);
-  border-bottom: 1px solid rgba(42, 0, 255, 0.3);
+  border-bottom: 1px solid var(--border-primary);
 
   h3 {
     flex: 1;
     margin: 0;
     font-size: clamp(1rem, 2.5vw, 1.125rem);
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--text-primary);
     font-weight: 600;
   }
 
@@ -58,7 +58,7 @@
 
 .card-footer {
   padding: clamp(0.75rem, 2vw, 1rem);
-  border-top: 1px solid rgba(42, 0, 255, 0.3);
+  border-top: 1px solid var(--border-primary);
 }
 
 @media (max-width: 767px) {
