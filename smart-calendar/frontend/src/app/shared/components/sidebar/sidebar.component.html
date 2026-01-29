@@ -1,73 +1,30 @@
 <div class="sidebar-container" [class.collapsed]="isCollapsed">
-  <nav class="activity-bar">
-    <div class="activity-top">
-      <button
-        *ngFor="let tab of tabs"
-        [class.active]="activeTab === tab.id"
-        (click)="setActiveTab(tab.id)"
-        [attr.aria-pressed]="activeTab === tab.id"
-        type="button"
-        [title]="tab.label">
-        <mat-icon>{{ tab.icon }}</mat-icon>
-      </button>
-    </div>
+  <div class="sidebar-header">
+    <span class="sidebar-title">Smart Calendar</span>
+  </div>
 
-    <div class="activity-bottom">
-      <button (click)="toggleCollapse()" type="button" title="Alternar sidebar">
-        <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
-      </button>
-      <button type="button" title="Configurações">
-        <mat-icon>settings</mat-icon>
-      </button>
-    </div>
+  <nav class="sidebar-nav">
+    <button
+      class="nav-item"
+      *ngFor="let tab of tabs"
+      [class.active]="activeTab === tab.id"
+      (click)="setActiveTab(tab.id)"
+      [attr.aria-pressed]="activeTab === tab.id"
+      type="button"
+      [title]="tab.label">
+      <mat-icon>{{ tab.icon }}</mat-icon>
+      <span>{{ tab.label }}</span>
+    </button>
   </nav>
 
-  <aside class="side-panel" *ngIf="!isCollapsed">
-    <div class="panel-header">
-      <span class="panel-title">{{ getActiveLabel() | uppercase }}</span>
-      <div class="panel-actions">
-        <button type="button" title="Novo item"><mat-icon>add</mat-icon></button>
-        <button type="button" title="Colapsar tudo"><mat-icon>indeterminate_check_box</mat-icon></button>
-      </div>
-    </div>
-
-    <div class="panel-content scrollbar-hide">
-      <ng-container *ngIf="activeTab === 'calendar'">
-        <div class="tree-item folder open">
-          <div class="tree-header">
-            <mat-icon>expand_more</mat-icon> 📂 2026
-          </div>
-          <div class="tree-children">
-            <div class="tree-item file active">
-              <mat-icon>event</mat-icon> Janeiro
-            </div>
-            <div class="tree-item file">
-              <mat-icon>event</mat-icon> Fevereiro
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="activeTab === 'projects'">
-        <div class="tree-item folder">
-          <div class="tree-header">
-            <mat-icon>chevron_right</mat-icon> 🚀 Projeto Alpha
-          </div>
-        </div>
-        <div class="tree-item folder open">
-          <div class="tree-header">
-            <mat-icon>expand_more</mat-icon> 📝 Pessoal
-          </div>
-          <div class="tree-children">
-            <div class="tree-item file">
-              <span class="dot high-priority"></span> Comprar Ração
-            </div>
-            <div class="tree-item file">
-              <span class="dot medium-priority"></span> Pagar Internet
-            </div>
-          </div>
-        </div>
-      </ng-container>
-    </div>
-  </aside>
+  <div class="sidebar-footer">
+    <button class="nav-item" (click)="toggleCollapse()" type="button" title="Alternar sidebar">
+      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      <span>{{ isCollapsed ? 'Expandir' : 'Recolher' }}</span>
+    </button>
+    <button class="nav-item" type="button" title="Configurações">
+      <mat-icon>settings</mat-icon>
+      <span>Configurações</span>
+    </button>
+  </div>
 </div>

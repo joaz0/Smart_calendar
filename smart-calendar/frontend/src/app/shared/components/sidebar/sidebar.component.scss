@@ -1,180 +1,196 @@
-@use 'sass:color';
-
-$bg-activity-bar: var(--surface-primary);
-$bg-side-panel: var(--surface-secondary);
-$text-color: var(--gray-300);
-$accent-color: var(--primary-color);
-$hover-bg: var(--surface-glass);
-$border-color: var(--border-primary);
+// Variáveis locais para controle total da forma
+$border-radius-container: 32px; // Arredondamento extremo do container
+$border-radius-item: 24px;      // Arredondamento extremo dos botões
+$spacing: 16px;                 // Espaçamento para criar a sensação de "estrutura flutuante"
 
 :host {
   display: block;
   height: 100%;
-  flex-shrink: 0;
+  padding: $spacing; // Cria espaço ao redor da sidebar para ela não colar na tela
+  box-sizing: border-box;
 }
 
 .sidebar-container {
-  display: flex;
+  // ESTRUTURA E FORMA (Sem cores fortes)
+  background: var(--surface-card, #ffffff); // Fundo neutro
   height: 100%;
-  background: $bg-side-panel;
-  transition: width 0.3s ease;
+  width: 260px; // Largura fixa ou ajustável
+  border-radius: $border-radius-container; // ARREDONDAMENTO MÁXIMO GLOBAL
 
-  &.collapsed {
-    .side-panel {
-      display: none;
-    }
-  }
-}
+  // Apenas sombras suaves para profundidade, sem cores berrantes
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03); // Borda ultra sutil apenas para estrutura
 
-.activity-bar {
-  width: 52px;
-  background-color: $bg-activity-bar;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  border-right: 1px solid $border-color;
-  z-index: 1;
-
-  button {
-    width: 52px;
-    height: 52px;
-    background: transparent;
-    border: none;
-    color: rgba($text-color, 0.6);
-    font-size: 1.2rem;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
-
-    &:hover {
-      color: var(--text-primary);
-      background-color: $hover-bg;
-    }
-
-    &.active {
-      color: var(--text-primary);
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 2px;
-        background-color: $accent-color;
-      }
-    }
-
-    mat-icon {
-      font-size: 22px;
-    }
-  }
-
-  .activity-top,
-  .activity-bottom {
-    display: flex;
-    flex-direction: column;
-  }
+  overflow: hidden; // Garante que nada saia das bordas redondas
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.side-panel {
-  width: 260px;
-  background-color: $bg-side-panel;
-  border-right: 1px solid $border-color;
-  display: flex;
-  flex-direction: column;
+// Estado colapsado: compacto e sem textos
+.sidebar-container.collapsed {
+  width: 88px;
 }
 
-.panel-header {
-  padding: 0 16px;
-  height: 52px;
+.sidebar-container.collapsed .sidebar-header,
+.sidebar-container.collapsed .sidebar-footer {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.sidebar-container.collapsed .nav-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar-container.collapsed .nav-item span {
+  display: none;
+}
+
+.sidebar-container.collapsed .nav-item i,
+.sidebar-container.collapsed .nav-item mat-icon {
+  margin-right: 0;
+}
+
+// Cabeçalho da Sidebar (Logo/Título)
+.sidebar-header {
+  padding: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: rgba($text-color, 0.7);
-  text-transform: uppercase;
+  justify-content: center;
 
-  .panel-actions button {
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    margin-left: 8px;
+  // Remove qualquer estilo de "barra de título" de IDE
+  border-bottom: none;
+}
 
-    &:hover {
-      color: var(--text-primary);
-    }
+// Área de navegação
+.sidebar-nav {
+  flex: 1;
+  padding: 0 12px; // Espaço lateral interno
+  overflow-y: auto;
+
+  // Esconder scrollbar para manter o visual limpo
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
   }
 }
 
-.panel-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 0;
+// Categorias/Grupos (se houver)
+.nav-group-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary, #999);
+  margin: 24px 12px 12px;
+  font-weight: 600;
+  opacity: 0.6;
 }
 
-.tree-item {
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 0.9rem;
-  color: $text-color;
+// O BOTÃO / ITEM DO MENU
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  margin-bottom: 8px;
+
+  // ARREDONDAMENTO MÁXIMO NOS ITENS
+  border-radius: $border-radius-item;
+
+  // Tipografia limpa
+  color: var(--text-primary, #333);
+  font-weight: 500;
+  text-decoration: none;
   cursor: pointer;
 
-  .tree-header,
-  .tree-item.file {
-    padding: 6px 16px;
+  // Transições suaves de forma
+  transition: all 0.2s ease;
+
+  // Ícones
+  i, mat-icon {
+    margin-right: 16px;
+    font-size: 20px;
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+  }
+
+  // HOVER: Apenas uma mudança sutil de fundo
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03); // Cinza ultra claro
+    transform: translateX(4px); // Leve movimento para a direita
+
+    i, mat-icon {
+      opacity: 1;
+      transform: scale(1.1); // Ícone cresce um pouco
+    }
+  }
+
+  // ATIVO (Selecionado):
+  // Removemos a "barra lateral colorida" estilo VSCode.
+  // Agora é um botão preenchido e redondo.
+  &.active {
+    background-color: var(--primary-color, #000); // Usa a cor principal mas em forma sólida
+    color: var(--primary-contrast, #fff); // Texto claro
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Sombra suave
+
+    i, mat-icon {
+      opacity: 1;
+    }
+  }
+}
+
+// Footer da Sidebar (Usuário/Configurações)
+.sidebar-footer {
+  padding: 20px;
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.03); // Divisão sutil
+
+  .user-profile {
     display: flex;
     align-items: center;
-    gap: 8px;
-    border-left: 2px solid transparent;
+    padding: 12px;
+    border-radius: $border-radius-item; // Mantém o padrão redondo
+    cursor: pointer;
+    transition: background 0.2s;
 
     &:hover {
-      background-color: $hover-bg;
-    }
-  }
-
-    &.file.active {
-      background-color: rgba(91, 11, 220, 0.15);
-      color: var(--text-primary);
-      border-left-color: $accent-color;
+      background-color: rgba(0, 0, 0, 0.03);
     }
 
-  .tree-children {
-    padding-left: 12px;
-    border-left: 1px solid var(--surface-glass);
-    margin-left: 16px;
-  }
+    img.avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%; // Avatar totalmente redondo
+      margin-right: 12px;
+      object-fit: cover;
+    }
 
-  mat-icon {
-    font-size: 18px;
+    .user-info {
+      display: flex;
+      flex-direction: column;
+
+      .name {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .status {
+        font-size: 0.75rem;
+        opacity: 0.6;
+      }
+    }
   }
 }
 
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-
-  &.high-priority {
-    background-color: var(--error-500);
+// Responsividade
+@media (max-width: 768px) {
+  :host {
+    padding: 0; // Em mobile, removemos o "flutuante" para ganhar espaço
   }
-  &.medium-priority {
-    background-color: var(--warning-500);
-  }
-}
 
-.scrollbar-hide {
-  scrollbar-width: thin;
-  scrollbar-color: $border-color transparent;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: $border-color;
-    border-radius: 4px;
+  .sidebar-container {
+    border-radius: 0;
+    width: 100%;
   }
 }
