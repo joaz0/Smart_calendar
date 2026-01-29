@@ -74,17 +74,52 @@ const apiLimiter = rateLimit({
 // CORS
 // ============================================
 const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:4200';
-const allowedOrigins = corsOrigin.split(',').map((origin) => origin.trim());
+const allowedOrigins = corsOrigin
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const normalizeOrigin = (origin: string) => origin.replace(/\/$/, '');
+
+const escapeRegExp = (value: string) => value.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+
+const isOriginAllowed = (origin?: string | null) => {
+  if (!origin) {
+    return true;
+  }
+
+  if (allowedOrigins.length === 0) {
+    return false;
+  }
+
+  const normalizedOrigin = normalizeOrigin(origin);
+
+  return allowedOrigins.some((allowedOrigin) => {
+    const normalizedAllowed = normalizeOrigin(allowedOrigin);
+
+    if (normalizedAllowed === '*') {
+      return true;
+    }
+
+    if (normalizedAllowed.includes('*')) {
+      const pattern = `^${escapeRegExp(normalizedAllowed).replace(/\\\*/g, '.*')}$`;
+      return new RegExp(pattern).test(normalizedOrigin);
+    }
+
+    return normalizedAllowed === normalizedOrigin;
+  });
+};
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (isOriginAllowed(origin)) {
         callback(null, true);
-      } else {
-        logger.warn('CORS bloqueado', { origin });
-        callback(new Error('Not allowed by CORS'));
+        return;
       }
+
+      logger.warn('CORS bloqueado', { origin });
+      callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
